@@ -7,9 +7,8 @@ import styles from "./styles";
 
 function TestTextScreen() {
   return (
-    <ScrollView>
-      <View style={styles.container}>
-        <Loading />
+    <ScrollView contentContainerStyle={styles.scrollViewContent}>
+      <View>
         <MyText b1>Test b1</MyText>
         <MyText b2>Test b2</MyText>
         <MyText b3>Test b3</MyText>

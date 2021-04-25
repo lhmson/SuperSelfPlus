@@ -6,7 +6,7 @@ const COLOR = {
   orange: "#FF9600",
   blue: "#2B70C9",
   lightBlue: "#1CB0F6",
-  whiteSmoke: "##F5F5F5",
+  whiteSmoke: "#F5F5F5",
   grey: "#787878",
   white: "#fff",
   purple: "#CE82FF",

@@ -24,6 +24,7 @@ import AppLoading from "expo-app-loading";
 import { NavigationContainer } from "@react-navigation/native";
 import HomeScreen from "./src/screens/HomeScreen/HomeScreen";
 import TestTextScreen from "./src/screens/TestScreens/TestTextScreen/TestTextScreen";
+import TestColorScreen from "./src/screens/TestScreens/TestColorScreen/TestColorScreen";
 
 export default function App() {
   let [fontsLoaded] = useFonts({
@@ -51,7 +52,7 @@ export default function App() {
             <AppLoading />
           ) : (
             <>
-              <TestTextScreen />
+              <TestColorScreen />
             </>
           )}
           <StatusBar style="auto" />
