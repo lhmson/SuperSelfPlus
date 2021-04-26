@@ -1,7 +1,7 @@
 import "react-native-gesture-handler";
 import { StatusBar } from "expo-status-bar";
 import React, { useState, useEffect } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, LogBox } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import {
   useFonts,
@@ -21,12 +21,17 @@ import {
   Nunito_900Black_Italic,
 } from "@expo-google-fonts/nunito";
 import AppLoading from "expo-app-loading";
+import { useKeepAwake } from "expo-keep-awake";
 import { NavigationContainer } from "@react-navigation/native";
-import HomeScreen from "./src/screens/HomeScreen/HomeScreen";
-import TestTextScreen from "./src/screens/TestScreens/TestTextScreen/TestTextScreen";
-import TestColorScreen from "./src/screens/TestScreens/TestColorScreen/TestColorScreen";
+import HomeScreen from "./src/screens/Home/HomeScreen/HomeScreen";
+import Main from "./src/navigation/Main/Main";
+import COLOR from "./src/constants/colors";
+import { UserProvider } from "./src/context/UserContext";
 
 export default function App() {
+  LogBox.ignoreLogs(["Animated: `useNativeDriver` was not specified."]);
+  useKeepAwake(); // this keeps the screen awake for as long as the owner component is mounted
+
   let [fontsLoaded] = useFonts({
     Nunito_200ExtraLight,
     Nunito_200ExtraLight_Italic,
@@ -52,7 +57,9 @@ export default function App() {
             <AppLoading />
           ) : (
             <>
-              <TestColorScreen />
+              <UserProvider>
+                <Main />
+              </UserProvider>
             </>
           )}
           <StatusBar style="auto" />
@@ -65,8 +72,8 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
+    backgroundColor: COLOR.lightGreen,
+    // alignItems: "center",
+    // justifyContent: "center",
   },
 });
