@@ -4,12 +4,12 @@ import "firebase/auth";
 import "firebase/firestore";
 
 const config = {
-  apiKey: "AIzaSyAQi0kpKRqKedEC-sPeKu7pn_4q_-8AHhg",
-  authDomain: "superselfplus.firebaseapp.com",
-  projectId: "superselfplus",
-  storageBucket: "superselfplus.appspot.com",
-  messagingSenderId: "463556587324",
-  appId: "1:463556587324:web:5c55304493ee3a9e687839",
+  apiKey: SOME_KEY,
+  authDomain: SOME_DOMAIN,
+  projectId: SOME_PROJECTID,
+  storageBucket: SOME_BUCKET,
+  messagingSenderId: SOME_SENDER_ID,
+  appId: SOME_APP_ID,
 };
 
 if (!firebase.apps.length) {

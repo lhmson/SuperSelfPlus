@@ -15,16 +15,16 @@ const AppStackNavigator = () => {
     <>
       <StatusBar translucent backgroundColor="transparent" />
       <AppStack.Navigator headerMode="none">
-        {/* {user.isLoggedIn === null ? (
+        {user.isLoggedIn === null ? (
           <AppStack.Screen name="Loading" component={LoadingScreen} />
-        ) : user.isLoggedIn ? ( */}
-        <AppStack.Screen name="Main" component={DrawerNavigator} />
-        {/* ) : (
+        ) : user.isLoggedIn ? (
+          <AppStack.Screen name="Main" component={DrawerNavigator} />
+        ) : (
           <>
             <AppStack.Screen name="Onboarding" component={OnboardingScreen} />
             <AppStack.Screen name="Auth" component={AuthStackNavigator} />
           </>
-        )} */}
+        )}
       </AppStack.Navigator>
     </>
   );
