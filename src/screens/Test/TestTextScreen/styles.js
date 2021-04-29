@@ -5,7 +5,7 @@ const styles = StyleSheet.create({
   scrollViewContent: {
     flexGrow: 1,
     justifyContent: "center",
-    padding: "15%",
+    paddingHorizontal: "15%",
   },
 });
 

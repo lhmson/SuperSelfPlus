@@ -5,8 +5,9 @@
     "name": "SuperSelfPlus",
     "slug": "SuperSelfPlus",
     "version": "1.0.0",
-    "assetBundlePatterns": [
-      "**/*"
-    ]
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "requireFullScreen": true
+    }
   }
 }

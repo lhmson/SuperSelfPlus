@@ -6,7 +6,7 @@ const styles = {
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: COLOR.lightGreen,
+    backgroundColor: COLOR.green,
   },
 };
 export default styles;

@@ -21,6 +21,7 @@ import {
   Nunito_900Black_Italic,
 } from "@expo-google-fonts/nunito";
 import AppLoading from "expo-app-loading";
+import * as ScreenOrientation from "expo-screen-orientation";
 import { useKeepAwake } from "expo-keep-awake";
 import { NavigationContainer } from "@react-navigation/native";
 import HomeScreen from "./src/screens/Home/HomeScreen/HomeScreen";
@@ -29,7 +30,11 @@ import COLOR from "./src/constants/colors";
 import { UserProvider } from "./src/context/UserContext";
 
 export default function App() {
-  LogBox.ignoreLogs(["Animated: `useNativeDriver` was not specified."]);
+  LogBox.ignoreLogs([
+    "Setting a timer",
+    "VirtualizedLists should never be nested",
+    "Animated: `useNativeDriver` was not specified.",
+  ]);
   useKeepAwake(); // this keeps the screen awake for as long as the owner component is mounted
 
   let [fontsLoaded] = useFonts({
@@ -48,6 +53,16 @@ export default function App() {
     Nunito_900Black,
     Nunito_900Black_Italic,
   });
+
+  useEffect(() => {
+    lockOrientation();
+  }, []);
+
+  const lockOrientation = async () => {
+    await ScreenOrientation.lockAsync(
+      ScreenOrientation.OrientationLock.PORTRAIT_UP
+    );
+  };
 
   return (
     <SafeAreaProvider>

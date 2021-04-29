@@ -89,7 +89,7 @@ const BottomTabNavigator = ({ navigation }) => {
         </Tab.Navigator>
       </View>
 
-      <MidButtonView
+      {/* <MidButtonView
         style={{
           width: midBtnSize,
           height: midBtnSize - 20,
@@ -103,7 +103,7 @@ const BottomTabNavigator = ({ navigation }) => {
             toggleMidBtnSize();
           }}
         />
-      </MidButtonView>
+      </MidButtonView> */}
     </>
   );
 };

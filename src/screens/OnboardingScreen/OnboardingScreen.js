@@ -9,7 +9,11 @@ import MyText from "../../components/MyText/MyText";
 const Dots = ({ selected }) => {
   const backgroundColor = selected ? COLOR.black : COLOR.grey;
 
-  return <View style={[styles.dots, { backgroundColor }]} />;
+  return (
+    <View
+      style={[styles.dots, { backgroundColor, width: selected ? 16 : 8 }]}
+    />
+  );
 };
 
 const Skip = ({ ...props }) => (

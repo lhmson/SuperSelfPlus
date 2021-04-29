@@ -11,6 +11,7 @@ import AboutScreen from "../../screens/AboutScreen/AboutScreen";
 import RunningScreen from "../../screens/Running/RunningScreen/RunningScreen";
 import WorldScreen from "../../screens/World/WorldScreen/WorldScreen";
 import SettingScreen from "../../screens/Setting/SettingScreen/SettingScreen";
+import TabMaterialNavigator from "../TabMaterialNavigator/TabMaterialNavigtor";
 
 const Stack = createStackNavigator();
 
@@ -46,7 +47,7 @@ const screenOptionStyle = (props) => {
             generateQuotes();
           }}
         >
-          <Foundation name="comment-quotes" size={32} color={COLOR.red} />
+          <Foundation name="comment-quotes" size={32} color={COLOR.yellow} />
         </TouchableOpacity>
         <LogoTitle toggleDrawer={toggleDrawer} />
       </View>
@@ -95,10 +96,19 @@ const SettingStackNavigator = () => {
   );
 };
 
+const TestStackNavigator = () => {
+  return (
+    <Stack.Navigator screenOptions={(props) => screenOptionStyle(props)}>
+      <Stack.Screen name="Test" component={TabMaterialNavigator} />
+    </Stack.Navigator>
+  );
+};
+
 export {
   HomeStackNavigator,
   RunningStackNavigator,
   WorldStackNavigator,
   AboutStackNavigator,
   SettingStackNavigator,
+  TestStackNavigator,
 };

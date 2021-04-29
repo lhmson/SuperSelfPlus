@@ -4,13 +4,18 @@ import COLOR from "../../constants/colors";
 import MyText from "../MyText/MyText";
 import styles from "./styles";
 
-const Loading = () => {
+// props: size (large, small) color noText
+
+const Loading = (props) => {
+  const color = props.color ?? COLOR.blue;
   return (
     <View style={styles.loadingView}>
-      <ActivityIndicator size="large" color={COLOR.lightBlue} />
-      <MyText b5 center color={COLOR.lightBlue}>
-        Loading
-      </MyText>
+      <ActivityIndicator size={props.size ?? "large"} color={color} />
+      {props.noText || (
+        <MyText b5 center color={color}>
+          Loading
+        </MyText>
+      )}
     </View>
   );
 };
