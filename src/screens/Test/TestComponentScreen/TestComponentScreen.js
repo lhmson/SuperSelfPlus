@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Alert, Switch, ScrollView } from "react-native";
+import { View, Alert, Image, Switch, ScrollView } from "react-native";
 import MyText from "../../../components/MyText/MyText";
 import COLOR from "../../../constants/colors";
 import styles from "./styles";
@@ -8,7 +8,7 @@ import { Entypo } from "@expo/vector-icons";
 import MyButton from "../../../components/MyButton/MyButton";
 import MyCard from "../../../components/MyCard/MyCard";
 import MySwitch from "../../../components/MySwitch/MySwitch";
-import { DatePicker } from "native-base";
+import { DatePicker, DeckSwiper, Fab, Icon } from "native-base";
 import Loading from "../../../components/Loading/Loading";
 import MyTextInput from "../../../components/MyTextInput/MyTextInput";
 
@@ -41,6 +41,9 @@ function TestComponentScreen() {
       { cancelable: false }
     );
   };
+
+  // handle action button
+  const [active, setActive] = useState(false);
 
   return (
     <ScrollView contentContainerStyle={styles.scrollViewContent}>
@@ -82,6 +85,26 @@ function TestComponentScreen() {
           <MySwitch onValueChange={toggleSwitch} value={isEnabled} />
           {/* <DatePicker /> */}
         </MyCard>
+
+        <Fab
+          active={active}
+          direction="up"
+          containerStyle={{}}
+          style={{ backgroundColor: COLOR.orange }}
+          position="bottomRight"
+          onPress={() => setActive((prev) => !prev)}
+        >
+          <Icon name="share" />
+          <MyButton style={{ backgroundColor: COLOR.lightGreen }}>
+            <Icon name="logo-whatsapp" />
+          </MyButton>
+          <MyButton style={{ backgroundColor: COLOR.blue }}>
+            <Icon name="logo-facebook" />
+          </MyButton>
+          <MyButton disabled style={{ backgroundColor: COLOR.red }}>
+            <Icon name="mail" />
+          </MyButton>
+        </Fab>
       </View>
     </ScrollView>
   );
