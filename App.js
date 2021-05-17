@@ -24,8 +24,8 @@ import AppLoading from "expo-app-loading";
 import * as ScreenOrientation from "expo-screen-orientation";
 import { useKeepAwake } from "expo-keep-awake";
 import { NavigationContainer } from "@react-navigation/native";
-import HomeScreen from "./src/screens/Home/HomeScreen/HomeScreen";
-import Main from "./src/navigation/Main/Main";
+import HomeScreen from "./src/screens/Home/HomeScreen";
+import Main from "./src/navigation/Main";
 import COLOR from "./src/constants/colors";
 import { UserProvider } from "./src/context/UserContext";
 

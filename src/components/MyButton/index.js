@@ -10,7 +10,7 @@ const MyButton = ({ ...props }) => {
 
 const TouchableOpacity = styled.TouchableOpacity`
   margin: 12px 0;
-  padding: 10px;
+  padding: 16px;
   align-items: center;
   justify-content: center;
   background-color: ${(props) => props.color ?? COLOR.orange};

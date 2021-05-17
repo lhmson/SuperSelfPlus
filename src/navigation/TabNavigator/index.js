@@ -17,7 +17,7 @@ import {
   RunningStackNavigator,
   SettingStackNavigator,
   WorldStackNavigator,
-} from "../StackNavigator/StackNavigator";
+} from "../StackNavigator";
 
 const Tab = createBottomTabNavigator();
 

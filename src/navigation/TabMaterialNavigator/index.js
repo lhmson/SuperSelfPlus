@@ -1,9 +1,9 @@
 import React from "react";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
-import TestColorScreen from "../../screens/Test/TestColorScreen/TestColorScreen";
-import TestTextScreen from "../../screens/Test/TestTextScreen/TestTextScreen";
+import TestColorScreen from "../../screens/Test/TestColorScreen";
+import TestTextScreen from "../../screens/Test/TestTextScreen";
 import COLOR from "../../constants/colors";
-import TestComponentScreen from "../../screens/Test/TestComponentScreen/TestComponentScreen";
+import TestComponentScreen from "../../screens/Test/TestComponentScreen";
 import FONT from "../../constants/font";
 
 const Tab = createMaterialBottomTabNavigator();

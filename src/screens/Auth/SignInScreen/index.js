@@ -4,10 +4,10 @@ import styles from "../styles";
 import { AntDesign, Entypo } from "@expo/vector-icons";
 import COLOR from "../../../constants/colors";
 
-import MyText from "../../../components/MyText/MyText";
-import MyButton from "../../../components/MyButton/MyButton";
-import Loading from "../../../components/Loading/Loading";
-import MyTextInput from "../../../components/MyTextInput/MyTextInput";
+import MyText from "../../../components/MyText";
+import MyButton from "../../../components/MyButton";
+import Loading from "../../../components/Loading";
+import MyTextInput from "../../../components/MyTextInput";
 
 import { UserContext } from "../../../context/UserContext";
 import User from "../../../api/Users";
@@ -109,7 +109,7 @@ function SignInScreen({ navigation }) {
               <Loading noText size="small" />
             ) : (
               <MyText b5 color={COLOR.white}>
-                Sign In
+                SIGN IN
               </MyText>
             )}
           </MyButton>

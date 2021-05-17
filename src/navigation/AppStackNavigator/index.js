@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
 import { StatusBar } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
-import LoadingScreen from "../../screens/LoadingScreen/LoadingScreen";
-import OnboardingScreen from "../../screens/OnboardingScreen/OnboardingScreen";
-import AuthStackNavigator from "../AuthStackNavigator/AuthStackNavigator";
-import DrawerNavigator from "../DrawerNavigator/DrawerNavigator";
+import LoadingScreen from "../../screens/LoadingScreen";
+import OnboardingScreen from "../../screens/OnboardingScreen";
+import AuthStackNavigator from "../AuthStackNavigator";
+import DrawerNavigator from "../DrawerNavigator";
 import { UserContext } from "../../context/UserContext";
 
 const AppStackNavigator = () => {

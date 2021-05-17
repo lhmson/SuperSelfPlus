@@ -8,15 +8,15 @@ import {
 } from "react-native";
 import { AntDesign, Entypo } from "@expo/vector-icons";
 
-import MyText from "../../../components/MyText/MyText";
-import MyButton from "../../../components/MyButton/MyButton";
-import MyTextInput from "../../../components/MyTextInput/MyTextInput";
+import MyText from "../../../components/MyText";
+import MyButton from "../../../components/MyButton";
+import MyTextInput from "../../../components/MyTextInput";
 import styles from "../styles";
 
 import { UserContext } from "../../../context/UserContext";
 import User from "../../../api/Users";
 import COLOR from "../../../constants/colors";
-import Loading from "../../../components/Loading/Loading";
+import Loading from "../../../components/Loading";
 
 function SignUpScreen({ navigation }) {
   const [username, setUsername] = useState();
@@ -227,7 +227,7 @@ function SignUpScreen({ navigation }) {
               <Loading noText size="small" />
             ) : (
               <MyText b5 center color={COLOR.white}>
-                Sign Up
+                SIGN UP
               </MyText>
             )}
           </MyButton>

@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { View, Alert } from "react-native";
-import MyButton from "../../../components/MyButton/MyButton";
-import MyText from "../../../components/MyText/MyText";
+import MyButton from "../../../components/MyButton";
+import MyText from "../../../components/MyText";
 import COLOR from "../../../constants/colors";
 import styles from "./styles";
 

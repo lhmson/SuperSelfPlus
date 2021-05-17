@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { View } from "react-native";
 import { connect } from "react-redux";
 
-import AppStackNavigator from "../AppStackNavigator/AppStackNavigator";
+import AppStackNavigator from "../AppStackNavigator";
 
 function Main() {
   return <AppStackNavigator />;

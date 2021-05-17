@@ -1,8 +1,7 @@
 import React from "react";
 import { View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
-import Loading from "../../../components/Loading/Loading";
-import MyText from "../../../components/MyText/MyText";
+import MyText from "../../../components/MyText";
 import styles from "./styles";
 
 function TestTextScreen() {

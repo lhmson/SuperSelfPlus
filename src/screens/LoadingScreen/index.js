@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Image, View, Linking, Alert } from "react-native";
-import Loading from "../../components/Loading/Loading";
-import MyText from "../../components/MyText/MyText";
+import Loading from "../../components/Loading";
+import MyText from "../../components/MyText";
 import styles from "./styles";
 import COLOR from "../../constants/colors";
 import { Container } from "./styles";

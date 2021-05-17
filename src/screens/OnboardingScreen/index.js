@@ -4,7 +4,7 @@ import { View, Image, TouchableOpacity } from "react-native";
 import Onboarding from "react-native-onboarding-swiper";
 import styles from "./styles";
 import COLOR from "../../constants/colors";
-import MyText from "../../components/MyText/MyText";
+import MyText from "../../components/MyText";
 
 const Dots = ({ selected }) => {
   const backgroundColor = selected ? COLOR.black : COLOR.grey;

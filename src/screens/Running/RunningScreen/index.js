@@ -1,6 +1,6 @@
 import React from "react";
 import { View } from "react-native";
-import MyText from "../../../components/MyText/MyText";
+import MyText from "../../../components/MyText";
 import COLOR from "../../../constants/colors";
 import styles from "./styles";
 

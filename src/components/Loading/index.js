@@ -1,7 +1,7 @@
 import React from "react";
 import { ActivityIndicator, View } from "react-native";
 import COLOR from "../../constants/colors";
-import MyText from "../MyText/MyText";
+import MyText from "../MyText";
 import styles from "./styles";
 
 // props: size (large, small) color noText

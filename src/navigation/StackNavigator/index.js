@@ -1,26 +1,24 @@
 import React from "react";
 import { View, Image, TouchableOpacity } from "react-native";
-import { Badge } from "native-base";
 import { createStackNavigator } from "@react-navigation/stack";
 import { MaterialIcons, Ionicons, FontAwesome5 } from "@expo/vector-icons";
 import generateQuotes from "../../utils/quotes/generateQuotes";
-import MyText from "../../components/MyText/MyText";
+import MyText from "../../components/MyText";
 import COLOR from "../../constants/colors";
 import FONT from "../../constants/font";
 
-import HomeScreen from "../../screens/Home/HomeScreen/HomeScreen";
-import AboutScreen from "../../screens/AboutScreen/AboutScreen";
-import RunningScreen from "../../screens/Running/RunningScreen/RunningScreen";
-import WorldScreen from "../../screens/World/WorldScreen/WorldScreen";
-import SettingScreen from "../../screens/Setting/SettingScreen/SettingScreen";
-import TabMaterialNavigator from "../TabMaterialNavigator/TabMaterialNavigtor";
-import { Nunito_600SemiBold } from "@expo-google-fonts/nunito";
+import HomeScreen from "../../screens/Home/HomeScreen";
+import AboutScreen from "../../screens/AboutScreen";
+import RunningScreen from "../../screens/Running/RunningScreen";
+import WorldScreen from "../../screens/World/WorldScreen";
+import SettingScreen from "../../screens/Setting/SettingScreen";
+import TabMaterialNavigator from "../TabMaterialNavigator";
 
 const Stack = createStackNavigator();
 
 const LogoTitle = ({ toggleDrawer }) => {
   return (
-    <TouchableOpacity style={{ paddingRight: 12 }} onPress={toggleDrawer}>
+    <TouchableOpacity style={{ padding: 12 }} onPress={toggleDrawer}>
       {/* <Image
         style={{ width: 50, height: 50 }}
         source={require("../../utils/resources/superself-icon.png")}
@@ -55,23 +53,23 @@ const screenOptionStyle = (props) => {
       >
         <TouchableOpacity
           style={{
-            paddingRight: 12,
+            padding: 12,
             flexDirection: "row",
             justifyContent: "flex-end",
+            alignItems: "center",
             width: "100%",
           }}
           onPress={() => {
             handleNotifications();
           }}
         >
-          <Ionicons name="notifications" size={32} color={COLOR.yellow} />
-
           <MyText b5 color={COLOR.yellow}>
-            2
+            1
           </MyText>
+          <Ionicons name="notifications" size={32} color={COLOR.yellow} />
         </TouchableOpacity>
         <TouchableOpacity
-          style={{ paddingRight: 12, justifyContent: "center" }}
+          style={{ padding: 12, justifyContent: "center" }}
           onPress={() => {
             generateQuotes();
           }}

@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 import { View, Alert, Image, Switch, ScrollView } from "react-native";
-import MyText from "../../../components/MyText/MyText";
+import MyText from "../../../components/MyText";
 import COLOR from "../../../constants/colors";
 import styles from "./styles";
 import { Entypo } from "@expo/vector-icons";
 
-import MyButton from "../../../components/MyButton/MyButton";
-import MyCard from "../../../components/MyCard/MyCard";
-import MySwitch from "../../../components/MySwitch/MySwitch";
+import MyButton from "../../../components/MyButton";
+import MyCard from "../../../components/MyCard";
+import MySwitch from "../../../components/MySwitch";
 import { DatePicker, DeckSwiper, Fab, Icon } from "native-base";
-import Loading from "../../../components/Loading/Loading";
-import MyTextInput from "../../../components/MyTextInput/MyTextInput";
+import Loading from "../../../components/Loading";
+import MyTextInput from "../../../components/MyTextInput";
 
 function TestComponentScreen() {
   // handle input

@@ -8,14 +8,11 @@ import {
 import { FontAwesome } from "@expo/vector-icons";
 import styles from "./styles";
 
-import {
-  AboutStackNavigator,
-  TestStackNavigator,
-} from "../StackNavigator/StackNavigator";
-import TabNavigator from "../TabNavigator/TabNavigator";
+import { AboutStackNavigator, TestStackNavigator } from "../StackNavigator";
+import TabNavigator from "../TabNavigator";
 import COLOR from "../../constants/colors";
 import FONT from "../../constants/font";
-import TabMaterialNavigator from "../TabMaterialNavigator/TabMaterialNavigtor";
+import TabMaterialNavigator from "../TabMaterialNavigator";
 
 const Drawer = createDrawerNavigator();
 
