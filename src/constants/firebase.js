@@ -3,23 +3,32 @@ import firebase from "firebase";
 import "firebase/auth";
 import "firebase/firestore";
 
+import {
+  apiKey,
+  authDomain,
+  projectId,
+  storageBucket,
+  messagingSenderId,
+  appId,
+} from "react-native-dotenv";
+
 const config = {
-  apiKey: SOME_KEY,
-  authDomain: SOME_DOMAIN,
-  projectId: SOME_PROJECTID,
-  storageBucket: SOME_BUCKET,
-  messagingSenderId: SOME_SENDER_ID,
-  appId: SOME_APP_ID,
+  apiKey: apiKey,
+  authDomain: authDomain,
+  projectId: projectId,
+  storageBucket: storageBucket,
+  messagingSenderId: messagingSenderId,
+  appId: appId,
 };
 
 if (!firebase.apps.length) {
   firebase.initializeApp(config);
 }
 
-var firestore = firebase.firestore;
+const auth = firebase.auth();
 
-var db = firebase.firestore();
+const db = firebase.firestore();
 
-var storage = firebase.storage();
+const storage = firebase.storage();
 
-export { db, storage, firestore };
+export { auth, db, storage };

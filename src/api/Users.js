@@ -2,12 +2,12 @@ import React from "react";
 import firebase from "firebase";
 import "firebase/auth";
 import "firebase/firestore";
-import { db, storage } from "../constants/firebase";
+import { db, auth, storage } from "../constants/firebase";
 
 const User = {
   // ok
   getCurrentUser: () => {
-    return firebase.auth().currentUser;
+    return auth.currentUser;
   },
 
   // ok
@@ -49,7 +49,7 @@ const User = {
         return user.data();
       }
     } catch (error) {
-      alert("Error when getting user info. ", error.message);
+      alert("Error when getting user info.");
       console.log("Error when getting user info", error);
     }
   },
@@ -58,20 +58,20 @@ const User = {
     try {
       alert("log in with google");
     } catch (error) {
-      alert("Error when logging in with google", error.message);
+      alert("Error when logging in with google");
       console.log("Error when logging in with google", error);
     }
   },
 
   // ok
   logIn: async (email, password) => {
-    return firebase.auth().signInWithEmailAndPassword(email, password);
+    return auth.signInWithEmailAndPassword(email, password);
   },
 
   // ok
   logOut: async () => {
     try {
-      await firebase.auth().signOut();
+      await auth.signOut();
 
       return true;
     } catch (error) {
@@ -90,7 +90,7 @@ const User = {
         });
       console.log("Success edit user");
     } catch (error) {
-      alert("Error when updating user", error.message);
+      alert("Error when updating user");
       console.log("Error when updating user", error);
     }
   },

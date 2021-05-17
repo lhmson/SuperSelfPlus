@@ -55,9 +55,7 @@ const screenOptionStyle = (props) => {
           style={{
             padding: 12,
             flexDirection: "row",
-            justifyContent: "flex-end",
             alignItems: "center",
-            width: "100%",
           }}
           onPress={() => {
             handleNotifications();

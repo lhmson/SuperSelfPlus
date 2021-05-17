@@ -7,7 +7,7 @@ export default generateDayQuote = () => {
   const author = item.quoteAuthor;
   Alert.alert(
     "Everyday's Quotes:",
-    `${quote}\n- ${author}`,
+    `${quote}\n- ${author || "Unknown"}`,
     [
       {
         text: "Share it",
@@ -15,14 +15,14 @@ export default generateDayQuote = () => {
       },
       {
         text: "Cancel",
-        onPress: () => console.log("Cancel Pressed"),
+        // onPress: () => console.log("Cancel Pressed"),
         style: "cancel",
       },
       {
         text: "Next",
         onPress: () => {
           generateDayQuote();
-          console.log("Next quote Pressed");
+          // console.log("Next quote Pressed");
         },
       },
     ],

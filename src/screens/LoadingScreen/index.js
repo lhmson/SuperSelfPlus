@@ -42,7 +42,8 @@ const LoadingScreen = () => {
             { cancelable: false }
           );
         }
-        setUser({
+        setUser((state) => ({
+          ...state,
           isLoggedIn: true,
           email: userInfo.email,
           uid: user.uid,
@@ -50,7 +51,7 @@ const LoadingScreen = () => {
           // gender: userInfo.gender,
           // birthday: userInfo.birthday,
           // profilePhotoUrl: userInfo.profilePhotoUrl,
-        });
+        }));
       } else {
         setUser((state) => ({ ...state, isLoggedIn: false })); //hihi
       }

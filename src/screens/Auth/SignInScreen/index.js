@@ -51,7 +51,7 @@ function SignInScreen({ navigation }) {
         // gender: userInfo.gender,
       });
     } catch (error) {
-      alert("Error when logging in, try again", error.message);
+      alert("Error when logging in, try again. ", error.message);
       console.log("Error when logging in", error);
     } finally {
       setLoading(false);

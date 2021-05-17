@@ -108,93 +108,93 @@ const BottomTabNavigator = ({ navigation }) => {
   );
 };
 
-const MidActionButton = (props) => {
-  const { navigation, pressButton } = props;
-  return (
-    <ActionButton
-      buttonColor={COLOR.green}
-      size={50}
-      style={styles.actionButton}
-      degrees={320}
-      onPress={pressButton}
-      onOverlayPress={pressButton}
-      icon={
-        <FontAwesome5
-          name="rocket"
-          style={{ color: COLOR.white, fontSize: 20 }}
-        ></FontAwesome5>
-      }
-    >
-      <ActionButton.Item buttonColor="#transparent">
-        <View></View>
-      </ActionButton.Item>
+// const MidActionButton = (props) => {
+//   const { navigation, pressButton } = props;
+//   return (
+//     <ActionButton
+//       buttonColor={COLOR.green}
+//       size={50}
+//       style={styles.actionButton}
+//       degrees={320}
+//       onPress={pressButton}
+//       onOverlayPress={pressButton}
+//       icon={
+//         <FontAwesome5
+//           name="rocket"
+//           style={{ color: COLOR.white, fontSize: 20 }}
+//         />
+//       }
+//     >
+//       <ActionButton.Item buttonColor="#transparent">
+//         <View></View>
+//       </ActionButton.Item>
 
-      <ActionButton.Item
-        buttonColor={COLOR.red}
-        size={60}
-        title="To do"
-        onPress={() => {
-          pressButton();
-          navigation.navigate("Add Todo");
-        }}
-        endDegree={0}
-      >
-        <FontAwesome5 name="clipboard-list" size={30} color={COLOR.white} />
-      </ActionButton.Item>
+//       <ActionButton.Item
+//         buttonColor={COLOR.red}
+//         size={60}
+//         title="To do"
+//         onPress={() => {
+//           pressButton();
+//           navigation.navigate("Add Todo");
+//         }}
+//         endDegree={0}
+//       >
+//         <FontAwesome5 name="clipboard-list" size={30} color={COLOR.white} />
+//       </ActionButton.Item>
 
-      <ActionButton.Item
-        buttonColor={COLOR.yellow}
-        size={60}
-        title="My Challenge"
-        onPress={() => {
-          pressButton();
-          // navigation.replace("Challenge");
-          navigation.navigate("My Challenge");
-        }}
-        endDegree={0}
-      >
-        <FontAwesome5 name="address-card" size={30} color={COLOR.white} />
-      </ActionButton.Item>
+//       <ActionButton.Item
+//         buttonColor={COLOR.yellow}
+//         size={60}
+//         title="My Challenge"
+//         onPress={() => {
+//           pressButton();
+//           // navigation.replace("Challenge");
+//           navigation.navigate("My Challenge");
+//         }}
+//         endDegree={0}
+//       >
+//         <FontAwesome5 name="address-card" size={30} color={COLOR.white} />
+//       </ActionButton.Item>
 
-      <ActionButton.Item
-        buttonColor={COLOR.lightBlue}
-        size={60}
-        title="Message"
-        onPress={() => {
-          pressButton();
-          navigation.navigate("Message");
-        }}
-        endDegree={0}
-      >
-        <MaterialIcons name="message" size={30} color={COLOR.white} />
-      </ActionButton.Item>
+//       <ActionButton.Item
+//         buttonColor={COLOR.lightBlue}
+//         size={60}
+//         title="Message"
+//         onPress={() => {
+//           pressButton();
+//           navigation.navigate("Message");
+//         }}
+//         endDegree={0}
+//       >
+//         <MaterialIcons name="message" size={30} color={COLOR.white} />
+//       </ActionButton.Item>
 
-      <ActionButton.Item buttonColor="#transparent">
-        <View></View>
-      </ActionButton.Item>
-    </ActionButton>
-  );
-};
+//       <ActionButton.Item buttonColor="#transparent">
+//         <View></View>
+//       </ActionButton.Item>
+//     </ActionButton>
+//   );
+// };
 
-const MidButtonView = styled.View`
-  ${"" /* border-width: 1px; */}
-  border-color: rgba(0, 0, 0, 0.2);
-  align-items: center;
-  justify-content: center;
-  ${"" /* width: 200px; */}
-  height: 200px;
-  position: absolute;
-  bottom: 45px;
-  left: 50%;
-  margin-left: -100px;
-  ${"" /* background-color: ${COLOR.primary}; */}
-  border-radius: 50px;
-`;
+// const MidButtonView = styled.View`
+//   ${"" /* border-width: 1px; */}
+//   border-color: rgba(0, 0, 0, 0.2);
+//   align-items: center;
+//   justify-content: center;
+//   ${"" /* width: 200px; */}
+//   height: 200px;
+//   position: absolute;
+//   bottom: 45px;
+//   left: 50%;
+//   margin-left: -100px;
+//   ${"" /* background-color: ${COLOR.primary}; */}
+//   border-radius: 50px;
+// `;
 
-const styles = StyleSheet.create({
-  actionButtonIcon: {},
-  actionButton: {},
-  midButton: {},
-});
+// const styles = StyleSheet.create({
+//   actionButtonIcon: {},
+//   actionButton: {},
+//   midButton: {},
+// });
 
 export default BottomTabNavigator;
