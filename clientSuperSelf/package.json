@@ -51,6 +51,7 @@
     "react-native-unimodules": "~0.13.3",
     "react-native-web": "~0.13.12",
     "react-redux": "^7.2.3",
+    "reanimated-bottom-sheet": "^1.0.0-alpha.22",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
     "styled-components": "^5.2.3"

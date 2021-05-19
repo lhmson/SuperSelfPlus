@@ -12,6 +12,9 @@ import { DatePicker, DeckSwiper, Fab, Icon } from "native-base";
 import Loading from "../../../components/Loading";
 import MyTextInput from "../../../components/MyTextInput";
 
+import Animated from "react-native-reanimated";
+import BottomSheet from "reanimated-bottom-sheet";
+
 function TestComponentScreen() {
   // handle input
   const [username, setUsername] = useState();
@@ -45,6 +48,24 @@ function TestComponentScreen() {
   // handle action button
   const [active, setActive] = useState(false);
 
+  //#region handle bottom sheet
+
+  const renderContent = () => (
+    <View
+      style={{
+        backgroundColor: COLOR.grey,
+        padding: 16,
+        height: 450,
+      }}
+    >
+      <MyText>Swipe down to close</MyText>
+    </View>
+  );
+
+  const sheetRef = React.useRef(null);
+
+  //#endregion
+
   return (
     <ScrollView contentContainerStyle={styles.scrollViewContent}>
       <View style={styles.container}>
@@ -70,7 +91,10 @@ function TestComponentScreen() {
           </View>
 
           {/* icon button */}
-          <MyButton color={COLOR.purple}>
+          <MyButton
+            color={COLOR.purple}
+            onPress={() => sheetRef.current.snapTo(0)}
+          >
             <Entypo name="eye" size={24} color="black" />
           </MyButton>
           <MyTextInput
@@ -83,6 +107,7 @@ function TestComponentScreen() {
           />
 
           <MySwitch onValueChange={toggleSwitch} value={isEnabled} />
+
           {/* <DatePicker /> */}
         </MyCard>
 
@@ -106,6 +131,15 @@ function TestComponentScreen() {
           </MyButton>
         </Fab>
       </View>
+
+      {/* put outside view to show */}
+      <BottomSheet
+        ref={sheetRef}
+        snapPoints={["50%", "30%", 0]}
+        borderRadius={20}
+        renderContent={renderContent}
+        initialSnap={2} // index of start point
+      />
     </ScrollView>
   );
 }

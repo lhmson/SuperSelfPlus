@@ -6,6 +6,7 @@ import {
   ScrollView,
 } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
 import { FontAwesome5, MaterialIcons } from "@expo/vector-icons";
 import styled from "styled-components";
 import COLOR from "../../constants/colors";
@@ -52,13 +53,21 @@ const screenOptionStyle = (route) => ({
 });
 
 const BottomTabNavigator = ({ navigation }) => {
-  const [midBtnSize, setMidBtnSize] = useState(100);
-  const toggleMidBtnSize = () => {
-    midBtnSize === 100 ? setMidBtnSize(200) : setMidBtnSize(100);
+  // const [midBtnSize, setMidBtnSize] = useState(100);
+  // const toggleMidBtnSize = () => {
+  //   midBtnSize === 100 ? setMidBtnSize(200) : setMidBtnSize(100);
+  // };
+
+  const setTabBarVisible = (route) => {
+    const routeName = getFocusedRouteNameFromRoute(route);
+    const hideOnScreens = ["Home 1"]; // set name screens for tab hidden
+    if (hideOnScreens.indexOf(routeName) > -1) return false;
+    return true;
   };
+
   return (
     <>
-      <View style={{ flex: 1, zIndex: -1 }}>
+      <View style={{ flex: 1, zIndex: -1, backgroundColor: COLOR.whiteSmoke }}>
         <Tab.Navigator
           screenOptions={({ route }) => screenOptionStyle(route)}
           tabBarOptions={{
@@ -70,6 +79,9 @@ const BottomTabNavigator = ({ navigation }) => {
             },
             style: {
               height: 80,
+              // elevation: 0,
+              borderRadius: 15,
+              margin: 10,
             },
             tabStyle: {
               margin: 10,
@@ -81,7 +93,10 @@ const BottomTabNavigator = ({ navigation }) => {
           <Tab.Screen
             name="Home"
             component={HomeStackNavigator}
-            options={{ tabBarBadge: 1 }}
+            options={({ route }) => ({
+              tabBarVisible: setTabBarVisible(route), // set tab hidden for child screen
+              tabBarBadge: 1,
+            })}
           />
           <Tab.Screen name="Running" component={RunningStackNavigator} />
           <Tab.Screen name="World" component={WorldStackNavigator} />

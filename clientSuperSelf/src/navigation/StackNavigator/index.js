@@ -13,6 +13,7 @@ import RunningScreen from "../../screens/Running/RunningScreen";
 import WorldScreen from "../../screens/World/WorldScreen";
 import SettingScreen from "../../screens/Setting/SettingScreen";
 import TabMaterialNavigator from "../TabMaterialNavigator";
+import HomeOneScreen from "../../screens/Home/HomeOneScreen.js";
 
 const Stack = createStackNavigator();
 
@@ -86,6 +87,7 @@ const HomeStackNavigator = () => {
   return (
     <Stack.Navigator screenOptions={(props) => screenOptionStyle(props)}>
       <Stack.Screen name="Home" component={HomeScreen} />
+      <Stack.Screen name="Home 1" component={HomeOneScreen} />
     </Stack.Navigator>
   );
 };
