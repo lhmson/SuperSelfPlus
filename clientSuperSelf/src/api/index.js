@@ -4,20 +4,20 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const API = axios.create({ baseURL: backend_url });
 
-// API.interceptors.request.use(async (req) => {
-//   let data = null;
-//   try {
-//     data = JSON.parse(await AsyncStorage.getItem("token"));
-//     // alert(JSON.stringify(data));
-//   } catch (error) {
-//     alert("Cannot not get storage");
-//     console.log("Error in storage", error);
-//   }
-//   if (token) {
-//     req.headers.Authorization = `Bearer ${data.token}`;
-//   }
+API.interceptors.request.use(async (req) => {
+  let data = null;
+  try {
+    data = JSON.parse(await AsyncStorage.getItem("token"));
+    // alert(JSON.stringify(data));
+  } catch (error) {
+    alert("Cannot not get storage");
+    console.log("Error in storage", error);
+  }
+  if (data) {
+    req.headers.Authorization = `Bearer ${data.token}`;
+  }
 
-//   return req;
-// });
+  return req;
+});
 
 export default API;
