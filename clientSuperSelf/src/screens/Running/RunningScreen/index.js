@@ -19,7 +19,7 @@ function RunningScreen() {
 
   let _subscription = null;
 
-  React.useEffect(() => {
+  useEffect(() => {
     _subscribePedometer();
 
     (async () => {
