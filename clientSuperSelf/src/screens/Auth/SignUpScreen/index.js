@@ -140,6 +140,7 @@ function SignUpScreen({ navigation }) {
       .signUp(user)
       .then(async (res) => {
         const signedUser = res.data.result;
+        const token = res.data.token;
         setUser({ username, email, uid: signedUser._id, isLoggedIn: true });
 
         try {
