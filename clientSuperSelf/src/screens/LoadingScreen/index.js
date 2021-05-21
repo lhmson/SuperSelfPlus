@@ -6,9 +6,11 @@ import styles from "./styles";
 import COLOR from "../../constants/colors";
 import { Container } from "./styles";
 import { UserContext } from "../../context/UserContext";
-import User from "../../api/Users";
+// import User from "../../api/Users";
 // import { SettingContext } from "../context/SettingContext";
 // import { SettingFirebaseContext } from "../context/SettingFirebaseContext";
+
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const LoadingScreen = () => {
   const [_, setUser] = useContext(UserContext);
@@ -17,9 +19,17 @@ const LoadingScreen = () => {
   useEffect(() => {
     setCancel(false);
     setTimeout(async () => {
-      const user = User.getCurrentUser();
-      if (user) {
-        const userInfo = await User.getUserInfo(user.uid);
+      let data = null;
+      try {
+        data = JSON.parse(await AsyncStorage.getItem("token"));
+        // alert(JSON.stringify(data));
+      } catch (error) {
+        alert("Cannot not get storage");
+        console.log("Error in storage", error);
+      }
+      if (data) {
+        // const userInfo = await User.getUserInfo(user.uid);
+        const userInfo = data.result;
         if (userInfo === undefined) {
           Alert.alert(
             "Our world being maintained",
@@ -46,7 +56,7 @@ const LoadingScreen = () => {
           ...state,
           isLoggedIn: true,
           email: userInfo.email,
-          uid: user.uid,
+          uid: data.result.uid,
           username: userInfo.username,
           // gender: userInfo.gender,
           // birthday: userInfo.birthday,

@@ -10,7 +10,11 @@ import Loading from "../../../components/Loading";
 import MyTextInput from "../../../components/MyTextInput";
 
 import { UserContext } from "../../../context/UserContext";
-import User from "../../../api/Users";
+// import User from "../../../api/Users";
+
+import * as api from "../../../api/auth";
+
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function SignInScreen({ navigation }) {
   const [email, setEmail] = useState();
@@ -30,32 +34,48 @@ function SignInScreen({ navigation }) {
   };
 
   const handleLogInGoogle = async () => {
-    await User.logInWithGoogle();
+    // await User.logInWithGoogle();
   };
 
   const handleLogIn = async () => {
     setLoading(true);
 
-    try {
-      await User.logIn(email, password);
-      const uid = User.getCurrentUser().uid;
-      const userInfo = await User.getUserInfo(uid);
-      // const settingInfo = await settingFirebase.getSettingInfo(uid);
-      setUser({
-        username: userInfo.username,
-        email: userInfo.email,
-        uid,
-        // profilePhotoUrl: userInfo.profilePhotoUrl,
-        isLoggedIn: true,
-        // birthday: userInfo.birthday,
-        // gender: userInfo.gender,
-      });
-    } catch (error) {
-      alert("Error when logging in, try again. ", error.message);
-      console.log("Error when logging in", error);
-    } finally {
-      setLoading(false);
-    }
+    api
+      .signIn({ email, password })
+      .then(async (res) => {
+        const signedUser = res.data.result;
+        const token = res.data.token;
+        setUser({
+          username: signedUser.username,
+          email,
+          uid: signedUser._id,
+          isLoggedIn: true,
+        });
+        try {
+          const data = {
+            token,
+            result: {
+              username: signedUser.username,
+              uid: signedUser._id,
+              email,
+            },
+          };
+          await AsyncStorage.setItem("token", JSON.stringify(data));
+          // alert(JSON.stringify(data));
+        } catch (e) {
+          alert("Error saving token to storage");
+          console.log("Error saving token to storage ", error);
+        }
+      })
+
+      .catch((error) => {
+        alert("Error when logging in, try again.");
+        console.log("Error when logging in", error);
+      })
+      .finally(() => setLoading(false));
+
+    // const userInfo = await User.getUserInfo(uid);
+    // const settingInfo = await settingFirebase.getSettingInfo(uid);
   };
 
   return (
@@ -98,13 +118,13 @@ function SignInScreen({ navigation }) {
             />
             <TouchableOpacity
               style={styles.eyeIcon}
-              onPress={togglePasswordVisibility}
+              onPress={() => togglePasswordVisibility()}
             >
               {eye}
             </TouchableOpacity>
           </View>
 
-          <MyButton size5 onPress={handleLogIn} disabled={loading}>
+          <MyButton size5 onPress={() => handleLogIn()} disabled={loading}>
             {loading ? (
               <Loading noText size="small" />
             ) : (
@@ -134,19 +154,19 @@ function SignInScreen({ navigation }) {
 
           <View style={styles.socialContainer}>
             <TouchableOpacity
-              onPress={handleLogInGoogle}
+              onPress={() => handleLogInGoogle()}
               style={styles.socialIcon}
             >
               <AntDesign name="google" size={30} color="black" />
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={handleLogInGoogle}
+              onPress={() => handleLogInGoogle()}
               style={styles.socialIcon}
             >
               <AntDesign name="facebook-square" size={30} color="black" />
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={handleLogInGoogle}
+              onPress={() => handleLogInGoogle()}
               style={styles.socialIcon}
             >
               <AntDesign name="twitter" size={30} color="black" />

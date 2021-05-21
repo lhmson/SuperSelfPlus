@@ -3,7 +3,11 @@ import { verifyJwt } from "../utils/verifyAuth.js";
 
 const auth = async (req, res, next) => {
   try {
-    const token = req.headers.authorization.split(" ")[1];
+    const { authorization } = req.headers;
+    if (!authorization) {
+      return res.status(401).send({ message: "You must log in to do it" });
+    }
+    const token = authorization.split(" ")[1];
     const isCustomAuth = token.length < 500; // google id > 500
 
     let decodedData;

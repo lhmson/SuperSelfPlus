@@ -11,12 +11,14 @@ import { AntDesign, Entypo } from "@expo/vector-icons";
 import MyText from "../../../components/MyText";
 import MyButton from "../../../components/MyButton";
 import MyTextInput from "../../../components/MyTextInput";
+import Loading from "../../../components/Loading";
 import styles from "../styles";
 
-import { UserContext } from "../../../context/UserContext";
-import User from "../../../api/Users";
 import COLOR from "../../../constants/colors";
-import Loading from "../../../components/Loading";
+
+import { UserContext } from "../../../context/UserContext";
+// import User from "../../../api/Users";
+import * as api from "../../../api/auth";
 
 function SignUpScreen({ navigation }) {
   const [username, setUsername] = useState();
@@ -127,23 +129,42 @@ function SignUpScreen({ navigation }) {
   //#endregion
 
   const handleLogInGoogle = async () => {
-    await User.logInWithGoogle();
+    // await User.logInWithGoogle();
   };
 
   const handleSignUp = async () => {
     setLoading(true);
     const user = { username, email, password };
 
-    try {
-      const createdUser = await User.createUser(user);
-      if (createdUser !== null) {
-        setUser({ ...createdUser, isLoggedIn: true });
-      }
-    } catch (error) {
-      alert("Error when signing up, please try again ");
-    } finally {
-      setLoading(false);
-    }
+    api
+      .signUp(user)
+      .then(async (res) => {
+        const signedUser = res.data.result;
+        setUser({ username, email, uid: signedUser._id, isLoggedIn: true });
+
+        try {
+          const data = {
+            token,
+            result: {
+              username: signedUser.username,
+              uid: signedUser._id,
+              email,
+            },
+          };
+          await AsyncStorage.setItem("token", JSON.stringify(data));
+          // alert(JSON.stringify(data));
+        } catch (error) {
+          alert("Error saving token to storage");
+          console.log("Error saving token to storage ", error);
+        }
+      })
+      .catch((error) => {
+        alert("Error when signing up, please try again ");
+        console.log("Error when signing up ", error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   return (
@@ -211,7 +232,7 @@ function SignUpScreen({ navigation }) {
             />
             <TouchableOpacity
               style={styles.eyeIcon}
-              onPress={togglePasswordVisibility}
+              onPress={() => togglePasswordVisibility()}
             >
               {eye}
             </TouchableOpacity>
@@ -220,7 +241,7 @@ function SignUpScreen({ navigation }) {
           <MyButton
             color={COLOR.green}
             size5
-            onPress={handleSignUp}
+            onPress={() => handleSignUp()}
             disabled={loading}
           >
             {loading ? (
@@ -246,13 +267,13 @@ function SignUpScreen({ navigation }) {
 
           <View style={styles.socialContainer}>
             <TouchableOpacity
-              onPress={handleLogInGoogle}
+              onPress={() => handleLogInGoogle()}
               style={styles.socialIcon}
             >
               <AntDesign name="google" size={30} color="black" />
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={handleLogInGoogle}
+              onPress={() => handleLogInGoogle()}
               style={styles.socialIcon}
             >
               <AntDesign name="facebook-square" size={30} color="black" />

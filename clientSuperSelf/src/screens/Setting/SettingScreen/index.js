@@ -5,8 +5,10 @@ import MyText from "../../../components/MyText";
 import COLOR from "../../../constants/colors";
 import styles from "./styles";
 
-import User from "../../../api/Users";
+// import User from "../../../api/Users";
 import { UserContext } from "../../../context/UserContext";
+
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function SettingScreen() {
   const [user, setUser] = useContext(UserContext);
@@ -23,9 +25,17 @@ function SettingScreen() {
         {
           text: "OK",
           onPress: async () => {
-            const loggedOut = await User.logOut();
-            if (loggedOut) {
-              setUser((state) => ({ ...state, isLoggedIn: false }));
+            // const loggedOut = await User.logOut();
+            // if (loggedOut) {
+            //   setUser((state) => ({ ...state, isLoggedIn: false }));
+            // }
+            try {
+              await AsyncStorage.removeItem("token").then(() =>
+                setUser({ isLoggedIn: false })
+              );
+            } catch (error) {
+              alert("Error log out");
+              console.log("Error log out", error);
             }
           },
         },
