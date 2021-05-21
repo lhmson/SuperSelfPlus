@@ -2,7 +2,7 @@ import axios from "axios";
 
 import { backend_url } from "react-native-dotenv";
 
-const API = axios.create({ baseURL: "http://192.168.1.6:5000" });
+const API = axios.create({ baseURL: backend_url });
 
 // API.interceptors.request.use((req) => {
 //   if (localStorage.getItem("user")) {
