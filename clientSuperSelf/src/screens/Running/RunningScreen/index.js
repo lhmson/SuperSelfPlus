@@ -54,10 +54,10 @@ function RunningScreen() {
   );
 
   function _subscribePedometer() {
-    _subscription = Pedometer.watchStepCount((result) => {
-      console.log(result.steps);
-      setCurrentStepCount(result.steps);
-    });
+    // _subscription = Pedometer.watchStepCount((result) => {
+    //   console.log(result.steps);
+    //   setCurrentStepCount(result.steps);
+    // });
 
     Pedometer.isAvailableAsync().then(
       (result) => {
@@ -68,17 +68,21 @@ function RunningScreen() {
       }
     );
 
-    const end = new Date();
-    const start = new Date();
-    start.setDate(end.getDate() - 1);
-    Pedometer.getStepCountAsync(start, end).then(
-      (result) => {
-        setPastStepCount(result.steps);
-      },
-      (error) => {
-        setPastStepCount("Could not get stepCount: " + error);
-      }
-    );
+    Pedometer.watchStepCount((result) => {
+      console.log(result.steps);
+      setCurrentStepCount(result.steps);
+    });
+    // const end = new Date();
+    // const start = new Date();
+    // start.setDate(end.getDate() - 1);
+    // Pedometer.getStepCountAsync(start, end).then(
+    //   (result) => {
+    //     setPastStepCount(result.steps);
+    //   },
+    //   (error) => {
+    //     setPastStepCount("Could not get stepCount: " + error);
+    //   }
+    // );
   }
 }
 
