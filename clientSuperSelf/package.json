@@ -31,6 +31,7 @@
     "expo-status-bar": "~1.0.4",
     "expo-updates": "~0.5.4",
     "firebase": "8.2.3",
+    "install": "^0.13.0",
     "lottie-ios": "^3.1.8",
     "lottie-react-native": "^3.5.0",
     "moment": "^2.29.1",
@@ -52,6 +53,7 @@
     "react-native-safe-area-view": "^1.1.1",
     "react-native-screens": "^3.0.0",
     "react-native-snap-carousel": "^3.9.1",
+    "react-native-svg": "^12.1.1",
     "react-native-swiper": "^1.6.0",
     "react-native-unimodules": "~0.13.3",
     "react-native-web": "~0.13.12",
@@ -59,7 +61,8 @@
     "reanimated-bottom-sheet": "^1.0.0-alpha.22",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
-    "styled-components": "^5.2.3"
+    "styled-components": "^5.2.3",
+    "victory-native": "^35.3.3"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0"
