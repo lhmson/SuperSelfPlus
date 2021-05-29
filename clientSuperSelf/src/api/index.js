@@ -1,17 +1,23 @@
 import axios from "axios";
-
 import { backend_url } from "react-native-dotenv";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const API = axios.create({ baseURL: "http://192.168.1.6:5000" });
+const API = axios.create({ baseURL: "http://192.168.1.5:5000" });
 
-// API.interceptors.request.use((req) => {
-//   if (localStorage.getItem("user")) {
-//     req.headers.Authorization = `Bearer ${
-//       JSON.parse(localStorage.getItem("user")).token
-//     }`;
-//   }
+API.interceptors.request.use(async (req) => {
+  let data = null;
+  try {
+    data = JSON.parse(await AsyncStorage.getItem("token"));
+    // alert(JSON.stringify(data));
+  } catch (error) {
+    alert("Cannot not get storage");
+    console.log("Error in storage", error);
+  }
+  if (data) {
+    req.headers.Authorization = `Bearer ${data.token}`;
+  }
 
-//   return req;
-// });
+  return req;
+});
 
 export default API;

@@ -19,6 +19,7 @@ import COLOR from "../../../constants/colors";
 import { UserContext } from "../../../context/UserContext";
 // import User from "../../../api/Users";
 import * as api from "../../../api/auth";
+import { createRunData } from "../../../api/run";
 
 function SignUpScreen({ navigation }) {
   const [username, setUsername] = useState();
@@ -140,8 +141,9 @@ function SignUpScreen({ navigation }) {
       .signUp(user)
       .then(async (res) => {
         const signedUser = res.data.result;
+        const token = res.data.token;
         setUser({ username, email, uid: signedUser._id, isLoggedIn: true });
-
+        await createRunData(signedUser._id);
         try {
           const data = {
             token,
