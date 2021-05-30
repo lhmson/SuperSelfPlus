@@ -195,7 +195,7 @@ const RankRunningScreen = () => {
       <ImageBackground
         style={styles.image}
         source={{
-          uri: "https://i.pinimg.com/564x/4e/e2/b6/4ee2b694f7adee020722169ade534f9a.jpg",
+          uri: "https://i.pinimg.com/564x/a5/6e/60/a56e6086513ebec5e5ef816fbc785df3.jpg",
         }}
       >
         <View style={{ flex: 1 }}>
