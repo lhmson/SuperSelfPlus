@@ -11,7 +11,7 @@ import CountDown from "react-native-countdown-component";
 const WIDTH = Dimensions.get("window").width;
 const HEIGHT = Dimensions.get("window").height;
 
-const MapRunningScreen = () => {
+const MapRunningScreen = ({ navigation }) => {
   const DestinationHeader = () => {
     return (
       <View
@@ -71,7 +71,7 @@ const MapRunningScreen = () => {
           paddingVertical: 8,
           paddingHorizontal: 8 * 2,
           borderRadius: 30,
-          backgroundColor: "white",
+          backgroundColor: COLOR.white,
           opacity: 0.9,
         }}
       >
@@ -88,10 +88,9 @@ const MapRunningScreen = () => {
                 until={60 * 10 + 30}
                 size={30}
                 onFinish={() => alert("Finished")}
-                digitStyle={{ backgroundColor: COLOR.whiteSmoke }}
-                digitTxtStyle={{ color: "#1CC625" }}
+                digitStyle={{ backgroundColor: COLOR.white }}
+                digitTxtStyle={{ color: COLOR.green }}
                 timeToShow={["M", "S"]}
-                timeLabels={{ m: "Minutes", s: "Seconds" }}
               />
             </View>
             <MyButton
@@ -104,7 +103,7 @@ const MapRunningScreen = () => {
                 RUN
               </MyText>
             </MyButton>
-            <MyButton size5 onPress={() => {}} color={COLOR.red}>
+            <MyButton size5 onPress={() => {}} color={COLOR.green}>
               <MyText b5 color={COLOR.white}>
                 STOP
               </MyText>
@@ -133,7 +132,7 @@ const MapRunningScreen = () => {
                   height: 80,
                 }}
               />
-              <MyText size4>50 steps</MyText>
+              <MyText size4>50</MyText>
             </View>
 
             <View
@@ -150,24 +149,26 @@ const MapRunningScreen = () => {
                   height: 80,
                 }}
               />
-              <MyText size4>12 Km</MyText>
+              <MyText size4>1km</MyText>
             </View>
 
-            <View
-              style={{
-                flexDirection: "column",
-                alignItems: "center",
-              }}
-            >
-              <Image
-                source={ICON.goal}
+            <TouchableOpacity onPress={() => navigation.navigate("Rank")}>
+              <View
                 style={{
-                  width: 80,
-                  height: 80,
+                  flexDirection: "column",
+                  alignItems: "center",
                 }}
-              />
-              <MyText size4>100 steps</MyText>
-            </View>
+              >
+                <Image
+                  source={ICON.goal}
+                  style={{
+                    width: 80,
+                    height: 80,
+                  }}
+                />
+                <MyText size4>Rank</MyText>
+              </View>
+            </TouchableOpacity>
           </View>
         </View>
       </View>
