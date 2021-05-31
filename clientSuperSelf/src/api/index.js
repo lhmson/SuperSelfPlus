@@ -7,7 +7,7 @@ const API = axios.create({ baseURL: "http://192.168.1.9:5000" });
 API.interceptors.request.use(async (req) => {
   let data = null;
   try {
-    data = JSON.parse(await AsyncStorage.getItem("token"));
+    data = JSON.parse(await AsyncStorage.getItem("superself_token"));
     // alert(JSON.stringify(data));
   } catch (error) {
     alert("Cannot not get storage");

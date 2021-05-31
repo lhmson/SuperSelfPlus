@@ -30,7 +30,7 @@ function SettingScreen() {
             //   setUser((state) => ({ ...state, isLoggedIn: false }));
             // }
             try {
-              await AsyncStorage.removeItem("token").then(() =>
+              await AsyncStorage.removeItem("superself_token").then(() =>
                 setUser({ isLoggedIn: false })
               );
             } catch (error) {

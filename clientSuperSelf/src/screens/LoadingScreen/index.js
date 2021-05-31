@@ -21,7 +21,7 @@ const LoadingScreen = () => {
     setTimeout(async () => {
       let data = null;
       try {
-        data = JSON.parse(await AsyncStorage.getItem("token"));
+        data = JSON.parse(await AsyncStorage.getItem("superself_token"));
         // alert(JSON.stringify(data));
       } catch (error) {
         alert("Cannot not get storage");

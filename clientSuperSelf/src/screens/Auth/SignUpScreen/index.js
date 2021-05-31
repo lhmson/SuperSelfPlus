@@ -156,7 +156,7 @@ function SignUpScreen({ navigation }) {
               email,
             },
           };
-          await AsyncStorage.setItem("token", JSON.stringify(data));
+          await AsyncStorage.setItem("superself_token", JSON.stringify(data));
           // alert(JSON.stringify(data));
         } catch (error) {
           alert("Error saving token to storage");
