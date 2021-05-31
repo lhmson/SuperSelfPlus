@@ -9,7 +9,7 @@ import { UserContext } from "../../../context/UserContext";
 
 import * as api from "../../../api/post";
 
-function HomeScreen({ navigation }) {
+function HabitsScreen({ navigation }) {
   const user = useContext(UserContext);
 
   // const [posts, setPosts] = useState();
@@ -27,15 +27,10 @@ function HomeScreen({ navigation }) {
   return (
     <ScrollView contentContainerStyle={styles.scrollViewContent}>
       <View style={styles.container}>
-        <MyText b6>Home screen edit</MyText>
-        <MyButton onPress={() => navigation.navigate("Habits")}>
-          <MyText>Habit</MyText>
-        </MyButton>
-        <MyText>{JSON.stringify(user)}</MyText>
-        {/* <MyText>{JSON.stringify(posts)}</MyText> */}
+        <MyText b6>Habit screen</MyText>
       </View>
     </ScrollView>
   );
 }
 
-export default HomeScreen;
+export default HabitsScreen;

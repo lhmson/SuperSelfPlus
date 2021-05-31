@@ -60,7 +60,7 @@ const BottomTabNavigator = ({ navigation }) => {
 
   const setTabBarVisible = (route) => {
     const routeName = getFocusedRouteNameFromRoute(route);
-    const hideOnScreens = ["Home 1"]; // set name screens for tab hidden
+    const hideOnScreens = [""]; // set name screens for tab hidden
     if (hideOnScreens.indexOf(routeName) > -1) return false;
     return true;
   };
@@ -98,9 +98,27 @@ const BottomTabNavigator = ({ navigation }) => {
               tabBarBadge: 1,
             })}
           />
-          <Tab.Screen name="Running" component={RunningStackNavigator} />
-          <Tab.Screen name="World" component={WorldStackNavigator} />
-          <Tab.Screen name="Setting" component={SettingStackNavigator} />
+          <Tab.Screen
+            name="Running"
+            component={RunningStackNavigator}
+            options={({ route }) => ({
+              tabBarVisible: setTabBarVisible(route), // set tab hidden for child screen
+            })}
+          />
+          <Tab.Screen
+            name="World"
+            component={WorldStackNavigator}
+            options={({ route }) => ({
+              tabBarVisible: setTabBarVisible(route), // set tab hidden for child screen
+            })}
+          />
+          <Tab.Screen
+            name="Setting"
+            component={SettingStackNavigator}
+            options={({ route }) => ({
+              tabBarVisible: setTabBarVisible(route), // set tab hidden for child screen
+            })}
+          />
         </Tab.Navigator>
       </View>
 

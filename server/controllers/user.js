@@ -74,3 +74,28 @@ export const signup = async (req, res) => {
     console.log(error);
   }
 };
+
+// GET user/:userId
+
+export const getUser = async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    await User.findById(userId)
+      .populate("userId", "name") // need to populate more item (avatar, )
+      .then((user) => {
+        const { username, badges } = user;
+        return res.status(httpStatusCodes.ok).json({ username, badges });
+      })
+      .catch((error) => {
+        console.log(error);
+        return res
+          .status(httpStatusCodes.notFound)
+          .json(`Cannot find user with id: ${userId}`);
+      });
+  } catch (error) {
+    return res
+      .status(httpStatusCodes.internalServerError)
+      .json({ message: error.message });
+  }
+};

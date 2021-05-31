@@ -13,8 +13,10 @@ import logger from "morgan";
 import { fileURLToPath } from "url";
 
 import indexRouter from "./routes/index.js";
-import postRouter from "./routes/post.js";
 import userRouter from "./routes/user.js";
+import habitRouter from "./routes/habit.js";
+
+import postRouter from "./routes/post.js";
 
 dotenv.config();
 
@@ -44,7 +46,9 @@ app.use(cookieParser());
 // router
 app.use("/", indexRouter);
 app.use("/user", userRouter);
-app.use("/post", postRouter);
+app.use("/habit", habitRouter);
+
+// app.use("/post", postRouter);
 
 const PORT = process.env.PORT || 5000;
 

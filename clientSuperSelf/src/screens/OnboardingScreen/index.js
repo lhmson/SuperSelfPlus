@@ -53,10 +53,10 @@ const OnboardingScreen = ({ navigation }) => {
           ),
           title: (
             <MyText b4 size2>
-              Connect to the World
+              Mind your brain
             </MyText>
           ),
-          subtitle: <MyText size5>A New Way To Connect With The World</MyText>,
+          subtitle: <MyText size5>Fill your life with good habits 👍</MyText>,
         },
         {
           backgroundColor: COLOR.yellow,
@@ -67,13 +67,11 @@ const OnboardingScreen = ({ navigation }) => {
           ),
           title: (
             <MyText b4 size2>
-              Share Your Favorites
+              Train your health
             </MyText>
           ),
           subtitle: (
-            <MyText size5>
-              Share Your Thoughts With Similar Kind of People
-            </MyText>
+            <MyText size5>Put your little steps into the large world 👟</MyText>
           ),
         },
         {
@@ -85,10 +83,10 @@ const OnboardingScreen = ({ navigation }) => {
           ),
           title: (
             <MyText b4 size2>
-              Become The Star
+              Smell your success
             </MyText>
           ),
-          subtitle: <MyText size5>Let The Spot Light Capture You</MyText>,
+          subtitle: <MyText size5>Let yourself be the glowing star 🌟</MyText>,
         },
       ]}
     />
