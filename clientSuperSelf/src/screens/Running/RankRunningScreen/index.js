@@ -36,7 +36,7 @@ const RankRunningScreen = () => {
             height: 220,
             alignItems: "center",
             justifyContent: "center",
-            backgroundColor: COLOR.green,
+            backgroundColor: COLOR.red,
             opacity: 0.5,
             borderRadius: 30,
           }}
@@ -110,7 +110,7 @@ const RankRunningScreen = () => {
             height: 100,
             alignItems: "center",
             justifyContent: "center",
-            backgroundColor: COLOR.green,
+            backgroundColor: COLOR.red,
             opacity: 0.5,
             borderRadius: 30,
             margin: 8,
@@ -207,7 +207,7 @@ const RankRunningScreen = () => {
               backgroundColor: "transparent",
             }}
           >
-            <CardRankUser No={1} colorNo={COLOR.red}></CardRankUser>
+            <CardRankUser No={1} colorNo={COLOR.green}></CardRankUser>
             <CardRankUser No={2} colorNo={COLOR.orange}></CardRankUser>
             <CardRankUser No={3} colorNo={COLOR.yellow}></CardRankUser>
             <CardRankUser No={4} colorNo={COLOR.purple}></CardRankUser>
