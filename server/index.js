@@ -15,8 +15,8 @@ import { fileURLToPath } from "url";
 import indexRouter from "./routes/index.js";
 import userRouter from "./routes/user.js";
 import habitRouter from "./routes/habit.js";
-
-import postRouter from "./routes/post.js";
+import runRouter from "./routes/run.js";
+// import postRouter from "./routes/post.js";
 
 dotenv.config();
 
@@ -47,7 +47,7 @@ app.use(cookieParser());
 app.use("/", indexRouter);
 app.use("/user", userRouter);
 app.use("/habit", habitRouter);
-
+app.use("/run", runRouter);
 // app.use("/post", postRouter);
 
 const PORT = process.env.PORT || 5000;

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { View, Platform } from "react-native";
 import MyText from "../../../components/MyText/index";
 import MyCard from "../../../components/MyCard/index";
@@ -6,16 +6,19 @@ import COLOR from "../../../constants/colors";
 import styles from "./styles";
 import { Pedometer } from "expo-sensors";
 import * as Location from "expo-location";
+import { updateRunDate } from "../../../api/run";
+import { UserContext } from "../.../../../../context/UserContext";
+
+let pastStepCount = 0;
 
 function RunningScreen() {
   //Init Pedometer expo
   const [isPedometerAvailable, setIsPedometerAvailable] = useState("checking");
-  const [pastStepCount, setPastStepCount] = useState(0);
   const [currentStepCount, setCurrentStepCount] = useState(0);
-
   //Init Location expo
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
+  const [user, setUser] = useContext(UserContext);
 
   let _subscription = null;
 
@@ -54,10 +57,10 @@ function RunningScreen() {
   );
 
   function _subscribePedometer() {
-    _subscription = Pedometer.watchStepCount((result) => {
-      console.log(result.steps);
-      setCurrentStepCount(result.steps);
-    });
+    // _subscription = Pedometer.watchStepCount((result) => {
+    //   console.log(result.steps);
+    //   setCurrentStepCount(result.steps);
+    // });
 
     Pedometer.isAvailableAsync().then(
       (result) => {
@@ -68,17 +71,10 @@ function RunningScreen() {
       }
     );
 
-    const end = new Date();
-    const start = new Date();
-    start.setDate(end.getDate() - 1);
-    Pedometer.getStepCountAsync(start, end).then(
-      (result) => {
-        setPastStepCount(result.steps);
-      },
-      (error) => {
-        setPastStepCount("Could not get stepCount: " + error);
-      }
-    );
+    Pedometer.watchStepCount((result) => {
+      updateRunDate(user.uid, { steps: result.steps });
+      setCurrentStepCount(result.steps);
+    });
   }
 }
 

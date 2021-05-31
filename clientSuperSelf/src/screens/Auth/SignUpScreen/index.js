@@ -20,6 +20,10 @@ import { UserContext } from "../../../context/UserContext";
 // import User from "../../../api/Users";
 import * as api from "../../../api/auth";
 
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+import { createRunData } from "../../../api/run";
+
 function SignUpScreen({ navigation }) {
   const [username, setUsername] = useState();
   const [email, setEmail] = useState();
@@ -142,7 +146,7 @@ function SignUpScreen({ navigation }) {
         const signedUser = res.data.result;
         const token = res.data.token;
         setUser({ username, email, uid: signedUser._id, isLoggedIn: true });
-
+        await createRunData(signedUser._id);
         try {
           const data = {
             token,

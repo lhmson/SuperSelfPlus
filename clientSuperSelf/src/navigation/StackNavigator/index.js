@@ -14,6 +14,9 @@ import WorldScreen from "../../screens/World/WorldScreen";
 import SettingScreen from "../../screens/Setting/SettingScreen";
 import TabMaterialNavigator from "../TabMaterialNavigator";
 import HabitsScreen from "../../screens/Habit/HabitsScreen";
+// import HomeOneScreen from "../../screens/Home/HomeOneScreen.js";
+import MapRunningScreen from "../../screens/Running/MapRunningScreen/index";
+import RankRunningScreen from "../../screens/Running/RankRunningScreen/index";
 
 const Stack = createStackNavigator();
 
@@ -95,7 +98,8 @@ const HomeStackNavigator = () => {
 const RunningStackNavigator = () => {
   return (
     <Stack.Navigator screenOptions={(props) => screenOptionStyle(props)}>
-      <Stack.Screen name="Running" component={RunningScreen} />
+      <Stack.Screen name="Running" component={MapRunningScreen} />
+      <Stack.Screen name="Rank" component={RankRunningScreen} />
     </Stack.Navigator>
   );
 };
