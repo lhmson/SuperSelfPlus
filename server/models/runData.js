@@ -14,6 +14,14 @@ const runDataSchema = mongoose.Schema(
         type: runDataDaySchema,
       },
     ],
+    totalStepsWeek: {
+      type: mongoose.Schema.Types.Number,
+      default: 0,
+    },
+    totalStepsMonth: {
+      type: mongoose.Schema.Types.Number,
+      default: 0,
+    },
   },
   { timestamps: true }
 );

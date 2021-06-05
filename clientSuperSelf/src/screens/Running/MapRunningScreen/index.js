@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import MapView, { Marker, Polyline } from "react-native-maps";
 import { StyleSheet, Text, View, Dimensions } from "react-native";
 import { Image, TouchableOpacity } from "react-native";
@@ -8,13 +8,16 @@ import COLOR from "../../../constants/colors";
 import ICON from "../../../constants/icon";
 import CountDown from "react-native-countdown-component";
 import { getDistance, getPreciseDistance } from "geolib";
+import * as Location from "expo-location";
 
 const WIDTH = Dimensions.get("window").width;
 const HEIGHT = Dimensions.get("window").height;
+const _marginButton = (WIDTH - 240) / 4;
 
 const MapRunningScreen = ({ navigation }) => {
   const [userLocation, setUserLocation] = useState();
   const [roadRunCoordinate, setRoadRunCoordinate] = useState([]);
+  const [location, setLocation] = useState(null);
 
   const DestinationHeader = () => {
     return (
@@ -79,9 +82,10 @@ const MapRunningScreen = ({ navigation }) => {
           opacity: 0.9,
         }}
       >
-        <View style={{ flex: 0.2 }}>
+        <View style={{ flex: 0.25 }}>
           <View
             style={{
+              paddingTop: 16,
               flexDirection: "row",
               alignItems: "center",
               justifyContent: "center",
@@ -126,7 +130,7 @@ const MapRunningScreen = ({ navigation }) => {
               style={{
                 flexDirection: "column",
                 alignItems: "center",
-                marginRight: 24,
+                marginRight: _marginButton,
               }}
             >
               <Image
@@ -143,7 +147,7 @@ const MapRunningScreen = ({ navigation }) => {
               style={{
                 flexDirection: "column",
                 alignItems: "center",
-                marginRight: 24,
+                marginRight: _marginButton,
               }}
             >
               <Image
@@ -369,6 +373,7 @@ const MapRunningScreen = ({ navigation }) => {
   const pushCoordinateIntoRoad = (coor) => {
     //start run
     if (roadRunCoordinate.length === 0) {
+      setUserLocation(coor);
       setRoadRunCoordinate([coor]);
       return;
     }
@@ -380,50 +385,85 @@ const MapRunningScreen = ({ navigation }) => {
       ) >= 5
     ) {
       setRoadRunCoordinate([...roadRunCoordinate, coor]);
+
       return;
     }
   };
 
-  return (
-    <View style={styles.container}>
-      <MapView
-        style={styles.map}
-        showsUserLocation={true}
-        mapType="standard"
-        followsUserLocation={true}
-        // customMapStyle={mapDarkStyle}
-        showsTraffic={true}
-        tintColor={COLOR.green}
-        showsMyLocationButton={true}
-        zoomEnabled={true}
-        onUserLocationChange={(locationChangedResult) => {
-          setUserLocation(locationChangedResult.nativeEvent.coordinate);
-          pushCoordinateIntoRoad(locationChangedResult.nativeEvent.coordinate);
-        }}
-      >
-      {
-        roadRunCoordinate[0]?
-        <Marker coordinate={roadRunCoordinate[0] ?? null}>
-          <Image
-            source={ICON.startRun}
-            style={{ height: 60, width: 60, resizeMode: "contain" }}
+  useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        console.log("Permission to access location was denied");
+        return;
+      }
+
+      let location = await Location.getCurrentPositionAsync({});
+      setLocation(location);
+      console.log(location);
+    })();
+  }, []);
+  if (location)
+    return (
+      <View style={styles.container}>
+        <MapView
+          style={styles.map}
+          initialRegion={{
+            latitude: location.coords.latitude,
+            longitude: location.coords.longitude,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
+          }}
+          showsUserLocation={true}
+          mapType="standard"
+          followsUserLocation={true}
+          // customMapStyle={mapDarkStyle}
+          showsTraffic={true}
+          tintColor={COLOR.green}
+          showsMyLocationButton={true}
+          zoomEnabled={true}
+          onUserLocationChange={(locationChangedResult) => {
+            pushCoordinateIntoRoad(
+              locationChangedResult.nativeEvent.coordinate
+            );
+          }}
+        >
+          {roadRunCoordinate[0] ? (
+            <Marker coordinate={roadRunCoordinate[0] ?? null}>
+              <Image
+                source={ICON.startRun}
+                style={{ height: 60, width: 60, resizeMode: "contain" }}
+              />
+            </Marker>
+          ) : null}
+          <Polyline
+            coordinates={roadRunCoordinate}
+            strokeColor={COLOR.green}
+            strokeWidth={6}
           />
-        </Marker> : null}
-        <Polyline
-          coordinates={roadRunCoordinate}
-          strokeColor={COLOR.green}
-          strokeWidth={6}
-        />
-      </MapView>
-      <DestinationHeader></DestinationHeader>
-      <DestinationFooter></DestinationFooter>
+        </MapView>
+        <DestinationHeader></DestinationHeader>
+        <DestinationFooter></DestinationFooter>
+      </View>
+    );
+  return (
+    <View style={{ ...styles.container, backgroundColor: "#12C06A" }}>
+      <Image
+        source={{
+          uri: "https://i.pinimg.com/originals/e8/06/52/e80652af2c77e3a73858e16b2ffe5f9a.gif",
+        }}
+        style={{
+          width: WIDTH,
+          height: WIDTH / 2,
+        }}
+      />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 0.4,
+    flex: 1,
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
