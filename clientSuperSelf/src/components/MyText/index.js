@@ -8,7 +8,7 @@ const MyText = ({ ...props }) => {
 
 const Text = styled.Text`
   color: ${(props) => props.color ?? COLOR.black};
-  ${({ size1, size2, size3, size4, size5 }) => {
+  ${({ size1, size2, size3, size4, size5, custom1 }) => {
     switch (true) {
       case size1:
         return `font-size:42px;`;
@@ -20,6 +20,8 @@ const Text = styled.Text`
         return `font-size:24px;`;
       case size5:
         return `font-size:15px;`;
+      case custom1:
+        return `font-size:18px;`;
       default:
         return `font-size:20px;`;
     }

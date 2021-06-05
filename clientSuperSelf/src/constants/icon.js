@@ -6,6 +6,7 @@ const shoeRanking = require("../utils/resources/IconRunning/shoeRanking.png");
 const startRun = require("../utils/resources/IconRunning/startRun.png");
 const rankingBackground = require("../utils/resources/IconRunning/rankingBackground.jpg");
 const mapMobile = require("../utils/resources/IconRunning/mapMobile.jpg");
+const goalRunning = require("../utils/resources/IconRunning/goalRunning.jpg");
 export default {
   shoe,
   map,
@@ -15,4 +16,5 @@ export default {
   startRun,
   rankingBackground,
   mapMobile,
+  goalRunning,
 };
