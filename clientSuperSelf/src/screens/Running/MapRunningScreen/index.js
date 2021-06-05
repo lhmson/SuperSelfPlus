@@ -1,18 +1,31 @@
-import React, { useState, useEffect } from "react";
+import React, {
+  useState,
+  useEffect,
+  useCallback,
+  useMemo,
+  useRef,
+} from "react";
 import MapView, { Marker, Polyline } from "react-native-maps";
 import { StyleSheet, Text, View, Dimensions } from "react-native";
-import { Image, TouchableOpacity } from "react-native";
+import { Image } from "react-native";
 import MyText from "../../../components/MyText/index";
 import MyButton from "../../../components/MyButton/index";
+import MyCard from "../../../components/MyCard/index";
 import COLOR from "../../../constants/colors";
 import ICON from "../../../constants/icon";
 import CountDown from "react-native-countdown-component";
 import { getDistance, getPreciseDistance } from "geolib";
 import * as Location from "expo-location";
+import BottomSheet from "@gorhom/bottom-sheet";
+import {
+  TouchableOpacity,
+  TouchableHighlight,
+  TouchableWithoutFeedback,
+} from "@gorhom/bottom-sheet";
 
 const WIDTH = Dimensions.get("window").width;
 const HEIGHT = Dimensions.get("window").height;
-const _marginButton = (WIDTH - 240) / 4;
+const _marginButton = (WIDTH - 350) / 4;
 
 const MapRunningScreen = ({ navigation }) => {
   const [userLocation, setUserLocation] = useState();
@@ -80,25 +93,19 @@ const MapRunningScreen = ({ navigation }) => {
     return (
       <View
         style={{
-          position: "absolute",
-          top: HEIGHT / 2.5,
-          height: HEIGHT,
           alignItems: "center",
           justifyContent: "center",
           flexDirection: "column",
           alignItems: "center",
           width: WIDTH,
-          paddingVertical: 8,
           paddingHorizontal: 8 * 2,
           borderRadius: 30,
           backgroundColor: COLOR.white,
-          opacity: 0.9,
         }}
       >
-        <View style={{ flex: 0.25 }}>
+        <View>
           <View
             style={{
-              paddingTop: 16,
               flexDirection: "row",
               alignItems: "center",
               justifyContent: "center",
@@ -107,11 +114,13 @@ const MapRunningScreen = ({ navigation }) => {
             <View style={{ marginRight: 24 }}>
               <CountDown
                 until={60 * 10 + 30}
-                size={30}
+                size={25}
                 onFinish={() => alert("Finished")}
                 digitStyle={{ backgroundColor: COLOR.white }}
                 digitTxtStyle={{ color: COLOR.green }}
+                timeLabelStyle={{ color: "transparent" }}
                 timeToShow={["M", "S"]}
+                running={false}
               />
             </View>
             <MyButton
@@ -131,7 +140,7 @@ const MapRunningScreen = ({ navigation }) => {
             </MyButton>
           </View>
         </View>
-        <View style={{ flex: 1 }}>
+        <View style={{}}>
           <View
             style={{
               flexDirection: "row",
@@ -139,42 +148,50 @@ const MapRunningScreen = ({ navigation }) => {
               justifyContent: "center",
             }}
           >
-            <View
+            <View style={{ width: _marginButton }}></View>
+            <MyCard
               style={{
                 flexDirection: "column",
                 alignItems: "center",
-                marginRight: _marginButton,
               }}
             >
               <Image
                 source={ICON.shoe}
                 style={{
-                  width: 80,
-                  height: 80,
+                  width: 50,
+                  height: 50,
                 }}
               />
-              <MyText size4>50</MyText>
-            </View>
+              <MyText size5 b6>
+                50
+              </MyText>
+            </MyCard>
 
-            <View
+            <View style={{ width: _marginButton }}></View>
+            <MyCard
               style={{
                 flexDirection: "column",
                 alignItems: "center",
-                marginRight: _marginButton,
               }}
             >
               <Image
                 source={ICON.map}
                 style={{
-                  width: 80,
-                  height: 80,
+                  width: 50,
+                  height: 50,
                 }}
               />
-              <MyText size4>1km</MyText>
-            </View>
-
-            <TouchableOpacity onPress={() => navigation.navigate("Rank")}>
-              <View
+              <MyText size5 b6>
+                3km
+              </MyText>
+            </MyCard>
+            <View style={{ width: _marginButton }}></View>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate("Rank");
+              }}
+            >
+              <MyCard
                 style={{
                   flexDirection: "column",
                   alignItems: "center",
@@ -183,13 +200,16 @@ const MapRunningScreen = ({ navigation }) => {
                 <Image
                   source={ICON.goal}
                   style={{
-                    width: 80,
-                    height: 80,
+                    width: 50,
+                    height: 50,
                   }}
                 />
-                <MyText size4>Rank</MyText>
-              </View>
+                <MyText size5 b6>
+                  Rank
+                </MyText>
+              </MyCard>
             </TouchableOpacity>
+            <View style={{ width: _marginButton }}></View>
           </View>
         </View>
       </View>
@@ -403,6 +423,14 @@ const MapRunningScreen = ({ navigation }) => {
     }
   };
 
+  // variables
+  const snapPoints = useMemo(() => ["5%", "40%"], []);
+
+  // callbacks
+  const handleSheetChanges = useCallback((index) => {
+    console.log("handleSheetChanges", index);
+  }, []);
+
   useEffect(() => {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
@@ -456,7 +484,16 @@ const MapRunningScreen = ({ navigation }) => {
           />
         </MapView>
         <DestinationHeader location={userLocation}></DestinationHeader>
-        <DestinationFooter></DestinationFooter>
+        <BottomSheet
+          // ref={bottomSheetRef}
+          borderRadius={30}
+          index={1}
+          snapPoints={snapPoints}
+          onChange={handleSheetChanges}
+          style={{ borderRadius: 30 }}
+        >
+          <DestinationFooter></DestinationFooter>
+        </BottomSheet>
       </View>
     );
   return (
