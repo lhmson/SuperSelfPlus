@@ -19,7 +19,22 @@ const MapRunningScreen = ({ navigation }) => {
   const [roadRunCoordinate, setRoadRunCoordinate] = useState([]);
   const [location, setLocation] = useState(null);
 
-  const DestinationHeader = () => {
+  const DestinationHeader = ({ location }) => {
+    const [address, setAddress] = useState("GPS Loading...");
+    useEffect(() => {
+      (async () => {
+        if (!location) return;
+        let add = await Location.reverseGeocodeAsync({
+          longitude: location.longitude,
+          latitude: location.latitude,
+        });
+        add = add[0];
+        let convertAddressStr =
+          (add.street ?? "") + " - " + add.subregion + " - " + add.region;
+        console.log("dc", convertAddressStr);
+        setAddress(convertAddressStr);
+      })();
+    });
     return (
       <View
         style={{
@@ -55,10 +70,8 @@ const MapRunningScreen = ({ navigation }) => {
           />
 
           <View style={{ flex: 1 }}>
-            <MyText size5>Trường ĐH Công nghệ Thông tin</MyText>
+            <MyText size5>{address}</MyText>
           </View>
-
-          <MyText size5>10 mins</MyText>
         </View>
       </View>
     );
@@ -384,8 +397,8 @@ const MapRunningScreen = ({ navigation }) => {
         coor
       ) >= 5
     ) {
+      setUserLocation(coor);
       setRoadRunCoordinate([...roadRunCoordinate, coor]);
-
       return;
     }
   };
@@ -400,9 +413,9 @@ const MapRunningScreen = ({ navigation }) => {
 
       let location = await Location.getCurrentPositionAsync({});
       setLocation(location);
-      console.log(location);
     })();
   }, []);
+
   if (location)
     return (
       <View style={styles.container}>
@@ -442,7 +455,7 @@ const MapRunningScreen = ({ navigation }) => {
             strokeWidth={6}
           />
         </MapView>
-        <DestinationHeader></DestinationHeader>
+        <DestinationHeader location={userLocation}></DestinationHeader>
         <DestinationFooter></DestinationFooter>
       </View>
     );
