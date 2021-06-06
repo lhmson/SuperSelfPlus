@@ -35,7 +35,11 @@ const CustomDrawer = (props) => {
         <DrawerItem
           label="Contact"
           labelStyle={{ fontFamily: FONT.Nunito_600 }}
-          onPress={() => Linking.openURL("https://facebook.com/")}
+          onPress={() =>
+            Linking.openURL(
+              "https://www.facebook.com/SuperSelf-Time-to-master-your-life-104969558480410"
+            )
+          }
           icon={({ focused, size }) => (
             <FontAwesome
               name="phone-square"
