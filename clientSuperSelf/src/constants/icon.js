@@ -9,6 +9,10 @@ const mapMobile = require("../utils/resources/IconRunning/mapMobile.jpg");
 const goalRunning = require("../utils/resources/IconRunning/goalRunning.jpg");
 const rainbow = require("../utils/resources/IconRunning/rainbow.png");
 const highDegrees = require("../utils/resources/IconRunning/HighDegrees.png");
+const framePedometer = require("../utils/resources/IconRunning/framePedometer.gif");
+const peopleRun = require("../utils/resources/IconRunning/runPeople.png");
+const speed = require("../utils/resources/IconRunning/speed.png");
+const heart = require("../utils/resources/IconRunning/heart.png");
 
 export default {
   shoe,
@@ -22,4 +26,8 @@ export default {
   goalRunning,
   rainbow,
   highDegrees,
+  framePedometer,
+  peopleRun,
+  speed,
+  heart,
 };

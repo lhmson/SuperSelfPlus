@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useCallback, useMemo, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -13,6 +13,8 @@ import MyButton from "../../../components/MyButton/index";
 import MyCard from "../../../components/MyCard/index";
 import COLOR from "../../../constants/colors";
 import ICON from "../../../constants/icon";
+import BottomSheet from "@gorhom/bottom-sheet";
+import { Calendar, CalendarList, Agenda } from "react-native-calendars";
 
 const WIDTH = Dimensions.get("window").width;
 const HEIGHT = Dimensions.get("window").height;
@@ -85,73 +87,149 @@ const PedometerScreen = ({ navigation }) => {
     return (
       <View
         style={{
-          alignItems: "center",
+          alignItems: "flex-start",
           justifyContent: "center",
           width: WIDTH,
+          flexDirection: "row",
+          zIndex: 0,
         }}
       >
-        <ImageBackground
-          source={{
-            uri: "https://i.pinimg.com/originals/11/21/0f/11210f3927a5c230f28ec52b609192a2.gif",
-          }}
+        <View style={{ flexDirection: "column", zIndex: 2 }}>
+          <ImageBackground
+            source={ICON.framePedometer}
+            style={{
+              width: WIDTH / 2.5,
+              height: WIDTH / 2.5,
+              resizeMode: "stretch",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <MyText size4 b6 color={COLOR.green}>
+              10023
+            </MyText>
+            <Image
+              source={ICON.shoeRanking}
+              style={{ width: 40, height: 40, resizeMode: "contain" }}
+            ></Image>
+          </ImageBackground>
+
+          <ImageBackground
+            source={ICON.framePedometer}
+            style={{
+              width: WIDTH / 2.5,
+              height: WIDTH / 2.5,
+              resizeMode: "stretch",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <MyText size4 b6 color={COLOR.green}>
+              2 m/s
+            </MyText>
+            <Image
+              source={ICON.speed}
+              style={{ width: 40, height: 40, resizeMode: "contain" }}
+            ></Image>
+          </ImageBackground>
+
+          <ImageBackground
+            source={ICON.framePedometer}
+            style={{
+              width: WIDTH / 2.5,
+              height: WIDTH / 2.5,
+              resizeMode: "stretch",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <MyText size4 b6 color={COLOR.green}>
+              90
+            </MyText>
+            <Image
+              source={ICON.heart}
+              style={{ width: 40, height: 40, resizeMode: "contain" }}
+            ></Image>
+          </ImageBackground>
+        </View>
+        <View
           style={{
-            width: 700,
-            height: 500,
-            resizeMode: "stretch",
-            marginTop: -50,
+            flexDirection: "column",
+            zIndex: 1,
             justifyContent: "center",
             alignItems: "center",
           }}
         >
-          <MyText size2 b6 color={COLOR.orange}>
-            10023
-          </MyText>
+          <MyCard>
+            <View style={{ justifyContent: "flex-start" }}>
+              <MyText custom1 b2 color={COLOR.green}>
+                Today!
+              </MyText>
+              <MyText size5 b5 color={COLOR.green}>
+                Monday 06/07/2021
+              </MyText>
+            </View>
+          </MyCard>
           <Image
-            source={ICON.shoeRanking}
-            style={{ width: 80, height: 80, resizeMode: "contain" }}
+            source={ICON.peopleRun}
+            style={{ width: WIDTH / 2, resizeMode: "contain", marginTop: -50 }}
           ></Image>
-        </ImageBackground>
+        </View>
       </View>
     );
   };
 
-  const CardHeartBeat = () => {
+  const SheetCalendar = () => {
+    // variables
+    const snapPoints = useMemo(() => ["2%", "70%"], []);
+
+    // callbacks
+    const handleSheetChanges = useCallback((index) => {
+      console.log("handleSheetChanges", index);
+    }, []);
+
     return (
-      <TouchableOpacity onPress={() => {}}>
-        <MyCard style={{ width: (WIDTH - 32) / 2 }}>
-          <View style={{ flexDirection: "row" }}>
-            <Image
-              source={ICON.goalRunning}
-              style={{
-                width: 100,
-                resizeMode: "contain",
-                height: 100,
-              }}
-            />
-            <View style={{ flexDirection: "column" }}>
-              <MyText custom1 b5>
-                120
-              </MyText>
-            </View>
-          </View>
-        </MyCard>
-      </TouchableOpacity>
+      <BottomSheet
+        borderRadius={30}
+        index={1}
+        snapPoints={snapPoints}
+        onChange={handleSheetChanges}
+        style={{ borderRadius: 30, zIndex: 10 }}
+      >
+        <Calendar
+          markingType={"period"}
+          markedDates={{
+            "2012-05-15": { marked: true, dotColor: "#50cebb" },
+            "2012-05-16": { marked: true, dotColor: "#50cebb" },
+            "2012-05-21": {
+              startingDay: true,
+              color: "#50cebb",
+              textColor: "white",
+            },
+            "2012-05-22": { color: "#70d7c7", textColor: "white" },
+            "2012-05-23": {
+              color: "#70d7c7",
+              textColor: "white",
+              marked: true,
+              dotColor: "white",
+            },
+            "2012-05-24": { color: "#70d7c7", textColor: "white" },
+            "2012-05-25": {
+              endingDay: true,
+              color: "#50cebb",
+              textColor: "white",
+            },
+          }}
+        />
+      </BottomSheet>
     );
   };
 
   return (
     <View style={styles.container}>
       <HeaderInfo></HeaderInfo>
-      <View style={{ flex: 1 }}>
-        <ScrollView
-          style={{
-            backgroundColor: "white",
-          }}
-        >
-          <PedometerInfo></PedometerInfo>
-          <CardHeartBeat></CardHeartBeat>
-        </ScrollView>
-      </View>
+      <PedometerInfo></PedometerInfo>
+      <SheetCalendar></SheetCalendar>
     </View>
   );
 };

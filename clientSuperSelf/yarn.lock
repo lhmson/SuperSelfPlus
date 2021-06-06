@@ -5380,6 +5380,11 @@
   "resolved" "https://registry.npmjs.org/mdn-data/-/mdn-data-2.0.14.tgz"
   "version" "2.0.14"
 
+"memoize-one@^5.2.1":
+  "integrity" "sha512-zYiwtZUcYyXKo/np96AGZAckk+FWWsUdJ3cHGGmld7+AhvcWmQyGCYUh1hc4Q/pkOhb65dQR/pqCyK0cOaHz4Q=="
+  "resolved" "https://registry.npmjs.org/memoize-one/-/memoize-one-5.2.1.tgz"
+  "version" "5.2.1"
+
 "merge-stream@^1.0.1":
   "integrity" "sha1-QEEgLVCKNCugAXQAjfDCUbjBNeE="
   "resolved" "https://registry.npmjs.org/merge-stream/-/merge-stream-1.0.1.tgz"
@@ -6458,18 +6463,20 @@
   "resolved" "https://registry.npmjs.org/react-is/-/react-is-17.0.2.tgz"
   "version" "17.0.2"
 
-"react-native-calendars@^1.1258.0":
-  "integrity" "sha512-gO4It/EU94vWZQ7/73RxV0TCm2y1+a4j44YHzjd25eo20n4NAb5+wi2A2uOC9rCunTUfKzu/jKSFwhS4IdbGtw=="
-  "resolved" "https://registry.npmjs.org/react-native-calendars/-/react-native-calendars-1.1258.0.tgz"
-  "version" "1.1258.0"
+"react-native-calendars@^1.1263.0":
+  "integrity" "sha512-O9Pl9YeV3SVeXoXnuxgf4itl+hhJceLu4cCvxX+rcI/2FgIDGD30R/cblxGmSXznbLGj9SZtuJDXmG9Bnd7TEA=="
+  "resolved" "https://registry.npmjs.org/react-native-calendars/-/react-native-calendars-1.1263.0.tgz"
+  "version" "1.1263.0"
   dependencies:
     "hoist-non-react-statics" "^3.3.1"
     "immutable" "^4.0.0-rc.12"
     "lodash" "^4.17.15"
-    "moment" "^2.24.0"
+    "memoize-one" "^5.2.1"
     "prop-types" "^15.5.10"
     "react-native-swipe-gestures" "^1.0.5"
     "xdate" "^0.8.0"
+  optionalDependencies:
+    "moment" "^2.24.0"
 
 "react-native-circular-action-menu@^0.5.0":
   "integrity" "sha512-s9jZj0PQd0sXkP9wWGtAVREINyubsOfPpUzJHqYtNweuEIc6f7XCvb9913rHbxemhCT1EdjBCzeL53KAGbXWQA=="
