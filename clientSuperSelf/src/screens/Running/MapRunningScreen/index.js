@@ -38,13 +38,15 @@ const MapRunningScreen = ({ navigation }) => {
       (async () => {
         if (!location) return;
         let add = await Location.reverseGeocodeAsync({
-          longitude: location.longitude,
-          latitude: location.latitude,
+          longitude: location?.longitude,
+          latitude: location?.latitude,
         });
         add = add[0];
         let convertAddressStr =
-          (add.street ?? "") + " - " + add.subregion + " - " + add.region;
-        console.log("dc", convertAddressStr);
+          (add.street ? add.street + "-" : "") +
+          (add.subregion ?? add.city) +
+          " - " +
+          add.region;
         console.log("dc", location);
         setAddress(convertAddressStr);
       })();
@@ -425,7 +427,7 @@ const MapRunningScreen = ({ navigation }) => {
   };
 
   // variables
-  const snapPoints = useMemo(() => ["5%", "40%"], []);
+  const snapPoints = useMemo(() => ["2%", "40%"], []);
 
   // callbacks
   const handleSheetChanges = useCallback((index) => {
