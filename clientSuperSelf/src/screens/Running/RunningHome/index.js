@@ -90,7 +90,12 @@ const RunningHomeScreen = ({ navigation }) => {
 
   const OptionPedometerRunning = () => {
     return (
-      <TouchableOpacity style={{ padding: 12, marginTop: -16 }}>
+      <TouchableOpacity
+        style={{ padding: 12, marginTop: -16 }}
+        onPress={() => {
+          navigation.navigate("Pedometer");
+        }}
+      >
         <MyCard>
           <View style={{ flexDirection: "row" }}>
             <Image

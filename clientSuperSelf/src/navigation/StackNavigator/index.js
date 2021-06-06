@@ -20,6 +20,7 @@ import MapRunningScreen from "../../screens/Running/MapRunningScreen/index";
 import RankRunningScreen from "../../screens/Running/RankRunningScreen/index";
 import RunningHomeScreen from "../../screens/Running/RunningHome/index";
 import ChartRunningScreen from "../../screens/Running/ChartRunningScreen";
+import PedometerScreen from "../../screens/Running/PedometerScreen/index";
 
 const Stack = createStackNavigator();
 
@@ -106,6 +107,7 @@ const RunningStackNavigator = () => {
       <Stack.Screen name="Goal Running" component={MapRunningScreen} />
       <Stack.Screen name="Rank" component={RankRunningScreen} />
       <Stack.Screen name="Run Charts" component={ChartRunningScreen} />
+      <Stack.Screen name="Pedometer" component={PedometerScreen} />
     </Stack.Navigator>
   );
 };

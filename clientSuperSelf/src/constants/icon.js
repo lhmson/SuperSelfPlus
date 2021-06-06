@@ -7,6 +7,9 @@ const startRun = require("../utils/resources/IconRunning/startRun.png");
 const rankingBackground = require("../utils/resources/IconRunning/rankingBackground.jpg");
 const mapMobile = require("../utils/resources/IconRunning/mapMobile.jpg");
 const goalRunning = require("../utils/resources/IconRunning/goalRunning.jpg");
+const rainbow = require("../utils/resources/IconRunning/rainbow.png");
+const highDegrees = require("../utils/resources/IconRunning/HighDegrees.png");
+
 export default {
   shoe,
   map,
@@ -17,4 +20,6 @@ export default {
   rankingBackground,
   mapMobile,
   goalRunning,
+  rainbow,
+  highDegrees,
 };

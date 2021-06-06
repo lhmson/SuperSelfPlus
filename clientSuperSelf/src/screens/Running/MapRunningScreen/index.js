@@ -43,11 +43,10 @@ const MapRunningScreen = ({ navigation }) => {
         });
         add = add[0];
         let convertAddressStr =
-          (add.street ? add.street + "-" : "") +
+          (add.street ? add.street + " - " : "") +
           (add.subregion ?? add.city) +
           " - " +
           add.region;
-        console.log("dc", location);
         setAddress(convertAddressStr);
       })();
     });
@@ -455,8 +454,8 @@ const MapRunningScreen = ({ navigation }) => {
           initialRegion={{
             latitude: location.coords.latitude,
             longitude: location.coords.longitude,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421,
+            latitudeDelta: 0.00122,
+            longitudeDelta: 0.00121,
           }}
           showsUserLocation={true}
           mapType="standard"
