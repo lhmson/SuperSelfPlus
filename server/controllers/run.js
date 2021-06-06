@@ -50,3 +50,30 @@ export const updateRunData = async (req, res) => {
       .json({ message: error.message });
   }
 };
+
+export const getRankingRunWorld_week = async (req, res) => {
+  try {
+    const runData = await RunData.find();
+    const userData = await User.find();
+
+    let listRank = runData.map((data) => {
+      return { steps: data.totalStepsWeek, userId: data.userId };
+    });
+    listRank.sort((a, b) => {
+      a.steps >= b.steps;
+    });
+
+    const listRankInfo = listRank.map((data) => {
+      let user;
+      for (let i = 0; i < userData.length; i++)
+        if (userData[i]._id.equals(data.userId)) user = userData[i];
+      return { ...data, username: user?.username };
+    });
+
+    res.status(httpStatusCodes.ok).json(listRankInfo);
+  } catch (error) {
+    res
+      .status(httpStatusCodes.internalServerError)
+      .json({ message: error.message });
+  }
+};

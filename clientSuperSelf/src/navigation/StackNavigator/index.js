@@ -18,6 +18,8 @@ import AddHabitScreen from "../../screens/Habit/AddHabitScreen";
 // import HomeOneScreen from "../../screens/Home/HomeOneScreen.js";
 import MapRunningScreen from "../../screens/Running/MapRunningScreen/index";
 import RankRunningScreen from "../../screens/Running/RankRunningScreen/index";
+import RunningHomeScreen from "../../screens/Running/RunningHome/index";
+import ChartRunningScreen from "../../screens/Running/ChartRunningScreen";
 
 const Stack = createStackNavigator();
 
@@ -46,7 +48,7 @@ const screenOptionStyle = (props) => {
     headerBackTitle: "Back",
     headerTitleStyle: {
       fontFamily: FONT.Nunito_700,
-      fontSize: 28,
+      fontSize: 24,
     },
     headerRight: () => (
       <View
@@ -100,8 +102,10 @@ const HomeStackNavigator = () => {
 const RunningStackNavigator = () => {
   return (
     <Stack.Navigator screenOptions={(props) => screenOptionStyle(props)}>
-      <Stack.Screen name="Running" component={MapRunningScreen} />
+      <Stack.Screen name="Running Home" component={RunningHomeScreen} />
+      <Stack.Screen name="Goal Running" component={MapRunningScreen} />
       <Stack.Screen name="Rank" component={RankRunningScreen} />
+      <Stack.Screen name="Run Charts" component={ChartRunningScreen} />
     </Stack.Navigator>
   );
 };

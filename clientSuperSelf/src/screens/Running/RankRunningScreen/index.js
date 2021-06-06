@@ -36,7 +36,7 @@ const RankRunningScreen = () => {
             height: 220,
             alignItems: "center",
             justifyContent: "center",
-            backgroundColor: COLOR.red,
+            backgroundColor: COLOR.green,
             opacity: 0.5,
             borderRadius: 30,
           }}
@@ -79,16 +79,16 @@ const RankRunningScreen = () => {
           />
 
           <View style={{ flexDirection: "column" }}>
-            <MyText size4 b5 color={COLOR.lightGreen}>
+            <MyText size4 b5 color={"#008000"}>
               Phạm Sanh
             </MyText>
-            <MyText size3 b5 color={COLOR.whiteSmoke}>
+            <MyText size3 b2 color={COLOR.whiteSmoke}>
               176253
             </MyText>
           </View>
 
           <View style={{ marginLeft: 50 }}>
-            <MyText size1 b4 color={COLOR.green}>
+            <MyText size1 b4 color={COLOR.whiteSmoke}>
               No.4
             </MyText>
           </View>
@@ -110,7 +110,7 @@ const RankRunningScreen = () => {
             height: 100,
             alignItems: "center",
             justifyContent: "center",
-            backgroundColor: COLOR.red,
+            backgroundColor: COLOR.green,
             opacity: 0.5,
             borderRadius: 30,
             margin: 8,
@@ -157,7 +157,7 @@ const RankRunningScreen = () => {
           />
 
           <View style={{ flexDirection: "column" }}>
-            <MyText size5 b5 color={COLOR.lightGreen}>
+            <MyText size5 b5 color={"#008000"}>
               Phạm Sanh
             </MyText>
             <MyText size5 b3 color={COLOR.white}>
@@ -192,12 +192,7 @@ const RankRunningScreen = () => {
 
   return (
     <View style={styles.container}>
-      <ImageBackground
-        style={styles.image}
-        source={{
-          uri: "https://i.pinimg.com/564x/a5/6e/60/a56e6086513ebec5e5ef816fbc785df3.jpg",
-        }}
-      >
+      <ImageBackground style={styles.image} source={ICON.rankingBackground}>
         <View style={{ flex: 1 }}>
           <HeaderMyRanking></HeaderMyRanking>
           <ScrollView
@@ -207,10 +202,10 @@ const RankRunningScreen = () => {
               backgroundColor: "transparent",
             }}
           >
-            <CardRankUser No={1} colorNo={COLOR.green}></CardRankUser>
-            <CardRankUser No={2} colorNo={COLOR.orange}></CardRankUser>
+            <CardRankUser No={1} colorNo={COLOR.orange}></CardRankUser>
+            <CardRankUser No={2} colorNo={COLOR.purple}></CardRankUser>
             <CardRankUser No={3} colorNo={COLOR.yellow}></CardRankUser>
-            <CardRankUser No={4} colorNo={COLOR.purple}></CardRankUser>
+            <CardRankUser No={4} colorNo={COLOR.white}></CardRankUser>
             <CardRankUser No={5} colorNo={COLOR.white}></CardRankUser>
             <CardRankUser No={6} colorNo={COLOR.white}></CardRankUser>
           </ScrollView>
