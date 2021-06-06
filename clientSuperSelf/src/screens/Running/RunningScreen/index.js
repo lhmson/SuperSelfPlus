@@ -7,7 +7,7 @@ import styles from "./styles";
 import { Pedometer } from "expo-sensors";
 import * as Location from "expo-location";
 import { updateRunDate } from "../../../api/run";
-import { UserContext } from "../.../../../../context/UserContext";
+import { useUser } from "../.../../../../context/UserContext";
 
 let pastStepCount = 0;
 
@@ -18,7 +18,9 @@ function RunningScreen() {
   //Init Location expo
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
-  const [user, setUser] = useContext(UserContext);
+  // const [user, setUser] = useContext(UserContext);
+  const user = useUser();
+  const { username, email, uid, isLoggedIn, profilePhotoUrl } = user.state;
 
   let _subscription = null;
 
@@ -72,7 +74,7 @@ function RunningScreen() {
     );
 
     Pedometer.watchStepCount((result) => {
-      updateRunDate(user.uid, { steps: result.steps });
+      updateRunDate(uid, { steps: result.steps });
       setCurrentStepCount(result.steps);
     });
   }

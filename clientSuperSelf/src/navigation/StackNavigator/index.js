@@ -14,6 +14,7 @@ import WorldScreen from "../../screens/World/WorldScreen";
 import SettingScreen from "../../screens/Setting/SettingScreen";
 import TabMaterialNavigator from "../TabMaterialNavigator";
 import HabitsScreen from "../../screens/Habit/HabitsScreen";
+import AddHabitScreen from "../../screens/Habit/AddHabitScreen";
 // import HomeOneScreen from "../../screens/Home/HomeOneScreen.js";
 import MapRunningScreen from "../../screens/Running/MapRunningScreen/index";
 import RankRunningScreen from "../../screens/Running/RankRunningScreen/index";
@@ -57,7 +58,7 @@ const screenOptionStyle = (props) => {
       >
         <TouchableOpacity
           style={{
-            padding: 12,
+            padding: 8,
             flexDirection: "row",
             alignItems: "center",
           }}
@@ -71,7 +72,7 @@ const screenOptionStyle = (props) => {
           <Ionicons name="notifications" size={32} color={COLOR.yellow} />
         </TouchableOpacity>
         <TouchableOpacity
-          style={{ padding: 12, justifyContent: "center" }}
+          style={{ padding: 8, justifyContent: "center" }}
           onPress={() => {
             generateQuotes();
           }}
@@ -91,6 +92,7 @@ const HomeStackNavigator = () => {
     <Stack.Navigator screenOptions={(props) => screenOptionStyle(props)}>
       <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="Habits" component={HabitsScreen} />
+      <Stack.Screen name="Add Habit" component={AddHabitScreen} />
     </Stack.Navigator>
   );
 };

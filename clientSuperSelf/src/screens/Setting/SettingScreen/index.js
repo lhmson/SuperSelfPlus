@@ -5,13 +5,14 @@ import MyText from "../../../components/MyText";
 import COLOR from "../../../constants/colors";
 import styles from "./styles";
 
-// import User from "../../../api/Users";
-import { UserContext } from "../../../context/UserContext";
+import { useUser } from "../../../context/UserContext";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function SettingScreen() {
-  const [user, setUser] = useContext(UserContext);
+  // const [user, setUser] = useContext(UserContext);
+  const user = useUser();
+  const { updateUser } = user;
 
   const handleLogOut = async () => {
     Alert.alert(
@@ -31,7 +32,7 @@ function SettingScreen() {
             // }
             try {
               await AsyncStorage.removeItem("superself_token").then(() =>
-                setUser({ isLoggedIn: false })
+                updateUser({ isLoggedIn: false })
               );
             } catch (error) {
               alert("Error log out");

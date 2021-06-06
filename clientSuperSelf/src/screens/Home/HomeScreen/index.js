@@ -5,13 +5,13 @@ import COLOR from "../../../constants/colors";
 import styles from "./styles";
 import { Entypo } from "@expo/vector-icons";
 import MyButton from "../../../components/MyButton";
-import { UserContext } from "../../../context/UserContext";
+import { useUser } from "../../../context/UserContext";
 
 import * as api from "../../../api/post";
 
 function HomeScreen({ navigation }) {
-  const user = useContext(UserContext);
-
+  // const user = useContext(UserContext);
+  const user = useUser();
   // const [posts, setPosts] = useState();
 
   useEffect(() => {
@@ -31,7 +31,7 @@ function HomeScreen({ navigation }) {
         <MyButton onPress={() => navigation.navigate("Habits")}>
           <MyText>Habit</MyText>
         </MyButton>
-        <MyText>{JSON.stringify(user)}</MyText>
+        <MyText>{JSON.stringify(user.state)}</MyText>
         {/* <MyText>{JSON.stringify(posts)}</MyText> */}
       </View>
     </ScrollView>

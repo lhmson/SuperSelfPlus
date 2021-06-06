@@ -5,15 +5,15 @@ import MyText from "../../components/MyText";
 import styles from "./styles";
 import COLOR from "../../constants/colors";
 import { Container } from "./styles";
-import { UserContext } from "../../context/UserContext";
-// import User from "../../api/Users";
+import { useUser } from "../../context/UserContext";
 // import { SettingContext } from "../context/SettingContext";
 // import { SettingFirebaseContext } from "../context/SettingFirebaseContext";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const LoadingScreen = () => {
-  const [_, setUser] = useContext(UserContext);
+  const user = useUser();
+  const { updateUser } = user;
   const [cancel, setCancel] = useState(false);
 
   useEffect(() => {
@@ -52,18 +52,14 @@ const LoadingScreen = () => {
             { cancelable: false }
           );
         }
-        setUser((state) => ({
-          ...state,
+        updateUser({
           isLoggedIn: true,
           email: userInfo.email,
-          uid: data.result.uid,
+          uid: userInfo.uid,
           username: userInfo.username,
-          // gender: userInfo.gender,
-          // birthday: userInfo.birthday,
-          // profilePhotoUrl: userInfo.profilePhotoUrl,
-        }));
+        });
       } else {
-        setUser((state) => ({ ...state, isLoggedIn: false })); //hihi
+        updateUser((state) => ({ ...state, isLoggedIn: false }));
       }
     }, 2300);
   }, [cancel]);

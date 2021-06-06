@@ -15,7 +15,7 @@ const MyCard = ({ ...props }) => {
 
 const CustomCard = styled(Card)`
   margin: 12px 0;
-  padding: 10px;
+  padding: 5px;
   background-color: ${(props) => props.color ?? COLOR.white};
   border-radius: 10px;
   elevation: 5;

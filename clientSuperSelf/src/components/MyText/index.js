@@ -1,16 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import COLOR from "../../constants/colors";
-import { width } from "../../constants/dimensions";
-
-const SCREEN_WIDTH = width; // get current width
-const SCALE = 375; // constant, 375 is standard width of  iphone 6 / 7 / 8
-
-const scaleFontSize = (fontSize) => {
-  const ratio = fontSize / SCALE; // get ratio based on your standard scale
-  const newSize = Math.round(ratio * SCREEN_WIDTH);
-  return newSize;
-};
+import { scaleFontSize } from "../../constants/dimensions";
 
 const MyText = ({ ...props }) => {
   return <Text {...props}>{props.children}</Text>;
@@ -18,7 +9,7 @@ const MyText = ({ ...props }) => {
 
 const Text = styled.Text`
   color: ${(props) => props.color ?? COLOR.black};
-  ${({ size1, size2, size3, size4, size5 }) => {
+  ${({ size1, size2, size3, size4, size5, size6 }) => {
     switch (true) {
       case size1:
         return `font-size:${scaleFontSize(42).toString()}px;`;
@@ -30,6 +21,8 @@ const Text = styled.Text`
         return `font-size:${scaleFontSize(24).toString()}px;`;
       case size5:
         return `font-size:${scaleFontSize(15).toString()}px;`;
+      case size6:
+        return `font-size:${scaleFontSize(12).toString()}px;`;
       default:
         return `font-size:${scaleFontSize(20).toString()}px;`;
     }

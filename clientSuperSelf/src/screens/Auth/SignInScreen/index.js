@@ -9,8 +9,7 @@ import MyButton from "../../../components/MyButton";
 import Loading from "../../../components/Loading";
 import MyTextInput from "../../../components/MyTextInput";
 
-import { UserContext } from "../../../context/UserContext";
-// import User from "../../../api/Users";
+import { useUser } from "../../../context/UserContext";
 
 import * as api from "../../../api/auth";
 
@@ -22,9 +21,9 @@ function SignInScreen({ navigation }) {
   const [isPasswordShown, setIsPasswordShown] = useState(true);
   const [eyeIcon, setEyeIcon] = useState("eye");
   const [loading, setLoading] = useState(false);
-  const [_, setUser] = useContext(UserContext);
-  // const [_setting, setSetting] = useContext(SettingContext);
-  // const settingFirebase = useContext(SettingFirebaseContext);
+
+  const user = useUser();
+  const { updateUser } = user;
 
   const eye = <Entypo name={eyeIcon} size={24} color="black" />;
 
@@ -45,7 +44,7 @@ function SignInScreen({ navigation }) {
       .then(async (res) => {
         const signedUser = res.data.result;
         const token = res.data.token;
-        setUser({
+        updateUser({
           username: signedUser.username,
           email,
           uid: signedUser._id,
@@ -73,9 +72,6 @@ function SignInScreen({ navigation }) {
         console.log("Error when logging in", error);
       })
       .finally(() => setLoading(false));
-
-    // const userInfo = await User.getUserInfo(uid);
-    // const settingInfo = await settingFirebase.getSettingInfo(uid);
   };
 
   return (

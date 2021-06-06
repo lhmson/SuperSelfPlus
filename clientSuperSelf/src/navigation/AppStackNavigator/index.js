@@ -5,19 +5,21 @@ import LoadingScreen from "../../screens/LoadingScreen";
 import OnboardingScreen from "../../screens/OnboardingScreen";
 import AuthStackNavigator from "../AuthStackNavigator";
 import DrawerNavigator from "../DrawerNavigator";
-import { UserContext } from "../../context/UserContext";
+import { useUser } from "../../context/UserContext";
 
 const AppStackNavigator = () => {
   const AppStack = createStackNavigator();
-  const [user] = useContext(UserContext);
+  const user = useUser();
+
+  const { isLoggedIn } = user.state;
 
   return (
     <>
       <StatusBar translucent backgroundColor="transparent" />
       <AppStack.Navigator headerMode="none">
-        {user.isLoggedIn === null ? (
+        {isLoggedIn === null ? (
           <AppStack.Screen name="Loading" component={LoadingScreen} />
-        ) : user.isLoggedIn ? (
+        ) : isLoggedIn ? (
           <AppStack.Screen name="Main" component={DrawerNavigator} />
         ) : (
           <>

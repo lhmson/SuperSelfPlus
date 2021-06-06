@@ -16,8 +16,8 @@ import styles from "../styles";
 
 import COLOR from "../../../constants/colors";
 
-import { UserContext } from "../../../context/UserContext";
-// import User from "../../../api/Users";
+import { useUser } from "../../../context/UserContext";
+
 import * as api from "../../../api/auth";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -32,7 +32,8 @@ function SignUpScreen({ navigation }) {
   const [eyeIcon, setEyeIcon] = useState("eye");
   const [loading, setLoading] = useState();
   // const [profilePhoto, setProfilePhoto] = useState();
-  const [_, setUser] = useContext(UserContext);
+  const user = useUser();
+  const { updateUser } = user;
 
   const eye = <Entypo name={eyeIcon} size={24} color="black" />;
 
@@ -145,7 +146,8 @@ function SignUpScreen({ navigation }) {
       .then(async (res) => {
         const signedUser = res.data.result;
         const token = res.data.token;
-        setUser({ username, email, uid: signedUser._id, isLoggedIn: true });
+        updateUser({ username, email, uid: signedUser._id, isLoggedIn: true });
+
         await createRunData(signedUser._id);
         try {
           const data = {

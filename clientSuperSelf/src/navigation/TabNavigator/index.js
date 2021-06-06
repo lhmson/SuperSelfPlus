@@ -80,8 +80,8 @@ const BottomTabNavigator = ({ navigation }) => {
             style: {
               height: 80,
               // elevation: 0,
-              borderRadius: 15,
-              margin: 10,
+              // borderRadius: 15,
+              // margin: 10,
             },
             tabStyle: {
               margin: 10,

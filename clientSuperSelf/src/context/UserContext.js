@@ -1,9 +1,23 @@
-import React, { useState, createContext } from "react";
+import React, { createContext, useMemo, useContext, useReducer } from "react";
 
-const UserContext = createContext([{}, () => {}]);
+const UserContext = createContext();
 
-const UserProvider = (props) => {
-  const [state, setState] = useState({
+function userReducer(state, action) {
+  switch (action.type) {
+    case "UPDATE_USER": {
+      return action.payload.newUser;
+    }
+    case "LOGIN": {
+      return { ...state };
+    }
+    default: {
+      throw new Error(`Unsupported action type: ${action.type}`);
+    }
+  }
+}
+
+function UserProvider(props) {
+  const [state, dispatch] = useReducer(userReducer, {
     username: "",
     email: "",
     uid: "",
@@ -12,12 +26,32 @@ const UserProvider = (props) => {
     // birthday: new Date(),
     // gender: "Male",
   });
+  const value = useMemo(() => [state, dispatch], [state]);
+  return <UserContext.Provider value={value} {...props} />;
+}
 
-  return (
-    <UserContext.Provider value={[state, setState]}>
-      {props.children}
-    </UserContext.Provider>
-  );
-};
+function useUser() {
+  const context = useContext(UserContext);
+  // console.log("user", context);
+  if (!context) {
+    throw new Error("useUser must be used within a UserProvider");
+  }
 
-export { UserContext, UserProvider };
+  const [state, dispatch] = context;
+
+  const updateUser = (newUser) => {
+    dispatch({
+      type: "UPDATE_USER",
+      payload: { newUser },
+    });
+  };
+
+  return {
+    state,
+    updateUser,
+  };
+}
+
+export { UserProvider, useUser };
+
+// export default UserContext;
