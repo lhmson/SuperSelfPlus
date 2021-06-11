@@ -49,6 +49,7 @@
     "react-native-gesture-handler": "^1.10.3",
     "react-native-gifted-chat": "^0.16.3",
     "react-native-maps": "0.27.1",
+    "react-native-modal": "^11.10.0",
     "react-native-onboarding-swiper": "^1.1.4",
     "react-native-paper": "^4.8.1",
     "react-native-reanimated": "^2.2.0",

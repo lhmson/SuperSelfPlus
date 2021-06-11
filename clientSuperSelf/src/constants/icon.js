@@ -13,6 +13,7 @@ const framePedometer = require("../utils/resources/IconRunning/framePedometer.gi
 const peopleRun = require("../utils/resources/IconRunning/runPeople.png");
 const speed = require("../utils/resources/IconRunning/speed.png");
 const heart = require("../utils/resources/IconRunning/heart.png");
+const plan = require("../utils/resources/IconRunning/plan.jpg");
 
 export default {
   shoe,
@@ -30,4 +31,5 @@ export default {
   peopleRun,
   speed,
   heart,
+  plan,
 };

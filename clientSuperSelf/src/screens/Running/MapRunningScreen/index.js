@@ -22,6 +22,7 @@ import {
   TouchableHighlight,
   TouchableWithoutFeedback,
 } from "@gorhom/bottom-sheet";
+import ModalSetupPlan from "./modalSetupPlan";
 
 const WIDTH = Dimensions.get("window").width;
 const HEIGHT = Dimensions.get("window").height;
@@ -31,6 +32,7 @@ const MapRunningScreen = ({ navigation }) => {
   const [userLocation, setUserLocation] = useState();
   const [roadRunCoordinate, setRoadRunCoordinate] = useState([]);
   const [location, setLocation] = useState(null);
+  const [statusModal, setStatusModal] = useState("No Plan");
 
   const DestinationHeader = ({ location }) => {
     const [address, setAddress] = useState("GPS Loading...");
@@ -49,7 +51,7 @@ const MapRunningScreen = ({ navigation }) => {
           add.region;
         setAddress(convertAddressStr);
       })();
-    });
+    }, [userLocation]);
     return (
       <View
         style={{
@@ -91,20 +93,10 @@ const MapRunningScreen = ({ navigation }) => {
       </View>
     );
   };
+
   const DestinationFooter = () => {
-    return (
-      <View
-        style={{
-          alignItems: "center",
-          justifyContent: "center",
-          flexDirection: "column",
-          alignItems: "center",
-          width: WIDTH,
-          paddingHorizontal: 8 * 2,
-          borderRadius: 30,
-          backgroundColor: COLOR.white,
-        }}
-      >
+    const ButtonSetup = () => {
+      return (
         <View>
           <View
             style={{
@@ -115,33 +107,47 @@ const MapRunningScreen = ({ navigation }) => {
           >
             <View style={{ marginRight: 24 }}>
               <CountDown
-                until={60 * 10 + 30}
+                until={60 * 10}
                 size={25}
                 onFinish={() => alert("Finished")}
                 digitStyle={{ backgroundColor: COLOR.white }}
                 digitTxtStyle={{ color: COLOR.green }}
                 timeLabelStyle={{ color: "transparent" }}
                 timeToShow={["M", "S"]}
-                running={false}
+                running={statusModal === "Run"}
               />
             </View>
-            <MyButton
-              size5
-              onPress={() => {}}
-              color={COLOR.green}
-              style={{ marginRight: 24 }}
+            <TouchableOpacity
+              onPress={() => {
+                if (statusModal === "No Plan") setStatusModal("Setup");
+                else alert("You're running, finished it to setup again!");
+              }}
             >
-              <MyText b5 color={COLOR.white}>
-                RUN
-              </MyText>
-            </MyButton>
-            <MyButton size5 onPress={() => {}} color={COLOR.green}>
-              <MyText b5 color={COLOR.white}>
-                STOP
-              </MyText>
-            </MyButton>
+              <MyButton size5 color={COLOR.green} style={{ marginRight: 24 }}>
+                <MyText b5 color={COLOR.white}>
+                  RUN
+                </MyText>
+              </MyButton>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={() => {
+                if (statusModal === "Run") setStatusModal("No Plan");
+                else alert("You still have a plan to stop!");
+              }}
+            >
+              <MyButton size5 onPress={() => {}} color={COLOR.green}>
+                <MyText b5 color={COLOR.white}>
+                  STOP
+                </MyText>
+              </MyButton>
+            </TouchableOpacity>
           </View>
         </View>
+      );
+    };
+    const ListCardRun = () => {
+      return (
         <View style={{}}>
           <View
             style={{
@@ -165,7 +171,7 @@ const MapRunningScreen = ({ navigation }) => {
                 }}
               />
               <MyText size5 b6>
-                50
+                0
               </MyText>
             </MyCard>
 
@@ -184,7 +190,7 @@ const MapRunningScreen = ({ navigation }) => {
                 }}
               />
               <MyText size5 b6>
-                3km
+                0
               </MyText>
             </MyCard>
             <View style={{ width: _marginButton }}></View>
@@ -214,6 +220,23 @@ const MapRunningScreen = ({ navigation }) => {
             <View style={{ width: _marginButton }}></View>
           </View>
         </View>
+      );
+    };
+    return (
+      <View
+        style={{
+          alignItems: "center",
+          justifyContent: "center",
+          flexDirection: "column",
+          alignItems: "center",
+          width: WIDTH,
+          paddingHorizontal: 8 * 2,
+          borderRadius: 30,
+          backgroundColor: COLOR.white,
+        }}
+      >
+        <ButtonSetup></ButtonSetup>
+        <ListCardRun></ListCardRun>
       </View>
     );
   };
@@ -449,6 +472,10 @@ const MapRunningScreen = ({ navigation }) => {
   if (location)
     return (
       <View style={styles.container}>
+        <ModalSetupPlan
+          statusModal={statusModal}
+          setStatusModal={setStatusModal}
+        ></ModalSetupPlan>
         <MapView
           style={styles.map}
           initialRegion={{
