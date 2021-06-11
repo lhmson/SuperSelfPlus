@@ -13,7 +13,13 @@ import ICON from "../../../constants/icon";
 const WIDTH = Dimensions.get("window").width;
 const HEIGHT = Dimensions.get("window").height;
 
-function ModalSetupPlan({ statusModal, setStatusModal }) {
+function ModalSetupPlan({
+  statusModal,
+  setStatusModal,
+  assignMinutes,
+  assignDistance,
+  assignNoti,
+}) {
   const cancelSetup = () => {
     setStatusModal("No Plan");
   };
@@ -35,8 +41,8 @@ function ModalSetupPlan({ statusModal, setStatusModal }) {
         <Image
           source={ICON.plan}
           style={{
-            width: 200,
-            height: 200,
+            width: 150,
+            height: 150,
             borderRadius: 100,
           }}
         />
@@ -45,16 +51,19 @@ function ModalSetupPlan({ statusModal, setStatusModal }) {
           keyboardType="numeric"
           size4
           long1
+          onChangeText={(m) => assignMinutes(Number(m))}
         ></MyTextInput>
         <MyTextInput
           placeholder="Distance (meters)"
           keyboardType="numeric"
           size4
           long1
+          onChangeText={(m) => assignDistance(Number(m))}
         ></MyTextInput>
         <View style={{ width: "100%", flexDirection: "row" }}>
           <MySwitch
             onValueChange={() => {
+              assignNoti(!noti);
               setNoti(!noti);
             }}
             value={noti}

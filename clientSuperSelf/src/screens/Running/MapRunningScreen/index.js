@@ -23,25 +23,50 @@ import {
   TouchableWithoutFeedback,
 } from "@gorhom/bottom-sheet";
 import ModalSetupPlan from "./modalSetupPlan";
+import ModalTimeOut from "./modalTimeout";
+import ModalFinish from "./modalFinishGoal";
 
 const WIDTH = Dimensions.get("window").width;
 const HEIGHT = Dimensions.get("window").height;
 const _marginButton = (WIDTH - 350) / 4;
 
+let minutes = 0;
+let distance = 0;
+let noti = true;
+
 const MapRunningScreen = ({ navigation }) => {
+  //#region hook
   const [userLocation, setUserLocation] = useState();
   const [roadRunCoordinate, setRoadRunCoordinate] = useState([]);
   const [location, setLocation] = useState(null);
   const [statusModal, setStatusModal] = useState("No Plan");
+  const [countSteps, setCountSteps] = useState(0);
+  const [countDistance, setCountDistance] = useState(0);
+  const [isModalTimeOut, setIsModalTimeOut] = useState(true);
+  const [isModalFinish, setIsModalFinish] = useState(true);
+  //#endregion
 
-  const DestinationHeader = ({ location }) => {
+  //#region sub function
+  const assignMinutes = (m) => {
+    minutes = m;
+  };
+
+  const assignDistance = (d) => {
+    distance = d;
+  };
+
+  const assignNoti = (n) => {
+    noti = n;
+  };
+
+  const DestinationHeader = ({ pos }) => {
     const [address, setAddress] = useState("GPS Loading...");
     useEffect(() => {
       (async () => {
         if (!location) return;
         let add = await Location.reverseGeocodeAsync({
-          longitude: location?.longitude,
-          latitude: location?.latitude,
+          longitude: pos?.longitude,
+          latitude: pos?.latitude,
         });
         add = add[0];
         let convertAddressStr =
@@ -51,7 +76,7 @@ const MapRunningScreen = ({ navigation }) => {
           add.region;
         setAddress(convertAddressStr);
       })();
-    }, [userLocation]);
+    }, [userLocation, location]);
     return (
       <View
         style={{
@@ -95,6 +120,29 @@ const MapRunningScreen = ({ navigation }) => {
   };
 
   const DestinationFooter = () => {
+    const initRunData = () => {
+      minutes = distance = 0;
+      noti = true;
+      setCountSteps(0);
+      setCountDistance(0);
+      setCountDistance(0);
+      setCountSteps(0);
+    };
+
+    const onPressRun = () => {
+      if (statusModal === "No Plan") {
+        initRunData();
+        setStatusModal("Setup");
+      } else alert("You're running, finished it to setup again!");
+    };
+
+    const onPressStop = () => {
+      if (statusModal === "Run") {
+        setStatusModal("No Plan");
+        initRunData();
+      } else alert("You still have a plan to stop!");
+    };
+
     const ButtonSetup = () => {
       return (
         <View>
@@ -107,22 +155,17 @@ const MapRunningScreen = ({ navigation }) => {
           >
             <View style={{ marginRight: 24 }}>
               <CountDown
-                until={60 * 10}
+                until={minutes * 60}
                 size={25}
                 onFinish={() => alert("Finished")}
                 digitStyle={{ backgroundColor: COLOR.white }}
                 digitTxtStyle={{ color: COLOR.green }}
                 timeLabelStyle={{ color: "transparent" }}
                 timeToShow={["M", "S"]}
-                running={statusModal === "Run"}
+                running={statusModal === "Run" && minutes > 0}
               />
             </View>
-            <TouchableOpacity
-              onPress={() => {
-                if (statusModal === "No Plan") setStatusModal("Setup");
-                else alert("You're running, finished it to setup again!");
-              }}
-            >
+            <TouchableOpacity onPress={onPressRun}>
               <MyButton size5 color={COLOR.green} style={{ marginRight: 24 }}>
                 <MyText b5 color={COLOR.white}>
                   RUN
@@ -130,12 +173,7 @@ const MapRunningScreen = ({ navigation }) => {
               </MyButton>
             </TouchableOpacity>
 
-            <TouchableOpacity
-              onPress={() => {
-                if (statusModal === "Run") setStatusModal("No Plan");
-                else alert("You still have a plan to stop!");
-              }}
-            >
+            <TouchableOpacity onPress={onPressStop}>
               <MyButton size5 onPress={() => {}} color={COLOR.green}>
                 <MyText b5 color={COLOR.white}>
                   STOP
@@ -146,6 +184,7 @@ const MapRunningScreen = ({ navigation }) => {
         </View>
       );
     };
+
     const ListCardRun = () => {
       return (
         <View style={{}}>
@@ -171,7 +210,7 @@ const MapRunningScreen = ({ navigation }) => {
                 }}
               />
               <MyText size5 b6>
-                0
+                {countSteps}
               </MyText>
             </MyCard>
 
@@ -190,36 +229,52 @@ const MapRunningScreen = ({ navigation }) => {
                 }}
               />
               <MyText size5 b6>
-                0
+                {countDistance}
               </MyText>
             </MyCard>
             <View style={{ width: _marginButton }}></View>
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate("Rank");
+            <MyCard
+              style={{
+                flexDirection: "column",
+                alignItems: "center",
               }}
             >
-              <MyCard
+              <Image
+                source={ICON.goal}
                 style={{
-                  flexDirection: "column",
-                  alignItems: "center",
+                  width: 50,
+                  height: 50,
                 }}
-              >
-                <Image
-                  source={ICON.goal}
-                  style={{
-                    width: 50,
-                    height: 50,
-                  }}
-                />
-                <MyText size5 b6>
-                  Rank
-                </MyText>
-              </MyCard>
-            </TouchableOpacity>
+              />
+              <MyText size5 b6>
+                {distance - countDistance}
+              </MyText>
+            </MyCard>
+
             <View style={{ width: _marginButton }}></View>
           </View>
         </View>
+      );
+    };
+
+    const Rank = () => {
+      return (
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate("Rank");
+          }}
+        >
+          <MyCard
+            style={{
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <MyText size5 b6 color={COLOR.green}>
+              Go to ranking!
+            </MyText>
+          </MyCard>
+        </TouchableOpacity>
       );
     };
     return (
@@ -237,6 +292,7 @@ const MapRunningScreen = ({ navigation }) => {
       >
         <ButtonSetup></ButtonSetup>
         <ListCardRun></ListCardRun>
+        <Rank></Rank>
       </View>
     );
   };
@@ -429,6 +485,7 @@ const MapRunningScreen = ({ navigation }) => {
   ];
 
   const pushCoordinateIntoRoad = (coor) => {
+    if (statusModal !== "Run") return;
     //start run
     if (roadRunCoordinate.length === 0) {
       setUserLocation(coor);
@@ -436,12 +493,13 @@ const MapRunningScreen = ({ navigation }) => {
       return;
     }
 
-    if (
-      getPreciseDistance(
-        roadRunCoordinate[roadRunCoordinate.length - 1],
-        coor
-      ) >= 5
-    ) {
+    let preDistance = getPreciseDistance(
+      roadRunCoordinate[roadRunCoordinate.length - 1],
+      coor
+    );
+    if (preDistance >= 5) {
+      setCountDistance(countDistance + preDistance);
+      setCountSteps(countSteps + Math.floor(Math.random() * 7) + 7);
       setUserLocation(coor);
       setRoadRunCoordinate([...roadRunCoordinate, coor]);
       return;
@@ -449,7 +507,7 @@ const MapRunningScreen = ({ navigation }) => {
   };
 
   // variables
-  const snapPoints = useMemo(() => ["2%", "40%"], []);
+  const snapPoints = useMemo(() => ["2%", "50%"], []);
 
   // callbacks
   const handleSheetChanges = useCallback((index) => {
@@ -468,51 +526,77 @@ const MapRunningScreen = ({ navigation }) => {
       setLocation(location);
     })();
   }, []);
+  //#endregion
+
+  const Modals = () => {
+    return (
+      <View>
+        <ModalTimeOut
+          isModalTimeOut={isModalTimeOut}
+          setIsModalTimeOut={setIsModalTimeOut}
+        ></ModalTimeOut>
+        <ModalFinish
+          isModalFinish={isModalFinish}
+          setIsModalFinish={setIsModalFinish}
+        ></ModalFinish>
+        <ModalSetupPlan
+          statusModal={statusModal}
+          setStatusModal={setStatusModal}
+          assignMinutes={assignMinutes}
+          assignDistance={assignDistance}
+          assignNoti={assignNoti}
+        ></ModalSetupPlan>
+      </View>
+    );
+  };
+
+  const Map = () => {
+    return (
+      <MapView
+        style={styles.map}
+        initialRegion={{
+          latitude: location.coords.latitude,
+          longitude: location.coords.longitude,
+          latitudeDelta: 0.00122,
+          longitudeDelta: 0.00121,
+        }}
+        showsUserLocation={true}
+        mapType="standard"
+        followsUserLocation={true}
+        // customMapStyle={mapDarkStyle}
+        showsTraffic={true}
+        tintColor={COLOR.green}
+        showsMyLocationButton={true}
+        zoomEnabled={true}
+        onUserLocationChange={(locationChangedResult) => {
+          pushCoordinateIntoRoad(locationChangedResult.nativeEvent.coordinate);
+        }}
+      >
+        {roadRunCoordinate[0] ? (
+          <Marker coordinate={roadRunCoordinate[0] ?? null}>
+            <Image
+              source={ICON.startRun}
+              style={{ height: 60, width: 60, resizeMode: "contain" }}
+            />
+          </Marker>
+        ) : null}
+        <Polyline
+          coordinates={roadRunCoordinate}
+          strokeColor={COLOR.green}
+          strokeWidth={6}
+        />
+      </MapView>
+    );
+  };
 
   if (location)
     return (
       <View style={styles.container}>
-        <ModalSetupPlan
-          statusModal={statusModal}
-          setStatusModal={setStatusModal}
-        ></ModalSetupPlan>
-        <MapView
-          style={styles.map}
-          initialRegion={{
-            latitude: location.coords.latitude,
-            longitude: location.coords.longitude,
-            latitudeDelta: 0.00122,
-            longitudeDelta: 0.00121,
-          }}
-          showsUserLocation={true}
-          mapType="standard"
-          followsUserLocation={true}
-          // customMapStyle={mapDarkStyle}
-          showsTraffic={true}
-          tintColor={COLOR.green}
-          showsMyLocationButton={true}
-          zoomEnabled={true}
-          onUserLocationChange={(locationChangedResult) => {
-            pushCoordinateIntoRoad(
-              locationChangedResult.nativeEvent.coordinate
-            );
-          }}
-        >
-          {roadRunCoordinate[0] ? (
-            <Marker coordinate={roadRunCoordinate[0] ?? null}>
-              <Image
-                source={ICON.startRun}
-                style={{ height: 60, width: 60, resizeMode: "contain" }}
-              />
-            </Marker>
-          ) : null}
-          <Polyline
-            coordinates={roadRunCoordinate}
-            strokeColor={COLOR.green}
-            strokeWidth={6}
-          />
-        </MapView>
-        <DestinationHeader location={userLocation}></DestinationHeader>
+        <Modals></Modals>
+        <Map></Map>
+        <DestinationHeader
+          pos={userLocation ?? location?.coords}
+        ></DestinationHeader>
         <BottomSheet
           // ref={bottomSheetRef}
           borderRadius={30}
