@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const postSchema = mongoose.Schema(
   {
-    userId: {
+    authorId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },
@@ -14,7 +14,13 @@ const postSchema = mongoose.Schema(
 
     content: {
       type: String,
-      required: true,
+    },
+    urlImage: {
+      type: String,
+    },
+    numberLikes: {
+      type: Number,
+      default: 0,
     },
   },
   {

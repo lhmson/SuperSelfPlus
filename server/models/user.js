@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 
 import { personalHabitSchema } from "./personalHabit.js";
+import { userSettingAppSchema } from "./userSettingApp.js";
 
 const userSchema = mongoose.Schema(
   {
@@ -35,10 +36,43 @@ const userSchema = mongoose.Schema(
     //   ],
     //   default: [],
     // },
-    listAchievements: {
-      // list of
-      type: Array,
+    historyRun: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "HistoryRun",
+    },
+    listFriends: {
+      type: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "User",
+        },
+      ],
       default: [],
+    },
+    listSavePosts: {
+      type: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Post",
+        },
+      ],
+      default: [],
+    },
+    listAchievements: {
+      type: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Achievement",
+        },
+      ],
+      default: [],
+    },
+    setting: {
+      type: userSettingAppSchema,
+    },
+    role: {
+      type: String,
+      enum: ["Admin", "User"],
     },
   },
   { timestamps: true }
