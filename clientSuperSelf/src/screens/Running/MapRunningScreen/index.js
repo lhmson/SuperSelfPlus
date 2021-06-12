@@ -42,8 +42,8 @@ const MapRunningScreen = ({ navigation }) => {
   const [statusModal, setStatusModal] = useState("No Plan");
   const [countSteps, setCountSteps] = useState(0);
   const [countDistance, setCountDistance] = useState(0);
-  const [isModalTimeOut, setIsModalTimeOut] = useState(true);
-  const [isModalFinish, setIsModalFinish] = useState(true);
+  const [isModalTimeOut, setIsModalTimeOut] = useState(false);
+  const [isModalFinish, setIsModalFinish] = useState(false);
   //#endregion
 
   //#region sub function
@@ -127,6 +127,8 @@ const MapRunningScreen = ({ navigation }) => {
       setCountDistance(0);
       setCountDistance(0);
       setCountSteps(0);
+      setRoadRunCoordinate([]);
+      setStatusModal("No Plan");
     };
 
     const onPressRun = () => {
@@ -143,6 +145,10 @@ const MapRunningScreen = ({ navigation }) => {
       } else alert("You still have a plan to stop!");
     };
 
+    const timeOut = () => {
+      initRunData();
+      setIsModalTimeOut(true);
+    };
     const ButtonSetup = () => {
       return (
         <View>
@@ -157,7 +163,7 @@ const MapRunningScreen = ({ navigation }) => {
               <CountDown
                 until={minutes * 60}
                 size={25}
-                onFinish={() => alert("Finished")}
+                onFinish={timeOut}
                 digitStyle={{ backgroundColor: COLOR.white }}
                 digitTxtStyle={{ color: COLOR.green }}
                 timeLabelStyle={{ color: "transparent" }}
@@ -186,6 +192,13 @@ const MapRunningScreen = ({ navigation }) => {
     };
 
     const ListCardRun = () => {
+      let _dis = distance - countDistance;
+      if (_dis <= 0 && countSteps > 0)
+      {
+        initRunData();
+        setIsModalFinish(true);
+      }
+      if (_dis <= 0) _dis = 0;
       return (
         <View style={{}}>
           <View
@@ -247,7 +260,7 @@ const MapRunningScreen = ({ navigation }) => {
                 }}
               />
               <MyText size5 b6>
-                {distance - countDistance}
+                {_dis}
               </MyText>
             </MyCard>
 
