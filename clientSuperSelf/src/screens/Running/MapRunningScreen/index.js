@@ -33,6 +33,10 @@ const _marginButton = (WIDTH - 350) / 4;
 let minutes = 0;
 let distance = 0;
 let noti = true;
+let temp_minutes = 0;
+let temp_distance = 0;
+let temp_steps = 0;
+let temp_realminutes = 0;
 
 const MapRunningScreen = ({ navigation }) => {
   //#region hook
@@ -43,7 +47,7 @@ const MapRunningScreen = ({ navigation }) => {
   const [countSteps, setCountSteps] = useState(0);
   const [countDistance, setCountDistance] = useState(0);
   const [isModalTimeOut, setIsModalTimeOut] = useState(false);
-  const [isModalFinish, setIsModalFinish] = useState(false);
+  const [isModalFinish, setIsModalFinish] = useState(true);
   //#endregion
 
   //#region sub function
@@ -121,6 +125,10 @@ const MapRunningScreen = ({ navigation }) => {
 
   const DestinationFooter = () => {
     const initRunData = () => {
+      temp_minutes = minutes;
+      temp_distance = countDistance;
+      temp_steps = countSteps;
+
       minutes = distance = 0;
       noti = true;
       setCountSteps(0);
@@ -193,8 +201,7 @@ const MapRunningScreen = ({ navigation }) => {
 
     const ListCardRun = () => {
       let _dis = distance - countDistance;
-      if (_dis <= 0 && countSteps > 0)
-      {
+      if (_dis <= 0 && countSteps > 0) {
         initRunData();
         setIsModalFinish(true);
       }
@@ -551,6 +558,8 @@ const MapRunningScreen = ({ navigation }) => {
         <ModalFinish
           isModalFinish={isModalFinish}
           setIsModalFinish={setIsModalFinish}
+          Steps={temp_steps}
+          Distance={temp_distance}
         ></ModalFinish>
         <ModalSetupPlan
           statusModal={statusModal}

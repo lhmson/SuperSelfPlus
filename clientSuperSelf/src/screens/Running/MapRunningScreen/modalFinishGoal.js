@@ -13,7 +13,7 @@ import ICON from "../../../constants/icon";
 const WIDTH = Dimensions.get("window").width;
 const HEIGHT = Dimensions.get("window").height;
 
-function ModalFinish({ isModalFinish, setIsModalFinish }) {
+function ModalFinish({ isModalFinish, setIsModalFinish, Steps, Distance }) {
   const cancelSetup = () => {
     setIsModalFinish(false);
   };
@@ -45,6 +45,55 @@ function ModalFinish({ isModalFinish, setIsModalFinish }) {
       </View>
     );
   };
+  const ListCardRun = () => {
+    return (
+      <View style={{}}>
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <MyCard
+            style={{
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <Image
+              source={ICON.shoe}
+              style={{
+                width: 50,
+                height: 50,
+              }}
+            />
+            <MyText size5 b6>
+              {Steps ?? 0}
+            </MyText>
+          </MyCard>
+          <View style={{ width: 32 }}></View>
+          <MyCard
+            style={{
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <Image
+              source={ICON.map}
+              style={{
+                width: 50,
+                height: 50,
+              }}
+            />
+            <MyText size5 b6>
+              {Distance ?? 0}
+            </MyText>
+          </MyCard>
+        </View>
+      </View>
+    );
+  };
   const ButtonFooter = () => {
     return (
       <View
@@ -69,6 +118,7 @@ function ModalFinish({ isModalFinish, setIsModalFinish }) {
       <Modal isVisible={isModalFinish}>
         <MyCard style={{ flexDirection: "column" }}>
           <MainModal></MainModal>
+          <ListCardRun></ListCardRun>
           <ButtonFooter></ButtonFooter>
         </MyCard>
       </Modal>
