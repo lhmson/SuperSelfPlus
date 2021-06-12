@@ -1,7 +1,8 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-
+import { httpStatusCodes } from "../utils/httpStatusCode.js";
 import User from "../models/user.js";
+import HistoryHabit from "../models/historyHabit.js";
 
 export const signin = async (req, res) => {
   console.log("signin");
@@ -75,6 +76,18 @@ export const signup = async (req, res) => {
   }
 };
 
+// GET post/list/all
+export const getAllUsers = async (req, res) => {
+  try {
+    const users = await User.find();
+    return res.status(httpStatusCodes.ok).json(users);
+  } catch (error) {
+    return res
+      .status(httpStatusCodes.internalServerError)
+      .json({ message: error.message });
+  }
+};
+
 // GET user/:userId
 
 export const getUser = async (req, res) => {
@@ -84,8 +97,10 @@ export const getUser = async (req, res) => {
     await User.findById(userId)
       .populate("userId", "name") // need to populate more item (avatar, )
       .then((user) => {
-        const { username, badges } = user;
-        return res.status(httpStatusCodes.ok).json({ username, badges });
+        const { username, listAchievements, createdAt } = user;
+        return res
+          .status(httpStatusCodes.ok)
+          .json({ username, listAchievements, createdAt });
       })
       .catch((error) => {
         console.log(error);

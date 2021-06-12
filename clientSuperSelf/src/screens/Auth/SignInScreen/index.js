@@ -49,6 +49,7 @@ function SignInScreen({ navigation }) {
           email,
           uid: signedUser._id,
           isLoggedIn: true,
+          createdAt: signedUser.createdAt,
         });
         try {
           const data = {
@@ -57,6 +58,7 @@ function SignInScreen({ navigation }) {
               username: signedUser.username,
               uid: signedUser._id,
               email,
+              createdAt: signedUser.createdAt,
             },
           };
           await AsyncStorage.setItem("superself_token", JSON.stringify(data));

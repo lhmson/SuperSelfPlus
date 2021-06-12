@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
 
+import { personalHabitSchema } from "./personalHabit.js";
+
 const userSchema = mongoose.Schema(
   {
     username: {
@@ -16,17 +18,28 @@ const userSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    badges: {
+    avatarUrl: {
+      type: String,
+    },
+    // newUser: {
+    //   // define new user for guide, badge
+    //   type: Boolean,
+    //   default: true,
+    // },
+    // listPersonalHabits: {
+    //   type: [
+    //     {
+    //       type: mongoose.Schema.Types.ObjectId,
+    //       ref: "PersonalHabit",
+    //     },
+    //   ],
+    //   default: [],
+    // },
+    listAchievements: {
       // list of
       type: Array,
       default: [],
     },
-    newUser: {
-      // define new user for guide, badge
-      type: Boolean,
-      default: true,
-    },
-    // habitsId: { type: mongoose.Schema.Types.ObjectId, ref: Habits },
   },
   { timestamps: true }
 );

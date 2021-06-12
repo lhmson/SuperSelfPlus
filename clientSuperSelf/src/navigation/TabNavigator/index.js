@@ -1,17 +1,11 @@
 import React, { useState } from "react";
-import {
-  StyleSheet,
-  View,
-  KeyboardAvoidingView,
-  ScrollView,
-} from "react-native";
+import { View, KeyboardAvoidingView, ScrollView } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
-import { FontAwesome5, MaterialIcons } from "@expo/vector-icons";
+import { FontAwesome5 } from "@expo/vector-icons";
 import styled from "styled-components";
 import COLOR from "../../constants/colors";
 import FONT from "../../constants/font";
-import ActionButton from "react-native-circular-action-menu";
 
 import {
   HomeStackNavigator,
@@ -53,15 +47,12 @@ const screenOptionStyle = (route) => ({
 });
 
 const BottomTabNavigator = ({ navigation }) => {
-  // const [midBtnSize, setMidBtnSize] = useState(100);
-  // const toggleMidBtnSize = () => {
-  //   midBtnSize === 100 ? setMidBtnSize(200) : setMidBtnSize(100);
-  // };
-
   const setTabBarVisible = (route) => {
     const routeName = getFocusedRouteNameFromRoute(route);
-    const hideOnScreens = [""]; // set name screens for tab hidden
-    if (hideOnScreens.indexOf(routeName) > -1) return false;
+    const hideOnScreens = ["Add Habit"]; // set name screens for tab hidden
+    if (hideOnScreens.indexOf(routeName) > -1) {
+      return false;
+    }
     return true;
   };
 
@@ -122,112 +113,26 @@ const BottomTabNavigator = ({ navigation }) => {
         </Tab.Navigator>
       </View>
 
-      {/* <MidButtonView
-        style={{
-          width: midBtnSize,
-          height: midBtnSize - 20,
-          marginLeft: -midBtnSize / 2,
-        }}
-      >
-        <MidActionButton
-          style={styles.midButton}
-          navigation={navigation}
-          pressButton={() => {
-            toggleMidBtnSize();
-          }}
-        />
-      </MidButtonView> */}
+      {/* <AddToDoButton onPress={() => navigation.navigate("Add Habit")}>
+        <FontAwesome5 name="plus" size={24} color={COLOR.yellow} />
+      </AddToDoButton> */}
     </>
   );
 };
 
-// const MidActionButton = (props) => {
-//   const { navigation, pressButton } = props;
-//   return (
-//     <ActionButton
-//       buttonColor={COLOR.green}
-//       size={50}
-//       style={styles.actionButton}
-//       degrees={320}
-//       onPress={pressButton}
-//       onOverlayPress={pressButton}
-//       icon={
-//         <FontAwesome5
-//           name="rocket"
-//           style={{ color: COLOR.white, fontSize: 20 }}
-//         />
-//       }
-//     >
-//       <ActionButton.Item buttonColor="#transparent">
-//         <View></View>
-//       </ActionButton.Item>
-
-//       <ActionButton.Item
-//         buttonColor={COLOR.red}
-//         size={60}
-//         title="To do"
-//         onPress={() => {
-//           pressButton();
-//           navigation.navigate("Add Todo");
-//         }}
-//         endDegree={0}
-//       >
-//         <FontAwesome5 name="clipboard-list" size={30} color={COLOR.white} />
-//       </ActionButton.Item>
-
-//       <ActionButton.Item
-//         buttonColor={COLOR.yellow}
-//         size={60}
-//         title="My Challenge"
-//         onPress={() => {
-//           pressButton();
-//           // navigation.replace("Challenge");
-//           navigation.navigate("My Challenge");
-//         }}
-//         endDegree={0}
-//       >
-//         <FontAwesome5 name="address-card" size={30} color={COLOR.white} />
-//       </ActionButton.Item>
-
-//       <ActionButton.Item
-//         buttonColor={COLOR.lightBlue}
-//         size={60}
-//         title="Message"
-//         onPress={() => {
-//           pressButton();
-//           navigation.navigate("Message");
-//         }}
-//         endDegree={0}
-//       >
-//         <MaterialIcons name="message" size={30} color={COLOR.white} />
-//       </ActionButton.Item>
-
-//       <ActionButton.Item buttonColor="#transparent">
-//         <View></View>
-//       </ActionButton.Item>
-//     </ActionButton>
-//   );
-// };
-
-// const MidButtonView = styled.View`
-//   ${"" /* border-width: 1px; */}
+// const AddToDoButton = styled.TouchableOpacity`
+//   border-width: 1px;
 //   border-color: rgba(0, 0, 0, 0.2);
 //   align-items: center;
 //   justify-content: center;
-//   ${"" /* width: 200px; */}
-//   height: 200px;
+//   width: 70px;
+//   height: 70px;
 //   position: absolute;
 //   bottom: 45px;
 //   left: 50%;
-//   margin-left: -100px;
-//   ${"" /* background-color: ${COLOR.primary}; */}
-//   border-radius: 50px;
+//   margin-left: -35px;
+//   background-color: ${COLOR.red};
+//   border-radius: 100px;
 // `;
-
-// const styles = StyleSheet.create({
-//   actionButtonIcon: {},
-//   actionButton: {},
-//   midButton: {},
-// });
 
 export default BottomTabNavigator;

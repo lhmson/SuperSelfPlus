@@ -1,0 +1,16 @@
+@hostname = http://localhost
+@port = 5000
+@host = {{hostname}}:{{port}}
+@contentType = application/json
+@createdAt = {{$datetime iso8601}}
+@modifiedBy = {{$processEnv USERNAME}}
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxMjNAZ20uY29tIiwiaWQiOiI2MGMyNjAxOTkwZmI5MzY2OThiYWI5MjEiLCJpYXQiOjE2MjMzNTEzMjV9.TA2COQygIslD_Q9FggnB-Q_dQ7nVNmOY6IuFczcDWbs
+
+###
+
+GET {{host}}/user/list/all HTTP/1.1
+Authorization: Bearer {{token}}
+
+###
+GET {{host}}/user/60c2601990fb936698bab921 HTTP/1.1
+Authorization: Bearer {{token}}

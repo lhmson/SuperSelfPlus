@@ -1,9 +1,8 @@
 import styled from "styled-components";
-import { Dimensions } from "react-native";
+import { StyleSheet } from "react-native";
 import COLOR from "../../constants/colors";
-import FONT from "../../constants/font";
 
-const styles = {
+const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
@@ -63,6 +62,6 @@ const styles = {
   // profilePhoto: {
   //   flex: 1,
   // },
-};
+});
 
 export default styles;

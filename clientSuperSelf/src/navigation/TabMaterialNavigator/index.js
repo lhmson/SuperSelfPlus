@@ -6,6 +6,7 @@ import COLOR from "../../constants/colors";
 import TestComponentScreen from "../../screens/Test/TestComponentScreen";
 import FONT from "../../constants/font";
 import ChartRunningScreen from "../../screens/Running/ChartRunningScreen/index";
+import TestCalendarScreen from "../../screens/Test/TestCalendar";
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -16,6 +17,7 @@ function TabMaterialNavigator() {
       <Tab.Screen name="Test color" component={TestColorScreen} />
       <Tab.Screen name="Test text" component={TestTextScreen} />
       <Tab.Screen name="Test chart" component={ChartRunningScreen} />
+      <Tab.Screen name="Test calendar" component={TestCalendarScreen} />
     </Tab.Navigator>
   );
 }

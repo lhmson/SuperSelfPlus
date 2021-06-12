@@ -1,6 +1,3 @@
-import express from "express";
-import mongoose from "mongoose";
-
 import Post from "../models/post.js";
 import { httpStatusCodes } from "../utils/httpStatusCode.js";
 import User from "../models/user.js";

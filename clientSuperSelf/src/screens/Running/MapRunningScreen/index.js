@@ -47,7 +47,7 @@ const MapRunningScreen = ({ navigation }) => {
           (add.subregion ?? add.city) +
           " - " +
           add.region;
-        console.log("dc", location);
+        // console.log("dc", location);
         setAddress(convertAddressStr);
       })();
     });
@@ -431,7 +431,7 @@ const MapRunningScreen = ({ navigation }) => {
 
   // callbacks
   const handleSheetChanges = useCallback((index) => {
-    console.log("handleSheetChanges", index);
+    // console.log("handleSheetChanges", index);
   }, []);
 
   useEffect(() => {

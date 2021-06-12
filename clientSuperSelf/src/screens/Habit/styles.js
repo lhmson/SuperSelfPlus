@@ -1,9 +1,8 @@
 import styled from "styled-components";
-import { Dimensions } from "react-native";
+import { StyleSheet } from "react-native";
 import COLOR from "../../constants/colors";
-import FONT from "../../constants/font";
 
-const styles = {
+const styles = StyleSheet.create({
   scrollViewContent: {
     flexGrow: 1,
     justifyContent: "center",
@@ -36,6 +35,7 @@ const styles = {
     flexDirection: "row",
     justifyContent: "space-between",
   },
+  // add habit
   picker: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -53,6 +53,7 @@ const styles = {
     top: 25,
     right: 10,
   },
-};
+  // habit list
+});
 
 export default styles;
