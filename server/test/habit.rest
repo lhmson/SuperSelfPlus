@@ -1,0 +1,53 @@
+@hostname = http://localhost
+@port = 5000
+@host = {{hostname}}:{{port}}
+@contentType = application/json
+@createdAt = {{$datetime iso8601}}
+@modifiedBy = {{$processEnv USERNAME}}
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxMjNAZ20uY29tIiwiaWQiOiI2MGMyNjAxOTkwZmI5MzY2OThiYWI5MjEiLCJpYXQiOjE2MjMzNTEzMjV9.TA2COQygIslD_Q9FggnB-Q_dQ7nVNmOY6IuFczcDWbs
+
+###
+
+GET {{host}}/habit/my/list HTTP/1.1
+Authorization: Bearer {{token}}
+
+###
+GET {{host}}/habit/my/60c260e290fb936698bab925 HTTP/1.1
+Authorization: Bearer {{token}}
+
+###
+GET {{host}}/habit/my/list/2021-06-14 HTTP/1.1
+Authorization: Bearer {{token}}
+
+###
+POST {{host}}/habit HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "authorId":"60c2601990fb936698bab921",
+    "title":"Habit one",
+    "description":"info one"
+}
+
+###
+PUT {{host}}/habit/edit/60c260e290fb936698bab924 HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "description":"edited info"
+}
+
+###
+PUT {{host}}/habit/my/edit/60c260e290fb936698bab925 HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "score":0,
+    "isFinish":false
+}
+###
+DELETE {{host}}/habit/60c260e290fb936698bab924 HTTP/1.1
+Authorization: Bearer {{token}}

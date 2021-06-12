@@ -57,6 +57,7 @@ const LoadingScreen = () => {
           email: userInfo.email,
           uid: userInfo.uid,
           username: userInfo.username,
+          createdAt: userInfo.createdAt,
         });
       } else {
         updateUser((state) => ({ ...state, isLoggedIn: false }));

@@ -28,6 +28,8 @@ import HomeScreen from "./src/screens/Home/HomeScreen";
 import Main from "./src/navigation/Main";
 import COLOR from "./src/constants/colors";
 import { UserProvider } from "./src/context/UserContext";
+import { HabitProvider } from "./src/context/HabitContext";
+import Toast from "react-native-toast-message";
 
 export default function App() {
   LogBox.ignoreLogs([
@@ -73,8 +75,11 @@ export default function App() {
           ) : (
             <>
               <UserProvider>
-                <Main />
+                <HabitProvider>
+                  <Main />
+                </HabitProvider>
               </UserProvider>
+              <Toast ref={(ref) => Toast.setRef(ref)} />
             </>
           )}
           <StatusBar style="auto" />

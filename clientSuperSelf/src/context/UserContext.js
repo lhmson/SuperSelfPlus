@@ -23,6 +23,7 @@ function UserProvider(props) {
     uid: "",
     isLoggedIn: null, //hihi
     profilePhotoUrl: "default",
+    createdAt: new Date(),
     // birthday: new Date(),
     // gender: "Male",
   });

@@ -524,7 +524,7 @@ const MapRunningScreen = ({ navigation }) => {
 
   // callbacks
   const handleSheetChanges = useCallback((index) => {
-    console.log("handleSheetChanges", index);
+    // console.log("handleSheetChanges", index);
   }, []);
 
   useEffect(() => {

@@ -31,7 +31,7 @@ import iconsUrl from "../../../utils/resources/iconsUrl";
 
 const errors = ["You should enter title"];
 
-const AddHabitScreen = ({ navigation }) => {
+const DetailHabitScreen = ({ navigation }) => {
   const user = useUser();
   const { updateUser } = user;
 
@@ -394,7 +394,7 @@ const AddHabitScreen = ({ navigation }) => {
       {/* action button */}
       <MyFloatingButton
         // active={isActiveFloatingButton}
-        position="bottomRight"
+        position="topRight"
         onPress={handleAddHabit}
       >
         <Entypo name="plus" size={24} color={COLOR.white} />
@@ -403,4 +403,4 @@ const AddHabitScreen = ({ navigation }) => {
   );
 };
 
-export default AddHabitScreen;
+export default DetailHabitScreen;

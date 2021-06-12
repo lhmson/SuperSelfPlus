@@ -14,6 +14,7 @@ import MyTextInput from "../../../components/MyTextInput";
 
 import Animated from "react-native-reanimated";
 import BottomSheet from "reanimated-bottom-sheet";
+import MyFloatingButton from "../../../components/MyFloatingButton";
 
 function TestComponentScreen() {
   // handle input
@@ -46,7 +47,7 @@ function TestComponentScreen() {
   };
 
   // handle action button
-  const [active, setActive] = useState(false);
+  const [isActiveFloatingButton, setIsActiveFloatingButton] = useState(false);
 
   //#region handle bottom sheet
 
@@ -111,25 +112,24 @@ function TestComponentScreen() {
           {/* <DatePicker /> */}
         </MyCard>
 
-        <Fab
-          active={active}
-          direction="up"
-          containerStyle={{}}
-          style={{ backgroundColor: COLOR.orange }}
-          position="bottomRight"
-          onPress={() => setActive((prev) => !prev)}
+        <MyFloatingButton
+          active={isActiveFloatingButton}
+          onPress={() => {
+            setIsActiveFloatingButton((prev) => !prev);
+          }}
         >
-          <Icon name="share" />
+          <Entypo name="thumbs-up" size={24} color={COLOR.white} />
+          {/* optional */}
           <MyButton style={{ backgroundColor: COLOR.lightGreen }}>
-            <Icon name="logo-whatsapp" />
+            <Entypo name="thumbs-up" size={24} color={COLOR.white} />
           </MyButton>
           <MyButton style={{ backgroundColor: COLOR.blue }}>
-            <Icon name="logo-facebook" />
+            <Entypo name="thumbs-up" size={24} color={COLOR.white} />
           </MyButton>
           <MyButton disabled style={{ backgroundColor: COLOR.red }}>
-            <Icon name="mail" />
+            <Entypo name="thumbs-up" size={24} color={COLOR.white} />
           </MyButton>
-        </Fab>
+        </MyFloatingButton>
       </View>
 
       {/* put outside view to show */}

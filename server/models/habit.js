@@ -1,10 +1,11 @@
 import mongoose from "mongoose";
 
+import { eventInfoSchema } from "./eventInfo.js";
+
 const habitSchema = mongoose.Schema(
   {
-    userId: {
+    authorId: {
       type: mongoose.Schema.Types.ObjectId,
-      required: true,
       ref: "User",
     },
     title: {
@@ -14,43 +15,36 @@ const habitSchema = mongoose.Schema(
     },
     description: {
       type: String,
+      default: "",
     },
-    daysToRemind: {
-      type: [
-        {
-          // weekdays to do it, have option to pick all
-          type: String,
-        },
-      ],
-      default: [],
-      // require:true,
-    },
-    target: {
-      // number of times to do it, -1 for unknown
-      type: Number,
-      // required: true,
-    },
-    // streak: {
-    //   type: Number,
-    //   default: 0,
-    // },
-    datesChecked: {
-      type: [Date],
-      default: [],
-    },
-    reminder: {
-      // time for notifications, handle convert
-      // consider list of many
-      type: Date,
-    },
-    frequency: {
+    color: {
       type: String,
-      enum: ["Daily", "Weekly", "Monthly"],
-      // required: true,
+      default: "#fff",
     },
+    kind: {
+      type: String,
+      enum: ["Do", "Do not", "Run"],
+      default: "Do",
+    },
+    // daysToDo: {
+    //   type: [
+    //     {
+    //       // weekdays to do it
+    //       type: Boolean,
+    //     },
+    //   ],
+    //   default: new Array(7).fill(true),
+    //   require: true,
+    // },
     icon: {
       // icon from list of icons
       type: String,
+    },
+    target: {
+      type: Number,
+    },
+    eventInfo: {
+      type: eventInfoSchema,
     },
   },
   { timestamps: true }

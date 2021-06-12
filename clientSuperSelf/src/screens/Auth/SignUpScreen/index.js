@@ -146,7 +146,13 @@ function SignUpScreen({ navigation }) {
       .then(async (res) => {
         const signedUser = res.data.result;
         const token = res.data.token;
-        updateUser({ username, email, uid: signedUser._id, isLoggedIn: true });
+        updateUser({
+          username,
+          email,
+          uid: signedUser._id,
+          isLoggedIn: true,
+          createdAt: signedUser.createdAt,
+        });
 
         await createRunData(signedUser._id);
         try {
@@ -156,6 +162,7 @@ function SignUpScreen({ navigation }) {
               username: signedUser.username,
               uid: signedUser._id,
               email,
+              createdAt: signedUser.createdAt,
             },
           };
           await AsyncStorage.setItem("superself_token", JSON.stringify(data));
