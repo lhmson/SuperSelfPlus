@@ -10,7 +10,7 @@ import FONT from "../../constants/font";
 import {
   HomeStackNavigator,
   RunningStackNavigator,
-  SettingStackNavigator,
+  ProfileStackNavigator,
   WorldStackNavigator,
 } from "../StackNavigator";
 
@@ -27,9 +27,9 @@ const screenOptionStyle = (route) => ({
         iconName = "running";
         break;
       case "World":
-        iconName = "city";
+        iconName = "font-awesome-flag";
         break;
-      case "Setting":
+      case "Profile":
         iconName = "user-cog";
         break;
       default:
@@ -104,8 +104,8 @@ const BottomTabNavigator = ({ navigation }) => {
             })}
           />
           <Tab.Screen
-            name="Setting"
-            component={SettingStackNavigator}
+            name="Profile"
+            component={ProfileStackNavigator}
             options={({ route }) => ({
               tabBarVisible: setTabBarVisible(route), // set tab hidden for child screen
             })}

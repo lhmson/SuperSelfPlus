@@ -204,7 +204,7 @@ const DetailHabitScreen = ({ navigation, route }) => {
           onHide: () => {}, // called when Toast hides (if `autoHide` was set to `true`)
           onPress: () => {},
         });
-        navigation.navigate("Habits");
+        navigation.navigate("Home");
       })
       .catch((error) => {
         console.log("Error when updating habit", error);
@@ -268,7 +268,7 @@ const DetailHabitScreen = ({ navigation, route }) => {
                   onHide: () => {}, // called when Toast hides (if `autoHide` was set to `true`)
                   onPress: () => {},
                 });
-                navigation.navigate("Habits");
+                navigation.navigate("Home");
               })
               .catch((error) => {
                 alert("Error when delete habit");

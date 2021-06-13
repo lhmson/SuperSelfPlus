@@ -187,7 +187,7 @@ const AddHabitScreen = ({ navigation }) => {
           onHide: () => {}, // called when Toast hides (if `autoHide` was set to `true`)
           onPress: () => {},
         });
-        navigation.navigate("Habits");
+        navigation.navigate("Home");
       })
       .catch((error) => {
         console.log("Error when adding habit", error);

@@ -8,7 +8,11 @@ import {
 import { FontAwesome } from "@expo/vector-icons";
 import styles from "./styles";
 
-import { AboutStackNavigator, TestStackNavigator } from "../StackNavigator";
+import {
+  AboutStackNavigator,
+  SettingStackNavigator,
+  TestStackNavigator,
+} from "../StackNavigator";
 import TabNavigator from "../TabNavigator";
 import COLOR from "../../constants/colors";
 import FONT from "../../constants/font";
@@ -94,8 +98,8 @@ const DrawerNavigator = () => {
         }}
       />
       <Drawer.Screen
-        name="How to"
-        component={AboutStackNavigator}
+        name="Setting"
+        component={SettingStackNavigator}
         options={{
           drawerIcon: ({ focused, size }) => (
             <FontAwesome

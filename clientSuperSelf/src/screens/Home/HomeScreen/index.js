@@ -28,7 +28,7 @@ function HomeScreen({ navigation }) {
     <ScrollView contentContainerStyle={styles.scrollViewContent}>
       <View style={styles.container}>
         <MyText b6>Home screen edit</MyText>
-        <MyButton onPress={() => navigation.navigate("Habits")}>
+        <MyButton onPress={() => navigation.navigate("Home")}>
           <MyText>Habit</MyText>
         </MyButton>
         <MyText>{JSON.stringify(user.state)}</MyText>

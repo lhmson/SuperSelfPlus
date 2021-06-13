@@ -11,7 +11,7 @@ import HomeScreen from "../../screens/Home/HomeScreen";
 import AboutScreen from "../../screens/AboutScreen";
 import RunningScreen from "../../screens/Running/RunningScreen";
 import WorldScreen from "../../screens/World/WorldScreen";
-import SettingScreen from "../../screens/Setting/SettingScreen";
+import ProfileScreen from "../../screens/Profile/ProfileScreen";
 import TabMaterialNavigator from "../TabMaterialNavigator";
 import HabitsScreen from "../../screens/Habit/HabitsScreen";
 import DetailHabitScreen from "../../screens/Habit/DetailHabitScreen";
@@ -22,6 +22,7 @@ import RunningHomeScreen from "../../screens/Running/RunningHome/index";
 import ChartRunningScreen from "../../screens/Running/ChartRunningScreen";
 import PedometerScreen from "../../screens/Running/PedometerScreen/index";
 import HabitStatisticsScreen from "../../screens/Habit/HabitStatisticsScreen";
+import SettingScreen from "../../screens/Setting/SettingScreen";
 
 const Stack = createStackNavigator();
 
@@ -94,8 +95,8 @@ const screenOptionStyle = (props) => {
 const HomeStackNavigator = () => {
   return (
     <Stack.Navigator screenOptions={(props) => screenOptionStyle(props)}>
-      <Stack.Screen name="Home" component={HomeScreen} />
-      <Stack.Screen name="Habits" component={HabitsScreen} />
+      <Stack.Screen name="Home" component={HabitsScreen} />
+      {/* <Stack.Screen name="Habits" component={HabitsScreen} /> */}
       <Stack.Screen name="Add Habit" component={AddHabitScreen} />
       <Stack.Screen name="Detail Habit" component={DetailHabitScreen} />
       <Stack.Screen name="Habit Stats" component={HabitStatisticsScreen} />
@@ -131,6 +132,14 @@ const AboutStackNavigator = () => {
   );
 };
 
+const ProfileStackNavigator = () => {
+  return (
+    <Stack.Navigator screenOptions={(props) => screenOptionStyle(props)}>
+      <Stack.Screen name="Profile" component={ProfileScreen} />
+    </Stack.Navigator>
+  );
+};
+
 const SettingStackNavigator = () => {
   return (
     <Stack.Navigator screenOptions={(props) => screenOptionStyle(props)}>
@@ -153,5 +162,6 @@ export {
   WorldStackNavigator,
   AboutStackNavigator,
   SettingStackNavigator,
+  ProfileStackNavigator,
   TestStackNavigator,
 };

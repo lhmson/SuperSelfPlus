@@ -1,11 +1,5 @@
 import React, { useEffect, useRef, useState, useMemo } from "react";
-import {
-  View,
-  ScrollView,
-  FlatList,
-  TouchableOpacity,
-  ImageBackground,
-} from "react-native";
+import { View, ScrollView, FlatList } from "react-native";
 import styled from "styled-components";
 import styles from "../styles";
 import { useIsFocused } from "@react-navigation/native";
