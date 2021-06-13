@@ -6,6 +6,7 @@ import HistoryHabit from "../models/historyHabit.js";
 import {
   getDateNoTime,
   getDatesBetweenTwoDays,
+  getHourAndMinute,
 } from "../utils/aboutDateTime.js";
 
 //#region CRUD
@@ -99,6 +100,12 @@ export const getAHabitOfMe = async (req, res) => {
         .send(`There's no personal habit with id ${personalHabitId}`);
     }
 
+    if (!personalHabit.userId.equals(req.userId)) {
+      return res
+        .status(httpStatusCodes.unauthorized)
+        .json({ message: "You are not the user of this personal habit" });
+    }
+
     // const personalHabitObj = personalHabit.toObject();
     // console.log("personal obj", personalHabitObj);
     return res.status(httpStatusCodes.ok).json(personalHabit);
@@ -121,7 +128,7 @@ export const getMyHabitsOfDate = async (req, res) => {
   );
 
   const rawDate = getDateNoTime(date);
-  console.log(rawDate);
+  // console.log(rawDate);
 
   // const items = await HistoryHabit.find({
   //   date: {
@@ -193,7 +200,7 @@ export const addHabit = async (req, res) => {
   // console.log(dates);
 
   for (let i = 0; i < 21; i++) {
-    console.log(dates[i]);
+    // console.log(dates[i]);
     await HistoryHabit.create({
       personalHabitId: newPersonalHabit._id,
       userId: authorId,
@@ -218,50 +225,61 @@ export const addHabit = async (req, res) => {
 };
 
 // PUT habit/edit/:habitId
-export const updateHabit = async (req, res) => {
-  const { habitId } = req.params;
-  const habit = req.body;
-  try {
-    if (!habit)
-      return res
-        .status(httpStatusCodes.badContent)
-        .send(`Update habit information is required`);
+// export const updateHabit = async (req, res) => {
+//   const { habitId } = req.params;
+//   const habit = req.body;
+//   try {
+//     if (!habit)
+//       return res
+//         .status(httpStatusCodes.badContent)
+//         .send(`Update habit information is required`);
 
-    const foundHabit = await Habit.findById(habitId);
+//     const foundHabit = await Habit.findById(habitId);
 
-    if (!foundHabit)
-      return res
-        .status(httpStatusCodes.notFound)
-        .send(`Cannot find a habit with id: ${habitId}`);
+//     if (!foundHabit)
+//       return res
+//         .status(httpStatusCodes.notFound)
+//         .send(`Cannot find a habit with id: ${habitId}`);
 
-    if (!foundHabit.authorId.equals(req.userId)) {
-      return res
-        .status(httpStatusCodes.unauthorized)
-        .json({ message: "You are not the owner of this habit" });
-    }
+//     if (!foundHabit.authorId.equals(req.userId)) {
+//       return res
+//         .status(httpStatusCodes.unauthorized)
+//         .json({ message: "You are not the owner of this habit" });
+//     }
 
-    const updatedHabit = {
-      ...habit,
-      _id: habitId,
-    };
+//     const updatedHabit = {
+//       ...habit,
+//       _id: habitId,
+//     };
 
-    console.log("update habit", updatedHabit);
+//     console.log("update habit", updatedHabit);
 
-    await Habit.findByIdAndUpdate(habitId, updatedHabit, { new: true });
-    return res.status(httpStatusCodes.ok).json(updatedHabit);
-  } catch (error) {
-    return res
-      .status(httpStatusCodes.internalServerError)
-      .json({ message: error.message });
-  }
-};
+//     await Habit.findByIdAndUpdate(habitId, updatedHabit, { new: true });
+//     return res.status(httpStatusCodes.ok).json(updatedHabit);
+//   } catch (error) {
+//     return res
+//       .status(httpStatusCodes.internalServerError)
+//       .json({ message: error.message });
+//   }
+// };
 
 // PUT habit/my/edit/:personalHabitId
-export const updatePersonalHabit = async (req, res) => {
+export const updateMyHabit = async (req, res) => {
   const { personalHabitId } = req.params;
-  const personalHabit = req.body;
+  const sentInfo = req.body;
+  const {
+    title,
+    description,
+    color,
+    kind,
+    // daysToDo,
+    icon,
+    target,
+    // eventInfo,
+    reminder,
+  } = sentInfo;
   try {
-    if (!personalHabit)
+    if (!sentInfo)
       return res
         .status(httpStatusCodes.badContent)
         .send(`Update habit information is required`);
@@ -273,25 +291,66 @@ export const updatePersonalHabit = async (req, res) => {
         .status(httpStatusCodes.notFound)
         .send(`Cannot find personal habit with id: ${personalHabitId}`);
 
-    console.log(req.userId);
-
     if (!foundPersonalHabit.userId.equals(req.userId)) {
       return res
         .status(httpStatusCodes.unauthorized)
         .json({ message: "You are not the user of this personal habit" });
     }
 
-    const updatedHabit = {
-      ...personalHabit,
-      _id: personalHabitId,
-    };
+    const relativeHabit = await Habit.findById(foundPersonalHabit.habitId);
 
-    console.log("update personal", updatedHabit);
+    if (!relativeHabit)
+      return res
+        .status(httpStatusCodes.notFound)
+        .send(`Cannot find a habit with id: ${foundPersonalHabit.habitId}`);
 
-    await PersonalHabit.findByIdAndUpdate(personalHabitId, updatedHabit, {
-      new: true,
-    });
-    return res.status(httpStatusCodes.ok).json(updatedHabit);
+    // you are owner of habit
+    if (relativeHabit.authorId.equals(req.userId)) {
+      const updatedHabit = {
+        title,
+        description,
+        color,
+        kind,
+        // daysToDo,
+        icon,
+        target,
+        // eventInfo,
+        _id: foundPersonalHabit.habitId,
+      };
+      // console.log("update habit", updatedHabit);
+      await Habit.findByIdAndUpdate(updatedHabit._id, updatedHabit, {
+        new: true,
+      });
+    }
+    // console.log("found personal", foundPersonalHabit);
+    // update reminder, isFinish, score
+    if (
+      getHourAndMinute(reminder).toString() !==
+      getHourAndMinute(foundPersonalHabit.reminder).toString()
+    ) {
+      console.log("reminder", reminder);
+      // console.log("found personal", foundPersonalHabit);
+      const updatedPersonalHabit = {
+        ...foundPersonalHabit.toObject(),
+        reminder,
+        _id: personalHabitId,
+      };
+
+      console.log("update personal", updatedPersonalHabit);
+
+      await PersonalHabit.findByIdAndUpdate(
+        personalHabitId,
+        updatedPersonalHabit,
+        {
+          new: true,
+        }
+      );
+      return res.status(httpStatusCodes.ok).json(updatedPersonalHabit);
+    } else {
+      return res
+        .status(httpStatusCodes.noContent)
+        .json({ message: "Personal habit has not changed" });
+    }
   } catch (error) {
     return res
       .status(httpStatusCodes.internalServerError)
@@ -312,6 +371,7 @@ export const deleteHabit = async (req, res) => {
         .send(`No habit with id: ${habitId}`);
     }
 
+    //TODO: handle it is finished
     if (habit.eventInfo) {
       return res
         .status(httpStatusCodes.forbidden)
@@ -325,10 +385,52 @@ export const deleteHabit = async (req, res) => {
     }
 
     await Habit.findByIdAndRemove(habitId);
-    await PersonalHabit.findOneAndRemove({ habitId });
+    const personalHabit = await PersonalHabit.findOneAndRemove({ habitId });
+    await HistoryHabit.deleteMany({
+      personalHabitId: personalHabit._id,
+    });
     res
       .status(httpStatusCodes.ok)
       .json({ message: "Habit delete successfully." });
+  } catch (error) {
+    res
+      .status(httpStatusCodes.internalServerError)
+      .json({ message: error.message });
+  }
+};
+
+// DELETE habit/:personalHabitId
+export const deletePersonalHabitId = async (req, res) => {
+  const { personalHabitId } = req.params;
+  const { userId } = req;
+
+  try {
+    const personalHabit = await PersonalHabit.findById(personalHabitId);
+    if (!personalHabit) {
+      return res
+        .status(httpStatusCodes.notFound)
+        .send(`No personal habit with id: ${personalHabitId}`);
+    }
+
+    if (!userId || !personalHabit.userId.equals(userId)) {
+      return res.status(httpStatusCodes.unauthorized).json({
+        message: `You don't have permission to delete this personal habit`,
+      });
+    }
+
+    //TODO: handle it is finished
+    if (!personalHabit.habitId.eventInfo) {
+      await Habit.findByIdAndRemove(personalHabit.habitId);
+    }
+
+    await PersonalHabit.findByIdAndRemove(personalHabitId);
+    await HistoryHabit.deleteMany({
+      personalHabitId,
+    });
+
+    res
+      .status(httpStatusCodes.ok)
+      .json({ message: "Delete habit successfully." });
   } catch (error) {
     res
       .status(httpStatusCodes.internalServerError)

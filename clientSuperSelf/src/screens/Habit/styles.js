@@ -4,7 +4,7 @@ import COLOR from "../../constants/colors";
 
 const styles = StyleSheet.create({
   scrollViewContent: {
-    flexGrow: 1,
+    // flexGrow: 1,
     justifyContent: "center",
   },
   container: {

@@ -9,9 +9,8 @@ export const getMyHabitsOfDate = (dateStr) =>
 
 export const addHabit = (habit) => API.post("/habit", habit);
 
-export const updateHabit = (habitId, updatedHabit) =>
-  API.put(`/habit/edit/${habitId}`, updatedHabit);
-export const updatePersonalHabit = (personalHabitId, updatedHabit) =>
+export const updateMyHabit = (personalHabitId, updatedHabit) =>
   API.put(`habit/my/edit/${personalHabitId}`, updatedHabit);
 
-export const deleteHabit = (habitId) => API.delete(`/habit/${habitId}`);
+export const deleteHabit = (personalHabitId) =>
+  API.delete(`/habit/my/${personalHabitId}`);

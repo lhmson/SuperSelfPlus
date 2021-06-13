@@ -39,9 +39,11 @@ const habitSchema = mongoose.Schema(
     icon: {
       // icon from list of icons
       type: String,
+      default:
+        "https://firebasestorage.googleapis.com/v0/b/superselftest-d1ccf.appspot.com/o/defaultimg%2Fsuperself-icon.png?alt=media&token=3fceeba3-cdb8-4547-9cd9-d038fde6fdf1",
     },
     target: {
-      type: Number,
+      type: mongoose.Schema.Types.Mixed,
     },
     eventInfo: {
       type: eventInfoSchema,

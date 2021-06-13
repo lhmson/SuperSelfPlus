@@ -49,5 +49,5 @@ Authorization: Bearer {{token}}
     "isFinish":false
 }
 ###
-DELETE {{host}}/habit/60c260e290fb936698bab924 HTTP/1.1
+DELETE {{host}}/habit/my/60c4279ec9667115549490d1 HTTP/1.1
 Authorization: Bearer {{token}}

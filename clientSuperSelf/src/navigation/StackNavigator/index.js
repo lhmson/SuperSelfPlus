@@ -14,13 +14,14 @@ import WorldScreen from "../../screens/World/WorldScreen";
 import SettingScreen from "../../screens/Setting/SettingScreen";
 import TabMaterialNavigator from "../TabMaterialNavigator";
 import HabitsScreen from "../../screens/Habit/HabitsScreen";
+import DetailHabitScreen from "../../screens/Habit/DetailHabitScreen";
 import AddHabitScreen from "../../screens/Habit/AddHabitScreen";
-// import HomeOneScreen from "../../screens/Home/HomeOneScreen.js";
 import MapRunningScreen from "../../screens/Running/MapRunningScreen/index";
 import RankRunningScreen from "../../screens/Running/RankRunningScreen/index";
 import RunningHomeScreen from "../../screens/Running/RunningHome/index";
 import ChartRunningScreen from "../../screens/Running/ChartRunningScreen";
 import PedometerScreen from "../../screens/Running/PedometerScreen/index";
+import HabitStatisticsScreen from "../../screens/Habit/HabitStatisticsScreen";
 
 const Stack = createStackNavigator();
 
@@ -96,6 +97,8 @@ const HomeStackNavigator = () => {
       <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="Habits" component={HabitsScreen} />
       <Stack.Screen name="Add Habit" component={AddHabitScreen} />
+      <Stack.Screen name="Detail Habit" component={DetailHabitScreen} />
+      <Stack.Screen name="Habit Stats" component={HabitStatisticsScreen} />
     </Stack.Navigator>
   );
 };

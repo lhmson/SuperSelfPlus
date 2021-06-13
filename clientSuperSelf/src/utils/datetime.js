@@ -34,3 +34,7 @@ export const getDatesBetweenTwoDays = (startDate, stopDate) => {
   }
   return dateArray;
 };
+
+export const getHourAndMinute = (date) => {
+  return moment(date).format("HH:mm");
+};

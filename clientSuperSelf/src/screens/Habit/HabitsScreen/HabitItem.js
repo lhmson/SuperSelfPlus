@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import {
   View,
   ImageBackground,
@@ -29,7 +29,7 @@ const HabitItem = ({ item, navigation }) => {
   return (
     <MyCard
       style={{
-        backgroundColor: item.habitId.color,
+        backgroundColor: item.personalHabitId.habitId.color,
       }}
     >
       <View
@@ -40,18 +40,18 @@ const HabitItem = ({ item, navigation }) => {
         }}
       >
         <Image
-          source={{ uri: item.habitId.icon }}
+          source={{ uri: item.personalHabitId.habitId.icon }}
           style={{ width: 50, height: 50, borderRadius: 25 }}
         />
         <TouchableOpacity
           onPress={() => {
-            navigation.navigate("Detail Todo", { item: item });
+            navigation.navigate("Detail Habit", { item: item });
           }}
           style={{ flex: 1, marginHorizontal: 15 }}
         >
-          <MyText size4>{item.habitId.title}</MyText>
+          <MyText size4>{item.personalHabitId.habitId.title}</MyText>
           <MyText size5 color={COLOR.black}>
-            {item.habitId.description}
+            {item.personalHabitId.habitId.description}
           </MyText>
 
           {/* <MyText color={COLOR.black}>
@@ -63,15 +63,15 @@ const HabitItem = ({ item, navigation }) => {
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {
-            alert("kind", item.habitId.kind);
+            alert("kind", item.personalHabitId.habitId.kind);
           }}
         >
           <View>
             <MaterialIcons
               name={
-                item.habitId.kind === "Run"
+                item.personalHabitId.habitId.kind === "Run"
                   ? "run-circle"
-                  : item.habitId.kind === "Do"
+                  : item.personalHabitId.habitId.kind === "Do"
                   ? "check-circle"
                   : "remove-circle"
               }

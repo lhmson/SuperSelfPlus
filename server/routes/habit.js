@@ -5,9 +5,8 @@ import {
   getAHabitOfMe,
   getMyHabitsOfDate,
   addHabit,
-  updateHabit,
-  updatePersonalHabit,
-  deleteHabit,
+  updateMyHabit,
+  deletePersonalHabitId,
 } from "../controllers/habit.js";
 
 import auth from "../middleware/auth.js";
@@ -17,13 +16,12 @@ const router = express.Router();
 router.get("/my/list", auth, getMyHabits);
 router.get("/:userId/list", auth, getUserHabits);
 router.get("/my/:personalHabitId", auth, getAHabitOfMe);
-router.get("/my/list/:dateStr", auth, getMyHabitsOfDate);
+router.get("/my/list/:dateStr", auth, getMyHabitsOfDate); // used
 
-router.post("/", auth, addHabit);
+router.post("/", auth, addHabit); // used
 
-router.put("/edit/:habitId", auth, updateHabit);
-router.put("/my/edit/:personalHabitId", auth, updatePersonalHabit);
+router.put("/my/edit/:personalHabitId", auth, updateMyHabit);
 
-router.delete("/:habitId", auth, deleteHabit);
+router.delete("/my/:personalHabitId", auth, deletePersonalHabitId); // used
 
 export default router;

@@ -33,7 +33,7 @@ const TouchableOpacity = styled.TouchableOpacity`
     }
   }}
 
-  ${({ long1, long2, long3, long4, long5 }) => {
+  ${({ long1, long2, long3, long4, long5, long6 }) => {
     switch (true) {
       case long1:
         return `width:300px;`;
@@ -44,6 +44,8 @@ const TouchableOpacity = styled.TouchableOpacity`
       case long4:
         return `width:150px;`;
       case long5:
+        return `width:120px;`;
+      case long6:
         return `width:90px;`;
       default:
     }

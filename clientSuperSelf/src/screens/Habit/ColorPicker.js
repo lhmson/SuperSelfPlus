@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { TouchableOpacity } from "react-native";
-import styles from "../styles";
-import COLOR from "../../../constants/colors";
+import styles from "./styles";
+import COLOR from "../../constants/colors";
 
-import { backgroundColors } from "../data";
+import { backgroundColors } from "./data";
 
 function ColorPicker({ setColor }) {
   return backgroundColors.map((backgroundColor) => {

@@ -14,7 +14,6 @@ const TextInput = styled.TextInput`
   padding: 10px;
   font-family: ${(props) => props.fontFamily ?? FONT.Nunito_400};
   border-radius: 10px;
-
   ${({ size1, size2, size3, size4, size5 }) => {
     switch (true) {
       case size1:
@@ -30,7 +29,6 @@ const TextInput = styled.TextInput`
       default:
     }
   }}
-
   ${({ long1, long2, long3, long4, long5 }) => {
     switch (true) {
       case long1:
@@ -45,7 +43,7 @@ const TextInput = styled.TextInput`
         return `width:90px;`;
       default:
     }
-  }}
+  }};
 `;
 
 export default MyTextInput;

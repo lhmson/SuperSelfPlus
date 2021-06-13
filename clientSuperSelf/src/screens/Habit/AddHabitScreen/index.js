@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import {
   View,
   ImageBackground,
@@ -14,6 +14,7 @@ import moment from "moment";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import Toast from "react-native-toast-message";
 import Modal from "react-native-modal";
+import DropDownPicker from "react-native-dropdown-picker";
 
 import MyText from "../../../components/MyText";
 import MyButton from "../../../components/MyButton";
@@ -22,8 +23,8 @@ import MyTextInput from "../../../components/MyTextInput";
 import MyCard from "../../../components/MyCard";
 import MySwitch from "../../../components/MySwitch";
 import MyFloatingButton from "../../../components/MyFloatingButton";
-import ColorPicker from "./ColorPicker";
-import DaysPicker from "./DaysPicker";
+import ColorPicker from "../ColorPicker";
+import DaysPicker from "../DaysPicker";
 
 import * as apiHabit from "../../../api/habit";
 import { useUser } from "../../../context/UserContext";
@@ -48,6 +49,19 @@ const AddHabitScreen = ({ navigation }) => {
   const [reminder, setReminder] = useState(new Date()); // time picker
   const [isModalReminder, setIsModalReminder] = useState(false);
 
+  const [isSetTarget, setIsSetTarget] = useState(false);
+  const [targetNumber, setTargetNumber] = useState(5);
+  const [targetUnit, setTargetUnit] = useState("times");
+  const [isModalTarget, setIsModalTarget] = useState(false);
+  const [isDropdownTargetUnit, setIsDropdownTargetUnit] = useState(false);
+
+  const [targetUnitItems, setTargetUnitItems] = useState([
+    { label: "times", value: "time(s)" },
+    { label: "mins", value: "min(s)" },
+    { label: "hours", value: "hour(s)" },
+    { label: "km", value: "km" },
+  ]);
+
   const [error, setError] = useState("");
 
   // const [isSetDueDate, setIsSetDueDate] = useState(false);
@@ -70,6 +84,21 @@ const AddHabitScreen = ({ navigation }) => {
     } else {
       setReminder(new Date());
     }
+  };
+
+  const toggleIsSetTarget = () => {
+    setIsSetTarget((previousState) => !previousState);
+  };
+
+  const openChangeTargetModal = () => {
+    setIsModalTarget(true);
+  };
+
+  const handleCloseModalTarget = () => {
+    if (!targetNumber) setTargetNumber(1);
+    else if (targetNumber > 99) setTargetNumber(99);
+    setIsModalTarget(false);
+    setIsDropdownTargetUnit(false);
   };
 
   const handleSetType = (newType) => {
@@ -125,6 +154,14 @@ const AddHabitScreen = ({ navigation }) => {
 
     setError("");
 
+    let target;
+    if (isSetTarget) {
+      target = {
+        targetNumber,
+        targetUnit,
+      };
+    }
+
     const newHabit = {
       title,
       description,
@@ -132,7 +169,7 @@ const AddHabitScreen = ({ navigation }) => {
       kind,
       // daysToDo,
       icon,
-      // target,
+      target,
       // eventInfo,
       reminder,
     };
@@ -227,10 +264,7 @@ const AddHabitScreen = ({ navigation }) => {
                     })}
                   </View>
                 </ScrollView>
-                <MyButton
-                  title="Hide modal"
-                  onPress={() => setIconModal(false)}
-                >
+                <MyButton onPress={() => setIconModal(false)}>
                   <MyText>Back</MyText>
                 </MyButton>
               </View>
@@ -372,7 +406,7 @@ const AddHabitScreen = ({ navigation }) => {
               style={{
                 backgroundColor: color,
                 borderRadius: 10,
-                marginTop: 18,
+                marginTop: 12,
                 padding: 10,
               }}
             >
@@ -387,6 +421,70 @@ const AddHabitScreen = ({ navigation }) => {
                 <MyText size5>Frequency</MyText>
                 <MyText size5>{renderFrequency()}</MyText>
               </View> */}
+            </View>
+
+            <View style={{ marginTop: 12 }}>
+              <View style={styles.row}>
+                <MyText>Set target?</MyText>
+                {isSetTarget && (
+                  <TouchableOpacity onPress={openChangeTargetModal}>
+                    <MyText b5>
+                      {targetNumber} {targetUnit}
+                    </MyText>
+                  </TouchableOpacity>
+                )}
+                <MySwitch
+                  onValueChange={toggleIsSetTarget}
+                  value={isSetTarget}
+                />
+              </View>
+
+              <Modal
+                onBackButtonPress={handleCloseModalTarget}
+                isVisible={isModalTarget}
+                propagateSwipe={true}
+              >
+                <View
+                  style={{
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  {/* <MyCard style={{ flexDirection: "column" }}> */}
+                  <MyTextInput
+                    autoFocus
+                    keyboardType="numeric"
+                    textAlign={"center"}
+                    onChangeText={(number) => {
+                      if (number > 99) number = 99;
+                      setTargetNumber(number);
+                    }}
+                    value={targetNumber.toString()}
+                    style={{
+                      fontSize: 20,
+                      width: 200,
+
+                      backgroundColor: COLOR.white,
+                    }}
+                  />
+
+                  <DropDownPicker
+                    open={isDropdownTargetUnit}
+                    value={targetUnit}
+                    items={targetUnitItems}
+                    setOpen={setIsDropdownTargetUnit}
+                    setValue={setTargetUnit}
+                    setItems={setTargetUnitItems}
+                    dropDownDirection="TOP"
+                    containerStyle={{ width: 200 }}
+                  />
+
+                  <MyButton long3 onPress={handleCloseModalTarget}>
+                    <MyText>Back</MyText>
+                  </MyButton>
+                  {/* </MyCard> */}
+                </View>
+              </Modal>
             </View>
           </View>
         </View>

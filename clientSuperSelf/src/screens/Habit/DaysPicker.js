@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { TouchableOpacity } from "react-native";
-import styles from "../styles";
-import COLOR from "../../../constants/colors";
+import styles from "./styles";
+import COLOR from "../../constants/colors";
 
-import MyText from "../../../components/MyText";
+import MyText from "../../components/MyText";
 
-import { days } from "../data";
+import { days } from "./data";
 
 function DaysPicker({ frequency, setFrequency }) {
   return days.map((day, i) => {

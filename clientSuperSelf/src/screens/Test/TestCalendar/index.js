@@ -95,7 +95,7 @@ function TestCalendarScreen() {
         datesWhitelist={datesWhitelist}
         // datesBlacklist={datesBlacklist}
         scrollerPaging
-        selectedDate={moment()}
+        // selectedDate={moment()}
         onDateSelected={(date) => {
           //   alert(moment(date).format("YYYY-MM-DD"));
         }}

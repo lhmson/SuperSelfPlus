@@ -25,14 +25,13 @@ import MySwitch from "../../../components/MySwitch";
 import FooterList from "../../../components/FooterList";
 import MyFloatingButton from "../../../components/MyFloatingButton";
 
-import HabitItem from "./HabitItem";
-
 import * as apiHabit from "../../../api/habit";
 import { useUser } from "../../../context/UserContext";
 import FONT from "../../../constants/font";
 import { getDateNoTime, getMonday } from "../../../utils/datetime";
 
-const HabitsScreen = ({ navigation }) => {
+const HabitStatisticsScreen = ({ navigation, route }) => {
+  const { item } = route.params;
   const user = useUser();
   const userJoinDate = getDateNoTime(user.state.createdAt);
 
@@ -95,66 +94,8 @@ const HabitsScreen = ({ navigation }) => {
       .finally(() => setLoading(false));
   }, [selectDate, isFocused]);
 
-  const renderHabit = ({ item }) => {
-    return <HabitItem item={item} navigation={navigation} />;
-  };
-
   return (
     <View style={{ flex: 1 }}>
-      <CalendarStrip
-        scrollable
-        style={{
-          height: 100,
-          paddingTop: 12,
-          paddingBottom: 10,
-          fontFamily: FONT.Nunito_700,
-        }}
-        calendarColor={COLOR.orange}
-        calendarHeaderStyle={{
-          color: COLOR.blue,
-          fontFamily: FONT.Nunito_700,
-          fontSize: 16,
-        }}
-        dateNumberStyle={{ color: COLOR.white, fontFamily: FONT.Nunito_700 }}
-        dateNameStyle={{ color: COLOR.white, fontFamily: FONT.Nunito_700 }}
-        iconContainer={{ flex: 0.1 }}
-        // calendarAnimation={{ type: "sequence", duration: 30 }}
-        daySelectionAnimation={{
-          type: "border",
-          duration: 200,
-          borderWidth: 1,
-          borderHighlightColor: COLOR.white,
-        }}
-        highlightDateNumberStyle={{
-          color: COLOR.blue,
-          fontFamily: FONT.Nunito_700,
-        }}
-        highlightDateNameStyle={{
-          color: COLOR.blue,
-          fontFamily: FONT.Nunito_700,
-        }}
-        highlightDateContainerStyle={{ backgroundColor: COLOR.white }}
-        disabledDateNameStyle={{
-          color: COLOR.grey,
-          fontFamily: FONT.Nunito_700,
-        }}
-        disabledDateNumberStyle={{ color: COLOR.grey }}
-        datesWhitelist={datesWhitelist}
-        // datesBlacklist={datesBlacklist}
-        scrollerPaging
-        selectedDate={selectDate}
-        onDateSelected={(date) => {
-          console.log(getDateNoTime(date));
-          setSelectDate(getDateNoTime(date));
-        }}
-        minDate={getDateNoTime(getMonday(user.state.createdAt))}
-        onHeaderSelected={() =>
-          calendarStripRef.current.setSelectedDate(moment())
-        }
-        // markedDates={markedDates}
-        // scrollToOnSetSelectedDate={false}
-        ref={calendarStripRef}
-      />
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.scrollViewContent}
@@ -228,29 +169,6 @@ const HabitsScreen = ({ navigation }) => {
               </MyText>
             </MyButton>
           </View>
-
-          <View>
-            {loading ? (
-              <SkeletonSample />
-            ) : (
-              <>
-                <FlatList
-                  data={listHabits}
-                  renderItem={renderHabit}
-                  keyExtractor={(item, index) => index.toString()}
-                  removeClippedSubviews={true} // Unmount components when outside of window
-                  initialNumToRender={2} // Reduce initial render amount
-                  maxToRenderPerBatch={1} // Reduce number in each render batch
-                  updateCellsBatchingPeriod={1200} // Increase time between renders
-                  windowSize={7} // Reduce the window size
-                  ListFooterComponent={() => (
-                    <FooterList title={"Get your dream come true"} />
-                  )}
-                  showsVerticalScrollIndicator={false}
-                />
-              </>
-            )}
-          </View>
         </View>
       </ScrollView>
 
@@ -274,4 +192,4 @@ const SelfArea = styled.View`
   align-items: center;
 `;
 
-export default HabitsScreen;
+export default HabitStatisticsScreen;
