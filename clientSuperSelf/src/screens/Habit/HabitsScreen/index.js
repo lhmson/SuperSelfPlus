@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useMemo } from "react";
 import {
   View,
   ScrollView,
@@ -110,6 +110,18 @@ const HabitsScreen = ({ navigation }) => {
     );
   };
 
+  const filterItems = useMemo(() => {
+    switch (selectMenu) {
+      case 1:
+        return listHabits;
+      case 2:
+        return listHabits.filter((item) => !item.completed);
+      case 3:
+        return listHabits.filter((item) => item.completed);
+      default:
+    }
+  }, [selectMenu, listHabits]);
+
   return (
     <View style={{ flex: 1 }}>
       <CalendarStrip
@@ -155,7 +167,7 @@ const HabitsScreen = ({ navigation }) => {
         scrollerPaging
         selectedDate={selectDate}
         onDateSelected={(date) => {
-          console.log(getDateNoTime(date));
+          // console.log(getDateNoTime(date));
           setSelectDate(getDateNoTime(date));
         }}
         minDate={getDateNoTime(getMonday(user.state.createdAt))}
@@ -246,7 +258,7 @@ const HabitsScreen = ({ navigation }) => {
             ) : (
               <>
                 <FlatList
-                  data={listHabits}
+                  data={selectMenu === 1 ? listHabits : filterItems}
                   renderItem={renderHabit}
                   keyExtractor={(item, index) => index.toString()}
                   removeClippedSubviews={true} // Unmount components when outside of window
