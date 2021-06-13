@@ -38,3 +38,26 @@ export function getMonday(d) {
 export const getHourAndMinute = (date) => {
   return moment(date).format("HH:mm");
 };
+
+export const isSameDate = (dateA, dateB) => {
+  return dateA.toISOString() === dateB.toISOString();
+};
+
+export function dateCompare(d1, d2) {
+  const date1 = new Date(d1);
+  const date2 = new Date(d2);
+
+  if (date1 > date2) {
+    return 1;
+  } else if (date1 < date2) {
+    return -1;
+  } else {
+    return 0;
+  }
+}
+
+export function isToday(date) {
+  return (
+    dateCompare(getDateNoTime(new Date(date)), getDateNoTime(new Date())) === 0
+  );
+}

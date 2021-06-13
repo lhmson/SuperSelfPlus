@@ -265,7 +265,7 @@ const AddHabitScreen = ({ navigation }) => {
                   </View>
                 </ScrollView>
                 <MyButton onPress={() => setIconModal(false)}>
-                  <MyText>Back</MyText>
+                  <MyText color={COLOR.white}>Back</MyText>
                 </MyButton>
               </View>
             </Modal>
@@ -480,7 +480,7 @@ const AddHabitScreen = ({ navigation }) => {
                   />
 
                   <MyButton long3 onPress={handleCloseModalTarget}>
-                    <MyText>Back</MyText>
+                    <MyText color={COLOR.white}>Back</MyText>
                   </MyButton>
                   {/* </MyCard> */}
                 </View>

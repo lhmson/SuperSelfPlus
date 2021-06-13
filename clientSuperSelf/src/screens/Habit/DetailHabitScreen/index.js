@@ -348,7 +348,7 @@ const DetailHabitScreen = ({ navigation, route }) => {
                   title="Hide modal"
                   onPress={() => setIconModal(false)}
                 >
-                  <MyText>Back</MyText>
+                  <MyText color={COLOR.white}>Back</MyText>
                 </MyButton>
               </View>
             </Modal>
@@ -563,7 +563,7 @@ const DetailHabitScreen = ({ navigation, route }) => {
                   />
 
                   <MyButton long3 onPress={handleCloseModalTarget}>
-                    <MyText>Back</MyText>
+                    <MyText color={COLOR.white}>Back</MyText>
                   </MyButton>
                   {/* </MyCard> */}
                 </View>

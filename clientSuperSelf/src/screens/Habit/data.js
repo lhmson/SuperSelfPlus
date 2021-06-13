@@ -16,6 +16,6 @@ export const backgroundColors = [
   COLOR.lightGreen,
   COLOR.white,
   COLOR.lightBlue,
-  COLOR.orange,
+  COLOR.grey,
   COLOR.purple,
 ];

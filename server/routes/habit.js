@@ -6,6 +6,7 @@ import {
   getMyHabitsOfDate,
   addHabit,
   updateMyHabit,
+  updateMyHistoryHabit,
   deletePersonalHabitId,
 } from "../controllers/habit.js";
 
@@ -21,6 +22,7 @@ router.get("/my/list/:dateStr", auth, getMyHabitsOfDate); // used
 router.post("/", auth, addHabit); // used
 
 router.put("/my/edit/:personalHabitId", auth, updateMyHabit);
+router.put("/my/progress/:historyHabitId", auth, updateMyHistoryHabit);
 
 router.delete("/my/:personalHabitId", auth, deletePersonalHabitId); // used
 

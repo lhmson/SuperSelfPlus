@@ -1,11 +1,5 @@
 import React, { useState } from "react";
-import {
-  View,
-  ImageBackground,
-  ScrollView,
-  TouchableOpacity,
-  Image,
-} from "react-native";
+import { View, TouchableOpacity, Image } from "react-native";
 import styles from "../styles";
 import { MaterialIcons } from "@expo/vector-icons";
 import COLOR from "../../../constants/colors";
@@ -15,17 +9,13 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import Toast from "react-native-toast-message";
 
 import MyText from "../../../components/MyText";
-import MyButton from "../../../components/MyButton";
-import Loading from "../../../components/Loading";
-import MyTextInput from "../../../components/MyTextInput";
 import MyCard from "../../../components/MyCard";
-import MySwitch from "../../../components/MySwitch";
-import MyFloatingButton from "../../../components/MyFloatingButton";
 
 import * as apiHabit from "../../../api/habit";
 import { useUser } from "../../../context/UserContext";
+import CheckButton from "./CheckButton";
 
-const HabitItem = ({ item, navigation }) => {
+const HabitItem = ({ item, navigation, setIsUpdate }) => {
   return (
     <MyCard
       style={{
@@ -61,25 +51,7 @@ const HabitItem = ({ item, navigation }) => {
               : "today"}
           </MyText> */}
         </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => {
-            alert("kind", item.personalHabitId.habitId.kind);
-          }}
-        >
-          <View>
-            <MaterialIcons
-              name={
-                item.personalHabitId.habitId.kind === "Run"
-                  ? "run-circle"
-                  : item.personalHabitId.habitId.kind === "Do"
-                  ? "check-circle"
-                  : "remove-circle"
-              }
-              size={24}
-              color={COLOR.black} // handle history complete for today and turn green
-            />
-          </View>
-        </TouchableOpacity>
+        <CheckButton item={item} setIsUpdate={setIsUpdate} />
       </View>
     </MyCard>
   );

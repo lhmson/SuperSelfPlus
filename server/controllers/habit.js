@@ -224,45 +224,6 @@ export const addHabit = async (req, res) => {
   }
 };
 
-// PUT habit/edit/:habitId
-// export const updateHabit = async (req, res) => {
-//   const { habitId } = req.params;
-//   const habit = req.body;
-//   try {
-//     if (!habit)
-//       return res
-//         .status(httpStatusCodes.badContent)
-//         .send(`Update habit information is required`);
-
-//     const foundHabit = await Habit.findById(habitId);
-
-//     if (!foundHabit)
-//       return res
-//         .status(httpStatusCodes.notFound)
-//         .send(`Cannot find a habit with id: ${habitId}`);
-
-//     if (!foundHabit.authorId.equals(req.userId)) {
-//       return res
-//         .status(httpStatusCodes.unauthorized)
-//         .json({ message: "You are not the owner of this habit" });
-//     }
-
-//     const updatedHabit = {
-//       ...habit,
-//       _id: habitId,
-//     };
-
-//     console.log("update habit", updatedHabit);
-
-//     await Habit.findByIdAndUpdate(habitId, updatedHabit, { new: true });
-//     return res.status(httpStatusCodes.ok).json(updatedHabit);
-//   } catch (error) {
-//     return res
-//       .status(httpStatusCodes.internalServerError)
-//       .json({ message: error.message });
-//   }
-// };
-
 // PUT habit/my/edit/:personalHabitId
 export const updateMyHabit = async (req, res) => {
   const { personalHabitId } = req.params;
@@ -322,7 +283,7 @@ export const updateMyHabit = async (req, res) => {
         new: true,
       });
     }
-    // console.log("found personal", foundPersonalHabit);
+
     // update reminder, isFinish, score
     if (
       getHourAndMinute(reminder).toString() !==
@@ -350,6 +311,72 @@ export const updateMyHabit = async (req, res) => {
       return res
         .status(httpStatusCodes.noContent)
         .json({ message: "Personal habit has not changed" });
+    }
+  } catch (error) {
+    return res
+      .status(httpStatusCodes.internalServerError)
+      .json({ message: error.message });
+  }
+};
+
+// PUT habit/my/progress/:historyHabitId
+export const updateMyHistoryHabit = async (req, res) => {
+  const { historyHabitId } = req.params;
+  const sentInfo = req.body;
+  const { progress, completed } = sentInfo;
+  try {
+    if (!sentInfo)
+      return res
+        .status(httpStatusCodes.badContent)
+        .send(`Progress habit information is required`);
+
+    const foundHistoryHabit = await HistoryHabit.findById(historyHabitId);
+
+    if (!foundHistoryHabit)
+      return res
+        .status(httpStatusCodes.notFound)
+        .send(`Cannot find history habit with id: ${historyHabitId}`);
+
+    if (!foundHistoryHabit.userId.equals(req.userId)) {
+      return res
+        .status(httpStatusCodes.unauthorized)
+        .json({ message: "You are not the user of this history habit" });
+    }
+
+    const relativePersonalHabit = await PersonalHabit.findById(
+      foundHistoryHabit.personalHabitId
+    );
+
+    if (!relativePersonalHabit)
+      return res
+        .status(httpStatusCodes.notFound)
+        .send(
+          `Cannot find personal habit with id: ${foundHistoryHabit.personalHabitId}`
+        );
+
+    if (
+      progress !== foundHistoryHabit.progress ||
+      completed !== foundHistoryHabit.completed
+    ) {
+      const updatedHistoryHabit = {
+        progress,
+        completed,
+        _id: foundHistoryHabit._id,
+      };
+      console.log("update habit", updatedHistoryHabit);
+      await HistoryHabit.findByIdAndUpdate(
+        updatedHistoryHabit._id,
+        updatedHistoryHabit,
+        {
+          new: true,
+        }
+      );
+
+      return res.status(httpStatusCodes.ok).json(updatedHistoryHabit);
+    } else {
+      return res
+        .status(httpStatusCodes.noContent)
+        .json({ message: "History habit has not changed" });
     }
   } catch (error) {
     return res

@@ -38,6 +38,8 @@ const HabitsScreen = ({ navigation }) => {
 
   const isFocused = useIsFocused();
 
+  const [isUpdate, setIsUpdate] = useState(false);
+
   const [listHabits, setListHabits] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectMenu, setSelectMenu] = useState(1);
@@ -93,10 +95,19 @@ const HabitsScreen = ({ navigation }) => {
         console.log("Error when getting habits", error);
       })
       .finally(() => setLoading(false));
-  }, [selectDate, isFocused]);
+
+    // handle check progress habit
+    setIsUpdate(false);
+  }, [selectDate, isFocused, isUpdate]);
 
   const renderHabit = ({ item }) => {
-    return <HabitItem item={item} navigation={navigation} />;
+    return (
+      <HabitItem
+        item={item}
+        navigation={navigation}
+        setIsUpdate={setIsUpdate}
+      />
+    );
   };
 
   return (

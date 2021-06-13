@@ -4,16 +4,16 @@
 @contentType = application/json
 @createdAt = {{$datetime iso8601}}
 @modifiedBy = {{$processEnv USERNAME}}
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxMjNAZ20uY29tIiwiaWQiOiI2MGMyNjAxOTkwZmI5MzY2OThiYWI5MjEiLCJpYXQiOjE2MjMzNTEzMjV9.TA2COQygIslD_Q9FggnB-Q_dQ7nVNmOY6IuFczcDWbs
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxMjNAZ20uY29tIiwiaWQiOiI2MGMyNjAxOTkwZmI5MzY2OThiYWI5MjEiLCJpYXQiOjE2MjM1NzQxOTF9.tOwip40sRdP0BQDDkC_7QZGFq7MAN1aSvwwvkGu60y0
 
 ###
 
-GET {{host}}/habit/my/list HTTP/1.1
-Authorization: Bearer {{token}}
+# GET {{host}}/habit/my/list HTTP/1.1
+# Authorization: Bearer {{token}}
 
 ###
-GET {{host}}/habit/my/60c260e290fb936698bab925 HTTP/1.1
-Authorization: Bearer {{token}}
+# GET {{host}}/habit/my/60c260e290fb936698bab925 HTTP/1.1
+# Authorization: Bearer {{token}}
 
 ###
 GET {{host}}/habit/my/list/2021-06-14 HTTP/1.1
@@ -38,16 +38,26 @@ Authorization: Bearer {{token}}
 {
     "description":"edited info"
 }
-
 ###
-PUT {{host}}/habit/my/edit/60c260e290fb936698bab925 HTTP/1.1
+
+PUT {{host}}/habit/my/progress/60c5014552159b157c75ab25 HTTP/1.1
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-    "score":0,
-    "isFinish":false
+    "progress": 0,
+    "completed":false
 }
+
+###
+# PUT {{host}}/habit/my/edit/60c260e290fb936698bab925 HTTP/1.1
+# Content-Type: application/json
+# Authorization: Bearer {{token}}
+
+# {
+#     "score":0,
+#     "isFinish":false
+# }
 ###
 DELETE {{host}}/habit/my/60c4279ec9667115549490d1 HTTP/1.1
 Authorization: Bearer {{token}}
