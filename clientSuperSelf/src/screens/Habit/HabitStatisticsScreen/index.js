@@ -8,180 +8,246 @@ import {
   Platform,
   Alert,
   ImageBackground,
+  Dimensions,
+  Image,
 } from "react-native";
 import styled from "styled-components";
 import styles from "../styles";
-import { useIsFocused } from "@react-navigation/native";
-import { Entypo } from "@expo/vector-icons";
 import COLOR from "../../../constants/colors";
-import moment from "moment";
-
-import CalendarStrip from "react-native-calendar-strip";
-
-import MyText from "../../../components/MyText";
-import MyButton from "../../../components/MyButton";
-import Loading from "../../../components/Loading";
-import MyTextInput from "../../../components/MyTextInput";
-import SkeletonSample from "../../../components/SkeletonSample";
-import MyCard from "../../../components/MyCard";
-import MySwitch from "../../../components/MySwitch";
-import FooterList from "../../../components/FooterList";
-import MyFloatingButton from "../../../components/MyFloatingButton";
-
-import * as apiHabit from "../../../api/habit";
 import { useUser } from "../../../context/UserContext";
-import FONT from "../../../constants/font";
-import { getDateNoTime, getMonday } from "../../../utils/datetime";
-import useIsMountedRef from "../../../hooks/useIsMountedRef";
+import ICON from "../../../constants/icon";
+import MyText from "../../../components/MyText/index";
+import { Calendar, CalendarList, Agenda } from "react-native-calendars";
+import MyCard from "../../../components/MyCard/index";
+
+import { VictoryChart, VictoryLine } from "victory-native";
+
+const WIDTH = Dimensions.get("window").width;
+const HEIGHT = Dimensions.get("window").height;
+
+const _marginText = 8;
 
 const HabitStatisticsScreen = ({ navigation, route }) => {
   const { item } = route.params;
   const user = useUser();
-  const userJoinDate = getDateNoTime(user.state.createdAt);
 
-  const isFocused = useIsFocused();
-  const isMountedRef = useIsMountedRef();
+  useEffect(() => {}, []);
 
-  const [listHabits, setListHabits] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [selectMenu, setSelectMenu] = useState(1);
-  const [selectDate, setSelectDate] = useState(getDateNoTime(new Date()));
-
-  //#region calendar
-  const calendarStripRef = useRef();
-
-  let datesWhitelist = [
-    {
-      start: userJoinDate,
-      end: moment().add(21, "days").format("YYYY-MM-DD"), // total 4 days enabled
-    },
-  ];
-
-  // const markedDates = [
-  //   {
-  //     date: moment().format("YYYY-MM-DD"),
-  //     dots: [
-  //       {
-  //         color: COLOR.red,
-  //         //   selectedColor: COLOR.red,
-  //       },
-  //       { color: COLOR.purple },
-  //       {
-  //         color: COLOR.red,
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     date: moment().add(1, "days").format("YYYY-MM-DD"),
-  //     lines: [
-  //       {
-  //         color: COLOR.green,
-  //         //   selectedColor: COLOR.red,
-  //       },
-  //     ],
-  //   },
-  // ];
-
-  //#endregion
-
-  useEffect(() => {
-    // console.log(getDateNoTime(selectDate));
-    apiHabit
-      .getMyHabitsOfDate(getDateNoTime(selectDate))
-      .then((res) => {
-        if (isMountedRef.current) {
-          // console.log(res.data);
-          setListHabits(res.data);
-        }
-      })
-      .catch((error) => {
-        alert("Error when getting habits", error);
-        console.log("Error when getting habits", error);
-      })
-      .finally(() => setLoading(false));
-  }, [selectDate, isFocused]);
-
-  const shareIt = async () => {
-    console.log(item.personalHabitId.habitId.target);
-    try {
-      const result = await Share.share(
-        {
-          ...Platform.select({
-            ios: {
-              message: `Hey, I am currently setting my goal to become a master of this habit: ${item.personalHabitId.habitId.title.toUpperCase()}\n${
-                item.personalHabitId.habitId.target
-                  ? `I do it ${item.personalHabitId.habitId.target?.targetNumber} ${item.personalHabitId.habitId.target?.targetUnit} a day `
-                  : ""
-              }`,
-              url: "https://www.facebook.com/superselfapp",
-            },
-            android: {
-              message:
-                `Hey, I am currently setting my goal to become a master of this habit ${item.personalHabitId.habitId.title.toUpperCase()}\n${
-                  item.personalHabitId.habitId.target
-                    ? `I do it ${item.personalHabitId.habitId.target?.targetNumber} ${item.personalHabitId.habitId.target?.targetUnit} a day `
-                    : ""
-                } ` + "https://www.facebook.com/superselfapp",
-            },
-          }),
-          title: "Habit: " + item.personalHabitId.habitId.title,
-        },
-        {
-          ...Platform.select({
-            ios: {
-              // iOS only:
-              excludedActivityTypes: ["com.apple.UIKit.activity.PostToTwitter"],
-            },
-            android: {
-              // Android only:
-              dialogTitle: "Share : " + item.personalHabitId.habitId.title,
-            },
-          }),
-        }
+  //#region
+  const HeaderInfoHabit = () => {
+    const ProgressBar = ({ percent }) => {
+      const _height = 30;
+      const _wParent = WIDTH * 0.7;
+      const _wChild = (_wParent * percent) / 100;
+      return (
+        <View
+          style={{
+            width: _wParent,
+            height: _height,
+            borderRadius: 30,
+            backgroundColor: COLOR.lightGreen,
+          }}
+        >
+          <View
+            style={{
+              position: "absolute",
+              backgroundColor: COLOR.green,
+              borderRadius: 30,
+              width: _wChild,
+              top: 0,
+              left: 0,
+              height: _height,
+            }}
+          ></View>
+        </View>
       );
-      if (result.action === Share.sharedAction) {
-        if (result.activityType) {
-          // shared with activity type of result.activityType
-          alert(
-            "You have shared it successfully. Keep doing to show the world you can"
-          );
-        } else {
-          // shared
-        }
-      } else if (result.action === Share.dismissedAction) {
-        // dismissed
-        alert("You have not shared");
-      }
-    } catch (error) {
-      console.log(error);
-      alert(error.message);
-    }
-  };
+    };
+    return (
+      <View
+        style={{
+          padding: 8,
+          paddingTop: 16,
+          width: WIDTH,
+          justifyContent: "center",
+          flexDirection: "row",
+        }}
+      >
+        <View
+          style={{
+            width: 70,
+          }}
+        >
+          <Image
+            source={{
+              uri: "https://i.pinimg.com/564x/ec/dc/ac/ecdcac48fde385c87f935e911701ca83.jpg",
+            }}
+            style={{
+              width: 70,
+              height: 70,
+              resizeMode: "contain",
+              borderRadius: 100,
+            }}
+          ></Image>
+        </View>
+        <View
+          style={{
+            width: WIDTH * 0.8,
+            flexDirection: "column",
+            marginLeft: 16,
+          }}
+        >
+          <View style={{ height: _marginText / 2 }}></View>
+          <MyText size3 b7>
+            Read
+          </MyText>
+          <View style={{ height: _marginText }}></View>
+          <MyText b4 color={COLOR.orange}>
+            16/20
+          </MyText>
+          <ProgressBar percent={80}></ProgressBar>
 
-  const handleShareHabit = () => {
-    // handle share
-    Alert.alert(
-      "Do you want to share it with the world?",
-      `According to research, this may help you become more motivated to achieve the goal 🏆`,
-      [
-        {
-          text: "No, thank you",
-          onPress: () => {
-            return;
-          },
-          style: "cancel",
-        },
-        {
-          text: "Yes, I wanna let everyone know",
-          onPress: () => {
-            shareIt();
-          },
-        },
-      ],
-      { cancelable: false }
+          <View
+            style={{
+              marginTop: _marginText,
+              flexDirection: "row",
+              justifyContent: "space-between",
+              width: WIDTH * 0.6,
+            }}
+          >
+            <View style={{ alignItems: "flex-start", flexDirection: "column" }}>
+              <MyText size5 b2>
+                Repeat
+              </MyText>
+              <MyText>Daily</MyText>
+            </View>
+
+            <View style={{ alignItems: "flex-start", flexDirection: "column" }}>
+              <MyText size5 b2>
+                Remind
+              </MyText>
+              <MyText>Set time</MyText>
+            </View>
+          </View>
+        </View>
+      </View>
     );
   };
 
+  const CalendarHabit = () => {
+    return (
+      <View style={{ padding: 16 }}>
+        <MyCard style={{ alignItems: "center" }}>
+          <Calendar
+            markingType={"period"}
+            markedDates={{
+              "2021-06-15": { marked: true, dotColor: COLOR.orange },
+              "2021-06-16": { marked: true, dotColor: COLOR.orange },
+              "2021-06-21": {
+                startingDay: true,
+                color: COLOR.green,
+                textColor: "white",
+              },
+              "2021-06-22": { color: COLOR.lightGreen, textColor: "white" },
+              "2021-06-23": {
+                color: COLOR.lightGreen,
+                textColor: "white",
+                marked: true,
+                dotColor: "white",
+              },
+              "2021-06-24": { color: COLOR.lightGreen, textColor: "white" },
+              "2021-06-25": {
+                endingDay: true,
+                color: COLOR.green,
+                textColor: "white",
+              },
+            }}
+          />
+        </MyCard>
+      </View>
+    );
+  };
+
+  const CardStreak = () => {
+    return (
+      <View style={{ padding: 16 }}>
+        <MyCard style={{ flexDirection: "row", alignItems: "flex-start" }}>
+          <View style={{ flexDirection: "column", width: "60%" }}>
+            <MyText size2 b6>
+              13 days
+            </MyText>
+            <MyText size5>Your current steak</MyText>
+            <View style={{ height: _marginText * 3 }}></View>
+            <MyText size4 b4>
+              5 days
+            </MyText>
+            <MyText size5>Your longest streak</MyText>
+          </View>
+
+          <View
+            style={{
+              width: "40%",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Image
+              source={ICON.cup}
+              style={{
+                width: WIDTH * 0.3,
+                height: WIDTH * 0.3,
+                resizeMode: "contain",
+              }}
+            ></Image>
+          </View>
+        </MyCard>
+      </View>
+    );
+  };
+
+  const CardChart = () => {
+    return (
+      <View style={{ padding: 16 }}>
+        <MyCard>
+          <VictoryChart width={WIDTH * 0.85}>
+            <VictoryLine
+              animate={{
+                duration: 2000,
+                onLoad: { duration: 5000 },
+              }}
+              style={{
+                data: { stroke: COLOR.green },
+                parent: { border: "3px solid #000" },
+              }}
+              data={[
+                { x: 1, y: 3 },
+                { x: 2, y: 12 },
+                { x: 3, y: 14 },
+                { x: 4, y: 12 },
+                { x: 5, y: 8 },
+                { x: 6, y: 12 },
+                { x: 7, y: 14 },
+                { x: 8, y: 33 },
+                { x: 9, y: 12 },
+                { x: 10, y: 3 },
+                { x: 11, y: 5 },
+                { x: 12, y: 3 },
+                { x: 13, y: 10 },
+                { x: 14, y: 22 },
+                { x: 15, y: 0 },
+                { x: 16, y: 12 },
+                { x: 17, y: 17 },
+                { x: 18, y: 32 },
+                { x: 19, y: 19 },
+                { x: 20, y: 15 },
+                { x: 21, y: 4 },
+              ]}
+            />
+          </VictoryChart>
+        </MyCard>
+      </View>
+    );
+  };
+  //#endregion
   return (
     <View style={{ flex: 1 }}>
       <ScrollView
@@ -189,95 +255,12 @@ const HabitStatisticsScreen = ({ navigation, route }) => {
         contentContainerStyle={styles.scrollViewContent}
       >
         <View style={styles.content}>
-          {/* <SelfArea>
-            <SearchBar
-              placeholder="Search here"
-              // onPress={() => alert("onPress")}
-              onChangeText={(text) => filterItem(text)}
-              onClearPress={() => filterItem("")}
-            />
-          </SelfArea> */}
-
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <MyButton
-              long6
-              style={{
-                backgroundColor:
-                  selectMenu === 1 ? COLOR.green : COLOR.whiteSmoke,
-              }}
-              onPress={() => {
-                setSelectMenu(1);
-              }}
-            >
-              <MyText
-                b6
-                size5
-                color={selectMenu === 1 ? COLOR.white : COLOR.black}
-              >
-                All
-              </MyText>
-            </MyButton>
-            <MyButton
-              long6
-              style={{
-                backgroundColor:
-                  selectMenu === 2 ? COLOR.green : COLOR.whiteSmoke,
-              }}
-              onPress={() => {
-                setSelectMenu(2);
-              }}
-            >
-              <MyText
-                b6
-                size5
-                color={selectMenu === 2 ? COLOR.white : COLOR.black}
-              >
-                To Do
-              </MyText>
-            </MyButton>
-            <MyButton
-              long6
-              style={{
-                backgroundColor:
-                  selectMenu === 3 ? COLOR.green : COLOR.whiteSmoke,
-              }}
-              onPress={() => {
-                setSelectMenu(3);
-              }}
-            >
-              <MyText
-                b6
-                size5
-                color={selectMenu === 3 ? COLOR.white : COLOR.black}
-              >
-                Done
-              </MyText>
-            </MyButton>
-          </View>
+          <HeaderInfoHabit></HeaderInfoHabit>
+          <CalendarHabit></CalendarHabit>
+          <CardStreak></CardStreak>
+          <CardChart></CardChart>
         </View>
       </ScrollView>
-
-      {/* action button */}
-      <MyFloatingButton
-        // active={isActiveFloatingButton}
-        position="bottomLeft"
-        onPress={handleShareHabit}
-      >
-        <Entypo name="share" size={24} color={COLOR.white} />
-      </MyFloatingButton>
-      <MyFloatingButton
-        // active={isActiveFloatingButton}
-        position="bottomRight"
-        onPress={() => navigation.navigate("Edit Habit", { item: item })}
-      >
-        <Entypo name="edit" size={24} color={COLOR.white} />
-      </MyFloatingButton>
     </View>
   );
 };

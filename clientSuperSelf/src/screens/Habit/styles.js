@@ -30,7 +30,8 @@ const styles = StyleSheet.create({
     // alignItems: "center",
     // justifyContent: "center",
     // position: "absolute",
-    padding: 24,
+    padding: 8,
+    backgroundColor: "white",
   },
   row: {
     flexDirection: "row",

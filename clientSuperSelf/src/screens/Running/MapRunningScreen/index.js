@@ -47,7 +47,7 @@ const MapRunningScreen = ({ navigation }) => {
   const [countSteps, setCountSteps] = useState(0);
   const [countDistance, setCountDistance] = useState(0);
   const [isModalTimeOut, setIsModalTimeOut] = useState(false);
-  const [isModalFinish, setIsModalFinish] = useState(true);
+  const [isModalFinish, setIsModalFinish] = useState(false);
   //#endregion
 
   //#region sub function

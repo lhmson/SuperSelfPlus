@@ -14,6 +14,7 @@ const peopleRun = require("../utils/resources/IconRunning/runPeople.png");
 const speed = require("../utils/resources/IconRunning/speed.png");
 const heart = require("../utils/resources/IconRunning/heart.png");
 const plan = require("../utils/resources/IconRunning/plan.jpg");
+const cup = require("../utils/resources/IconRunning/cupRankHabit.gif");
 
 export default {
   shoe,
@@ -32,4 +33,5 @@ export default {
   speed,
   heart,
   plan,
+  cup,
 };
