@@ -1,29 +1,20 @@
 import React, { useEffect, useRef, useState } from "react";
-import {
-  View,
-  ScrollView,
-  FlatList,
-  TouchableOpacity,
-  Share,
-  Platform,
-  Alert,
-  ImageBackground,
-  Dimensions,
-  Image,
-} from "react-native";
+import { View, ScrollView, Image } from "react-native";
 import styled from "styled-components";
 import styles from "../styles";
 import COLOR from "../../../constants/colors";
-import { useUser } from "../../../context/UserContext";
 import ICON from "../../../constants/icon";
-import MyText from "../../../components/MyText/index";
-import { Calendar, CalendarList, Agenda } from "react-native-calendars";
-import MyCard from "../../../components/MyCard/index";
+import moment from "moment";
 
+import { Calendar } from "react-native-calendars";
 import { VictoryChart, VictoryLine } from "victory-native";
 
-const WIDTH = Dimensions.get("window").width;
-const HEIGHT = Dimensions.get("window").height;
+import MyText from "../../../components/MyText/index";
+import MyCard from "../../../components/MyCard/index";
+
+import { width } from "../../../constants/dimensions";
+
+import { useUser } from "../../../context/UserContext";
 
 const _marginText = 8;
 
@@ -37,7 +28,7 @@ const HabitStatisticsScreen = ({ navigation, route }) => {
   const HeaderInfoHabit = () => {
     const ProgressBar = ({ percent }) => {
       const _height = 30;
-      const _wParent = WIDTH * 0.7;
+      const _wParent = width * 0.7;
       const _wChild = (_wParent * percent) / 100;
       return (
         <View
@@ -67,7 +58,7 @@ const HabitStatisticsScreen = ({ navigation, route }) => {
         style={{
           padding: 8,
           paddingTop: 16,
-          width: WIDTH,
+          width: width,
           justifyContent: "center",
           flexDirection: "row",
         }}
@@ -79,7 +70,7 @@ const HabitStatisticsScreen = ({ navigation, route }) => {
         >
           <Image
             source={{
-              uri: "https://i.pinimg.com/564x/ec/dc/ac/ecdcac48fde385c87f935e911701ca83.jpg",
+              uri: item.personalHabitId.habitId.icon,
             }}
             style={{
               width: 70,
@@ -91,15 +82,16 @@ const HabitStatisticsScreen = ({ navigation, route }) => {
         </View>
         <View
           style={{
-            width: WIDTH * 0.8,
+            width: width * 0.8,
             flexDirection: "column",
             marginLeft: 16,
           }}
         >
           <View style={{ height: _marginText / 2 }}></View>
           <MyText size3 b7>
-            Read
+            {item.personalHabitId.habitId.title}
           </MyText>
+          <MyText size5>{item.personalHabitId.habitId.description}</MyText>
           <View style={{ height: _marginText }}></View>
           <MyText b4 color={COLOR.orange}>
             16/20
@@ -111,7 +103,7 @@ const HabitStatisticsScreen = ({ navigation, route }) => {
               marginTop: _marginText,
               flexDirection: "row",
               justifyContent: "space-between",
-              width: WIDTH * 0.6,
+              width: width * 0.6,
             }}
           >
             <View style={{ alignItems: "flex-start", flexDirection: "column" }}>
@@ -123,9 +115,11 @@ const HabitStatisticsScreen = ({ navigation, route }) => {
 
             <View style={{ alignItems: "flex-start", flexDirection: "column" }}>
               <MyText size5 b2>
-                Remind
+                Reminder
               </MyText>
-              <MyText>Set time</MyText>
+              <MyText>
+                {moment(item.personalHabitId.reminder).format("HH:mm a")}
+              </MyText>
             </View>
           </View>
         </View>
@@ -193,8 +187,8 @@ const HabitStatisticsScreen = ({ navigation, route }) => {
             <Image
               source={ICON.cup}
               style={{
-                width: WIDTH * 0.3,
-                height: WIDTH * 0.3,
+                width: width * 0.3,
+                height: width * 0.3,
                 resizeMode: "contain",
               }}
             ></Image>
@@ -208,7 +202,7 @@ const HabitStatisticsScreen = ({ navigation, route }) => {
     return (
       <View style={{ padding: 16 }}>
         <MyCard>
-          <VictoryChart width={WIDTH * 0.85}>
+          <VictoryChart width={width * 0.85}>
             <VictoryLine
               animate={{
                 duration: 2000,
