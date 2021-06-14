@@ -1,6 +1,6 @@
+import { createStackNavigator } from "@react-navigation/stack";
 import React, { useContext } from "react";
 import { StatusBar } from "react-native";
-import { createStackNavigator } from "@react-navigation/stack";
 import LoadingScreen from "../../screens/LoadingScreen";
 import OnboardingScreen from "../../screens/OnboardingScreen";
 import AuthStackNavigator from "../AuthStackNavigator";

@@ -25,12 +25,14 @@ import * as apiHabit from "../../../api/habit";
 import { useUser } from "../../../context/UserContext";
 import FONT from "../../../constants/font";
 import { getDateNoTime, getMonday } from "../../../utils/datetime";
+import useIsMountedRef from "../../../hooks/useIsMountedRef";
 
 const HabitsScreen = ({ navigation }) => {
   const user = useUser();
   const userJoinDate = getDateNoTime(user.state.createdAt);
 
   const isFocused = useIsFocused();
+  const isMountedRef = useIsMountedRef();
 
   const [isUpdate, setIsUpdate] = useState(false);
 
@@ -81,8 +83,10 @@ const HabitsScreen = ({ navigation }) => {
     apiHabit
       .getMyHabitsOfDate(getDateNoTime(selectDate))
       .then((res) => {
-        // console.log(res.data);
-        setListHabits(res.data);
+        if (isMountedRef.current) {
+          // console.log(res.data);
+          setListHabits(res.data);
+        }
       })
       .catch((error) => {
         alert("Error when getting habits", error);
@@ -120,20 +124,11 @@ const HabitsScreen = ({ navigation }) => {
     <View style={{ flex: 1 }}>
       <CalendarStrip
         scrollable
-        style={{
-          height: 100,
-          paddingTop: 12,
-          paddingBottom: 10,
-          fontFamily: FONT.Nunito_700,
-        }}
+        style={styles.calendar}
         calendarColor={COLOR.orange}
-        calendarHeaderStyle={{
-          color: COLOR.blue,
-          fontFamily: FONT.Nunito_700,
-          fontSize: 16,
-        }}
-        dateNumberStyle={{ color: COLOR.white, fontFamily: FONT.Nunito_700 }}
-        dateNameStyle={{ color: COLOR.white, fontFamily: FONT.Nunito_700 }}
+        calendarHeaderStyle={styles.calendarHeader}
+        dateNumberStyle={styles.calendarDate}
+        dateNameStyle={styles.calendarDate}
         iconContainer={{ flex: 0.1 }}
         // calendarAnimation={{ type: "sequence", duration: 30 }}
         daySelectionAnimation={{
@@ -142,19 +137,10 @@ const HabitsScreen = ({ navigation }) => {
           borderWidth: 1,
           borderHighlightColor: COLOR.white,
         }}
-        highlightDateNumberStyle={{
-          color: COLOR.blue,
-          fontFamily: FONT.Nunito_700,
-        }}
-        highlightDateNameStyle={{
-          color: COLOR.blue,
-          fontFamily: FONT.Nunito_700,
-        }}
+        highlightDateNumberStyle={styles.highlightDate}
+        highlightDateNameStyle={styles.highlightDate}
         highlightDateContainerStyle={{ backgroundColor: COLOR.white }}
-        disabledDateNameStyle={{
-          color: COLOR.grey,
-          fontFamily: FONT.Nunito_700,
-        }}
+        disabledDateNameStyle={styles.disableDate}
         disabledDateNumberStyle={{ color: COLOR.grey }}
         datesWhitelist={datesWhitelist}
         // datesBlacklist={datesBlacklist}
@@ -176,7 +162,7 @@ const HabitsScreen = ({ navigation }) => {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.scrollViewContent}
       >
-        <View style={[styles.content, { marginTop: 50 }]}>
+        <View style={styles.content}>
           {/* <SelfArea>
             <SearchBar
               placeholder="Search here"
@@ -186,13 +172,7 @@ const HabitsScreen = ({ navigation }) => {
             />
           </SelfArea> */}
 
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
+          <View style={styles.buttonMenu}>
             <MyButton
               long6
               style={{
@@ -204,6 +184,7 @@ const HabitsScreen = ({ navigation }) => {
               }}
             >
               <MyText
+                b6
                 size5
                 color={selectMenu === 1 ? COLOR.white : COLOR.black}
               >
@@ -221,6 +202,7 @@ const HabitsScreen = ({ navigation }) => {
               }}
             >
               <MyText
+                b6
                 size5
                 color={selectMenu === 2 ? COLOR.white : COLOR.black}
               >
@@ -238,6 +220,7 @@ const HabitsScreen = ({ navigation }) => {
               }}
             >
               <MyText
+                b6
                 size5
                 color={selectMenu === 3 ? COLOR.white : COLOR.black}
               >

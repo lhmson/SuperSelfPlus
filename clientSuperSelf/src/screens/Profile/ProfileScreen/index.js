@@ -48,6 +48,8 @@ function ProfileScreen() {
   return (
     <View style={styles.container}>
       <MyText b6>Profile screen</MyText>
+
+      <MyText>{JSON.stringify(user.state)}</MyText>
       <MyButton onPress={handleLogOut}>
         <MyText b5>Logout</MyText>
       </MyButton>

@@ -59,7 +59,6 @@
     "react-native-safe-area-context": "3.2.0",
     "react-native-safe-area-view": "^1.1.1",
     "react-native-screens": "^3.0.0",
-    "react-native-share": "^6.2.1",
     "react-native-skeleton-placeholder": "^4.0.0",
     "react-native-snap-carousel": "^3.9.1",
     "react-native-svg": "^12.1.1",

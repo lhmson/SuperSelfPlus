@@ -1,6 +1,6 @@
+import { createStackNavigator } from "@react-navigation/stack";
 import React from "react";
 import { View, Image, TouchableOpacity } from "react-native";
-import { createStackNavigator } from "@react-navigation/stack";
 import { MaterialIcons, Ionicons, FontAwesome5 } from "@expo/vector-icons";
 import generateQuotes from "../../utils/quotes/generateQuotes";
 import MyText from "../../components/MyText";
@@ -22,6 +22,7 @@ import RunningHomeScreen from "../../screens/Running/RunningHome/index";
 import ChartRunningScreen from "../../screens/Running/ChartRunningScreen";
 import PedometerScreen from "../../screens/Running/PedometerScreen/index";
 import HabitStatisticsScreen from "../../screens/Habit/HabitStatisticsScreen";
+import RecommendedHabitScreen from "../../screens/Habit/RecommendedHabitScreen";
 import SettingScreen from "../../screens/Setting/SettingScreen";
 
 const Stack = createStackNavigator();
@@ -98,8 +99,9 @@ const HomeStackNavigator = () => {
       <Stack.Screen name="Home" component={HabitsScreen} />
       {/* <Stack.Screen name="Habits" component={HabitsScreen} /> */}
       <Stack.Screen name="Add Habit" component={AddHabitScreen} />
-      <Stack.Screen name="Detail Habit" component={DetailHabitScreen} />
+      <Stack.Screen name="Edit Habit" component={DetailHabitScreen} />
       <Stack.Screen name="Habit Stats" component={HabitStatisticsScreen} />
+      <Stack.Screen name="Suggestion" component={RecommendedHabitScreen} />
     </Stack.Navigator>
   );
 };
