@@ -1,5 +1,5 @@
-import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
+import React from "react";
 import SignInScreen from "../../screens/Auth/SignInScreen";
 import SignUpScreen from "../../screens/Auth/SignUpScreen";
 

@@ -35,7 +35,7 @@ const HabitItem = ({ item, navigation, setIsUpdate }) => {
         />
         <TouchableOpacity
           onPress={() => {
-            navigation.navigate("Detail Habit", { item: item });
+            navigation.navigate("Habit Stats", { item: item });
           }}
           style={{ flex: 1, marginHorizontal: 15 }}
         >

@@ -45,7 +45,7 @@ const LoadingScreen = () => {
               {
                 text: "Visit website",
                 onPress: () => {
-                  Linking.openURL("https://facebook.com/");
+                  Linking.openURL("https://www.facebook.com/superselfapp");
                 },
               },
             ],

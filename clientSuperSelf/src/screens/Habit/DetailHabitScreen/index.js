@@ -80,7 +80,7 @@ const DetailHabitScreen = ({ navigation, route }) => {
   const [error, setError] = useState("");
 
   const toggleIsSetReminder = () => {
-    console.log("reminder when toggle", reminder);
+    // console.log("reminder when toggle", reminder);
     setIsSetReminder((previousState) => !previousState);
     if (reminder) {
       setReminder(null);
@@ -91,7 +91,7 @@ const DetailHabitScreen = ({ navigation, route }) => {
 
   const onChangeReminder = (event, selectedTime) => {
     const currentDate = selectedTime || new Date();
-    console.log("current", currentDate);
+    // console.log("current", currentDate);
     setIsModalReminder(false);
     setReminder(currentDate);
   };
@@ -464,7 +464,7 @@ const DetailHabitScreen = ({ navigation, route }) => {
                     style={styles.iconInput}
                     onPress={() => {
                       setIsModalReminder(true);
-                      console.log("reminder when show modal", reminder);
+                      // console.log("reminder when show modal", reminder);
                     }}
                   >
                     <AntDesign

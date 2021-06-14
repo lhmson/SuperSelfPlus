@@ -214,9 +214,13 @@ const AddHabitScreen = ({ navigation }) => {
               <MyText b5 size4 center>
                 Start a habit today
               </MyText>
-              <TouchableOpacity onPress={() => {}}>
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate("Suggestion");
+                }}
+              >
                 <MyText center b6 color={COLOR.blue}>
-                  Browse some
+                  Browse suggestion
                 </MyText>
               </TouchableOpacity>
             </View>

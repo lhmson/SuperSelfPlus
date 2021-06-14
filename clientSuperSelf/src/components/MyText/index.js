@@ -63,8 +63,10 @@ const Text = styled.Text`
         return `font-family: Nunito_400Regular;`;
     }
   }}
-  ${({ center, right }) => {
+  ${({ left, center, right }) => {
     switch (true) {
+      case left:
+        return `text-align:left;`;
       case center:
         return `text-align:center;`;
       case right:

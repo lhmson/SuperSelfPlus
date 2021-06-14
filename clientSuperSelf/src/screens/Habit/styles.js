@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { StyleSheet } from "react-native";
 import COLOR from "../../constants/colors";
+import FONT from "../../constants/font";
 
 const styles = StyleSheet.create({
   scrollViewContent: {
@@ -26,8 +27,8 @@ const styles = StyleSheet.create({
   },
   content: {
     width: "100%",
-    alignItems: "center",
-    justifyContent: "center",
+    // alignItems: "center",
+    // justifyContent: "center",
     // position: "absolute",
     padding: 24,
   },
@@ -55,6 +56,38 @@ const styles = StyleSheet.create({
     right: 10,
   },
   // habit list
+  calendar: {
+    height: 100,
+    paddingTop: 12,
+    paddingBottom: 10,
+    fontFamily: FONT.Nunito_700,
+  },
+  calendarHeader: {
+    color: COLOR.blue,
+    fontFamily: FONT.Nunito_700,
+    fontSize: 16,
+  },
+  calendarDate: {
+    color: COLOR.white,
+    fontFamily: FONT.Nunito_700,
+  },
+  highlightDate: {
+    color: COLOR.blue,
+    fontFamily: FONT.Nunito_700,
+  },
+  disableDate: {
+    color: COLOR.grey,
+    fontFamily: FONT.Nunito_700,
+  },
+  buttonMenu: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "center",
+  },
+  // suggestion
+  themeCard: {
+    // alignItems: "center",
+  },
 });
 
 export default styles;

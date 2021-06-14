@@ -1,5 +1,13 @@
 import React, { useState } from "react";
-import { View, Alert, Image, Switch, ScrollView } from "react-native";
+import {
+  View,
+  Alert,
+  Image,
+  Switch,
+  Share,
+  Platform,
+  ScrollView,
+} from "react-native";
 import MyText from "../../../components/MyText";
 import COLOR from "../../../constants/colors";
 import styles from "./styles";
@@ -16,7 +24,10 @@ import Animated from "react-native-reanimated";
 import BottomSheet from "reanimated-bottom-sheet";
 import MyFloatingButton from "../../../components/MyFloatingButton";
 
+import { useUser } from "../../../context/UserContext";
+
 function TestComponentScreen() {
+  const user = useUser();
   // handle input
   const [username, setUsername] = useState();
 
@@ -67,6 +78,67 @@ function TestComponentScreen() {
 
   //#endregion
 
+  //#region share option
+
+  const handleShareInfo = async () => {
+    try {
+      const result = await Share.share(
+        {
+          ...Platform.select({
+            ios: {
+              message: `Read this post of ${
+                user.state.username
+              } \n ${user.state.username
+                .substring(0, 200)
+                .replace(/  /g, "\n\n")} More ${user.state.username}`,
+              url: "https://firebasestorage.googleapis.com/v0/b/superselftest-d1ccf.appspot.com/o/defaultimg%2Fsuperself-icon.png?alt=media&token=3fceeba3-cdb8-4547-9cd9-d038fde6fdf1",
+            },
+            android: {
+              message:
+                `Read this post of ${
+                  user.state.username
+                } \n ${user.state.username
+                  .substring(0, 200)
+                  .replace(/  /g, "\n\n")} More ${user.state.username} ` +
+                "https://firebasestorage.googleapis.com/v0/b/superselftest-d1ccf.appspot.com/o/defaultimg%2Fsuperself-icon.png?alt=media&token=3fceeba3-cdb8-4547-9cd9-d038fde6fdf1",
+            },
+          }),
+          title: "Post: " + user.state.username,
+        },
+        {
+          ...Platform.select({
+            ios: {
+              // iOS only:
+              excludedActivityTypes: ["com.apple.UIKit.activity.PostToTwitter"],
+            },
+            android: {
+              // Android only:
+              dialogTitle: "Share : " + user.state.username,
+            },
+          }),
+        }
+      );
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // shared with activity type of result.activityType
+          alert(
+            "You have shared it successfully. Keep doing to show the world you can"
+          );
+        } else {
+          // shared
+        }
+      } else if (result.action === Share.dismissedAction) {
+        // dismissed
+        alert("You have not shared");
+      }
+    } catch (error) {
+      console.log(error);
+      alert(error.message);
+    }
+  };
+
+  //#endregion
+
   return (
     <ScrollView contentContainerStyle={styles.scrollViewContent}>
       <View style={styles.container}>
@@ -81,6 +153,9 @@ function TestComponentScreen() {
             <MyText b6>Home screen edit</MyText>
             <MyButton onPress={handlePress}>
               <MyText>test</MyText>
+            </MyButton>
+            <MyButton onPress={handleShareInfo}>
+              <MyText>Share</MyText>
             </MyButton>
             <MyTextInput
               placeholder="USERNAME"

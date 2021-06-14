@@ -4,6 +4,9 @@ import {
   ScrollView,
   FlatList,
   TouchableOpacity,
+  Share,
+  Platform,
+  Alert,
   ImageBackground,
 } from "react-native";
 import styled from "styled-components";
@@ -29,6 +32,7 @@ import * as apiHabit from "../../../api/habit";
 import { useUser } from "../../../context/UserContext";
 import FONT from "../../../constants/font";
 import { getDateNoTime, getMonday } from "../../../utils/datetime";
+import useIsMountedRef from "../../../hooks/useIsMountedRef";
 
 const HabitStatisticsScreen = ({ navigation, route }) => {
   const { item } = route.params;
@@ -36,6 +40,7 @@ const HabitStatisticsScreen = ({ navigation, route }) => {
   const userJoinDate = getDateNoTime(user.state.createdAt);
 
   const isFocused = useIsFocused();
+  const isMountedRef = useIsMountedRef();
 
   const [listHabits, setListHabits] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -84,8 +89,10 @@ const HabitStatisticsScreen = ({ navigation, route }) => {
     apiHabit
       .getMyHabitsOfDate(getDateNoTime(selectDate))
       .then((res) => {
-        // console.log(res.data);
-        setListHabits(res.data);
+        if (isMountedRef.current) {
+          // console.log(res.data);
+          setListHabits(res.data);
+        }
       })
       .catch((error) => {
         alert("Error when getting habits", error);
@@ -94,13 +101,94 @@ const HabitStatisticsScreen = ({ navigation, route }) => {
       .finally(() => setLoading(false));
   }, [selectDate, isFocused]);
 
+  const shareIt = async () => {
+    console.log(item.personalHabitId.habitId.target);
+    try {
+      const result = await Share.share(
+        {
+          ...Platform.select({
+            ios: {
+              message: `Hey, I am currently setting my goal to become a master of this habit: ${item.personalHabitId.habitId.title.toUpperCase()}\n${
+                item.personalHabitId.habitId.target
+                  ? `I do it ${item.personalHabitId.habitId.target?.targetNumber} ${item.personalHabitId.habitId.target?.targetUnit} a day `
+                  : ""
+              }`,
+              url: "https://www.facebook.com/superselfapp",
+            },
+            android: {
+              message:
+                `Hey, I am currently setting my goal to become a master of this habit ${item.personalHabitId.habitId.title.toUpperCase()}\n${
+                  item.personalHabitId.habitId.target
+                    ? `I do it ${item.personalHabitId.habitId.target?.targetNumber} ${item.personalHabitId.habitId.target?.targetUnit} a day `
+                    : ""
+                } ` + "https://www.facebook.com/superselfapp",
+            },
+          }),
+          title: "Habit: " + item.personalHabitId.habitId.title,
+        },
+        {
+          ...Platform.select({
+            ios: {
+              // iOS only:
+              excludedActivityTypes: ["com.apple.UIKit.activity.PostToTwitter"],
+            },
+            android: {
+              // Android only:
+              dialogTitle: "Share : " + item.personalHabitId.habitId.title,
+            },
+          }),
+        }
+      );
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // shared with activity type of result.activityType
+          alert(
+            "You have shared it successfully. Keep doing to show the world you can"
+          );
+        } else {
+          // shared
+        }
+      } else if (result.action === Share.dismissedAction) {
+        // dismissed
+        alert("You have not shared");
+      }
+    } catch (error) {
+      console.log(error);
+      alert(error.message);
+    }
+  };
+
+  const handleShareHabit = () => {
+    // handle share
+    Alert.alert(
+      "Do you want to share it with the world?",
+      `According to research, this may help you become more motivated to achieve the goal 🏆`,
+      [
+        {
+          text: "No, thank you",
+          onPress: () => {
+            return;
+          },
+          style: "cancel",
+        },
+        {
+          text: "Yes, I wanna let everyone know",
+          onPress: () => {
+            shareIt();
+          },
+        },
+      ],
+      { cancelable: false }
+    );
+  };
+
   return (
     <View style={{ flex: 1 }}>
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.scrollViewContent}
       >
-        <View style={[styles.content, { marginTop: 50 }]}>
+        <View style={styles.content}>
           {/* <SelfArea>
             <SearchBar
               placeholder="Search here"
@@ -128,6 +216,7 @@ const HabitStatisticsScreen = ({ navigation, route }) => {
               }}
             >
               <MyText
+                b6
                 size5
                 color={selectMenu === 1 ? COLOR.white : COLOR.black}
               >
@@ -145,6 +234,7 @@ const HabitStatisticsScreen = ({ navigation, route }) => {
               }}
             >
               <MyText
+                b6
                 size5
                 color={selectMenu === 2 ? COLOR.white : COLOR.black}
               >
@@ -162,6 +252,7 @@ const HabitStatisticsScreen = ({ navigation, route }) => {
               }}
             >
               <MyText
+                b6
                 size5
                 color={selectMenu === 3 ? COLOR.white : COLOR.black}
               >
@@ -175,10 +266,17 @@ const HabitStatisticsScreen = ({ navigation, route }) => {
       {/* action button */}
       <MyFloatingButton
         // active={isActiveFloatingButton}
-        position="bottomRight"
-        onPress={() => navigation.navigate("Add Habit")}
+        position="bottomLeft"
+        onPress={handleShareHabit}
       >
-        <Entypo name="plus" size={24} color={COLOR.white} />
+        <Entypo name="share" size={24} color={COLOR.white} />
+      </MyFloatingButton>
+      <MyFloatingButton
+        // active={isActiveFloatingButton}
+        position="bottomRight"
+        onPress={() => navigation.navigate("Edit Habit", { item: item })}
+      >
+        <Entypo name="edit" size={24} color={COLOR.white} />
       </MyFloatingButton>
     </View>
   );
