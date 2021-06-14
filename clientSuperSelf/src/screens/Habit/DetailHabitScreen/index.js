@@ -197,7 +197,7 @@ const DetailHabitScreen = ({ navigation, route }) => {
       .then(() => {
         Toast.show({
           type: "success", // success, error, info
-          text1: "Successfully update habit 👋",
+          text1: "Successfully update habit 🎉",
           text2: `${title}`,
           visibilityTime: 2500,
           onShow: () => {},
@@ -225,7 +225,7 @@ const DetailHabitScreen = ({ navigation, route }) => {
     if (item.personalHabitId.habitId.eventInfo) {
       Alert.alert(
         "This habit is being hold as an event",
-        `You cannot delete the habit, you can just withdraw fro the event, are you sure?`,
+        `You cannot delete the habit, you can just withdraw from the event, are you sure?`,
         [
           {
             text: "Cancel",

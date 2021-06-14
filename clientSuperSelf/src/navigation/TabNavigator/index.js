@@ -49,7 +49,7 @@ const screenOptionStyle = (route) => ({
 const BottomTabNavigator = ({ navigation }) => {
   const setTabBarVisible = (route) => {
     const routeName = getFocusedRouteNameFromRoute(route);
-    const hideOnScreens = ["Add Habit"]; // set name screens for tab hidden
+    const hideOnScreens = ["Add Habit", "Edit Habit", "Suggestion"]; // set name screens for tab hidden
     if (hideOnScreens.indexOf(routeName) > -1) {
       return false;
     }

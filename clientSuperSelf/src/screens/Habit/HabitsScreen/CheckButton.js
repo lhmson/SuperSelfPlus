@@ -48,7 +48,7 @@ const CheckButton = ({ item, navigation, setIsUpdate }) => {
     apiHabit.updateMyHistoryHabit(item._id, updatedHistoryHabit).then(() => {
       Toast.show({
         type: "success", // success, error, info
-        text1: "Successfully update progress habit 👋",
+        text1: "Successfully update progress habit 🎉",
         text2: `${item.personalHabitId.habitId.title}`,
         visibilityTime: 2500,
         onShow: () => {},
@@ -78,7 +78,7 @@ const CheckButton = ({ item, navigation, setIsUpdate }) => {
     apiHabit.updateMyHistoryHabit(item._id, updatedHistoryHabit).then(() => {
       Toast.show({
         type: "success", // success, error, info
-        text1: "Successfully update progress habit 👋",
+        text1: "Successfully update progress habit 🎉",
         text2: `${item.personalHabitId.habitId.title}`,
         visibilityTime: 2500,
         onShow: () => {},
