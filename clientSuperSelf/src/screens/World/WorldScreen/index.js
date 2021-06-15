@@ -39,6 +39,7 @@ function WorldScreen() {
           alignItems: "stretch",
           width: WIDTH - 32,
           padding: 8,
+          borderRadius: 30,
         }}
       >
         <MyButton
@@ -101,12 +102,12 @@ function WorldScreen() {
             uri: "https://i.pinimg.com/564x/98/5c/4b/985c4beecb162508e539f514ac0ff0cf.jpg",
           }}
           style={{
-            width: WIDTH,
+            width: WIDTH - 32,
             height: WIDTH * 0.5,
             resizeMode: "cover",
             justifyContent: "flex-end",
             flexDirection: "row",
-            paddingRight: 40,
+            paddingRight: 20,
           }}
         >
           <MyButton style={{ width: 120, height: 30, borderRadius: 40 }}>
@@ -121,7 +122,7 @@ function WorldScreen() {
     const ViewInfoEvent = () => {
       return (
         <View style={{ padding: 8, justifyContent: "flex-start" }}>
-          <MyText custom1 b5>
+          <MyText size5 b5>
             Cuộc đua vô cực - Trận chiến cuối cùng
           </MyText>
 
@@ -235,34 +236,45 @@ function WorldScreen() {
       );
     };
     return (
-      <View style={{ flexDirection: "column", width: "100%" }}>
+      <MyCard
+        style={{
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          width: WIDTH - 20,
+          borderRadius: 30,
+          borderColor: COLOR.green,
+          borderSize: 5,
+          padding: 0,
+        }}
+      >
         <ImageDemo></ImageDemo>
         <ViewInfoEvent></ViewInfoEvent>
         <ButtonFooter></ButtonFooter>
-      </View>
+      </MyCard>
     );
   };
   //#endregion
   return (
     <View style={styles.container}>
+      <HeaderButton></HeaderButton>
       <View
         style={{
           flex: 1,
-          backgroundColor: "white",
           marginTop: 16,
           width: WIDTH,
-          padding: 16,
           alignItems: "center",
           justifyContent: "center",
-          borderRadius: 50,
           elevation: 40,
         }}
       >
         <ScrollView
           showsVerticalScrollIndicator={false}
-          contentContainerStyle={styles.scrollViewContent}
+          contentContainerStyle={{
+            justifyContent: "center",
+            alignItems: "center",
+          }}
         >
-          <HeaderButton></HeaderButton>
           <CardEvent></CardEvent>
           <CardEvent></CardEvent>
           <CardEvent></CardEvent>
