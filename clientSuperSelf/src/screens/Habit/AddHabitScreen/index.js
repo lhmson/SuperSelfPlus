@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   ImageBackground,
@@ -32,7 +32,9 @@ import iconsUrl from "../../../utils/resources/iconsUrl";
 
 const errors = ["You should enter title"];
 
-const AddHabitScreen = ({ navigation }) => {
+const AddHabitScreen = ({ navigation, route }) => {
+  const item = route?.params?.item;
+  const themeColor = route?.params?.themeColor;
   const user = useUser();
   const { updateUser } = user;
 
@@ -63,6 +65,13 @@ const AddHabitScreen = ({ navigation }) => {
   ]);
 
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    setTitle(item?.title);
+    setDescription(item?.description);
+    setColor(themeColor);
+    setKind(item?.kind);
+  }, [item]);
 
   // const [isSetDueDate, setIsSetDueDate] = useState(false);
   // const [dueDate, setDueDate] = useState(null); // date to complete habit
@@ -180,7 +189,7 @@ const AddHabitScreen = ({ navigation }) => {
       .then(() => {
         Toast.show({
           type: "success", // success, error, info
-          text1: "Successfully add habit 👋",
+          text1: "Successfully add habit 🎉",
           text2: `${title}`,
           visibilityTime: 2500,
           onShow: () => {},

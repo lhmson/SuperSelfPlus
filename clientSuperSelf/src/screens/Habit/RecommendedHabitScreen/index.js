@@ -5,7 +5,7 @@ import React, {
   useMemo,
   useCallback,
 } from "react";
-import { View, ScrollView, FlatList } from "react-native";
+import { View, ScrollView } from "react-native";
 import styles from "../styles";
 import styled from "styled-components";
 import { useIsFocused } from "@react-navigation/native";
@@ -13,7 +13,13 @@ import { Entypo } from "@expo/vector-icons";
 import COLOR from "../../../constants/colors";
 import moment from "moment";
 
-import BottomSheet from "@gorhom/bottom-sheet";
+import { FlatList } from "react-native-gesture-handler";
+
+import BottomSheet, {
+  TouchableOpacity,
+  TouchableHighlight,
+  TouchableWithoutFeedback,
+} from "@gorhom/bottom-sheet";
 
 import MyText from "../../../components/MyText";
 import MyButton from "../../../components/MyButton";
@@ -25,17 +31,90 @@ import MySwitch from "../../../components/MySwitch";
 import FooterList from "../../../components/FooterList";
 import MyFloatingButton from "../../../components/MyFloatingButton";
 
-import { useUser } from "../../../context/UserContext";
-import { width } from "../../../constants/dimensions";
+import HabitItem from "./HabitItem";
 
-function RecommendedHabitScreen() {
+import { useUser } from "../../../context/UserContext";
+import {
+  connectionHabits,
+  financeHabits,
+  healthHabits,
+  skillsHabits,
+  spiritHabits,
+  themes,
+} from "../data";
+
+function RecommendedHabitScreen({ navigation }) {
   const [loading, setLoading] = useState(true);
 
-  const snapPoints = useMemo(() => ["2%", "70%"], []);
+  const [theme, setTheme] = useState("");
+
+  const isFocused = useIsFocused();
+
+  const bottomSheetRef = useRef();
+
+  const snapPoints = useMemo(() => ["0%", "80%"], []);
 
   const handleSheetChanges = useCallback((index) => {
-    console.log("handleSheetChanges", index);
+    // console.log("handleSheetChanges", index);
   }, []);
+
+  const openBottomSheet = () => {
+    bottomSheetRef.current.expand();
+  };
+
+  const closeBottomSheet = () => {
+    bottomSheetRef.current.collapse();
+  };
+
+  const handleOpenSuggestHabits = (theme) => {
+    setTheme(theme);
+    openBottomSheet();
+  };
+
+  const suggestHabits = useMemo(() => {
+    console.log(theme);
+    switch (theme) {
+      case themes.health:
+        return healthHabits;
+      case themes.spirit:
+        return spiritHabits;
+      case themes.finance:
+        return financeHabits;
+      case themes.skills:
+        return skillsHabits;
+      case themes.connection:
+        return connectionHabits;
+      default:
+        return [];
+    }
+  }, [theme]);
+
+  const renderHabit = ({ item }) => {
+    return (
+      <HabitItem
+        item={item}
+        color={renderColor(theme)}
+        navigation={navigation}
+      />
+    );
+  };
+
+  const renderColor = (theme) => {
+    switch (theme) {
+      case themes.health:
+        return COLOR.red;
+      case themes.spirit:
+        return COLOR.lightBlue;
+      case themes.finance:
+        return COLOR.yellow;
+      case themes.skills:
+        return themes.purple;
+      case themes.connection:
+        return COLOR.lightGreen;
+      default:
+        return COLOR.grey;
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -53,11 +132,7 @@ function RecommendedHabitScreen() {
           contentContainerStyle={styles.scrollViewContent}
         >
           <View style={styles.content}>
-            <MyButton
-              onPress={() => {
-                alert("this");
-              }}
-            >
+            <MyButton onPress={() => {}}>
               <MyText b6 color={COLOR.white}>
                 Top Trending
               </MyText>
@@ -66,7 +141,11 @@ function RecommendedHabitScreen() {
               </MyText>
             </MyButton>
 
-            <MyButton color={COLOR.red} style={styles.themeCard}>
+            <MyButton
+              color={COLOR.red}
+              style={styles.themeCard}
+              onPress={() => handleOpenSuggestHabits(themes.health)}
+            >
               <MyText b6 color={COLOR.white}>
                 Health & Fitness
               </MyText>
@@ -75,7 +154,11 @@ function RecommendedHabitScreen() {
               </MyText>
             </MyButton>
 
-            <MyButton color={COLOR.lightBlue} style={styles.themeCard}>
+            <MyButton
+              color={COLOR.lightBlue}
+              style={styles.themeCard}
+              onPress={() => handleOpenSuggestHabits(themes.spirit)}
+            >
               <MyText b6 color={COLOR.white}>
                 Spiritual Self-care
               </MyText>
@@ -84,7 +167,11 @@ function RecommendedHabitScreen() {
               </MyText>
             </MyButton>
 
-            <MyButton color={COLOR.yellow} style={styles.themeCard}>
+            <MyButton
+              color={COLOR.yellow}
+              style={styles.themeCard}
+              onPress={() => handleOpenSuggestHabits(themes.finance)}
+            >
               <MyText b6 color={COLOR.white}>
                 Finance Management
               </MyText>
@@ -93,7 +180,11 @@ function RecommendedHabitScreen() {
               </MyText>
             </MyButton>
 
-            <MyButton color={COLOR.purple} style={styles.themeCard}>
+            <MyButton
+              color={COLOR.purple}
+              style={styles.themeCard}
+              onPress={() => handleOpenSuggestHabits(themes.skills)}
+            >
               <MyText b6 color={COLOR.white}>
                 Skills Learning
               </MyText>
@@ -102,7 +193,11 @@ function RecommendedHabitScreen() {
               </MyText>
             </MyButton>
 
-            <MyButton color={COLOR.lightGreen} style={styles.themeCard}>
+            <MyButton
+              color={COLOR.lightGreen}
+              style={styles.themeCard}
+              onPress={() => handleOpenSuggestHabits(themes.connection)}
+            >
               <MyText b6 color={COLOR.white}>
                 Social Connection
               </MyText>
@@ -115,24 +210,42 @@ function RecommendedHabitScreen() {
           </View>
         </ScrollView>
 
-        {/* <BottomSheet
-          index={1}
+        <BottomSheet
+          ref={bottomSheetRef}
+          index={0}
           snapPoints={snapPoints}
           onChange={handleSheetChanges}
         >
           <View
             style={{
-              alignItems: "center",
               justifyContent: "center",
-              flexDirection: "column",
               alignItems: "center",
-              width: width,
-              paddingHorizontal: 16,
-              borderRadius: 30,
-              backgroundColor: COLOR.white,
+              width: "100%",
+              height: "100%",
+              backgroundColor: renderColor(theme),
             }}
-          ></View>
-        </BottomSheet> */}
+          >
+            <FlatList
+              data={suggestHabits}
+              renderItem={renderHabit}
+              keyExtractor={(item, index) => index.toString()}
+              removeClippedSubviews={true} // Unmount components when outside of window
+              initialNumToRender={2} // Reduce initial render amount
+              maxToRenderPerBatch={1} // Reduce number in each render batch
+              updateCellsBatchingPeriod={1200} // Increase time between renders
+              windowSize={7} // Reduce the window size
+              ListFooterComponent={() => (
+                <FooterList title={"Choose one for your health"} />
+              )}
+              showsVerticalScrollIndicator={false}
+            />
+            <TouchableOpacity onPress={closeBottomSheet}>
+              <MyButton long3>
+                <MyText color={COLOR.white}>Back</MyText>
+              </MyButton>
+            </TouchableOpacity>
+          </View>
+        </BottomSheet>
 
         {/* action button */}
       </View>
