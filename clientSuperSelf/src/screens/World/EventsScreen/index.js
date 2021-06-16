@@ -6,6 +6,7 @@ import {
   Dimensions,
   Image,
   ImageBackground,
+  TouchableOpacity,
 } from "react-native";
 import styles from "./styles";
 import styled from "styled-components";
@@ -24,7 +25,7 @@ import ICON from "../../../constants/icon";
 const WIDTH = Dimensions.get("window").width;
 const HEIGHT = Dimensions.get("window").height;
 
-function EventScreen() {
+function EventScreen({ navigation }) {
   const [loading, setLoading] = useState(true);
   const [selectMenu, setSelectMenu] = useState(1);
 
@@ -96,31 +97,43 @@ function EventScreen() {
 
     const ImageDemo = () => {
       return (
-        <ImageBackground
-          source={{
-            uri: "https://i.pinimg.com/564x/98/5c/4b/985c4beecb162508e539f514ac0ff0cf.jpg",
-          }}
-          style={{
-            width: WIDTH - 32,
-            height: WIDTH * 0.5,
-            resizeMode: "cover",
-            justifyContent: "flex-end",
-            flexDirection: "row",
-            paddingRight: 20,
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate("Detail Event");
           }}
         >
-          <MyButton style={{ width: 120, height: 30, borderRadius: 40 }}>
-            <MyText size6 color={COLOR.white}>
-              Comming soon
-            </MyText>
-          </MyButton>
-        </ImageBackground>
+          <ImageBackground
+            source={{
+              uri: "https://i.pinimg.com/564x/98/5c/4b/985c4beecb162508e539f514ac0ff0cf.jpg",
+            }}
+            style={{
+              width: WIDTH - 32,
+              height: WIDTH * 0.5,
+              resizeMode: "cover",
+              justifyContent: "flex-end",
+              flexDirection: "row",
+              paddingRight: 20,
+            }}
+          >
+            <MyButton style={{ width: 120, height: 30, borderRadius: 40 }}>
+              <MyText size6 color={COLOR.white}>
+                Comming soon
+              </MyText>
+            </MyButton>
+          </ImageBackground>
+        </TouchableOpacity>
       );
     };
 
     const ViewInfoEvent = () => {
       return (
-        <View style={{ padding: 8, justifyContent: "flex-start" }}>
+        <View
+          style={{
+            padding: 8,
+            justifyContent: "flex-start",
+            alignSelf: "flex-start",
+          }}
+        >
           <MyText size5 b5>
             Cuộc đua vô cực - Trận chiến cuối cùng
           </MyText>
@@ -180,25 +193,6 @@ function EventScreen() {
             ></Image>
             <MyText size5>Huy hiệu Chiếc giày vô cực</MyText>
           </View>
-
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              marginBottom: 8,
-            }}
-          >
-            <Image
-              source={ICON.cup}
-              style={{
-                width: 30,
-                height: 30,
-                resizeMode: "center",
-                marginRight: 8,
-              }}
-            ></Image>
-            <MyText size5>Đua bước chân - Vinh danh Siêu Anh hùng</MyText>
-          </View>
         </View>
       );
     };
@@ -218,6 +212,9 @@ function EventScreen() {
           <MyButton
             style={{ width: WIDTH * 0.3, height: 50, borderRadius: 40 }}
             color={COLOR.white}
+            onPress={() => {
+              navigation.navigate("Detail Event");
+            }}
           >
             <MyText color={COLOR.orange} b5>
               Detail

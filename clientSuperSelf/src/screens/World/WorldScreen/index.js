@@ -1,19 +1,16 @@
-import React, { useEffect, useRef, useState, useMemo } from "react";
+import React, { useEffect } from "react";
 import {
   View,
   ScrollView,
-  FlatList,
   Dimensions,
   Image,
   ImageBackground,
   TouchableOpacity,
 } from "react-native";
+
 import styles from "./styles";
-import styled from "styled-components";
 import { useIsFocused } from "@react-navigation/native";
-import { Entypo } from "@expo/vector-icons";
 import COLOR from "../../../constants/colors";
-import moment, { ISO_8601 } from "moment";
 
 import MyText from "../../../components/MyText";
 import MyButton from "../../../components/MyButton";
@@ -23,14 +20,39 @@ import { useUser } from "../../../context/UserContext";
 import ICON from "../../../constants/icon";
 import ICONWORLD from "../../../constants/imageWorld";
 
+import { Audio } from "expo-av";
+
 const WIDTH = Dimensions.get("window").width;
 const HEIGHT = Dimensions.get("window").height;
 
 function WorldScreen({ navigation }) {
-  const [loading, setLoading] = useState(true);
-  const [selectMenu, setSelectMenu] = useState(1);
+  const [soundEffect, setSoundEffect] = React.useState();
+  const isFocused = useIsFocused();
+  //#region sound BG
+  const [soundBackground, setSoundBackground] = React.useState();
+  async function playBGSound() {
+    const { sound } = await Audio.Sound.createAsync(
+      require("../../../utils/resources/sound/soundBGWorld.mp3")
+    );
+    sound.setIsLoopingAsync(true);
+    setSoundBackground(sound);
+    await sound.replayAsync();
+  }
 
-  //#region
+  useEffect(() => {
+    if (isFocused) playBGSound();
+  }, [isFocused]);
+
+  useEffect(() => {
+    return soundBackground
+      ? () => {
+          console.log("Unloading Sound");
+          soundBackground.unloadAsync();
+        }
+      : undefined;
+  }, [soundBackground, isFocused]);
+  //#endregion
+
   const UICharacter = () => {
     const W = WIDTH;
     const H = WIDTH * 1.75;
@@ -132,23 +154,20 @@ function WorldScreen({ navigation }) {
 
     const EventButton = () => {
       return (
-        <View style={{ position: "absolute", top: W * 1.4, right: 16 }}>
-          <MyButton
-            style={{
-              backgroundColor: COLOR.green,
-              alignItems: "center",
-            }}
-            onPress={() => {
-              navigation.navigate("Event");
-            }}
-          >
-            <MyText size5 b9 color={COLOR.white}>
-              Go to Event!
-            </MyText>
-          </MyButton>
-        </View>
+        <TouchableOpacity
+          style={{ position: "absolute", top: W * 1.4, right: 16 }}
+          onPress={() => {
+            navigation.navigate("Event");
+          }}
+        >
+          <Image
+            source={ICONWORLD.event}
+            style={{ width: 80, height: 80, resizeMode: "contain" }}
+          ></Image>
+        </TouchableOpacity>
       );
     };
+
     return (
       <ImageBackground
         source={ICONWORLD.gifBG}
@@ -161,6 +180,32 @@ function WorldScreen({ navigation }) {
         <Angel></Angel>
         <EventButton></EventButton>
       </ImageBackground>
+    );
+  };
+
+  const UIElementsFloat = () => {
+    const Shop = () => {
+      return (
+        <TouchableOpacity
+          style={{
+            position: "absolute",
+            top: HEIGHT * 0.7,
+            left: 8,
+            zIndex: 2,
+          }}
+          onPress={() => {}}
+        >
+          <Image
+            source={ICONWORLD.shop}
+            style={{ width: 100, height: 80, resizeMode: "contain" }}
+          ></Image>
+        </TouchableOpacity>
+      );
+    };
+    return (
+      <View style={{ zIndex: 1, position: "absolute", top: 0, left: 0 }}>
+        <Shop></Shop>
+      </View>
     );
   };
   //#endregion
@@ -176,12 +221,14 @@ function WorldScreen({ navigation }) {
           backgroundColor: "white",
         }}
       >
+        <UIElementsFloat></UIElementsFloat>
         <ScrollView
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{
             justifyContent: "center",
             alignItems: "center",
             backgroundColor: "white",
+            zIndex: 0,
           }}
         >
           <UICharacter></UICharacter>
