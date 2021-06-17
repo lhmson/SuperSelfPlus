@@ -2,6 +2,8 @@ import mongoose from "mongoose";
 
 import { personalHabitSchema } from "./personalHabit.js";
 import { userSettingAppSchema } from "./userSettingApp.js";
+import { historyRunSchema } from "./historyRun.js";
+import { historyRunItemSchema } from "./historyRunItem.js";
 
 const userSchema = mongoose.Schema(
   {
@@ -37,8 +39,7 @@ const userSchema = mongoose.Schema(
     //   default: [],
     // },
     historyRun: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "HistoryRun",
+      type: historyRunSchema,
     },
     listFriends: {
       type: [

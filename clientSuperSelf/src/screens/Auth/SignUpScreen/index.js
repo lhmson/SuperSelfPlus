@@ -22,8 +22,6 @@ import * as api from "../../../api/auth";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import { createRunData } from "../../../api/run";
-
 function SignUpScreen({ navigation }) {
   const [username, setUsername] = useState();
   const [email, setEmail] = useState();
@@ -153,8 +151,6 @@ function SignUpScreen({ navigation }) {
           isLoggedIn: true,
           createdAt: signedUser.createdAt,
         });
-
-        await createRunData(signedUser._id);
         try {
           const data = {
             token,
