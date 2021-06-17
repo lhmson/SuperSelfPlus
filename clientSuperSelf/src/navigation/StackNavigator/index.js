@@ -24,6 +24,8 @@ import PedometerScreen from "../../screens/Running/PedometerScreen/index";
 import HabitStatisticsScreen from "../../screens/Habit/HabitStatisticsScreen";
 import RecommendedHabitScreen from "../../screens/Habit/RecommendedHabitScreen";
 import SettingScreen from "../../screens/Setting/SettingScreen";
+import EventScreen from "../../screens/World/EventsScreen/index";
+import DetailEventScreen from "../../screens/World/DetailEvent/index";
 
 const Stack = createStackNavigator();
 
@@ -122,6 +124,8 @@ const WorldStackNavigator = () => {
   return (
     <Stack.Navigator screenOptions={(props) => screenOptionStyle(props)}>
       <Stack.Screen name="World" component={WorldScreen} />
+      <Stack.Screen name="Event" component={EventScreen} />
+      <Stack.Screen name="Detail Event" component={DetailEventScreen} />
     </Stack.Navigator>
   );
 };

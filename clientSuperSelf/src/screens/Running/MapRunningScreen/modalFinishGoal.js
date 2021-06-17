@@ -1,22 +1,21 @@
 import React, { useState } from "react";
-import { Button, Text, View, Dimensions, Image } from "react-native";
+import { View, Dimensions, Image } from "react-native";
 import Modal from "react-native-modal";
 import MyCard from "../../../components/MyCard/index";
 import MyButton from "../../../components/MyButton/index";
 import MyText from "../../../components/MyText/index";
-import MyTextInput from "../../../components/MyTextInput/index";
-import MySwitch from "../../../components/MySwitch/index";
 
 import COLOR from "../../../constants/colors";
 import ICON from "../../../constants/icon";
+import { updateRunDate } from "../../../api/run";
+import { useUser } from "../../../context/UserContext";
+import { scaleFontSize } from "../../../constants/dimensions";
 
 const WIDTH = Dimensions.get("window").width;
 const HEIGHT = Dimensions.get("window").height;
 
 function ModalFinish({ isModalFinish, setIsModalFinish, Steps, Distance }) {
-  const cancelSetup = () => {
-    setIsModalFinish(false);
-  };
+  const user = useUser();
 
   const MainModal = () => {
     return (
@@ -94,7 +93,20 @@ function ModalFinish({ isModalFinish, setIsModalFinish, Steps, Distance }) {
       </View>
     );
   };
+
   const ButtonFooter = () => {
+    const saveRunData = async () => {
+      updateRunDate(user.state.uid, { steps: Steps, distance: Distance })
+        .then((res) => {
+          alert("Update success");
+        })
+        .catch((error) => {
+          alert("Error when getting habits", error);
+          console.log("Error when getting habits", error);
+        });
+
+      setIsModalFinish(false);
+    };
     return (
       <View
         style={{
@@ -105,7 +117,7 @@ function ModalFinish({ isModalFinish, setIsModalFinish, Steps, Distance }) {
           width: "100%",
         }}
       >
-        <MyButton color={COLOR.green} onPress={cancelSetup}>
+        <MyButton color={COLOR.green} onPress={saveRunData}>
           <MyText color={COLOR.white} b6>
             OK
           </MyText>

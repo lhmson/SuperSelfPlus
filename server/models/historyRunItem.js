@@ -4,7 +4,7 @@ export const historyRunItemSchema = mongoose.Schema(
   {
     dateRun: {
       type: Date,
-      default: Date.now(),
+      default: new Date(),
     },
     totalSteps: {
       type: Number,
@@ -15,10 +15,6 @@ export const historyRunItemSchema = mongoose.Schema(
       default: 0,
     },
     averageSpeed: {
-      type: Number,
-      default: 0,
-    },
-    totalSteps: {
       type: Number,
       default: 0,
     },

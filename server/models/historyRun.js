@@ -1,16 +1,16 @@
 import mongoose from "mongoose";
 
-import { historyRunItemSchema } from "./historyRunItem";
+import { historyRunItemSchema } from "./historyRunItem.js";
 
-const historyRunSchema = mongoose.Schema(
+export const historyRunSchema = mongoose.Schema(
   {
     lastDateRun: {
       type: Date,
-      default: Date.now(),
+      default: new Date(),
     },
     firstDateRun: {
       type: Date,
-      default: Date.now(),
+      default: new Date(),
     },
     listDataRun: {
       type: [
@@ -31,7 +31,3 @@ const historyRunSchema = mongoose.Schema(
   },
   { timestamps: true }
 );
-
-var HistoryRun = mongoose.model("HistoryRun", historyRunSchema);
-
-export default HistoryRun;
