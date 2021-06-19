@@ -213,7 +213,8 @@ const DetailHabitScreen = ({ navigation, route }) => {
   };
 
   const handleStatistics = () => {
-    navigation.navigate("Habit Stats", { item: item });
+    // navigation.navigate("Habit Stats", { item: item });
+    navigation.goBack();
   };
 
   const handleDeleteHabit = () => {
@@ -578,8 +579,7 @@ const DetailHabitScreen = ({ navigation, route }) => {
         onPress={() => {
           setIsActionButton((prev) => !prev);
         }}
-        direction="down"
-        position="topRight"
+        position="bottomRight"
       >
         <Entypo name="edit" size={24} color={COLOR.white} />
         {/* optional */}
@@ -601,7 +601,7 @@ const DetailHabitScreen = ({ navigation, route }) => {
 
       <MyFloatingButton
         // active={isActiveFloatingButton}
-        position="topLeft"
+        position="bottomLeft"
         onPress={handleStatistics}
       >
         <FontAwesome5 name="chart-line" size={24} color={COLOR.white} />

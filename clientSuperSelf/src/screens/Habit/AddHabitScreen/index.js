@@ -67,10 +67,12 @@ const AddHabitScreen = ({ navigation, route }) => {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    setTitle(item?.title);
-    setDescription(item?.description);
-    setColor(themeColor);
-    setKind(item?.kind);
+    if (item) {
+      setTitle(item?.title);
+      setDescription(item?.description);
+      setColor(themeColor);
+      setKind(item?.kind);
+    }
   }, [item]);
 
   // const [isSetDueDate, setIsSetDueDate] = useState(false);

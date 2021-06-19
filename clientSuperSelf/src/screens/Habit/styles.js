@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     // justifyContent: "center",
     // position: "absolute",
     padding: 8,
-    backgroundColor: "white",
+    // backgroundColor: "white",
   },
   row: {
     flexDirection: "row",

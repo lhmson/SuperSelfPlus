@@ -5,12 +5,13 @@ import styles from "../styles";
 import COLOR from "../../../constants/colors";
 import ICON from "../../../constants/icon";
 import moment from "moment";
-
+import { Entypo } from "@expo/vector-icons";
 import { Calendar } from "react-native-calendars";
 import { VictoryChart, VictoryLine } from "victory-native";
 
 import MyText from "../../../components/MyText/index";
 import MyCard from "../../../components/MyCard/index";
+import MyFloatingButton from "../../../components/MyFloatingButton";
 
 import { width } from "../../../constants/dimensions";
 
@@ -255,6 +256,14 @@ const HabitStatisticsScreen = ({ navigation, route }) => {
           <CardChart></CardChart>
         </View>
       </ScrollView>
+      {/* action button */}
+      <MyFloatingButton
+        // active={isActiveFloatingButton}
+        position="bottomRight"
+        onPress={() => navigation.navigate("Edit Habit", { item: item })}
+      >
+        <Entypo name="edit" size={24} color={COLOR.white} />
+      </MyFloatingButton>
     </View>
   );
 };
