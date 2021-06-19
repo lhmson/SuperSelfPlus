@@ -7,7 +7,7 @@ import MyText from "../../../components/MyText/index";
 
 import COLOR from "../../../constants/colors";
 import ICON from "../../../constants/icon";
-import { updateRunDate } from "../../../api/run";
+import { updateRunDate, updateRunHabitProgress } from "../../../api/run";
 import { useUser } from "../../../context/UserContext";
 import { scaleFontSize } from "../../../constants/dimensions";
 
@@ -44,6 +44,7 @@ function ModalFinish({ isModalFinish, setIsModalFinish, Steps, Distance }) {
       </View>
     );
   };
+
   const ListCardRun = () => {
     return (
       <View style={{}}>
@@ -96,7 +97,19 @@ function ModalFinish({ isModalFinish, setIsModalFinish, Steps, Distance }) {
 
   const ButtonFooter = () => {
     const saveRunData = async () => {
-      updateRunDate(user.state.uid, { steps: Steps, distance: Distance })
+      await updateRunDate(user.state.uid, { steps: Steps, distance: Distance })
+        .then((res) => {
+          alert("Update success");
+        })
+        .catch((error) => {
+          alert("Error when getting habits", error);
+          console.log("Error when getting habits", error);
+        });
+
+      await updateRunHabitProgress(user.state.uid, {
+        steps: Steps,
+        distance: Distance,
+      })
         .then((res) => {
           alert("Update success");
         })

@@ -14,18 +14,17 @@ import MyCard from "../../../components/MyCard/index";
 import COLOR from "../../../constants/colors";
 import ICON from "../../../constants/icon";
 import CountDown from "react-native-countdown-component";
-import { getDistance, getPreciseDistance } from "geolib";
+import { getPreciseDistance } from "geolib";
 import * as Location from "expo-location";
 import BottomSheet from "@gorhom/bottom-sheet";
-import {
-  TouchableOpacity,
-  TouchableHighlight,
-  TouchableWithoutFeedback,
-} from "@gorhom/bottom-sheet";
+import { TouchableOpacity } from "@gorhom/bottom-sheet";
 import ModalSetupPlan from "./modalSetupPlan";
 import ModalTimeOut from "./modalTimeout";
 import ModalFinish from "./modalFinishGoal";
+import ModalChooseEvent from "./modalChooseEvent";
+import ICONWORLD from "../../../constants/imageWorld";
 
+//#region  global
 const WIDTH = Dimensions.get("window").width;
 const HEIGHT = Dimensions.get("window").height;
 const _marginButton = (WIDTH - 350) / 4;
@@ -37,7 +36,9 @@ let temp_minutes = 0;
 let temp_distance = 0;
 let temp_steps = 0;
 let temp_realminutes = 0;
-
+let name_Event = "No Event";
+let id_Event = 0;
+//#endregion
 const MapRunningScreen = ({ navigation }) => {
   //#region hook
   const [userLocation, setUserLocation] = useState();
@@ -48,6 +49,7 @@ const MapRunningScreen = ({ navigation }) => {
   const [countDistance, setCountDistance] = useState(0);
   const [isModalTimeOut, setIsModalTimeOut] = useState(false);
   const [isModalFinish, setIsModalFinish] = useState(false);
+  const [isModalEvent, setIsModalEvent] = useState(true);
   //#endregion
 
   //#region sub function
@@ -61,6 +63,11 @@ const MapRunningScreen = ({ navigation }) => {
 
   const assignNoti = (n) => {
     noti = n;
+  };
+
+  const assignEvent = (name, id) => {
+    name_Event = name;
+    id_Event = id;
   };
 
   const DestinationHeader = ({ pos }) => {
@@ -133,8 +140,6 @@ const MapRunningScreen = ({ navigation }) => {
       noti = true;
       setCountSteps(0);
       setCountDistance(0);
-      setCountDistance(0);
-      setCountSteps(0);
       setRoadRunCoordinate([]);
       setStatusModal("No Plan");
     };
@@ -277,21 +282,27 @@ const MapRunningScreen = ({ navigation }) => {
       );
     };
 
-    const Rank = () => {
+    const Event = () => {
       return (
         <TouchableOpacity
           onPress={() => {
-            navigation.navigate("Rank");
+            // navigation.navigate("Rank");
+            setIsModalEvent(true);
           }}
         >
           <MyCard
             style={{
-              flexDirection: "column",
+              flexDirection: "row",
               alignItems: "center",
+              justifyContent: "center",
             }}
           >
-            <MyText size5 b6 color={COLOR.green}>
-              Go to ranking!
+            <Image
+              source={ICONWORLD.event}
+              style={{ width: 40, height: 40, resizeMode: "center" }}
+            ></Image>
+            <MyText size5 b6 color={COLOR.black}>
+              {name_Event}
             </MyText>
           </MyCard>
         </TouchableOpacity>
@@ -312,7 +323,7 @@ const MapRunningScreen = ({ navigation }) => {
       >
         <ButtonSetup></ButtonSetup>
         <ListCardRun></ListCardRun>
-        <Rank></Rank>
+        <Event></Event>
       </View>
     );
   };
@@ -555,6 +566,13 @@ const MapRunningScreen = ({ navigation }) => {
           isModalTimeOut={isModalTimeOut}
           setIsModalTimeOut={setIsModalTimeOut}
         ></ModalTimeOut>
+
+        <ModalChooseEvent
+          isModalEvent={isModalEvent}
+          setIsModalEvent={setIsModalEvent}
+          assignEvent={assignEvent}
+        ></ModalChooseEvent>
+
         <ModalFinish
           isModalFinish={isModalFinish}
           setIsModalFinish={setIsModalFinish}
