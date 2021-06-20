@@ -8,6 +8,16 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "requireFullScreen": true
-    }
+    },
+    "plugins": [
+      [
+        "expo-notifications",
+        {
+          "icon": "./src/utils/resources/tini.png",
+          "color": "#58CC02",
+          "mode": "production"
+        }
+      ]
+    ]
   }
 }
