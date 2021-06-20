@@ -71,7 +71,7 @@ const HabitStatisticsScreen = ({ navigation, route }) => {
         >
           <Image
             source={{
-              uri: item.personalHabitId.habitId.icon,
+              uri: item.habitId.icon,
             }}
             style={{
               width: 70,
@@ -90,9 +90,9 @@ const HabitStatisticsScreen = ({ navigation, route }) => {
         >
           <View style={{ height: _marginText / 2 }}></View>
           <MyText size3 b7>
-            {item.personalHabitId.habitId.title}
+            {item.habitId.title}
           </MyText>
-          <MyText size5>{item.personalHabitId.habitId.description}</MyText>
+          <MyText size5>{item.habitId.description}</MyText>
           <View style={{ height: _marginText }}></View>
           <MyText b4 color={COLOR.orange}>
             16/20
@@ -118,9 +118,7 @@ const HabitStatisticsScreen = ({ navigation, route }) => {
               <MyText size5 b2>
                 Reminder
               </MyText>
-              <MyText>
-                {moment(item.personalHabitId.reminder).format("HH:mm a")}
-              </MyText>
+              <MyText>{moment(item.reminder).format("HH:mm a")}</MyText>
             </View>
           </View>
         </View>

@@ -17,6 +17,7 @@ import EventCard from "./EventCard";
 import { useUser } from "../../../context/UserContext";
 import * as apiEvent from "../../../api/event";
 import useIsMountedRef from "../../../hooks/useIsMountedRef";
+import { dateCompare } from "../../../utils/datetime";
 
 function EventScreen({ navigation }) {
   const user = useUser();
@@ -53,7 +54,9 @@ function EventScreen({ navigation }) {
         return listEvents;
       case 2:
         return listEvents.filter(
-          (item) => item.eventInfo.listJoiners.indexOf(user.state.uid) === -1
+          (item) =>
+            item.eventInfo.listJoiners.indexOf(user.state.uid) === -1 &&
+            dateCompare(item.eventInfo.dateEnd, new Date()) === 1
         );
       case 3:
         return listEvents.filter(

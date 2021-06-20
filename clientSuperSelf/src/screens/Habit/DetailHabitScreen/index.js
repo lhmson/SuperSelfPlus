@@ -234,10 +234,9 @@ const DetailHabitScreen = ({ navigation, route }) => {
       });
   };
 
-  const handleStatistics = () => {
-    // navigation.navigate("Habit Stats", { item: item });
-    navigation.goBack();
-  };
+  // const handleStatistics = () => {
+  //   navigation.navigate("Habit Stats", { item: item.personalHabitId });
+  // };
 
   const handleRun = () => {
     //TODO: navigate running screen and binding data setup
@@ -643,13 +642,13 @@ const DetailHabitScreen = ({ navigation, route }) => {
         />
       </TouchableOpacity>
 
-      <MyFloatingButton
+      {/* <MyFloatingButton
         // active={isActiveFloatingButton}
         position="bottomLeft"
         onPress={handleStatistics}
       >
         <FontAwesome5 name="chart-line" size={24} color={COLOR.white} />
-      </MyFloatingButton>
+      </MyFloatingButton> */}
 
       <TouchableOpacity onPress={openEventModal} style={styles.buttonEvent}>
         <Image

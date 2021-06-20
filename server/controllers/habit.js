@@ -81,14 +81,12 @@ export const getUserHabits = async (req, res) => {
   }
 };
 
-// GET habit/my/:personalHabitId
+// GET habit/my/:habitId
 export const getAHabitOfMe = async (req, res) => {
-  const { personalHabitId } = req.params;
+  const { habitId } = req.params;
 
   try {
-    const personalHabit = await PersonalHabit.findById(
-      personalHabitId
-    ).populate({
+    const personalHabit = await PersonalHabit.findOne({ habitId }).populate({
       path: "habitId",
       select: "title description color kind icon target eventInfo",
       model: "Habit",

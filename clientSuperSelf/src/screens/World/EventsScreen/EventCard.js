@@ -20,11 +20,29 @@ import MyButton from "../../../components/MyButton";
 import MyCard from "../../../components/MyCard";
 
 import { useUser } from "../../../context/UserContext";
-import ICON from "../../../constants/icon";
+import * as apiHabit from "../../../api/habit";
 import { width } from "../../../constants/dimensions";
 import { dateCompare } from "../../../utils/datetime";
 
 function EventCard({ item, navigation }) {
+  const user = useUser();
+
+  const [personalHabit, setPersonalHabit] = useState();
+
+  useEffect(() => {
+    if (item.eventInfo.listJoiners.indexOf(user.state.uid) !== -1) {
+      apiHabit
+        .getAHabitOfMe(item._id)
+        .then((res) => {
+          setPersonalHabit(res.data);
+        })
+        .catch((error) => {
+          console.log("Error when getting personal habit", error);
+          alert("Error when getting personal habit");
+        });
+    }
+  }, [item]);
+
   const ImageDemo = () => {
     return (
       <TouchableOpacity
@@ -51,7 +69,14 @@ function EventCard({ item, navigation }) {
           {dateCompare(item.eventInfo.dateStart, new Date()) === 1 && (
             <MyButton style={{ width: 120, height: 30 }}>
               <MyText size6 color={COLOR.white}>
-                Coming soon
+                COMING SOON
+              </MyText>
+            </MyButton>
+          )}
+          {item.eventInfo.listJoiners.indexOf(user.state.uid) !== -1 && (
+            <MyButton color={COLOR.yellow} style={{ width: 120, height: 30 }}>
+              <MyText size6 b6>
+                SIGNED UP
               </MyText>
             </MyButton>
           )}
@@ -72,11 +97,11 @@ function EventCard({ item, navigation }) {
         <MyText size4 b5>
           {item.title}
         </MyText>
-        {item.description ? (
+        {/* {item.description ? (
           <MyText size5 b3>
             {item.description}
           </MyText>
-        ) : null}
+        ) : null} */}
 
         <View
           style={{
@@ -132,11 +157,22 @@ function EventCard({ item, navigation }) {
               resizeMode: "center",
               marginRight: 8,
             }}
-          ></Image>
+          />
           <MyText size5>
             {item.eventInfo.achievement ??
               `Best ${item.title.toUpperCase()} prize`}
           </MyText>
+          <Image
+            source={{
+              uri: item.icon,
+            }}
+            style={{
+              width: 30,
+              height: 30,
+              resizeMode: "center",
+              marginLeft: 8,
+            }}
+          />
         </View>
       </View>
     );
@@ -164,14 +200,29 @@ function EventCard({ item, navigation }) {
             Detail
           </MyText>
         </MyButton>
-        <MyButton
-          style={{ width: width * 0.5, height: 50 }}
-          color={COLOR.lightGreen}
-        >
-          <MyText color={COLOR.white} b5>
-            Join
-          </MyText>
-        </MyButton>
+        {item.eventInfo.listJoiners.indexOf(user.state.uid) === -1 ? (
+          <MyButton
+            style={{ width: width * 0.5, height: 50 }}
+            color={COLOR.lightGreen}
+            onPress={() => {}}
+          >
+            <MyText color={COLOR.white} b5>
+              Join
+            </MyText>
+          </MyButton>
+        ) : (
+          <MyButton
+            style={{ width: width * 0.5, height: 50 }}
+            color={COLOR.lightGreen}
+            onPress={() => {
+              navigation.navigate("Habit Stats", { item: personalHabit });
+            }}
+          >
+            <MyText color={COLOR.white} b5>
+              Visit
+            </MyText>
+          </MyButton>
+        )}
       </View>
     );
   };

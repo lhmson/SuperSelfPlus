@@ -5,80 +5,24 @@ import React, {
   useState,
   useRef,
 } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  Dimensions,
-  ImageBackground,
-  ScrollView,
-} from "react-native";
-import { Image, TouchableOpacity } from "react-native";
+import { StyleSheet, View, Dimensions, ImageBackground } from "react-native";
+import { Image } from "react-native";
+
 import MyText from "../../../components/MyText/index";
 import MyButton from "../../../components/MyButton/index";
 import MyCard from "../../../components/MyCard/index";
+
 import COLOR from "../../../constants/colors";
 import ICON from "../../../constants/icon";
 import BottomSheet from "@gorhom/bottom-sheet";
-import { Calendar, CalendarList, Agenda } from "react-native-calendars";
-//#region  noti
-import Constants from "expo-constants";
+import { Calendar } from "react-native-calendars";
+import { width } from "../../../constants/dimensions";
+
 import * as Notifications from "expo-notifications";
-
-Notifications.setNotificationHandler({
-  handleNotification: async () => ({
-    shouldShowAlert: true,
-    shouldPlaySound: true,
-    shouldSetBadge: true,
-  }),
-});
-
-async function schedulePushNotification() {
-  await Notifications.scheduleNotificationAsync({
-    content: {
-      title: "You've got mail! 📬",
-      body: "Here is the notification body",
-      data: { data: "goes here" },
-    },
-    trigger: { seconds: 1 },
-  });
-}
-
-async function registerForPushNotificationsAsync() {
-  let token;
-  if (Constants.isDevice) {
-    const { status: existingStatus } =
-      await Notifications.getPermissionsAsync();
-    let finalStatus = existingStatus;
-    if (existingStatus !== "granted") {
-      const { status } = await Notifications.requestPermissionsAsync();
-      finalStatus = status;
-    }
-    if (finalStatus !== "granted") {
-      alert("Failed to get push token for push notification!");
-      return;
-    }
-    token = (await Notifications.getExpoPushTokenAsync()).data;
-    console.log(token);
-  } else {
-    alert("Must use physical device for Push Notifications");
-  }
-
-  if (Platform.OS === "android") {
-    Notifications.setNotificationChannelAsync("default", {
-      name: "default",
-      importance: Notifications.AndroidImportance.MAX,
-      vibrationPattern: [0, 250, 250, 250],
-      lightColor: "#FF231F7C",
-    });
-  }
-
-  return token;
-}
-//#endregion
-
-const WIDTH = Dimensions.get("window").width;
-const HEIGHT = Dimensions.get("window").height;
+import {
+  registerForPushNotificationsAsync,
+  schedulePushNotification,
+} from "../../../utils/notifications";
 
 const PedometerScreen = ({ navigation }) => {
   //#region  Noti
@@ -116,7 +60,7 @@ const PedometerScreen = ({ navigation }) => {
         style={{
           alignItems: "center",
           justifyContent: "center",
-          width: WIDTH,
+          width: width,
         }}
       >
         <MyCard style={{ flexDirection: "row" }}>
@@ -179,7 +123,7 @@ const PedometerScreen = ({ navigation }) => {
         style={{
           alignItems: "flex-start",
           justifyContent: "center",
-          width: WIDTH,
+          width: width,
           flexDirection: "row",
           zIndex: 0,
         }}
@@ -188,8 +132,8 @@ const PedometerScreen = ({ navigation }) => {
           <ImageBackground
             source={ICON.framePedometer}
             style={{
-              width: WIDTH / 2.5,
-              height: WIDTH / 2.5,
+              width: width / 2.5,
+              height: width / 2.5,
               resizeMode: "stretch",
               justifyContent: "center",
               alignItems: "center",
@@ -207,8 +151,8 @@ const PedometerScreen = ({ navigation }) => {
           <ImageBackground
             source={ICON.framePedometer}
             style={{
-              width: WIDTH / 2.5,
-              height: WIDTH / 2.5,
+              width: width / 2.5,
+              height: width / 2.5,
               resizeMode: "stretch",
               justifyContent: "center",
               alignItems: "center",
@@ -226,8 +170,8 @@ const PedometerScreen = ({ navigation }) => {
           <ImageBackground
             source={ICON.framePedometer}
             style={{
-              width: WIDTH / 2.5,
-              height: WIDTH / 2.5,
+              width: width / 2.5,
+              height: width / 2.5,
               resizeMode: "stretch",
               justifyContent: "center",
               alignItems: "center",
@@ -262,7 +206,7 @@ const PedometerScreen = ({ navigation }) => {
           </MyCard>
           <Image
             source={ICON.peopleRun}
-            style={{ width: WIDTH / 2, resizeMode: "contain", marginTop: -50 }}
+            style={{ width: width / 2, resizeMode: "contain", marginTop: -50 }}
           ></Image>
         </View>
       </View>
