@@ -60,7 +60,7 @@ export const autoUpdateProgressRunHabits = async (req, res) => {
     for (let i = 0; i < habits.length; i++) {
       let progress = await getHistoryHabitProgressToDay(habits[i]._id);
       if (progress && !progress?.completed) {
-        const target = Number(habits[i].target.targetNumber);
+        const target = Number(habits[i].target.targetNumber) * 1000; // km to meter
         let newProgress = progress.progress + distance / target;
         progress.progress = newProgress;
         if (newProgress >= 1) {

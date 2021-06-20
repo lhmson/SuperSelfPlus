@@ -69,12 +69,19 @@ const DetailHabitScreen = ({ navigation, route }) => {
   const [isModalTarget, setIsModalTarget] = useState(false);
   const [isDropdownTargetUnit, setIsDropdownTargetUnit] = useState(false);
 
-  const [targetUnitItems, setTargetUnitItems] = useState([
+  // const [targetUnitItems, setTargetUnitItems] = useState([
+  //   { label: "times", value: "time(s)" },
+  //   { label: "mins", value: "min(s)" },
+  //   { label: "hours", value: "hour(s)" },
+  //   { label: "km", value: "km" },
+  // ]);
+
+  const targetUnitItems = [
     { label: "times", value: "time(s)" },
     { label: "mins", value: "min(s)" },
     { label: "hours", value: "hour(s)" },
     { label: "km", value: "km" },
-  ]);
+  ];
 
   const [isActionButton, setIsActionButton] = useState(false);
 
@@ -529,6 +536,7 @@ const DetailHabitScreen = ({ navigation, route }) => {
                 <MySwitch
                   onValueChange={toggleIsSetTarget}
                   value={isSetTarget}
+                  disabled={kind === "Run" ? true : false}
                 />
               </View>
 
@@ -564,10 +572,14 @@ const DetailHabitScreen = ({ navigation, route }) => {
                   <DropDownPicker
                     open={isDropdownTargetUnit}
                     value={targetUnit}
-                    items={targetUnitItems}
+                    items={
+                      kind !== "Run"
+                        ? targetUnitItems
+                        : targetUnitItems.slice(3)
+                    }
                     setOpen={setIsDropdownTargetUnit}
                     setValue={setTargetUnit}
-                    setItems={setTargetUnitItems}
+                    // setItems={setTargetUnitItems}
                     dropDownDirection="TOP"
                     containerStyle={{ width: 200 }}
                   />
@@ -615,6 +627,7 @@ const DetailHabitScreen = ({ navigation, route }) => {
             backgroundColor: kind === "Run" ? COLOR.yellow : "transparent",
           },
         ]}
+        disabled={true}
       >
         <Image
           source={Icon.shoeRanking}

@@ -59,12 +59,19 @@ const AddHabitScreen = ({ navigation, route }) => {
   const [isModalTarget, setIsModalTarget] = useState(false);
   const [isDropdownTargetUnit, setIsDropdownTargetUnit] = useState(false);
 
-  const [targetUnitItems, setTargetUnitItems] = useState([
+  // const [targetUnitItems, setTargetUnitItems] = useState([
+  //   { label: "times", value: "time(s)" },
+  //   { label: "mins", value: "min(s)" },
+  //   { label: "hours", value: "hour(s)" },
+  //   { label: "km", value: "km" },
+  // ]);
+
+  const targetUnitItems = [
     { label: "times", value: "time(s)" },
     { label: "mins", value: "min(s)" },
     { label: "hours", value: "hour(s)" },
     { label: "km", value: "km" },
-  ]);
+  ];
 
   const [error, setError] = useState("");
 
@@ -356,7 +363,7 @@ const AddHabitScreen = ({ navigation, route }) => {
 
             <View>
               <View style={styles.row}>
-                <MyText>Set reminder?</MyText>
+                <MyText>Reminder?</MyText>
                 <MySwitch
                   onValueChange={toggleIsSetReminder}
                   value={isSetReminder}
@@ -421,7 +428,7 @@ const AddHabitScreen = ({ navigation, route }) => {
             {/* target handle */}
             <View style={{ marginVertical: 12 }}>
               <View style={styles.row}>
-                <MyText>Set target?</MyText>
+                <MyText>Target?</MyText>
                 {isSetTarget && (
                   <TouchableOpacity onPress={openChangeTargetModal}>
                     <MyText b5>
@@ -432,6 +439,7 @@ const AddHabitScreen = ({ navigation, route }) => {
                 <MySwitch
                   onValueChange={toggleIsSetTarget}
                   value={isSetTarget}
+                  disabled={kind === "Run" ? true : false}
                 />
               </View>
 
@@ -467,10 +475,14 @@ const AddHabitScreen = ({ navigation, route }) => {
                   <DropDownPicker
                     open={isDropdownTargetUnit}
                     value={targetUnit}
-                    items={targetUnitItems}
+                    items={
+                      kind !== "Run"
+                        ? targetUnitItems
+                        : targetUnitItems.slice(3)
+                    }
                     setOpen={setIsDropdownTargetUnit}
                     setValue={setTargetUnit}
-                    setItems={setTargetUnitItems}
+                    // setItems={setTargetUnitItems}
                     dropDownDirection="TOP"
                     containerStyle={{ width: 200 }}
                   />
@@ -595,6 +607,10 @@ const AddHabitScreen = ({ navigation, route }) => {
           setIcon(
             "https://www.iconbunny.com/icons/media/catalog/product/3/9/3952.9-running-icon-iconbunny.jpg"
           );
+          if (!isSetTarget) {
+            toggleIsSetTarget();
+          }
+          setTargetUnit("km");
         }}
         style={[
           styles.buttonRun,
@@ -602,6 +618,7 @@ const AddHabitScreen = ({ navigation, route }) => {
             backgroundColor: kind === "Run" ? COLOR.yellow : COLOR.grey,
           },
         ]}
+        disabled={kind === "Run" ? true : false}
       >
         <Image source={Icon.shoeRanking} style={{ width: 24, height: 24 }} />
       </TouchableOpacity>
