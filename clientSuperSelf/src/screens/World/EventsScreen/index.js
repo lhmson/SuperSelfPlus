@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState, useMemo } from "react";
 import { View, ScrollView, FlatList } from "react-native";
-import styles from "./styles";
+import styles from "../styles";
 import styled from "styled-components";
 import { useIsFocused } from "@react-navigation/native";
 import { Entypo } from "@expo/vector-icons";

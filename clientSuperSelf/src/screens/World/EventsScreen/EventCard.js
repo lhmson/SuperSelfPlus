@@ -8,7 +8,7 @@ import {
   ImageBackground,
   TouchableOpacity,
 } from "react-native";
-import styles from "./styles";
+import styles from "../styles";
 import styled from "styled-components";
 import { useIsFocused } from "@react-navigation/native";
 import { Entypo } from "@expo/vector-icons";
@@ -22,18 +22,21 @@ import MyCard from "../../../components/MyCard";
 import { useUser } from "../../../context/UserContext";
 import ICON from "../../../constants/icon";
 import { width } from "../../../constants/dimensions";
+import { dateCompare } from "../../../utils/datetime";
 
 function EventCard({ item, navigation }) {
   const ImageDemo = () => {
     return (
       <TouchableOpacity
         onPress={() => {
-          navigation.navigate("Detail Event");
+          navigation.navigate("Detail Event", { item: item });
         }}
       >
         <ImageBackground
           source={{
-            uri: "https://i.pinimg.com/564x/98/5c/4b/985c4beecb162508e539f514ac0ff0cf.jpg",
+            uri:
+              item.imageUrl ??
+              "https://i.pinimg.com/564x/98/5c/4b/985c4beecb162508e539f514ac0ff0cf.jpg",
           }}
           style={{
             width: width - 32,
@@ -45,11 +48,13 @@ function EventCard({ item, navigation }) {
           }}
           borderRadius={30}
         >
-          <MyButton style={{ width: 120, height: 30 }}>
-            <MyText size6 color={COLOR.white}>
-              Coming soon
-            </MyText>
-          </MyButton>
+          {dateCompare(item.eventInfo.dateStart, new Date()) === 1 && (
+            <MyButton style={{ width: 120, height: 30 }}>
+              <MyText size6 color={COLOR.white}>
+                Coming soon
+              </MyText>
+            </MyButton>
+          )}
         </ImageBackground>
       </TouchableOpacity>
     );
@@ -64,15 +69,20 @@ function EventCard({ item, navigation }) {
           alignSelf: "flex-start",
         }}
       >
-        <MyText size5 b5>
-          Cuộc đua vô cực - Trận chiến cuối cùng
+        <MyText size4 b5>
+          {item.title}
         </MyText>
+        {item.description ? (
+          <MyText size5 b3>
+            {item.description}
+          </MyText>
+        ) : null}
 
         <View
           style={{
             flexDirection: "row",
             alignItems: "center",
-            marginBottom: 8,
+            marginVertical: 8,
           }}
         >
           <Image
@@ -85,8 +95,10 @@ function EventCard({ item, navigation }) {
               resizeMode: "center",
               marginRight: 8,
             }}
-          ></Image>
-          <MyText size5>21/06 - 27/06/2021</MyText>
+          />
+          <MyText size5>{`${moment(item.eventInfo.dateStart).format(
+            "DD/MM/YY"
+          )} - ${moment(item.eventInfo.dateEnd).format("DD/MM/YY")}`}</MyText>
 
           <Image
             source={{
@@ -99,8 +111,8 @@ function EventCard({ item, navigation }) {
               marginRight: 8,
               marginLeft: 32,
             }}
-          ></Image>
-          <MyText size5>1.834</MyText>
+          />
+          <MyText size5>{item.eventInfo.listJoiners.length}</MyText>
         </View>
 
         <View
@@ -121,7 +133,10 @@ function EventCard({ item, navigation }) {
               marginRight: 8,
             }}
           ></Image>
-          <MyText size5>Huy hiệu Chiếc giày vô cực</MyText>
+          <MyText size5>
+            {item.eventInfo.achievement ??
+              `Best ${item.title.toUpperCase()} prize`}
+          </MyText>
         </View>
       </View>
     );
@@ -141,12 +156,11 @@ function EventCard({ item, navigation }) {
       >
         <MyButton
           style={{ width: width * 0.3, height: 50 }}
-          color={COLOR.white}
           onPress={() => {
             navigation.navigate("Detail Event", { item: item });
           }}
         >
-          <MyText color={COLOR.orange} b5>
+          <MyText color={COLOR.white} b5>
             Detail
           </MyText>
         </MyButton>
@@ -161,6 +175,7 @@ function EventCard({ item, navigation }) {
       </View>
     );
   };
+
   return (
     <MyCard
       style={{

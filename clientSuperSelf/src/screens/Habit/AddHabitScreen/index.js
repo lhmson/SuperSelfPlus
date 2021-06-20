@@ -168,6 +168,27 @@ const AddHabitScreen = ({ navigation, route }) => {
     setIconModal(true);
   };
 
+  const renderAchievement = (habit) => {
+    const prizes = [
+      "Award",
+      "Medal",
+      "Prize",
+      "Cup",
+      "Badge",
+      "Crown",
+      "Trophy",
+      "King",
+      "Star",
+    ];
+    const titles = ["Best", "Gold", "Top", "Extreme", "Ultimate"];
+
+    const title = titles[Math.floor(Math.random() * titles.length)];
+
+    const prize = prizes[Math.floor(Math.random() * prizes.length)];
+
+    return `${title} ${habit.toUpperCase()} ${prize}`;
+  };
+
   const validateHabitForm = () => {
     if (!title) {
       setError(errors[0]);
@@ -201,6 +222,7 @@ const AddHabitScreen = ({ navigation, route }) => {
         dateStart: getDateNoTime(eventStartDate),
         dateEnd: getDateNoTime(eventEndDate),
         listJoiners: [user.state.uid],
+        achievement: renderAchievement(title),
       };
     }
 

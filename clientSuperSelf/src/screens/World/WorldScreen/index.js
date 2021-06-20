@@ -7,8 +7,8 @@ import {
   ImageBackground,
   TouchableOpacity,
 } from "react-native";
+import styles from "../styles";
 
-import styles from "./styles";
 import { useIsFocused } from "@react-navigation/native";
 import COLOR from "../../../constants/colors";
 
@@ -21,9 +21,7 @@ import ICON from "../../../constants/icon";
 import ICONWORLD from "../../../constants/imageWorld";
 
 import { Audio } from "expo-av";
-
-const WIDTH = Dimensions.get("window").width;
-const HEIGHT = Dimensions.get("window").height;
+import { height, width } from "../../../constants/dimensions";
 
 function WorldScreen({ navigation }) {
   const [soundEffect, setSoundEffect] = React.useState();
@@ -54,8 +52,8 @@ function WorldScreen({ navigation }) {
   //#endregion
 
   const UICharacter = () => {
-    const W = WIDTH;
-    const H = WIDTH * 1.75;
+    const W = width;
+    const H = width * 1.75;
     const { characters, pets, decorations, angels } = ICONWORLD;
 
     const Character = ({ codeCharacter }) => {
@@ -189,7 +187,7 @@ function WorldScreen({ navigation }) {
         <TouchableOpacity
           style={{
             position: "absolute",
-            top: HEIGHT * 0.7,
+            top: height * 0.7,
             left: 8,
             zIndex: 2,
           }}
@@ -214,7 +212,7 @@ function WorldScreen({ navigation }) {
       <View
         style={{
           flex: 1,
-          width: WIDTH,
+          width: width,
           alignItems: "center",
           justifyContent: "center",
           elevation: 40,

@@ -7,7 +7,7 @@ import {
   Image,
   ImageBackground,
 } from "react-native";
-import styles from "./styles";
+import styles from "../styles";
 import styled from "styled-components";
 import { useIsFocused } from "@react-navigation/native";
 import { Entypo } from "@expo/vector-icons";
@@ -24,7 +24,8 @@ import ICONWORLD from "../../../constants/imageWorld";
 import Timeline from "react-native-timeline-flatlist";
 import { width } from "../../../constants/dimensions";
 
-function DetailEventScreen() {
+function DetailEventScreen({ navigation, route }) {
+  const { item } = route.params;
   //#region
   const CardEvent = () => {
     const _margin = 8;
@@ -79,8 +80,9 @@ function DetailEventScreen() {
                     alignItems: "flex-start",
                   }}
                 >
-                  {images.map((image) => (
+                  {images.map((image, index) => (
                     <Image
+                      key={index}
                       source={image}
                       style={{ width: 80, height: 80, resizeMode: "contain" }}
                     ></Image>
