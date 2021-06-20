@@ -16,6 +16,7 @@ import indexRouter from "./routes/index.js";
 import userRouter from "./routes/user.js";
 import habitRouter from "./routes/habit.js";
 import runRouter from "./routes/run.js";
+import eventRouter from "./routes/event.js";
 // import postRouter from "./routes/post.js";
 
 dotenv.config();
@@ -47,6 +48,7 @@ app.use(cookieParser());
 app.use("/", indexRouter);
 app.use("/user", userRouter);
 app.use("/habit", habitRouter);
+app.use("/event", eventRouter);
 app.use("/run", runRouter);
 // app.use("/post", postRouter);
 

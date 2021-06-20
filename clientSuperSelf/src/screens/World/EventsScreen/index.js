@@ -21,9 +21,7 @@ import MyCard from "../../../components/MyCard";
 
 import { useUser } from "../../../context/UserContext";
 import ICON from "../../../constants/icon";
-
-const WIDTH = Dimensions.get("window").width;
-const HEIGHT = Dimensions.get("window").height;
+import { width } from "../../../constants/dimensions";
 
 function EventScreen({ navigation }) {
   const [loading, setLoading] = useState(true);
@@ -38,7 +36,7 @@ function EventScreen({ navigation }) {
           flexDirection: "row",
           justifyContent: "space-around",
           alignItems: "stretch",
-          width: WIDTH - 32,
+          width: width - 32,
           padding: 8,
         }}
       >
@@ -47,7 +45,7 @@ function EventScreen({ navigation }) {
           style={{
             backgroundColor: selectMenu === 1 ? COLOR.green : COLOR.whiteSmoke,
             height: 40,
-            borderRadius: 40,
+            // borderRadius: 40,
           }}
           onPress={() => {
             setSelectMenu(1);
@@ -63,7 +61,7 @@ function EventScreen({ navigation }) {
           style={{
             backgroundColor: selectMenu === 2 ? COLOR.green : COLOR.whiteSmoke,
             height: 40,
-            borderRadius: 40,
+            // borderRadius: 40,
           }}
           onPress={() => {
             setSelectMenu(2);
@@ -79,7 +77,7 @@ function EventScreen({ navigation }) {
           style={{
             backgroundColor: selectMenu === 3 ? COLOR.green : COLOR.whiteSmoke,
             height: 40,
-            borderRadius: 40,
+            // borderRadius: 40,
           }}
           onPress={() => {
             setSelectMenu(3);
@@ -107,16 +105,16 @@ function EventScreen({ navigation }) {
               uri: "https://i.pinimg.com/564x/98/5c/4b/985c4beecb162508e539f514ac0ff0cf.jpg",
             }}
             style={{
-              borderRadius: 50,
-              width: WIDTH - 32,
-              height: WIDTH * 0.5,
+              width: width - 32,
+              height: width * 0.5,
               resizeMode: "cover",
               justifyContent: "flex-end",
               flexDirection: "row",
               paddingRight: 20,
             }}
+            borderRadius={30}
           >
-            <MyButton style={{ width: 120, height: 30, borderRadius: 40 }}>
+            <MyButton style={{ width: 120, height: 30 }}>
               <MyText size6 color={COLOR.white}>
                 Coming soon
               </MyText>
@@ -205,13 +203,13 @@ function EventScreen({ navigation }) {
             flexDirection: "row",
             padding: 8,
             justifyContent: "space-between",
-            width: WIDTH - 32,
+            width: width - 32,
             paddingTop: 0,
             marginTop: -16,
           }}
         >
           <MyButton
-            style={{ width: WIDTH * 0.3, height: 50, borderRadius: 40 }}
+            style={{ width: width * 0.3, height: 50 }}
             color={COLOR.white}
             onPress={() => {
               navigation.navigate("Detail Event");
@@ -222,7 +220,7 @@ function EventScreen({ navigation }) {
             </MyText>
           </MyButton>
           <MyButton
-            style={{ width: WIDTH * 0.5, height: 50, borderRadius: 40 }}
+            style={{ width: width * 0.5, height: 50 }}
             color={COLOR.lightGreen}
           >
             <MyText color={COLOR.white} b5>
@@ -238,8 +236,8 @@ function EventScreen({ navigation }) {
           flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
-          width: WIDTH - 20,
-          borderRadius: 30,
+          width: width - 20,
+          // borderRadius: 30,
           borderColor: COLOR.green,
           borderSize: 5,
           padding: 0,
@@ -259,7 +257,7 @@ function EventScreen({ navigation }) {
         style={{
           flex: 1,
           marginTop: 16,
-          width: WIDTH,
+          width: width,
           alignItems: "center",
           justifyContent: "center",
           elevation: 40,
@@ -281,7 +279,7 @@ function EventScreen({ navigation }) {
               height: 50,
               alignItems: "center",
               marginTop: 50,
-              width: WIDTH - 32,
+              width: width - 32,
             }}
           >
             <MyText>searching...</MyText>

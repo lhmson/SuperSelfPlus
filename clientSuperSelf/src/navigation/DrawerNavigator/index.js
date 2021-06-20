@@ -5,7 +5,7 @@ import {
   DrawerItemList,
   DrawerItem,
 } from "@react-navigation/drawer";
-import { FontAwesome } from "@expo/vector-icons";
+import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import styles from "./styles";
 
 import {
@@ -100,8 +100,8 @@ const DrawerNavigator = () => {
         component={SettingStackNavigator}
         options={{
           drawerIcon: ({ focused, size }) => (
-            <FontAwesome
-              name="question-circle"
+            <Ionicons
+              name="settings"
               size={24}
               style={{ color: focused ? COLOR.blue : COLOR.black }}
             />

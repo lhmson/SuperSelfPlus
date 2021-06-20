@@ -22,9 +22,7 @@ import { useUser } from "../../../context/UserContext";
 import ICON from "../../../constants/icon";
 import ICONWORLD from "../../../constants/imageWorld";
 import Timeline from "react-native-timeline-flatlist";
-
-const WIDTH = Dimensions.get("window").width;
-const HEIGHT = Dimensions.get("window").height;
+import { width } from "../../../constants/dimensions";
 
 function DetailEventScreen() {
   //#region
@@ -38,8 +36,8 @@ function DetailEventScreen() {
             uri: "https://i.pinimg.com/564x/98/5c/4b/985c4beecb162508e539f514ac0ff0cf.jpg",
           }}
           style={{
-            width: WIDTH - 32,
-            height: WIDTH * 0.5,
+            width: width - 32,
+            height: width * 0.5,
             resizeMode: "cover",
             justifyContent: "flex-end",
             flexDirection: "row",
@@ -49,9 +47,9 @@ function DetailEventScreen() {
           borderRadius={30}
           elevation={10}
         >
-          <MyButton style={{ width: 120, height: 30, borderRadius: 40 }}>
+          <MyButton style={{ width: 120, height: 30 }}>
             <MyText size6 color={COLOR.white}>
-              Comming soon
+              Coming soon
             </MyText>
           </MyButton>
         </ImageBackground>
@@ -91,7 +89,7 @@ function DetailEventScreen() {
                 <MyText size6 color="gray">
                   {content}
                 </MyText>
-                {/* <View style={{ width: WIDTH * 0.4 }}>
+                {/* <View style={{ width: width * 0.4 }}>
                 <MyText size6 color="gray">
                   {content}
                 </MyText>
@@ -131,7 +129,7 @@ function DetailEventScreen() {
           },
         ];
         return (
-          <View style={{ width: WIDTH - 32, marginTop: 16 }}>
+          <View style={{ width: width - 32, marginTop: 16 }}>
             <Timeline
               circleSize={20}
               circleColor={COLOR.green}
@@ -145,7 +143,7 @@ function DetailEventScreen() {
       };
       const ProgressBar = ({ percent }) => {
         const _height = 30;
-        const _wParent = WIDTH - 32;
+        const _wParent = width - 32;
         const _wChild = (_wParent * percent) / 100;
         return (
           <View
@@ -257,12 +255,12 @@ function DetailEventScreen() {
             flexDirection: "row",
             padding: 8,
             justifyContent: "center",
-            width: WIDTH - 32,
+            width: width - 32,
             paddingTop: 0,
           }}
         >
           <MyButton
-            style={{ width: WIDTH * 0.8, height: 50, borderRadius: 40 }}
+            style={{ width: width * 0.8, height: 50 }}
             color={COLOR.lightGreen}
           >
             <MyText color={COLOR.white} b5>
@@ -278,7 +276,7 @@ function DetailEventScreen() {
           flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
-          width: WIDTH - 20,
+          width: width - 20,
           borderColor: COLOR.green,
           borderSize: 5,
           padding: 0,
@@ -297,7 +295,7 @@ function DetailEventScreen() {
         style={{
           flex: 1,
           marginTop: 0,
-          width: WIDTH,
+          width: width,
           alignItems: "center",
           justifyContent: "center",
           elevation: 40,

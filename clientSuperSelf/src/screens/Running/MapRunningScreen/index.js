@@ -23,6 +23,7 @@ import ModalTimeOut from "./modalTimeout";
 import ModalFinish from "./modalFinishGoal";
 import ModalChooseEvent from "./modalChooseEvent";
 import ICONWORLD from "../../../constants/imageWorld";
+import FONT from "../../../constants/font";
 
 //#region  global
 const WIDTH = Dimensions.get("window").width;
@@ -172,33 +173,54 @@ const MapRunningScreen = ({ navigation }) => {
               justifyContent: "center",
             }}
           >
-            <View style={{ marginRight: 24 }}>
-              <CountDown
-                until={minutes * 60}
-                size={25}
-                onFinish={timeOut}
-                digitStyle={{ backgroundColor: COLOR.white }}
-                digitTxtStyle={{ color: COLOR.green }}
-                timeLabelStyle={{ color: "transparent" }}
-                timeToShow={["M", "S"]}
-                running={statusModal === "Run" && minutes > 0}
-              />
-            </View>
-            <TouchableOpacity onPress={onPressRun}>
-              <MyButton size5 color={COLOR.green} style={{ marginRight: 24 }}>
-                <MyText b5 color={COLOR.white}>
-                  RUN
-                </MyText>
-              </MyButton>
-            </TouchableOpacity>
+            {statusModal === "Run" && (
+              <View
+                style={{
+                  justifyContent: "center",
+                  alignItems: "center",
+                  marginRight: 24,
+                }}
+              >
+                <CountDown
+                  until={minutes * 60}
+                  size={25}
+                  onFinish={timeOut}
+                  digitStyle={{ backgroundColor: COLOR.white }}
+                  digitTxtStyle={{
+                    color: COLOR.green,
+                    fontFamily: FONT.Nunito_700,
+                  }}
+                  showSeparator
+                  separatorStyle={{
+                    color: COLOR.green,
+                    fontFamily: FONT.Nunito_200,
+                  }}
+                  timeLabelStyle={{ display: "none" }}
+                  timeToShow={["M", "S"]}
+                  running={statusModal === "Run" && minutes > 0}
+                />
+              </View>
+            )}
 
-            <TouchableOpacity onPress={onPressStop}>
-              <MyButton size5 onPress={() => {}} color={COLOR.green}>
-                <MyText b5 color={COLOR.white}>
-                  STOP
-                </MyText>
-              </MyButton>
-            </TouchableOpacity>
+            {statusModal !== "Run" && (
+              <TouchableOpacity onPress={onPressRun}>
+                <MyButton size5 color={COLOR.green} style={{ marginRight: 24 }}>
+                  <MyText b5 color={COLOR.white}>
+                    RUN
+                  </MyText>
+                </MyButton>
+              </TouchableOpacity>
+            )}
+
+            {statusModal === "Run" && (
+              <TouchableOpacity onPress={onPressStop}>
+                <MyButton size5 onPress={() => {}} color={COLOR.green}>
+                  <MyText b5 color={COLOR.white}>
+                    STOP
+                  </MyText>
+                </MyButton>
+              </TouchableOpacity>
+            )}
           </View>
         </View>
       );
@@ -237,6 +259,9 @@ const MapRunningScreen = ({ navigation }) => {
               <MyText size5 b6>
                 {countSteps}
               </MyText>
+              <MyText size5 b6>
+                steps
+              </MyText>
             </MyCard>
 
             <View style={{ width: _marginButton }}></View>
@@ -256,6 +281,9 @@ const MapRunningScreen = ({ navigation }) => {
               <MyText size5 b6>
                 {countDistance}
               </MyText>
+              <MyText size5 b6>
+                m done
+              </MyText>
             </MyCard>
             <View style={{ width: _marginButton }}></View>
             <MyCard
@@ -273,6 +301,9 @@ const MapRunningScreen = ({ navigation }) => {
               />
               <MyText size5 b6>
                 {_dis}
+              </MyText>
+              <MyText size5 b6>
+                m left
               </MyText>
             </MyCard>
 
