@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
   View,
   ImageBackground,
@@ -30,7 +30,18 @@ import * as apiHabit from "../../../api/habit";
 import { useUser } from "../../../context/UserContext";
 import iconsUrl from "../../../utils/resources/iconsUrl";
 import Icon from "../../../constants/icon";
-import { dateCompare, getDateNoTime } from "../../../utils/datetime";
+import {
+  dateCompare,
+  getDateNoTime,
+  getDatesBetweenTwoDays,
+} from "../../../utils/datetime";
+
+import * as Notifications from "expo-notifications";
+import {
+  registerForPushNotificationsAsync,
+  scheduleNotiListForHabit,
+  schedulePushNotification,
+} from "../../../utils/notifications";
 
 const errors = ["You should enter title"];
 
@@ -74,6 +85,37 @@ const AddHabitScreen = ({ navigation, route }) => {
   ];
 
   const [error, setError] = useState("");
+
+  //#region Noti
+  const [expoPushToken, setExpoPushToken] = useState("");
+  const [notification, setNotification] = useState(false);
+  const notificationListener = useRef();
+  const responseListener = useRef();
+
+  useEffect(() => {
+    registerForPushNotificationsAsync().then((token) =>
+      setExpoPushToken(token)
+    );
+
+    notificationListener.current =
+      Notifications.addNotificationReceivedListener((notification) => {
+        setNotification(notification);
+      });
+
+    responseListener.current =
+      Notifications.addNotificationResponseReceivedListener((response) => {
+        console.log(response);
+      });
+
+    return () => {
+      Notifications.removeNotificationSubscription(
+        notificationListener.current
+      );
+      Notifications.removeNotificationSubscription(responseListener.current);
+    };
+  }, []);
+
+  ////#endregion
 
   useEffect(() => {
     if (item) {
@@ -252,7 +294,17 @@ const AddHabitScreen = ({ navigation, route }) => {
           onPress: () => {},
         });
         navigation.navigate("Home");
+        if (reminder) {
+          scheduleNotiListForHabit(
+            new Date().addDays(21),
+            reminder,
+            `Let's do this: ${title}`,
+            `Keep doing your best for a better self`,
+            { data: "Home" }
+          );
+        }
       })
+
       .catch((error) => {
         console.log("Error when adding habit", error);
         alert("Error when adding habit");

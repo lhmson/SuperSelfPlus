@@ -31,7 +31,7 @@ export const getMyHabits = async (req, res) => {
       const habits = await PersonalHabit.find({ userId }).populate({
         path: "habitId",
         model: "Habit",
-        select: "title description color kind icon target eventInfo",
+        select: "title description color kind icon target eventInfo authorId",
       });
       return res.status(httpStatusCodes.ok).json(habits);
     } catch (error) {
@@ -66,7 +66,7 @@ export const getUserHabits = async (req, res) => {
       const habits = await PersonalHabit.find({ userId }).populate({
         path: "habitId",
         model: "Habit",
-        select: "title description color kind icon target eventInfo",
+        select: "title description color kind icon target eventInfo authorId",
       });
       return res.status(httpStatusCodes.ok).json(habits);
     } catch (error) {
@@ -88,7 +88,7 @@ export const getAHabitOfMe = async (req, res) => {
   try {
     const personalHabit = await PersonalHabit.findOne({ habitId }).populate({
       path: "habitId",
-      select: "title description color kind icon target eventInfo",
+      select: "title description color kind icon target eventInfo authorId",
       model: "Habit",
     });
 
@@ -139,11 +139,11 @@ export const getMyHabitsOfDate = async (req, res) => {
     const items = await HistoryHabit.find({ date: rawDate, userId }).populate({
       path: "personalHabitId",
       model: "PersonalHabit",
-      select: "reminder joinDate isFinish score",
+      select: "reminder joinDate isFinish score userId",
       populate: {
         path: "habitId",
         model: "Habit",
-        select: "title description color kind icon target eventInfo",
+        select: "title description color kind icon target eventInfo authorId",
       },
     });
     res.status(httpStatusCodes.ok).json(items);

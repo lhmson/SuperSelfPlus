@@ -40,31 +40,29 @@ const DetailHabitScreen = ({ navigation, route }) => {
   const { updateUser } = user;
 
   // habit properties
-  const [title, setTitle] = useState(item.personalHabitId.habitId.title); // can bind from browsing habits
-  const [description, setDescription] = useState(
-    item.personalHabitId.habitId.description
-  ); // optional
-  const [color, setColor] = useState(item.personalHabitId.habitId.color); // pick color: ;
-  const [kind, setKind] = useState(item.personalHabitId.habitId.kind); // Do and Do not
+  const [title, setTitle] = useState(item.habitId.title); // can bind from browsing habits
+  const [description, setDescription] = useState(item.habitId.description); // optional
+  const [color, setColor] = useState(item.habitId.color); // pick color: ;
+  const [kind, setKind] = useState(item.habitId.kind); // Do and Do not
   // const [daysToDo, setDaysToDo] = useState(new Array(7).fill(true)); // everyday, some days, weekend
-  const [icon, setIcon] = useState(item.personalHabitId.habitId.icon);
+  const [icon, setIcon] = useState(item.habitId.icon);
   const [iconModal, setIconModal] = useState(false);
 
   const [isSetReminder, setIsSetReminder] = useState(
-    item.personalHabitId.reminder ? true : false
+    item.reminder ? true : false
   );
-  const [reminder, setReminder] = useState(item.personalHabitId.reminder); // time picker
+  const [reminder, setReminder] = useState(item.reminder); // time picker
   const [isModalReminder, setIsModalReminder] = useState(false);
 
   // target
   const [isSetTarget, setIsSetTarget] = useState(
-    item.personalHabitId.habitId.target ? true : false
+    item.habitId.target ? true : false
   );
   const [targetNumber, setTargetNumber] = useState(
-    item.personalHabitId.habitId.target?.targetNumber ?? 5
+    item.habitId.target?.targetNumber ?? 5
   );
   const [targetUnit, setTargetUnit] = useState(
-    item.personalHabitId.habitId.target?.targetUnit ?? "times"
+    item.habitId.target?.targetUnit ?? "times"
   );
   const [isModalTarget, setIsModalTarget] = useState(false);
   const [isDropdownTargetUnit, setIsDropdownTargetUnit] = useState(false);
@@ -160,7 +158,7 @@ const DetailHabitScreen = ({ navigation, route }) => {
   };
 
   const toggleIsSetTarget = () => {
-    if (item.personalHabitId.habitId.eventInfo) {
+    if (item.habitId.eventInfo) {
       alert("You cannot change target of event being hold");
       return;
     }
@@ -215,7 +213,7 @@ const DetailHabitScreen = ({ navigation, route }) => {
 
     // alert(JSON.stringify(updatedHabit));
     apiHabit
-      .updateMyHabit(item.personalHabitId._id, updatedHabit)
+      .updateMyHabit(item._id, updatedHabit)
       .then(() => {
         Toast.show({
           type: "success", // success, error, info
@@ -227,6 +225,7 @@ const DetailHabitScreen = ({ navigation, route }) => {
           onPress: () => {},
         });
         navigation.navigate("Home");
+        //TODO: removeNoti if reminder not set
       })
       .catch((error) => {
         console.log("Error when updating habit", error);
@@ -235,7 +234,7 @@ const DetailHabitScreen = ({ navigation, route }) => {
   };
 
   // const handleStatistics = () => {
-  //   navigation.navigate("Habit Stats", { item: item.personalHabitId });
+  //   navigation.navigate("Habit Stats", { item: item });
   // };
 
   const handleRun = () => {
@@ -243,7 +242,8 @@ const DetailHabitScreen = ({ navigation, route }) => {
   };
 
   const handleDeleteHabit = () => {
-    if (item.userId !== user.state.uid) {
+    console.log(item);
+    if (item.habitId.authorId !== user.state.uid) {
       alert("You are not owner of this personal habit");
       return;
     }
@@ -251,7 +251,7 @@ const DetailHabitScreen = ({ navigation, route }) => {
     Alert.alert(
       "Confirm delete",
       `${
-        item.personalHabitId.habitId.eventInfo
+        item.habitId.eventInfo
           ? "This habit is being hold as an event. You cannot delete the habit, you can just withdraw from the event, are you sure?"
           : "Are you sure"
       }`,
@@ -268,7 +268,7 @@ const DetailHabitScreen = ({ navigation, route }) => {
           onPress: () => {
             {
               apiHabit
-                .deleteMyHabit(item.personalHabitId._id)
+                .deleteMyHabit(item._id)
                 .then((res) => {
                   Toast.show({
                     type: "success", // success, error, info
@@ -280,6 +280,7 @@ const DetailHabitScreen = ({ navigation, route }) => {
                     onPress: () => {},
                   });
                   navigation.navigate("Home");
+                  //TODO: delete noti of habit
                 })
                 .catch((error) => {
                   alert("Error when delete habit");
@@ -526,9 +527,7 @@ const DetailHabitScreen = ({ navigation, route }) => {
                 <MyText>Target?</MyText>
                 {isSetTarget && (
                   <TouchableOpacity
-                    disabled={
-                      item.personalHabitId.habitId.eventInfo ? true : false
-                    }
+                    disabled={item.habitId.eventInfo ? true : false}
                     onPress={openChangeTargetModal}
                   >
                     <MyText b5>
@@ -656,7 +655,7 @@ const DetailHabitScreen = ({ navigation, route }) => {
           style={{
             width: 50,
             height: 50,
-            display: item.personalHabitId.habitId.eventInfo ? "flex" : "none",
+            display: item.habitId.eventInfo ? "flex" : "none",
           }}
         />
       </TouchableOpacity>
