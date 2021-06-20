@@ -1,3 +1,5 @@
 import API from "./index";
 
-export const getMyJoiningEvents = () => API.get("/event/my/list");
+export const getAllEvents = () => API.get("/event/list/all");
+
+export const getMyEvents = () => API.get("/event/my/list");

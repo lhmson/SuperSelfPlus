@@ -239,6 +239,10 @@ const DetailHabitScreen = ({ navigation, route }) => {
     navigation.goBack();
   };
 
+  const handleRun = () => {
+    //TODO: navigate running screen and binding data setup
+  };
+
   const handleDeleteHabit = () => {
     if (item.userId !== user.state.uid) {
       alert("You are not owner of this personal habit");
@@ -627,7 +631,7 @@ const DetailHabitScreen = ({ navigation, route }) => {
             backgroundColor: kind === "Run" ? COLOR.yellow : "transparent",
           },
         ]}
-        disabled={true}
+        onPress={handleRun}
       >
         <Image
           source={Icon.shoeRanking}

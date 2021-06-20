@@ -105,6 +105,16 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     alignItems: "center",
   },
+  iconEventItem: {
+    width: 50,
+    height: 50,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 25,
+    position: "absolute",
+    top: -20,
+    right: -10,
+  },
   // suggestion
   themeCard: {
     // alignItems: "center",

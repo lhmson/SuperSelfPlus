@@ -84,6 +84,7 @@ const AddHabitScreen = ({ navigation, route }) => {
     }
   }, [item]);
 
+  //TODO: set  image for event
   const [isSetEvent, setIsSetEvent] = useState(false);
   const [eventStartDate, setEventStartDate] = useState(null); // date to start habit
   const [isModalStartDate, setIsModalStartDate] = useState(false);

@@ -11,6 +11,7 @@ import {
   upScorePersonalHabit,
 } from "../utils/supportRunHabit.js";
 
+// PUT run/:userId/updateRunData
 export const updateRunData = async (req, res) => {
   const { userId } = req.params;
   const { steps, distance } = req.body;
@@ -52,6 +53,7 @@ export const updateRunData = async (req, res) => {
   }
 };
 
+//PUT run/:userId/autoUpdateRunHabit
 export const autoUpdateProgressRunHabits = async (req, res) => {
   const { userId } = req.params;
   const { steps, distance } = req.body;

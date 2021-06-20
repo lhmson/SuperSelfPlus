@@ -13,6 +13,7 @@ import MyCard from "../../../components/MyCard";
 
 import * as apiHabit from "../../../api/habit";
 import { useUser } from "../../../context/UserContext";
+import Icon from "../../../constants/icon";
 import CheckButton from "./CheckButton";
 
 const HabitItem = ({ item, navigation, setIsUpdate }) => {
@@ -53,6 +54,11 @@ const HabitItem = ({ item, navigation, setIsUpdate }) => {
         </TouchableOpacity>
         <CheckButton item={item} setIsUpdate={setIsUpdate} />
       </View>
+      {item.personalHabitId.habitId.eventInfo && (
+        <TouchableOpacity onPress={() => {}} style={[styles.iconEventItem, {}]}>
+          <Image source={Icon.eventLabel} style={{ width: 40, height: 40 }} />
+        </TouchableOpacity>
+      )}
     </MyCard>
   );
 };

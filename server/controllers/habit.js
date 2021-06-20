@@ -385,46 +385,6 @@ export const updateMyHistoryHabit = async (req, res) => {
   }
 };
 
-// DELETE habit/:habitId
-// export const deleteHabit = async (req, res) => {
-//   const { habitId } = req.params;
-//   const { userId } = req;
-
-//   try {
-//     const habit = await Habit.findById(habitId);
-//     if (!habit) {
-//       return res
-//         .status(httpStatusCodes.notFound)
-//         .send(`No habit with id: ${habitId}`);
-//     }
-
-//     if (!userId || !habit.authorId.equals(userId)) {
-//       return res
-//         .status(httpStatusCodes.unauthorized)
-//         .json({ message: `You don't have permission to delete this habit` });
-//     }
-
-//     const personalHabit = await PersonalHabit.findOneAndRemove({ habitId });
-//     //TODO: handle it is finished
-//     if (habit.eventInfo) {
-//       return res
-//         .status(httpStatusCodes.forbidden)
-//         .json({ message: "Cannot delete habit with event" });
-//     }
-//     await Habit.findByIdAndRemove(habitId);
-//     await HistoryHabit.deleteMany({
-//       personalHabitId: personalHabit._id,
-//     });
-//     res
-//       .status(httpStatusCodes.ok)
-//       .json({ message: "Habit delete successfully." });
-//   } catch (error) {
-//     res
-//       .status(httpStatusCodes.internalServerError)
-//       .json({ message: error.message });
-//   }
-// };
-
 // DELETE habit/:personalHabitId
 export const deletePersonalHabitId = async (req, res) => {
   const { personalHabitId } = req.params;

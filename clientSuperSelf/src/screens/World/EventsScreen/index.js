@@ -1,33 +1,68 @@
 import React, { useEffect, useRef, useState, useMemo } from "react";
-import {
-  View,
-  ScrollView,
-  FlatList,
-  Dimensions,
-  Image,
-  ImageBackground,
-  TouchableOpacity,
-} from "react-native";
+import { View, ScrollView, FlatList } from "react-native";
 import styles from "./styles";
 import styled from "styled-components";
 import { useIsFocused } from "@react-navigation/native";
 import { Entypo } from "@expo/vector-icons";
 import COLOR from "../../../constants/colors";
+import { width } from "../../../constants/dimensions";
 import moment, { ISO_8601 } from "moment";
 
 import MyText from "../../../components/MyText";
 import MyButton from "../../../components/MyButton";
-import MyCard from "../../../components/MyCard";
+import SkeletonSample from "../../../components/SkeletonSample";
+import FooterList from "../../../components/FooterList";
+import EventCard from "./EventCard";
 
 import { useUser } from "../../../context/UserContext";
-import ICON from "../../../constants/icon";
-import { width } from "../../../constants/dimensions";
+import * as apiEvent from "../../../api/event";
+import useIsMountedRef from "../../../hooks/useIsMountedRef";
 
 function EventScreen({ navigation }) {
+  const user = useUser();
   const [loading, setLoading] = useState(true);
+  const [listEvents, setListEvents] = useState([]);
   const [selectMenu, setSelectMenu] = useState(1);
 
-  //#region
+  const isFocused = useIsFocused();
+  const isMountedRef = useIsMountedRef();
+
+  useEffect(() => {
+    apiEvent
+      .getAllEvents()
+      .then((res) => {
+        if (isMountedRef.current) {
+          // console.log(res.data);
+          setListEvents(res.data);
+        }
+      })
+      .catch((error) => {
+        alert("Error when getting events", error);
+        console.log("Error when getting events", error);
+      })
+      .finally(() => setLoading(false));
+  }, [isFocused]);
+
+  const renderHabit = ({ item }) => {
+    return <EventCard item={item} navigation={navigation} />;
+  };
+
+  const filterItems = useMemo(() => {
+    switch (selectMenu) {
+      case 1:
+        return listEvents;
+      case 2:
+        return listEvents.filter(
+          (item) => item.eventInfo.listJoiners.indexOf(user.state.uid) === -1
+        );
+      case 3:
+        return listEvents.filter(
+          (item) => item.eventInfo.listJoiners.indexOf(user.state.uid) !== -1
+        );
+      default:
+    }
+  }, [selectMenu, listEvents]);
+
   const HeaderButton = () => {
     const _margin = 20;
     return (
@@ -90,169 +125,10 @@ function EventScreen({ navigation }) {
       </View>
     );
   };
-  const CardEvent = () => {
-    const _margin = 8;
 
-    const ImageDemo = () => {
-      return (
-        <TouchableOpacity
-          onPress={() => {
-            navigation.navigate("Detail Event");
-          }}
-        >
-          <ImageBackground
-            source={{
-              uri: "https://i.pinimg.com/564x/98/5c/4b/985c4beecb162508e539f514ac0ff0cf.jpg",
-            }}
-            style={{
-              width: width - 32,
-              height: width * 0.5,
-              resizeMode: "cover",
-              justifyContent: "flex-end",
-              flexDirection: "row",
-              paddingRight: 20,
-            }}
-            borderRadius={30}
-          >
-            <MyButton style={{ width: 120, height: 30 }}>
-              <MyText size6 color={COLOR.white}>
-                Coming soon
-              </MyText>
-            </MyButton>
-          </ImageBackground>
-        </TouchableOpacity>
-      );
-    };
-
-    const ViewInfoEvent = () => {
-      return (
-        <View
-          style={{
-            padding: 8,
-            justifyContent: "flex-start",
-            alignSelf: "flex-start",
-          }}
-        >
-          <MyText size5 b5>
-            Cuộc đua vô cực - Trận chiến cuối cùng
-          </MyText>
-
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              marginBottom: 8,
-            }}
-          >
-            <Image
-              source={{
-                uri: "https://i.pinimg.com/564x/21/69/f4/2169f44bbeb03f495d4f24a9bb2ddb2a.jpg",
-              }}
-              style={{
-                width: 30,
-                height: 30,
-                resizeMode: "center",
-                marginRight: 8,
-              }}
-            ></Image>
-            <MyText size5>21/06 - 27/06/2021</MyText>
-
-            <Image
-              source={{
-                uri: "https://i.pinimg.com/564x/29/d9/bd/29d9bd7885eca021a310207d9c4fd850.jpg",
-              }}
-              style={{
-                width: 30,
-                height: 30,
-                resizeMode: "center",
-                marginRight: 8,
-                marginLeft: 32,
-              }}
-            ></Image>
-            <MyText size5>1.834</MyText>
-          </View>
-
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              marginBottom: 8,
-            }}
-          >
-            <Image
-              source={{
-                uri: "https://i.pinimg.com/564x/4f/89/61/4f896194e6fdb9acbbc667af58d1d77a.jpg",
-              }}
-              style={{
-                width: 30,
-                height: 30,
-                resizeMode: "center",
-                marginRight: 8,
-              }}
-            ></Image>
-            <MyText size5>Huy hiệu Chiếc giày vô cực</MyText>
-          </View>
-        </View>
-      );
-    };
-
-    const ButtonFooter = () => {
-      return (
-        <View
-          style={{
-            flexDirection: "row",
-            padding: 8,
-            justifyContent: "space-between",
-            width: width - 32,
-            paddingTop: 0,
-            marginTop: -16,
-          }}
-        >
-          <MyButton
-            style={{ width: width * 0.3, height: 50 }}
-            color={COLOR.white}
-            onPress={() => {
-              navigation.navigate("Detail Event");
-            }}
-          >
-            <MyText color={COLOR.orange} b5>
-              Detail
-            </MyText>
-          </MyButton>
-          <MyButton
-            style={{ width: width * 0.5, height: 50 }}
-            color={COLOR.lightGreen}
-          >
-            <MyText color={COLOR.white} b5>
-              Join
-            </MyText>
-          </MyButton>
-        </View>
-      );
-    };
-    return (
-      <MyCard
-        style={{
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-          width: width - 20,
-          // borderRadius: 30,
-          borderColor: COLOR.green,
-          borderSize: 5,
-          padding: 0,
-        }}
-      >
-        <ImageDemo></ImageDemo>
-        <ViewInfoEvent></ViewInfoEvent>
-        <ButtonFooter></ButtonFooter>
-      </MyCard>
-    );
-  };
-  //#endregion
   return (
     <View style={styles.container}>
-      <HeaderButton></HeaderButton>
+      <HeaderButton />
       <View
         style={{
           flex: 1,
@@ -263,18 +139,37 @@ function EventScreen({ navigation }) {
           elevation: 40,
         }}
       >
-        <ScrollView
+        {/* <ScrollView
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{
             justifyContent: "center",
             alignItems: "center",
           }}
-        >
-          <CardEvent></CardEvent>
-          <CardEvent></CardEvent>
-          <CardEvent></CardEvent>
+        > */}
+        <View>
+          {loading ? (
+            <SkeletonSample />
+          ) : (
+            <>
+              <FlatList
+                data={selectMenu === 1 ? listEvents : filterItems}
+                renderItem={renderHabit}
+                keyExtractor={(item, index) => index.toString()}
+                removeClippedSubviews={true} // Unmount components when outside of window
+                initialNumToRender={2} // Reduce initial render amount
+                maxToRenderPerBatch={1} // Reduce number in each render batch
+                updateCellsBatchingPeriod={1200} // Increase time between renders
+                windowSize={7} // Reduce the window size
+                ListFooterComponent={() => (
+                  <FooterList title={"Get your dream come true"} />
+                )}
+                showsVerticalScrollIndicator={false}
+              />
+            </>
+          )}
+        </View>
 
-          <View
+        {/* <View
             style={{
               height: 50,
               alignItems: "center",
@@ -283,8 +178,8 @@ function EventScreen({ navigation }) {
             }}
           >
             <MyText>searching...</MyText>
-          </View>
-        </ScrollView>
+          </View> */}
+        {/* </ScrollView> */}
       </View>
     </View>
   );
