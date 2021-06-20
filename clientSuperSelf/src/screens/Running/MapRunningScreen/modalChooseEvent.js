@@ -31,9 +31,9 @@ function ModalChooseEvent({ isModalEvent, setIsModalEvent, assignEvent }) {
   };
 
   const MainModal = () => {
-    const ItemEvent = (nameEvent) => {
+    const ItemEvent = (nameEvent, key) => {
       return (
-        <TouchableOpacity onPress={() => chooseEvent(nameEvent, 0)}>
+        <TouchableOpacity key={key} onPress={() => chooseEvent(nameEvent, 0)}>
           <MyCard>
             <Image
               source={ICONWORLD.event}

@@ -49,7 +49,7 @@ const MapRunningScreen = ({ navigation }) => {
   const [countDistance, setCountDistance] = useState(0);
   const [isModalTimeOut, setIsModalTimeOut] = useState(false);
   const [isModalFinish, setIsModalFinish] = useState(false);
-  const [isModalEvent, setIsModalEvent] = useState(true);
+  const [isModalEvent, setIsModalEvent] = useState(false);
   //#endregion
 
   //#region sub function
