@@ -96,7 +96,7 @@ const CheckButton = ({ item, navigation, setIsUpdate }) => {
         <FontAwesome
           name={
             item.personalHabitId.habitId.kind === "Run"
-              ? "minus-circle"
+              ? "star"
               : item.personalHabitId.habitId.kind === "Do"
               ? "check-circle"
               : "times-circle"
@@ -178,8 +178,6 @@ const CheckButton = ({ item, navigation, setIsUpdate }) => {
               <MyText color={COLOR.white}>Back</MyText>
             </MyButton>
           </View>
-
-          {/* </MyCard> */}
         </View>
       </Modal>
     </View>

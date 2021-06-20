@@ -2,11 +2,11 @@ import mongoose from "mongoose";
 
 export const eventInfoSchema = mongoose.Schema(
   {
-    name: {
-      type: String,
-      required: true,
-      default: "",
-    },
+    // name: {
+    //   type: String,
+    //   required: true,
+    //   default: "",
+    // },
     listJoiners: {
       type: [
         {
@@ -22,11 +22,11 @@ export const eventInfoSchema = mongoose.Schema(
     dateEnd: {
       type: Date,
     },
-    kind: {
-      type: String,
-      enum: ["Habit", "Run"],
-      default: "Habit",
-    },
+    // kind: {
+    //   type: String,
+    //   enum: ["Habit", "Run"],
+    //   default: "Habit",
+    // },
   },
   { timestamps: true }
 );

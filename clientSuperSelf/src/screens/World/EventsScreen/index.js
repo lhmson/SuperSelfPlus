@@ -107,6 +107,7 @@ function EventScreen({ navigation }) {
               uri: "https://i.pinimg.com/564x/98/5c/4b/985c4beecb162508e539f514ac0ff0cf.jpg",
             }}
             style={{
+              borderRadius: 50,
               width: WIDTH - 32,
               height: WIDTH * 0.5,
               resizeMode: "cover",
@@ -117,7 +118,7 @@ function EventScreen({ navigation }) {
           >
             <MyButton style={{ width: 120, height: 30, borderRadius: 40 }}>
               <MyText size6 color={COLOR.white}>
-                Comming soon
+                Coming soon
               </MyText>
             </MyButton>
           </ImageBackground>

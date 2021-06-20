@@ -386,45 +386,44 @@ export const updateMyHistoryHabit = async (req, res) => {
 };
 
 // DELETE habit/:habitId
-export const deleteHabit = async (req, res) => {
-  const { habitId } = req.params;
-  const { userId } = req;
+// export const deleteHabit = async (req, res) => {
+//   const { habitId } = req.params;
+//   const { userId } = req;
 
-  try {
-    const habit = await Habit.findById(habitId);
-    if (!habit) {
-      return res
-        .status(httpStatusCodes.notFound)
-        .send(`No habit with id: ${habitId}`);
-    }
+//   try {
+//     const habit = await Habit.findById(habitId);
+//     if (!habit) {
+//       return res
+//         .status(httpStatusCodes.notFound)
+//         .send(`No habit with id: ${habitId}`);
+//     }
 
-    //TODO: handle it is finished
-    if (habit.eventInfo) {
-      return res
-        .status(httpStatusCodes.forbidden)
-        .json({ message: "Cannot delete habit with event" });
-    }
+//     if (!userId || !habit.authorId.equals(userId)) {
+//       return res
+//         .status(httpStatusCodes.unauthorized)
+//         .json({ message: `You don't have permission to delete this habit` });
+//     }
 
-    if (!userId || !habit.authorId.equals(userId)) {
-      return res
-        .status(httpStatusCodes.unauthorized)
-        .json({ message: `You don't have permission to delete this habit` });
-    }
-
-    await Habit.findByIdAndRemove(habitId);
-    const personalHabit = await PersonalHabit.findOneAndRemove({ habitId });
-    await HistoryHabit.deleteMany({
-      personalHabitId: personalHabit._id,
-    });
-    res
-      .status(httpStatusCodes.ok)
-      .json({ message: "Habit delete successfully." });
-  } catch (error) {
-    res
-      .status(httpStatusCodes.internalServerError)
-      .json({ message: error.message });
-  }
-};
+//     const personalHabit = await PersonalHabit.findOneAndRemove({ habitId });
+//     //TODO: handle it is finished
+//     if (habit.eventInfo) {
+//       return res
+//         .status(httpStatusCodes.forbidden)
+//         .json({ message: "Cannot delete habit with event" });
+//     }
+//     await Habit.findByIdAndRemove(habitId);
+//     await HistoryHabit.deleteMany({
+//       personalHabitId: personalHabit._id,
+//     });
+//     res
+//       .status(httpStatusCodes.ok)
+//       .json({ message: "Habit delete successfully." });
+//   } catch (error) {
+//     res
+//       .status(httpStatusCodes.internalServerError)
+//       .json({ message: error.message });
+//   }
+// };
 
 // DELETE habit/:personalHabitId
 export const deletePersonalHabitId = async (req, res) => {
@@ -433,6 +432,7 @@ export const deletePersonalHabitId = async (req, res) => {
 
   try {
     const personalHabit = await PersonalHabit.findById(personalHabitId);
+
     if (!personalHabit) {
       return res
         .status(httpStatusCodes.notFound)
@@ -445,9 +445,20 @@ export const deletePersonalHabitId = async (req, res) => {
       });
     }
 
+    const relativeHabit = await Habit.findById(personalHabit.habitId);
+
     //TODO: handle it is finished
-    if (!personalHabit.habitId.eventInfo) {
-      await Habit.findByIdAndRemove(personalHabit.habitId);
+    if (!relativeHabit?.eventInfo) {
+      if (userId === relativeHabit.authorId) {
+        await Habit.findByIdAndRemove(personalHabit.habitId);
+      }
+    } else {
+      // const listJoiners = relativeHabit.eventInfo?.listJoiners;
+      const index = relativeHabit.eventInfo?.listJoiners.indexOf(userId);
+      if (index > -1) {
+        relativeHabit.eventInfo?.listJoiners.splice(index, 1);
+      }
+      await relativeHabit.save();
     }
 
     await PersonalHabit.findByIdAndRemove(personalHabitId);

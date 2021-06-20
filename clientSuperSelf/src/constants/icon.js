@@ -16,6 +16,8 @@ const heart = require("../utils/resources/IconRunning/heart.png");
 const plan = require("../utils/resources/IconRunning/plan.jpg");
 const cup = require("../utils/resources/IconRunning/cupRankHabit.gif");
 
+const eventLabel = require("../utils/resources/IconEvent/event-label.png");
+
 export default {
   shoe,
   map,
@@ -34,4 +36,5 @@ export default {
   heart,
   plan,
   cup,
+  eventLabel,
 };

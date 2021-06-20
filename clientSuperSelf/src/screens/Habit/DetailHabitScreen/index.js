@@ -30,6 +30,7 @@ import DaysPicker from "../DaysPicker";
 import * as apiHabit from "../../../api/habit";
 import { useUser } from "../../../context/UserContext";
 import iconsUrl from "../../../utils/resources/iconsUrl";
+import Icon from "../../../constants/icon";
 
 const errors = ["You should enter title"];
 
@@ -78,6 +79,16 @@ const DetailHabitScreen = ({ navigation, route }) => {
   const [isActionButton, setIsActionButton] = useState(false);
 
   const [error, setError] = useState("");
+
+  const [isModalEvent, setIsModalEvent] = useState(false);
+
+  const openEventModal = () => {
+    setIsModalEvent(true);
+  };
+
+  const handleCloseEventModal = () => {
+    setIsModalEvent(false);
+  };
 
   const toggleIsSetReminder = () => {
     // console.log("reminder when toggle", reminder);
@@ -142,6 +153,10 @@ const DetailHabitScreen = ({ navigation, route }) => {
   };
 
   const toggleIsSetTarget = () => {
+    if (item.personalHabitId.habitId.eventInfo) {
+      alert("You cannot change target of event being hold");
+      return;
+    }
     setIsSetTarget((previousState) => !previousState);
   };
 
@@ -223,29 +238,13 @@ const DetailHabitScreen = ({ navigation, route }) => {
       return;
     }
 
-    if (item.personalHabitId.habitId.eventInfo) {
-      Alert.alert(
-        "This habit is being hold as an event",
-        `You cannot delete the habit, you can just withdraw from the event, are you sure?`,
-        [
-          {
-            text: "Cancel",
-            onPress: () => {
-              return;
-            },
-            style: "cancel",
-          },
-          {
-            text: "Yes, I'm sure",
-            onPress: () => {},
-          },
-        ],
-        { cancelable: false }
-      );
-    }
     Alert.alert(
       "Confirm delete",
-      `Are you sure?`,
+      `${
+        item.personalHabitId.habitId.eventInfo
+          ? "This habit is being hold as an event. You cannot delete the habit, you can just withdraw from the event, are you sure?"
+          : "Are you sure"
+      }`,
       [
         {
           text: "Cancel",
@@ -257,24 +256,26 @@ const DetailHabitScreen = ({ navigation, route }) => {
         {
           text: "Yes, I'm sure",
           onPress: () => {
-            apiHabit
-              .deleteHabit(item.personalHabitId._id)
-              .then((res) => {
-                Toast.show({
-                  type: "success", // success, error, info
-                  text1: res.data.message,
-                  text2: `${title}`,
-                  visibilityTime: 2500,
-                  onShow: () => {},
-                  onHide: () => {}, // called when Toast hides (if `autoHide` was set to `true`)
-                  onPress: () => {},
+            {
+              apiHabit
+                .deleteMyHabit(item.personalHabitId._id)
+                .then((res) => {
+                  Toast.show({
+                    type: "success", // success, error, info
+                    text1: res.data.message,
+                    text2: `${title}`,
+                    visibilityTime: 2500,
+                    onShow: () => {},
+                    onHide: () => {}, // called when Toast hides (if `autoHide` was set to `true`)
+                    onPress: () => {},
+                  });
+                  navigation.navigate("Home");
+                })
+                .catch((error) => {
+                  alert("Error when delete habit");
+                  console.log("Error when delete habit", error);
                 });
-                navigation.navigate("Home");
-              })
-              .catch((error) => {
-                alert("Error when delete habit");
-                console.log("Error when delete habit", error);
-              });
+            }
           },
         },
       ],
@@ -312,6 +313,7 @@ const DetailHabitScreen = ({ navigation, route }) => {
                 alignSelf: "center",
                 overflow: "hidden",
               }}
+              disabled={kind === "Run"}
             >
               <Image source={{ uri: icon }} style={{ flex: 1 }} />
             </TouchableOpacity>
@@ -362,6 +364,7 @@ const DetailHabitScreen = ({ navigation, route }) => {
                   backgroundColor: kind === "Do" ? COLOR.green : COLOR.grey,
                   width: 100,
                 }}
+                disabled={true}
                 onPress={() => handleSetType("Do")}
               >
                 <Entypo name="thumbs-up" size={24} color={COLOR.white} />
@@ -372,6 +375,7 @@ const DetailHabitScreen = ({ navigation, route }) => {
                     kind === "Do not" ? COLOR.orange : COLOR.grey,
                   width: 100,
                 }}
+                disabled={true}
                 onPress={() => handleSetType("Do not")}
               >
                 <Entypo name="thumbs-down" size={24} color={COLOR.white} />
@@ -445,7 +449,7 @@ const DetailHabitScreen = ({ navigation, route }) => {
 
             <View>
               <View style={styles.row}>
-                <MyText>Set reminder?</MyText>
+                <MyText>Reminder?</MyText>
                 <MySwitch
                   onValueChange={toggleIsSetReminder}
                   value={isSetReminder}
@@ -509,9 +513,14 @@ const DetailHabitScreen = ({ navigation, route }) => {
             </View>
             <View style={{ marginTop: 12 }}>
               <View style={styles.row}>
-                <MyText>Set target?</MyText>
+                <MyText>Target?</MyText>
                 {isSetTarget && (
-                  <TouchableOpacity onPress={openChangeTargetModal}>
+                  <TouchableOpacity
+                    disabled={
+                      item.personalHabitId.habitId.eventInfo ? true : false
+                    }
+                    onPress={openChangeTargetModal}
+                  >
                     <MyText b5>
                       {targetNumber} {targetUnit}
                     </MyText>
@@ -599,6 +608,24 @@ const DetailHabitScreen = ({ navigation, route }) => {
         </MyButton>
       </MyFloatingButton>
 
+      <TouchableOpacity
+        style={[
+          styles.buttonRun,
+          {
+            backgroundColor: kind === "Run" ? COLOR.yellow : "transparent",
+          },
+        ]}
+      >
+        <Image
+          source={Icon.shoeRanking}
+          style={{
+            width: 24,
+            height: 24,
+            display: kind === "Run" ? "flex" : "none",
+          }}
+        />
+      </TouchableOpacity>
+
       <MyFloatingButton
         // active={isActiveFloatingButton}
         position="bottomLeft"
@@ -606,6 +633,39 @@ const DetailHabitScreen = ({ navigation, route }) => {
       >
         <FontAwesome5 name="chart-line" size={24} color={COLOR.white} />
       </MyFloatingButton>
+
+      <TouchableOpacity onPress={openEventModal} style={styles.buttonEvent}>
+        <Image
+          source={Icon.eventLabel}
+          style={{
+            width: 50,
+            height: 50,
+            display: item.personalHabitId.habitId.eventInfo ? "flex" : "none",
+          }}
+        />
+      </TouchableOpacity>
+      <Modal
+        onBackButtonPress={handleCloseEventModal}
+        isVisible={isModalEvent}
+        propagateSwipe={true}
+      >
+        <View
+          style={{
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <MyButton long3 color={COLOR.green} onPress={() => {}}>
+            <MyText color={COLOR.white} b5>
+              Event detail
+            </MyText>
+          </MyButton>
+          //TODO: date, progress of user during event
+          <MyButton long3 onPress={handleCloseEventModal}>
+            <MyText color={COLOR.white}>Back</MyText>
+          </MyButton>
+        </View>
+      </Modal>
     </View>
   );
 };

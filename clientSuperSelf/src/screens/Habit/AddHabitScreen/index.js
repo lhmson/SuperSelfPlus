@@ -29,6 +29,8 @@ import DaysPicker from "../DaysPicker";
 import * as apiHabit from "../../../api/habit";
 import { useUser } from "../../../context/UserContext";
 import iconsUrl from "../../../utils/resources/iconsUrl";
+import Icon from "../../../constants/icon";
+import { dateCompare, getDateNoTime } from "../../../utils/datetime";
 
 const errors = ["You should enter title"];
 
@@ -42,7 +44,7 @@ const AddHabitScreen = ({ navigation, route }) => {
   const [title, setTitle] = useState(""); // can bind from browsing habits
   const [description, setDescription] = useState(""); // optional
   const [color, setColor] = useState(COLOR.white); // pick color: ;
-  const [kind, setKind] = useState("Do"); // Do and Do not
+  const [kind, setKind] = useState("Do"); // Do and Do not, Run
   // const [daysToDo, setDaysToDo] = useState(new Array(7).fill(true)); // everyday, some days, weekend
   const [icon, setIcon] = useState(iconsUrl[0].url);
   const [iconModal, setIconModal] = useState(false);
@@ -75,26 +77,33 @@ const AddHabitScreen = ({ navigation, route }) => {
     }
   }, [item]);
 
-  // const [isSetDueDate, setIsSetDueDate] = useState(false);
-  // const [dueDate, setDueDate] = useState(null); // date to complete habit
-  // const [isModalDueDate, setIsModalDueDate] = useState(false);
+  const [isSetEvent, setIsSetEvent] = useState(false);
+  const [eventStartDate, setEventStartDate] = useState(null); // date to start habit
+  const [isModalStartDate, setIsModalStartDate] = useState(false);
+  const [eventEndDate, setEventEndDate] = useState(null); // date to complete habit
+  const [isModalEndDate, setIsModalEndDate] = useState(false);
 
-  // const toggleIsSetDueDate = () => {
-  //   setIsSetDueDate((previousState) => !previousState);
-  //   if (dueDate) {
-  //     setDueDate(null);
-  //   } else {
-  //     setDueDate(new Date());
-  //   }
-  // };
-
-  const toggleIsSetReminder = () => {
-    setIsSetReminder((previousState) => !previousState);
-    if (reminder) {
-      setReminder(null);
+  const toggleIsSetEvent = () => {
+    setIsSetEvent((previousState) => !previousState);
+    if (eventStartDate) {
+      setEventStartDate(null);
+      setEventEndDate(null);
     } else {
-      setReminder(new Date());
+      setEventStartDate(new Date());
+      setEventEndDate(new Date().addDays(7));
     }
+  };
+
+  const onChangeStartdate = (event, selectedDate) => {
+    const currentDate = selectedDate || new Date();
+    setIsModalStartDate(false);
+    setEventStartDate(currentDate);
+  };
+
+  const onChangeEnddate = (event, selectedDate) => {
+    const currentDate = selectedDate || new Date();
+    setIsModalEndDate(false);
+    setEventEndDate(currentDate);
   };
 
   const toggleIsSetTarget = () => {
@@ -118,13 +127,14 @@ const AddHabitScreen = ({ navigation, route }) => {
     }
   };
 
-  // const onChangeDuedate = (event, selectedDate) => {
-  //   const currentDate = selectedDate || new Date();
-  //   const today = new Date();
-  //   setIsModalDueDate(false);
-  //   // setDueDate(currentDate);
-  //   setDueDate(currentDate);
-  // };
+  const toggleIsSetReminder = () => {
+    setIsSetReminder((previousState) => !previousState);
+    if (reminder) {
+      setReminder(null);
+    } else {
+      setReminder(new Date());
+    }
+  };
 
   const onChangeReminder = (event, selectedTime) => {
     const currentDate = selectedTime || new Date();
@@ -173,6 +183,19 @@ const AddHabitScreen = ({ navigation, route }) => {
       };
     }
 
+    let eventInfo;
+    if (isSetEvent) {
+      if (dateCompare(eventStartDate, eventEndDate) === 1) {
+        alert("Event start date cannot be later than its nd date");
+        return;
+      }
+      eventInfo = {
+        dateStart: getDateNoTime(eventStartDate),
+        dateEnd: getDateNoTime(eventEndDate),
+        listJoiners: [user.state.uid],
+      };
+    }
+
     const newHabit = {
       title,
       description,
@@ -181,7 +204,7 @@ const AddHabitScreen = ({ navigation, route }) => {
       // daysToDo,
       icon,
       target,
-      // eventInfo,
+      eventInfo,
       reminder,
     };
 
@@ -246,6 +269,7 @@ const AddHabitScreen = ({ navigation, route }) => {
                 alignSelf: "center",
                 overflow: "hidden",
               }}
+              disabled={kind === "Run"}
             >
               <Image source={{ uri: icon }} style={{ flex: 1 }} />
             </TouchableOpacity>
@@ -330,50 +354,6 @@ const AddHabitScreen = ({ navigation, route }) => {
               value={description}
             />
 
-            {/* <View style={{ marginBottom: 5 }}>
-              <View style={styles.row}>
-                <MyText>Set due date?</MyText>
-                <MySwitch
-                  onValueChange={toggleIsSetDueDate}
-                  value={isSetDueDate}
-                />
-              </View>
-              {isSetDueDate && (
-                <View>
-                  <MyTextInput
-                    placeholder=""
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                    autoFocus={false}
-                    editable={false}
-                    value={
-                      moment(dueDate).isSame(moment(), "day")
-                        ? "Today"
-                        : dueDate.toDateString()
-                    }
-                  />
-                  <TouchableOpacity
-                    style={styles.iconInput}
-                    onPress={() => {
-                      setIsModalDueDate(true);
-                    }}
-                  >
-                    <AntDesign name="calendar" size={24} color={COLOR.black} />
-                  </TouchableOpacity>
-                  {isModalDueDate && (
-                    <DateTimePicker
-                      value={dueDate}
-                      mode={"date"}
-                      is24Hour={true}
-                      display="default"
-                      onChange={onChangeDuedate}
-                      minimumDate={new Date()}
-                    />
-                  )}
-                </View>
-              )}
-            </View> */}
-
             <View>
               <View style={styles.row}>
                 <MyText>Set reminder?</MyText>
@@ -438,7 +418,8 @@ const AddHabitScreen = ({ navigation, route }) => {
               </View> */}
             </View>
 
-            <View style={{ marginTop: 12 }}>
+            {/* target handle */}
+            <View style={{ marginVertical: 12 }}>
               <View style={styles.row}>
                 <MyText>Set target?</MyText>
                 {isSetTarget && (
@@ -501,6 +482,102 @@ const AddHabitScreen = ({ navigation, route }) => {
                 </View>
               </Modal>
             </View>
+
+            {/* event */}
+            <View>
+              <View style={styles.row}>
+                <MyText>Hold an event?</MyText>
+                <MySwitch onValueChange={toggleIsSetEvent} value={isSetEvent} />
+              </View>
+              {isSetEvent && (
+                <>
+                  <View style={styles.row}>
+                    <MyText b5 size5>
+                      Start
+                    </MyText>
+                    <MyTextInput
+                      size5
+                      long3
+                      placeholder=""
+                      autoCapitalize="none"
+                      autoCorrect={false}
+                      autoFocus={false}
+                      editable={false}
+                      value={
+                        moment(eventStartDate).isSame(moment(), "day")
+                          ? "Today"
+                          : eventStartDate?.toDateString()
+                      }
+                    />
+                    <TouchableOpacity
+                      style={styles.iconInput}
+                      onPress={() => {
+                        setIsModalStartDate(true);
+                      }}
+                    >
+                      <AntDesign
+                        name="calendar"
+                        size={24}
+                        color={COLOR.black}
+                      />
+                    </TouchableOpacity>
+
+                    {isModalStartDate && (
+                      <DateTimePicker
+                        value={eventStartDate}
+                        mode={"date"}
+                        is24Hour={true}
+                        display="default"
+                        onChange={onChangeStartdate}
+                        minimumDate={new Date()}
+                      />
+                    )}
+                  </View>
+                  <View style={styles.row}>
+                    <MyText b5 size5>
+                      End
+                    </MyText>
+                    <MyTextInput
+                      size5
+                      long3
+                      placeholder=""
+                      autoCapitalize="none"
+                      autoCorrect={false}
+                      autoFocus={false}
+                      editable={false}
+                      value={
+                        moment(eventEndDate).isSame(moment(), "day")
+                          ? "Today"
+                          : eventEndDate?.toDateString()
+                      }
+                    />
+                    <TouchableOpacity
+                      style={styles.iconInput}
+                      onPress={() => {
+                        setIsModalEndDate(true);
+                      }}
+                    >
+                      <AntDesign
+                        name="calendar"
+                        size={24}
+                        color={COLOR.black}
+                      />
+                    </TouchableOpacity>
+
+                    {isModalEndDate && (
+                      <DateTimePicker
+                        value={eventEndDate}
+                        mode={"date"}
+                        is24Hour={true}
+                        display="default"
+                        onChange={onChangeEnddate}
+                        minimumDate={new Date().addDays(1)}
+                      />
+                    )}
+                  </View>
+                </>
+              )}
+            </View>
           </View>
         </View>
       </ScrollView>
@@ -512,6 +589,32 @@ const AddHabitScreen = ({ navigation, route }) => {
       >
         <Entypo name="plus" size={24} color={COLOR.white} />
       </MyFloatingButton>
+      <TouchableOpacity
+        onPress={() => {
+          setKind("Run");
+          setIcon(
+            "https://www.iconbunny.com/icons/media/catalog/product/3/9/3952.9-running-icon-iconbunny.jpg"
+          );
+        }}
+        style={[
+          styles.buttonRun,
+          {
+            backgroundColor: kind === "Run" ? COLOR.yellow : COLOR.grey,
+          },
+        ]}
+      >
+        <Image source={Icon.shoeRanking} style={{ width: 24, height: 24 }} />
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => {}} style={styles.buttonEvent}>
+        <Image
+          source={Icon.eventLabel}
+          style={{
+            width: 50,
+            height: 50,
+            display: isSetEvent ? "flex" : "none",
+          }}
+        />
+      </TouchableOpacity>
     </View>
   );
 };

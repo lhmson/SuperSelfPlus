@@ -56,6 +56,26 @@ const styles = StyleSheet.create({
     top: 25,
     right: 10,
   },
+  buttonRun: {
+    width: 50,
+    height: 50,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 25,
+    position: "absolute",
+    left: 15,
+    top: 15,
+  },
+  buttonEvent: {
+    width: 50,
+    height: 50,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 25,
+    position: "absolute",
+    top: 15,
+    right: 15,
+  },
   // habit list
   calendar: {
     height: 100,

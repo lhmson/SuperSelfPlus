@@ -14,5 +14,5 @@ export const updateMyHabit = (personalHabitId, updatedHabit) =>
 export const updateMyHistoryHabit = (historyHabitId, updatedHistoryHabit) =>
   API.put(`habit/my/progress/${historyHabitId}`, updatedHistoryHabit);
 
-export const deleteHabit = (personalHabitId) =>
+export const deleteMyHabit = (personalHabitId) =>
   API.delete(`/habit/my/${personalHabitId}`);
