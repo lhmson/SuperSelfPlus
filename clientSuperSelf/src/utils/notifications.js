@@ -41,7 +41,7 @@ export const scheduleNotiListForHabit = (
   body = "Here is the notification body",
   data = { data: "goes here" }
 ) => {
-  console.log("finish", new Date(stopDate));
+  //   console.log("finish", new Date(stopDate));
   const dates = getDatesBetweenTwoDays(
     new Date(getDateNoTime(new Date())),
     new Date(getDateNoTime(stopDate))

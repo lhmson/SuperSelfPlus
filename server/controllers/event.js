@@ -60,4 +60,8 @@ export const getMyEvents = async (req, res) => {
   }
 };
 
+export const joinEvent = (req, res) => {
+  //TODO: implement join event
+};
+
 //#endregion
