@@ -166,12 +166,12 @@ const HabitStatisticsScreen = ({ navigation, route }) => {
         <MyCard style={{ flexDirection: "row", alignItems: "flex-start" }}>
           <View style={{ flexDirection: "column", width: "60%" }}>
             <MyText size2 b6>
-              13 days
+              5 days
             </MyText>
             <MyText size5>Your current steak</MyText>
             <View style={{ height: _marginText * 3 }}></View>
             <MyText size4 b4>
-              5 days
+              12 days
             </MyText>
             <MyText size5>Your longest streak</MyText>
           </View>

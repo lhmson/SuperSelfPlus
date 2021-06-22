@@ -1,6 +1,11 @@
 import Constants from "expo-constants";
 import * as Notifications from "expo-notifications";
-import { getDateNoTime, getDatesBetweenTwoDays } from "./datetime";
+import moment, { months } from "moment";
+import {
+  getDateNoTime,
+  getDatesBetweenTwoDays,
+  getHourAndMinute,
+} from "./datetime";
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -16,8 +21,8 @@ export async function schedulePushNotification(
   body = "Here is the notification body",
   data = { data: "goes here" }
 ) {
-  //   console.log(time);
-  if (time <= 0) time = 1;
+  if (convertDateToSecondTrigger(time) <= 0) return;
+  console.log("Noti", convertDateToSecondTrigger(time), time);
   await Notifications.scheduleNotificationAsync({
     content: {
       title,
@@ -27,11 +32,31 @@ export async function schedulePushNotification(
     trigger: { seconds: convertDateToSecondTrigger(time) },
   });
 }
+export const convertDateToLocalDate = (d) => {
+  const strLocal = d.toLocaleString();
+  const strDate = d.toLocaleDateString();
+  let month = Number(strDate.substring(0, 2));
+  let day = Number(strDate.substring(3, 5));
+  let year = Number("20" + strDate.substring(6, 8));
+
+  let h = 0,
+    m = 0,
+    s = 0;
+  for (let i = 0; i < strLocal.length; i++)
+    if (strLocal[i] == ":") {
+      h = Number(strLocal.substring(i - 2, i));
+      m = Number(strLocal.substring(i + 1, i + 3));
+      s = Number(strLocal.substring(i + 4, i + 6));
+      break;
+    }
+  let resDate = new Date(Date.UTC(year, month - 1, day, h, m, s));
+  return resDate;
+};
 
 export const convertDateToSecondTrigger = (date) => {
-  let secondsReminders =
-    new Date(Date.parse(date) - Date.parse(new Date())) / 1000;
-  return secondsReminders;
+  const localDate = convertDateToLocalDate(new Date());
+  let secondsReminders = date.getTime() - localDate.getTime();
+  return secondsReminders / 1000;
 };
 
 export const scheduleNotiListForHabit = (
