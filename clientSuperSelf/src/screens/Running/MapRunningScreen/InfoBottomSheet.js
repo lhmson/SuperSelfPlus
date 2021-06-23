@@ -65,6 +65,7 @@ const InfoBottomSheet = ({
     setRoadRunCoordinate([]);
     setIsOpenModalSetup(false);
     setIsOpenModalTimeOut(false);
+    setIsOpenModalFinish(false);
     setCountDistance(0);
     setCountSteps(0);
     setPace(0);
@@ -150,7 +151,7 @@ const InfoBottomSheet = ({
       if (status !== "Run") {
         distanceLeft = 0;
       }
-      if (status === "Run" && distanceLeft <= 0) {
+      if (status === "Run" && distanceLeft <= 0 && !isOpenModalFinish) {
         setIsOpenModalFinish(true);
         distanceLeft = 0;
       }
@@ -290,7 +291,7 @@ const InfoBottomSheet = ({
                 }}
               />
               <MyText size5 b6>
-                {countDistance / 16}
+                {(countDistance / 16).toFixed(1)}
               </MyText>
               <MyText size5 b6>
                 calories
@@ -397,7 +398,9 @@ const InfoBottomSheet = ({
           setIsOpenModalFinish={setIsOpenModalFinish}
           ListCardRun={ListCardRun}
           Steps={countSteps}
+          Distance={countDistance}
           onPressStop={onPressStop}
+          selectHabit={planHabitRun}
         ></ModalFinish>
         <ButtonSetup></ButtonSetup>
         <ListCardRun></ListCardRun>

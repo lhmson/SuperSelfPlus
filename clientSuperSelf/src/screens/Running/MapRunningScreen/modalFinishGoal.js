@@ -58,30 +58,26 @@ function ModalFinish({
 
   const ButtonFooter = () => {
     const saveRunData = async () => {
-      await updateRunDate(user.state.uid, { steps: Steps, distance: Distance })
+      updateRunDate(user.state.uid, { steps: Steps, distance: Distance })
         .then((res) => {
-          alert("Update success");
+          alert("Update run data success");
         })
         .catch((error) => {
-          alert("Error when getting habits", error);
-          console.log("Error when getting habits", error);
+          console.log("Error when auto update rundata", error);
         });
 
       if (selectHabit && selectHabit?.length > 0)
-        await updateRunHabitProgress(user.state.uid, {
+        updateRunHabitProgress(user.state.uid, {
           steps: Steps,
           distance: Distance,
           nameHabit: selectHabit,
         })
           .then((res) => {
-            alert("Update success");
+            alert("Update habit success");
           })
           .catch((error) => {
-            alert("Error when getting habits", error);
-            console.log("Error when getting habits", error);
+            console.log("Error when auto update run habits", error);
           });
-
-      setIsOpenModalFinish(false);
       onPressStop();
     };
     return (

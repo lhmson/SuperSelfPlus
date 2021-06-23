@@ -58,7 +58,7 @@ function ModalSetupPlan({
       .catch((error) => {
         console.log("Error when getting list events", error);
       });
-  }, [isOpenModalSetup]);
+  }, []);
   let chooseEvent = "",
     chooseHabit = "";
   const cancelSetup = () => {
