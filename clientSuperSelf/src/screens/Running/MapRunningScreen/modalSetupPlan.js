@@ -34,6 +34,8 @@ function ModalSetupPlan({
   setPlanNoti,
   setIsOpenModalSetup,
   isOpenModalSetup,
+  setPlanEvent,
+  setPlanHabitRun,
 }) {
   const user = useUser();
   const [listHabits, setListHabits] = useState([]);
@@ -57,7 +59,8 @@ function ModalSetupPlan({
         console.log("Error when getting list events", error);
       });
   }, [isOpenModalSetup]);
-
+  let chooseEvent = "",
+    chooseHabit = "";
   const cancelSetup = () => {
     setStatus("Not Run");
     setIsOpenModalSetup(false);
@@ -69,6 +72,8 @@ function ModalSetupPlan({
     setTimeStart(new Date());
     setStatus("Run");
     setIsOpenModalSetup(false);
+    setPlanEvent(chooseEvent);
+    setPlanHabitRun(chooseHabit);
   };
 
   const ViewChooseEvent = () => {
@@ -79,9 +84,13 @@ function ModalSetupPlan({
           <TouchableOpacity
             key={key}
             onPress={() => {
-              nameEvent === selectEvent
-                ? setSelectEvent()
-                : setSelectEvent(nameEvent);
+              if (nameEvent === selectEvent) {
+                setSelectEvent();
+                chooseEvent = "";
+              } else {
+                setSelectEvent(nameEvent);
+                chooseEvent = nameEvent;
+              }
             }}
           >
             <MyCard
@@ -155,9 +164,13 @@ function ModalSetupPlan({
           <TouchableOpacity
             key={key}
             onPress={() => {
-              nameHabit === selectHabit
-                ? setSelectHabit()
-                : setSelectHabit(nameHabit);
+              if (nameHabit === selectHabit) {
+                setSelectHabit();
+                chooseHabit = "";
+              } else {
+                setSelectHabit(nameHabit);
+                chooseHabit = nameHabit;
+              }
             }}
           >
             <MyCard

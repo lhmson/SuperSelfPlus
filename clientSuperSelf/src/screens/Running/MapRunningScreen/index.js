@@ -77,6 +77,8 @@ const MapRunningScreen = ({ navigation }) => {
           status={status}
           setStatus={setStatus}
           setRoadRunCoordinate={setRoadRunCoordinate}
+          setCountDistance={setCountDistance}
+          setCountSteps={setCountSteps}
         ></InfoBottomSheet>
       </View>
     );
