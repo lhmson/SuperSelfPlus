@@ -14,7 +14,16 @@ import { scaleFontSize } from "../../../constants/dimensions";
 const WIDTH = Dimensions.get("window").width;
 const HEIGHT = Dimensions.get("window").height;
 
-function ModalFinish({ isModalFinish, setIsModalFinish, Steps, Distance }) {
+function ModalFinish({
+  isOpenModalFinish,
+  setIsOpenModalFinish,
+  ListCardRun,
+  Steps,
+  Distance,
+  onPressStop,
+  selectEvent,
+  selectHabit,
+}) {
   const user = useUser();
 
   const MainModal = () => {
@@ -34,63 +43,15 @@ function ModalFinish({ isModalFinish, setIsModalFinish, Steps, Distance }) {
             uri: "https://i.pinimg.com/564x/30/af/f3/30aff360b79461a9b4c412c882fe5529.jpg",
           }}
           style={{
-            width: WIDTH * 0.8,
-            height: WIDTH * 0.4,
+            width: 200,
+            height: 100,
             resizeMode: "contain",
           }}
         />
-        <MyText center>Congratulations, you have reached your goal!</MyText>
+        <MyText size6 b3i center>
+          Congratulations, you have reached your goal!
+        </MyText>
         <View style={{ marginTop: 20 }}></View>
-      </View>
-    );
-  };
-
-  const ListCardRun = () => {
-    return (
-      <View style={{}}>
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <MyCard
-            style={{
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-          >
-            <Image
-              source={ICON.shoe}
-              style={{
-                width: 50,
-                height: 50,
-              }}
-            />
-            <MyText size5 b6>
-              {Steps ?? 0}
-            </MyText>
-          </MyCard>
-          <View style={{ width: 32 }}></View>
-          <MyCard
-            style={{
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-          >
-            <Image
-              source={ICON.map}
-              style={{
-                width: 50,
-                height: 50,
-              }}
-            />
-            <MyText size5 b6>
-              {Distance ?? 0}
-            </MyText>
-          </MyCard>
-        </View>
       </View>
     );
   };
@@ -106,19 +67,22 @@ function ModalFinish({ isModalFinish, setIsModalFinish, Steps, Distance }) {
           console.log("Error when getting habits", error);
         });
 
-      await updateRunHabitProgress(user.state.uid, {
-        steps: Steps,
-        distance: Distance,
-      })
-        .then((res) => {
-          alert("Update success");
+      if (selectHabit && selectHabit?.length > 0)
+        await updateRunHabitProgress(user.state.uid, {
+          steps: Steps,
+          distance: Distance,
+          nameHabit: selectHabit,
         })
-        .catch((error) => {
-          alert("Error when getting habits", error);
-          console.log("Error when getting habits", error);
-        });
+          .then((res) => {
+            alert("Update success");
+          })
+          .catch((error) => {
+            alert("Error when getting habits", error);
+            console.log("Error when getting habits", error);
+          });
 
-      setIsModalFinish(false);
+      setIsOpenModalFinish(false);
+      onPressStop();
     };
     return (
       <View
@@ -138,13 +102,25 @@ function ModalFinish({ isModalFinish, setIsModalFinish, Steps, Distance }) {
       </View>
     );
   };
+
+  const Confeti = () => {
+    return (
+      <View style={{ zIndex: 101 }}>
+        <Image
+          source={require("../../../utils/resources/IconRunning/confeti.gif")}
+          style={{ marginTop: -300, resizeMode: "contain", zIndex: 101 }}
+        ></Image>
+      </View>
+    );
+  };
   return (
     <View style={{ zIndex: 100 }}>
-      <Modal isVisible={isModalFinish}>
+      <Modal isVisible={isOpenModalFinish}>
         <MyCard style={{ flexDirection: "column" }}>
           <MainModal></MainModal>
-          <ListCardRun></ListCardRun>
+          <ListCardRun style={{ zIndex: 100 }}></ListCardRun>
           <ButtonFooter></ButtonFooter>
+          <Confeti></Confeti>
         </MyCard>
       </Modal>
     </View>

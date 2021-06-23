@@ -12,6 +12,8 @@ import { TouchableOpacity } from "@gorhom/bottom-sheet";
 import ICONWORLD from "../../../constants/imageWorld";
 import FONT from "../../../constants/font";
 import ModalSetupPlan from "./modalSetupPlan";
+import ModalTimeOut from "./modalTimeout";
+import ModalFinish from "./modalFinishGoal";
 
 const WIDTH = Dimensions.get("window").width;
 const HEIGHT = Dimensions.get("window").height;
@@ -32,6 +34,8 @@ const InfoBottomSheet = ({
   const [timeStart, setTimeStart] = useState(new Date());
 
   const [isOpenModalSetup, setIsOpenModalSetup] = useState(false);
+  const [isOpenModalTimeOut, setIsOpenModalTimeOut] = useState(false);
+  const [isOpenModalFinish, setIsOpenModalFinish] = useState(false);
 
   const onPressStop = () => {
     setPlanEvent();
@@ -42,6 +46,8 @@ const InfoBottomSheet = ({
     setPlanDistance(0);
     setPlanMinutes(0);
     setRoadRunCoordinate([]);
+    setIsOpenModalSetup(false);
+    setIsOpenModalTimeOut(false);
   };
 
   const DestinationFooter = () => {
@@ -69,7 +75,9 @@ const InfoBottomSheet = ({
                 <CountDown
                   until={totalMinutes}
                   size={25}
-                  onFinish={() => {}}
+                  onFinish={() => {
+                    if (status == "Run") setIsOpenModalTimeOut(true);
+                  }}
                   digitStyle={{ backgroundColor: COLOR.white }}
                   digitTxtStyle={{
                     color: COLOR.green,
@@ -121,7 +129,7 @@ const InfoBottomSheet = ({
         distanceLeft = 0;
       }
       if (status === "Run" && distanceLeft <= 0) {
-        //TODO : init modal Time out!
+        setIsOpenModalFinish(true);
         distanceLeft = 0;
       }
       return (
@@ -223,6 +231,7 @@ const InfoBottomSheet = ({
         </MyCard>
       );
     };
+
     return (
       <View style={styles.bottomSheet}>
         <ModalSetupPlan
@@ -234,6 +243,19 @@ const InfoBottomSheet = ({
           setIsOpenModalSetup={setIsOpenModalSetup}
           isOpenModalSetup={isOpenModalSetup}
         ></ModalSetupPlan>
+
+        <ModalTimeOut
+          isOpenModalTimeOut={isOpenModalTimeOut}
+          ListCardRun={ListCardRun}
+          onPressStop={onPressStop}
+        ></ModalTimeOut>
+        <ModalFinish
+          isOpenModalFinish={isOpenModalFinish}
+          setIsOpenModalFinish={setIsOpenModalFinish}
+          ListCardRun={ListCardRun}
+          Steps={countSteps}
+          onPressStop={onPressStop}
+        ></ModalFinish>
         <ButtonSetup></ButtonSetup>
         <ListCardRun></ListCardRun>
         <Event></Event>

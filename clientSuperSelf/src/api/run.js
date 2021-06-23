@@ -1,5 +1,11 @@
 import API from "./index";
 
+export const getListRunHabitInProgress = (userId) =>
+  API.get(`/run/${userId}/habits/list/inProgress`);
+
+export const getListEventInProgress = (userId) =>
+  API.get(`/run/${userId}/events/list/Joined`);
+
 export const updateRunDate = (userId, data) =>
   API.put(`/run/${userId}/updateRunData`, data);
 

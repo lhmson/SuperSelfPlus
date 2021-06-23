@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Button,
   Text,
@@ -18,6 +18,11 @@ import Swiper from "react-native-swiper";
 import COLOR from "../../../constants/colors";
 import ICON from "../../../constants/icon";
 import ICONWORLD from "../../../constants/imageWorld";
+import { useUser } from "../../../context/UserContext";
+import {
+  getListRunHabitInProgress,
+  getListEventInProgress,
+} from "../../../api/run";
 const WIDTH = Dimensions.get("window").width;
 const HEIGHT = Dimensions.get("window").height;
 
@@ -30,8 +35,29 @@ function ModalSetupPlan({
   setIsOpenModalSetup,
   isOpenModalSetup,
 }) {
+  const user = useUser();
+  const [listHabits, setListHabits] = useState([]);
+  const [listEvents, setListEvents] = useState([]);
   let _time = "15",
     _distance = "1000";
+  useEffect(() => {
+    getListRunHabitInProgress(user.state.uid)
+      .then((res) => {
+        setListHabits(res.data);
+      })
+      .catch((error) => {
+        console.log("Error when getting list run habits", error);
+      });
+
+    getListEventInProgress(user.state.uid)
+      .then((res) => {
+        setListEvents(res.data);
+      })
+      .catch((error) => {
+        console.log("Error when getting list events", error);
+      });
+  }, [isOpenModalSetup]);
+
   const cancelSetup = () => {
     setStatus("Not Run");
     setIsOpenModalSetup(false);
@@ -61,6 +87,7 @@ function ModalSetupPlan({
             <MyCard
               style={{
                 backgroundColor: nameEvent === selectEvent ? COLOR.green : "",
+                width: WIDTH - 100,
               }}
             >
               <Image
@@ -75,11 +102,6 @@ function ModalSetupPlan({
         );
       };
       const ScrollEvent = () => {
-        const data = [
-          "Cuộc đua kỳ thú 2021",
-          "Tốc biến vùng dịch Tháng 8",
-          "Cuộc đua ngôi vị sức bền 2021 IV",
-        ];
         return (
           <View
             style={{
@@ -90,7 +112,7 @@ function ModalSetupPlan({
             }}
           >
             <ScrollView style={{ padding: 8 }}>
-              {data.map((event, index) => ItemEvent(event, index))}
+              {listEvents.map((event, index) => ItemEvent(event.title, index))}
             </ScrollView>
           </View>
         );
@@ -141,6 +163,7 @@ function ModalSetupPlan({
             <MyCard
               style={{
                 backgroundColor: nameHabit === selectHabit ? COLOR.green : "",
+                width: WIDTH - 100,
               }}
             >
               <Image
@@ -155,11 +178,6 @@ function ModalSetupPlan({
         );
       };
       const ScrollHabits = () => {
-        const data = [
-          "Cuộc đua kỳ thú 2021",
-          "Tốc biến vùng dịch Tháng 8",
-          "Cuộc đua ngôi vị sức bền 2021 IV",
-        ];
         return (
           <View
             style={{
@@ -170,7 +188,7 @@ function ModalSetupPlan({
             }}
           >
             <ScrollView style={{ padding: 8 }}>
-              {data.map((habit, index) => ItemHabit(habit, index))}
+              {listHabits.map((habit, index) => ItemHabit(habit.title, index))}
             </ScrollView>
           </View>
         );
@@ -264,25 +282,23 @@ function ModalSetupPlan({
         >
           <TitileTimer></TitileTimer>
           <MyTextInput
-            placeholder="Timer (minutes)"
+            placeholder="15"
             keyboardType="numeric"
             size4
             long1
             onChangeText={(m) => {
               _time = Number(m);
             }}
-            value={_time}
           ></MyTextInput>
           <TitileDistance></TitileDistance>
           <MyTextInput
-            placeholder="Distance (meters)"
+            placeholder="1000"
             keyboardType="numeric"
             size4
             long1
             onChangeText={(m) => {
               _distance = Number(m);
             }}
-            value={_distance}
           ></MyTextInput>
           <View style={{ width: "100%", flexDirection: "row" }}>
             <MySwitch
@@ -326,6 +342,7 @@ function ModalSetupPlan({
       </MyCard>
     );
   };
+
   const SwiperSetup = () => {
     const Dot = () => {
       return (
@@ -370,6 +387,7 @@ function ModalSetupPlan({
           loop={false}
           dot={<Dot></Dot>}
           activeDot={<ActiveDot></ActiveDot>}
+          style={{ borderRadius: 30 }}
         >
           <ViewChooseHabit></ViewChooseHabit>
           <ViewChooseEvent></ViewChooseEvent>
