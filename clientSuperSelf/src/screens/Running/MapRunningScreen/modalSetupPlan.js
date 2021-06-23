@@ -14,18 +14,27 @@ const WIDTH = Dimensions.get("window").width;
 const HEIGHT = Dimensions.get("window").height;
 
 function ModalSetupPlan({
-  statusModal,
-  setStatusModal,
-  assignMinutes,
-  assignDistance,
-  assignNoti,
+  setStatus,
+  setPlanMinutes,
+  setPlanDistance,
+  setTimeStart,
+  setPlanNoti,
+  setIsOpenModalSetup,
+  isOpenModalSetup,
 }) {
+  let _time = 15,
+    _distance = 1000;
   const cancelSetup = () => {
-    setStatusModal("No Plan");
+    setStatus("Not Run");
+    setIsOpenModalSetup(false);
   };
 
   const submitPlan = () => {
-    setStatusModal("Run");
+    setPlanMinutes(_time);
+    setPlanDistance(_distance);
+    setTimeStart(new Date());
+    setStatus("Run");
+    setIsOpenModalSetup(false);
   };
 
   const MainSetup = () => {
@@ -51,19 +60,22 @@ function ModalSetupPlan({
           keyboardType="numeric"
           size4
           long1
-          onChangeText={(m) => assignMinutes(Number(m))}
+          onChangeText={(m) => {
+            _time = Number(m);
+          }}
         ></MyTextInput>
         <MyTextInput
           placeholder="Distance (meters)"
           keyboardType="numeric"
           size4
           long1
-          onChangeText={(m) => assignDistance(Number(m))}
+          onChangeText={(m) => {
+            _distance = Number(m);
+          }}
         ></MyTextInput>
         <View style={{ width: "100%", flexDirection: "row" }}>
           <MySwitch
             onValueChange={() => {
-              assignNoti(!noti);
               setNoti(!noti);
             }}
             value={noti}
@@ -97,7 +109,7 @@ function ModalSetupPlan({
   };
   return (
     <View style={{ zIndex: 100 }}>
-      <Modal isVisible={statusModal === "Setup"}>
+      <Modal isVisible={isOpenModalSetup}>
         <MyCard style={{ flexDirection: "column" }}>
           <MainSetup></MainSetup>
           <ButtonFooter></ButtonFooter>
