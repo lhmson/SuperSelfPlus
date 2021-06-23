@@ -5,6 +5,7 @@ import {
   getAHabitOfMe,
   getMyHabitsOfDate,
   addHabit,
+  getMyHabitProgress,
   updateMyHabit,
   updateMyHistoryHabit,
   deletePersonalHabitId,
@@ -19,6 +20,9 @@ router.get("/:userId/list", auth, getUserHabits);
 // router.get("/my/:personalHabitId", auth, getAHabitOfMe);
 router.get("/my/:habitId", auth, getAHabitOfMe);
 router.get("/my/list/:dateStr", auth, getMyHabitsOfDate); // used
+
+// progress statistics
+router.get("/my/:personalHabitId/progress", getMyHabitProgress);
 
 router.post("/", auth, addHabit); // used
 

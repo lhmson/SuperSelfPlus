@@ -85,6 +85,8 @@ const DetailHabitScreen = ({ navigation, route }) => {
 
   const [error, setError] = useState("");
 
+  const [loading, setLoading] = useState(false);
+
   const [isModalEvent, setIsModalEvent] = useState(false);
 
   const openEventModal = () => {
@@ -212,6 +214,7 @@ const DetailHabitScreen = ({ navigation, route }) => {
     };
 
     // alert(JSON.stringify(updatedHabit));
+    setLoading(true);
     apiHabit
       .updateMyHabit(item._id, updatedHabit)
       .then(() => {
@@ -230,6 +233,9 @@ const DetailHabitScreen = ({ navigation, route }) => {
       .catch((error) => {
         console.log("Error when updating habit", error);
         alert("Error when updating habit");
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
@@ -267,6 +273,7 @@ const DetailHabitScreen = ({ navigation, route }) => {
           text: "Yes, I'm sure",
           onPress: () => {
             {
+              setLoading(true);
               apiHabit
                 .deleteMyHabit(item._id)
                 .then((res) => {
@@ -285,6 +292,9 @@ const DetailHabitScreen = ({ navigation, route }) => {
                 .catch((error) => {
                   alert("Error when delete habit");
                   console.log("Error when delete habit", error);
+                })
+                .finally(() => {
+                  setLoading(false);
                 });
             }
           },
@@ -608,17 +618,25 @@ const DetailHabitScreen = ({ navigation, route }) => {
         {/* optional */}
         <MyButton
           onPress={handleDeleteHabit}
+          disabled={loading}
           style={{ backgroundColor: COLOR.red }}
         >
-          <AntDesign name="delete" size={24} color={COLOR.white} />
+          {loading ? (
+            <Loading size="small" noText />
+          ) : (
+            <AntDesign name="delete" size={24} color={COLOR.white} />
+          )}
         </MyButton>
-        <MyButton style={{ backgroundColor: COLOR.lightBlue }}>
-          <Entypo
-            onPress={handleEditHabit}
-            name="save"
-            size={24}
-            color={COLOR.white}
-          />
+        <MyButton
+          onPress={handleEditHabit}
+          disabled={loading}
+          style={{ backgroundColor: COLOR.lightBlue }}
+        >
+          {loading ? (
+            <Loading size="small" noText />
+          ) : (
+            <Entypo name="save" size={24} color={COLOR.white} />
+          )}
         </MyButton>
       </MyFloatingButton>
 

@@ -261,9 +261,9 @@ const PedometerScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <MyButton onPress={() => schedulePushNotification()}>
+      {/* <MyButton onPress={() => schedulePushNotification()}>
         <MyText>Noti</MyText>
-      </MyButton>
+      </MyButton> */}
       <HeaderInfo></HeaderInfo>
       <PedometerInfo></PedometerInfo>
       <SheetCalendar></SheetCalendar>

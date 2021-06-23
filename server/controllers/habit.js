@@ -8,6 +8,7 @@ import {
   getDatesBetweenTwoDays,
   getHourAndMinute,
 } from "../utils/aboutDateTime.js";
+import { countDaysOfHabit } from "../businessLogic/habit.js";
 
 //#region CRUD
 // GET habit/my/list
@@ -149,6 +150,35 @@ export const getMyHabitsOfDate = async (req, res) => {
     res.status(httpStatusCodes.ok).json(items);
   } catch (error) {
     res
+      .status(httpStatusCodes.internalServerError)
+      .json({ message: error.message });
+  }
+};
+
+// GET habit/my/:personalHabitId/progress
+export const getMyHabitProgress = async (req, res) => {
+  const { personalHabitId } = req.params;
+  try {
+    const historyHabits = await HistoryHabit.find({ personalHabitId });
+    if (!historyHabits) {
+      res.status(httpStatusCodes.notFound).json({ message: error.message });
+    }
+    let completedItems = [];
+    for (let elem of historyHabits) {
+      const { completed } = elem;
+      if (completed) {
+        completedItems.push(elem);
+      }
+    }
+    const numberOfDates = await countDaysOfHabit(personalHabitId);
+    const result = {
+      listProgress: historyHabits,
+      completedItems,
+      numberOfDates,
+    };
+    return res.status(httpStatusCodes.accepted).json(result);
+  } catch (error) {
+    return res
       .status(httpStatusCodes.internalServerError)
       .json({ message: error.message });
   }

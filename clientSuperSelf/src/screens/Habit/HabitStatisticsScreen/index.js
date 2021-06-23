@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useMemo } from "react";
 import { View, ScrollView, Image } from "react-native";
 import styled from "styled-components";
 import styles from "../styles";
@@ -11,11 +11,14 @@ import { VictoryChart, VictoryLine } from "victory-native";
 
 import MyText from "../../../components/MyText/index";
 import MyCard from "../../../components/MyCard/index";
+import SkeletonSample from "../../../components/SkeletonSample";
 import MyFloatingButton from "../../../components/MyFloatingButton";
 
 import { width } from "../../../constants/dimensions";
 
 import { useUser } from "../../../context/UserContext";
+import * as apiHabit from "../../../api/habit";
+import { dateCompare, getDateNoTime } from "../../../utils/datetime";
 
 const _marginText = 8;
 
@@ -23,7 +26,63 @@ const HabitStatisticsScreen = ({ navigation, route }) => {
   const { item } = route.params;
   const user = useUser();
 
-  useEffect(() => {}, []);
+  const [loading, setLoading] = useState(true);
+
+  const [numberOfDates, setNumberOfDates] = useState();
+  const [listProgress, setListProgress] = useState([]);
+  const [completedItems, setCompletedItems] = useState([]);
+
+  const allDates = useMemo(
+    () => listProgress.map((item) => getDateNoTime(item.date)),
+    [listProgress]
+  );
+
+  // const completeDates = useMemo(
+  //   () => completedItems.map((item) => getDateNoTime(item.date)),
+  //   [completedItems]
+  // );
+
+  const progressDaysObj = useMemo(
+    () => ({
+      [allDates[0]]: {
+        startingDay: true,
+        color: COLOR.yellow,
+        textColor: "white",
+      },
+    }),
+    [allDates]
+  );
+
+  // console.log(newDaysObject);
+
+  useEffect(() => {
+    allDates.forEach((day, index) => {
+      progressDaysObj[day] = {
+        startingDay: index === 0,
+        endingDay: index === allDates.length - 1,
+        // marked: true,
+        color: listProgress[index].completed ? COLOR.green : COLOR.grey,
+        textColor: COLOR.white,
+      };
+    });
+  }, [allDates]);
+
+  useEffect(() => {
+    apiHabit
+      .getMyHabitProgress(item._id)
+      .then((res) => {
+        setListProgress(res.data.listProgress);
+        setNumberOfDates(res.data.numberOfDates);
+        setCompletedItems(res.data.completedItems);
+      })
+      .catch((error) => {
+        console.log("Error when getting habit progress", error);
+        alert("Error when getting habit progress");
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, []);
 
   //#region
   const HeaderInfoHabit = () => {
@@ -88,16 +147,18 @@ const HabitStatisticsScreen = ({ navigation, route }) => {
             marginLeft: 16,
           }}
         >
-          <View style={{ height: _marginText / 2 }}></View>
+          {/* <View style={{ height: _marginText / 2 }}></View> */}
           <MyText size3 b7>
             {item.habitId.title}
           </MyText>
           <MyText size5>{item.habitId.description}</MyText>
           <View style={{ height: _marginText }}></View>
           <MyText b4 color={COLOR.orange}>
-            16/20
+            {`${completedItems?.length}/${numberOfDates} days`}
           </MyText>
-          <ProgressBar percent={80}></ProgressBar>
+          <ProgressBar
+            percent={(completedItems?.length / numberOfDates) * 100}
+          />
 
           <View
             style={{
@@ -132,28 +193,29 @@ const HabitStatisticsScreen = ({ navigation, route }) => {
         <MyCard style={{ alignItems: "center" }}>
           <Calendar
             markingType={"period"}
-            markedDates={{
-              "2021-06-15": { marked: true, dotColor: COLOR.orange },
-              "2021-06-16": { marked: true, dotColor: COLOR.orange },
-              "2021-06-21": {
-                startingDay: true,
-                color: COLOR.green,
-                textColor: "white",
-              },
-              "2021-06-22": { color: COLOR.lightGreen, textColor: "white" },
-              "2021-06-23": {
-                color: COLOR.lightGreen,
-                textColor: "white",
-                marked: true,
-                dotColor: "white",
-              },
-              "2021-06-24": { color: COLOR.lightGreen, textColor: "white" },
-              "2021-06-25": {
-                endingDay: true,
-                color: COLOR.green,
-                textColor: "white",
-              },
-            }}
+            markedDates={
+              // "2021-06-15": { marked: true, dotColor: COLOR.orange },
+              // "2021-06-16": { marked: true, dotColor: COLOR.orange },
+              // "2021-06-21": {
+              // startingDay: true,
+              // color: COLOR.green,
+              // textColor: "white",
+              // },
+              // "2021-06-22": { color: COLOR.lightGreen, textColor: "white" },
+              // "2021-06-23": {
+              //   color: COLOR.lightGreen,
+              //   textColor: "white",
+              //   marked: true,
+              //   dotColor: "white",
+              // },
+              // "2021-06-24": { color: COLOR.lightGreen, textColor: "white" },
+              // "2021-06-25": {
+              //   endingDay: true,
+              //   color: COLOR.green,
+              //   textColor: "white",
+              // },
+              progressDaysObj
+            }
           />
         </MyCard>
       </View>
@@ -166,12 +228,12 @@ const HabitStatisticsScreen = ({ navigation, route }) => {
         <MyCard style={{ flexDirection: "row", alignItems: "flex-start" }}>
           <View style={{ flexDirection: "column", width: "60%" }}>
             <MyText size2 b6>
-              13 days
+              5 days
             </MyText>
             <MyText size5>Your current steak</MyText>
             <View style={{ height: _marginText * 3 }}></View>
             <MyText size4 b4>
-              5 days
+              12 days
             </MyText>
             <MyText size5>Your longest streak</MyText>
           </View>
@@ -243,25 +305,31 @@ const HabitStatisticsScreen = ({ navigation, route }) => {
   //#endregion
   return (
     <View style={{ flex: 1 }}>
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.scrollViewContent}
-      >
-        <View style={styles.content}>
-          <HeaderInfoHabit></HeaderInfoHabit>
-          <CalendarHabit></CalendarHabit>
-          <CardStreak></CardStreak>
-          <CardChart></CardChart>
-        </View>
-      </ScrollView>
-      {/* action button */}
-      <MyFloatingButton
-        // active={isActiveFloatingButton}
-        position="bottomRight"
-        onPress={() => navigation.navigate("Edit Habit", { item: item })}
-      >
-        <Entypo name="edit" size={24} color={COLOR.white} />
-      </MyFloatingButton>
+      {loading ? (
+        <SkeletonSample />
+      ) : (
+        <>
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={styles.scrollViewContent}
+          >
+            <View style={styles.content}>
+              <HeaderInfoHabit></HeaderInfoHabit>
+              <CalendarHabit></CalendarHabit>
+              <CardStreak></CardStreak>
+              <CardChart></CardChart>
+            </View>
+          </ScrollView>
+          {/* action button */}
+          <MyFloatingButton
+            // active={isActiveFloatingButton}
+            position="bottomRight"
+            onPress={() => navigation.navigate("Edit Habit", { item: item })}
+          >
+            <Entypo name="edit" size={24} color={COLOR.white} />
+          </MyFloatingButton>
+        </>
+      )}
     </View>
   );
 };

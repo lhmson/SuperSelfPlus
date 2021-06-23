@@ -5,6 +5,8 @@ export const getUserHabits = (userId) => API.get(`/user/${userId}/list`);
 export const getAHabitOfMe = (habitId) => API.get(`/habit/my/${habitId}`);
 export const getMyHabitsOfDate = (dateStr) =>
   API.get(`/habit/my/list/${dateStr}`);
+export const getMyHabitProgress = (personalHabitId) =>
+  API.get(`/habit/my/${personalHabitId}/progress`);
 
 export const addHabit = (habit) => API.post("/habit", habit);
 
