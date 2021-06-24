@@ -229,12 +229,12 @@ const HabitStatisticsScreen = ({ navigation, route }) => {
         <MyCard style={{ flexDirection: "row", alignItems: "flex-start" }}>
           <View style={{ flexDirection: "column", width: "60%" }}>
             <MyText size2 b6>
-              5 days
+              __ days
             </MyText>
             <MyText size5>Your current steak</MyText>
             <View style={{ height: _marginText * 3 }}></View>
             <MyText size4 b4>
-              12 days
+              __ days
             </MyText>
             <MyText size5>Your longest streak</MyText>
           </View>
@@ -264,6 +264,9 @@ const HabitStatisticsScreen = ({ navigation, route }) => {
     return (
       <View style={{ padding: 16 }}>
         <MyCard>
+          <View style={{ position: "absolute", top: 10, left: 30 }}>
+            <MyText size5>units</MyText>
+          </View>
           <VictoryChart width={width * 0.85}>
             <VictoryLine
               animate={{
@@ -299,6 +302,9 @@ const HabitStatisticsScreen = ({ navigation, route }) => {
               ]}
             />
           </VictoryChart>
+          <View style={{ position: "absolute", bottom: 10, right: 30 }}>
+            <MyText size5>days</MyText>
+          </View>
         </MyCard>
       </View>
     );

@@ -23,6 +23,7 @@ import {
   getListRunHabitInProgress,
   getListEventInProgress,
 } from "../../../api/run";
+import iconsUrl from "../../../utils/resources/iconsUrl";
 const WIDTH = Dimensions.get("window").width;
 const HEIGHT = Dimensions.get("window").height;
 
@@ -180,7 +181,9 @@ function ModalSetupPlan({
               }}
             >
               <Image
-                source={require("../../../utils/resources/superself-icon.png")}
+                source={{
+                  uri: "https://www.iconbunny.com/icons/media/catalog/product/3/9/3952.9-running-icon-iconbunny.jpg",
+                }}
                 style={{ width: 30, height: 30, marginRight: 8 }}
               ></Image>
               <MyText size6 b4>
