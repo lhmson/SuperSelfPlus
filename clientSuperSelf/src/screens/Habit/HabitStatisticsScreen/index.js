@@ -7,7 +7,12 @@ import ICON from "../../../constants/icon";
 import moment from "moment";
 import { Entypo } from "@expo/vector-icons";
 import { Calendar } from "react-native-calendars";
-import { VictoryChart, VictoryLine } from "victory-native";
+import {
+  VictoryChart,
+  VictoryLine,
+  VictoryBar,
+  VictoryTheme,
+} from "victory-native";
 
 import MyText from "../../../components/MyText/index";
 import MyCard from "../../../components/MyCard/index";
@@ -52,6 +57,15 @@ const HabitStatisticsScreen = ({ navigation, route }) => {
       },
     }),
     [allDates]
+  );
+
+  const chartData = useMemo(
+    () =>
+      listProgress.map((item, index) => ({
+        x: index,
+        y: item.progress,
+      })),
+    [listProgress]
   );
 
   // console.log(newDaysObject);
@@ -265,9 +279,56 @@ const HabitStatisticsScreen = ({ navigation, route }) => {
       <View style={{ padding: 16 }}>
         <MyCard>
           <View style={{ position: "absolute", top: 10, left: 30 }}>
-            <MyText size5>units</MyText>
+            <MyText size5>{item.habitId.target?.targetUnit ?? "units"}</MyText>
           </View>
-          <VictoryChart width={width * 0.85}>
+          <VictoryChart width={width * 0.85} theme={VictoryTheme.material}>
+            <VictoryBar
+              animate={{
+                duration: 2000,
+                onLoad: { duration: 5000 },
+              }}
+              style={{
+                data: { stroke: COLOR.green },
+                parent: { border: "3px solid #000" },
+              }}
+              data={
+                //   [
+                //   { x: 1, y: 3 },
+                //   { x: 2, y: 12 },
+                //   { x: 3, y: 14 },
+                //   { x: 4, y: 12 },
+                //   { x: 5, y: 8 },
+                //   { x: 6, y: 12 },
+                //   { x: 7, y: 14 },
+                //   { x: 8, y: 33 },
+                //   { x: 9, y: 12 },
+                //   { x: 10, y: 3 },
+                //   { x: 11, y: 5 },
+                //   { x: 12, y: 3 },
+                //   { x: 13, y: 10 },
+                //   { x: 14, y: 22 },
+                //   { x: 15, y: 0 },
+                //   { x: 16, y: 12 },
+                //   { x: 17, y: 17 },
+                //   { x: 18, y: 32 },
+                //   { x: 19, y: 19 },
+                //   { x: 20, y: 15 },
+                //   { x: 21, y: 4 },
+                // ]
+                chartData
+              }
+            />
+          </VictoryChart>
+          <View style={{ position: "absolute", bottom: 10, right: 30 }}>
+            <MyText size5>days</MyText>
+          </View>
+        </MyCard>
+
+        <MyCard>
+          <View style={{ position: "absolute", top: 10, left: 30 }}>
+            <MyText size5>streak</MyText>
+          </View>
+          <VictoryChart width={width * 0.85} theme={VictoryTheme.material}>
             <VictoryLine
               animate={{
                 duration: 2000,

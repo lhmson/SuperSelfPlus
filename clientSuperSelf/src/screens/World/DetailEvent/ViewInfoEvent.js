@@ -104,7 +104,7 @@ function ViewInfoEvent({ navigation, item }) {
           : "Join the event to reach the goal of a better self and show everyone who you are"}
       </MyText>
       {/* TODO: bind progress of self during event */}
-      <ProgressBar percent={70} />
+      <ProgressBar percent={0} />
       <TimeLineGifts />
     </View>
   );
