@@ -43,11 +43,11 @@ const RunningHomeScreen = ({ navigation }) => {
           }}
         >
           <MyText size4 b6>
-            YÊU CẦU QUYỀN LOCATION
+            RUNNING HOME
           </MyText>
           <MyText center>
-            Hy vọng bạn sẽ chấp nhận quyền truy cập Location cho App để thực
-            hiện các chức năng của chúng tôi trong suốt quá trình chạy!
+            App requires location permission during goal running feature. Hope
+            you have the best running experience!
           </MyText>
         </View>
       </View>
@@ -78,7 +78,7 @@ const RunningHomeScreen = ({ navigation }) => {
               </MyText>
               <MyText size5>
                 {
-                  "Chế độ tập luyện đo đạc theo plan đặt ra như thời gian chạy, quãng đường, số bước chân, được nhắc nhở khi hoàn thành."
+                  "The training mode measures according to the set plan such as running time, distance, number of steps, being reminded when completed."
                 }
               </MyText>
             </View>
@@ -112,7 +112,7 @@ const RunningHomeScreen = ({ navigation }) => {
               </MyText>
               <MyText size5>
                 {
-                  "Chế độ auto đo đạc số bước chân của bạn tự động ngay cả khi bạn không sử dụng app! Chế độ xem theo ngày hiện tại!"
+                  "Auto mode measures your steps automatically even when you're not using the app. It's also has current day review mode!"
                 }
               </MyText>
             </View>
@@ -146,7 +146,7 @@ const RunningHomeScreen = ({ navigation }) => {
               </MyText>
               <MyText size5>
                 {
-                  "Charts thống kê hành vi, thói quen chạy bộ của bạn trong khoảng thời gian, và đưa ra lời khuyên hữu ích nhất cho bạn!"
+                  "Charts statistics your running behavior and habits over a period of time, and gives you the most useful advice!"
                 }
               </MyText>
             </View>
@@ -179,7 +179,7 @@ const RunningHomeScreen = ({ navigation }) => {
               </MyText>
               <MyText size5>
                 {
-                  "Bảng xếp hạng thành tựu chạy bộ trong tuần/tháng qua của bạn so với thế giới hoặc với bạn bè của bạn."
+                  "Ranking your running achievements for the past week/month against the world or with your friends."
                 }
               </MyText>
             </View>
