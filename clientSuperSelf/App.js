@@ -36,6 +36,7 @@ export default function App() {
     "VirtualizedLists should never be nested",
     "Animated: `useNativeDriver` was not specified.",
   ]);
+  LogBox.ignoreAllLogs(); //Ignore all log notifications
   useKeepAwake(); // this keeps the screen awake for as long as the owner component is mounted
 
   let [fontsLoaded] = useFonts({

@@ -19,7 +19,7 @@ export const getAllEvents = async (req, res) => {
     try {
       const events = await Habit.find({
         eventInfo: { $exists: true, $ne: null },
-      });
+      }).sort({ createdAt: -1 });
       return res.status(httpStatusCodes.ok).json(events);
     } catch (error) {
       return res
@@ -46,7 +46,10 @@ export const getMyEvents = async (req, res) => {
           myEvents.push(habit);
         }
       }
-      console.log("event", myEvents);
+      myEvents.sort(function (a, b) {
+        return b - a;
+      });
+      // console.log("event", myEvents);
       return res.status(httpStatusCodes.ok).json(myEvents);
     } catch (error) {
       return res

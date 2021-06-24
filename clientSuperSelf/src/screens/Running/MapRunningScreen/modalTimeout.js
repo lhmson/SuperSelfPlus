@@ -1,23 +1,13 @@
 import React, { useState } from "react";
-import { Button, Text, View, Dimensions, Image } from "react-native";
+import { View, Image } from "react-native";
 import Modal from "react-native-modal";
 import MyCard from "../../../components/MyCard/index";
 import MyButton from "../../../components/MyButton/index";
 import MyText from "../../../components/MyText/index";
-import MyTextInput from "../../../components/MyTextInput/index";
-import MySwitch from "../../../components/MySwitch/index";
 
 import COLOR from "../../../constants/colors";
-import ICON from "../../../constants/icon";
 
-const WIDTH = Dimensions.get("window").width;
-const HEIGHT = Dimensions.get("window").height;
-
-function ModalTimeOut({ isModalTimeOut, setIsModalTimeOut }) {
-  const cancelSetup = () => {
-    setIsModalTimeOut(false);
-  };
-
+function ModalTimeOut({ isOpenModalTimeOut, ListCardRun, onPressStop }) {
   const MainModal = () => {
     return (
       <View
@@ -39,6 +29,7 @@ function ModalTimeOut({ isModalTimeOut, setIsModalTimeOut }) {
         />
         <View style={{ marginTop: -40 }}></View>
         <MyText>Unfortunately, It was time out!</MyText>
+        <ListCardRun></ListCardRun>
         <View style={{ marginTop: 20 }}></View>
       </View>
     );
@@ -54,9 +45,9 @@ function ModalTimeOut({ isModalTimeOut, setIsModalTimeOut }) {
           width: "100%",
         }}
       >
-        <MyButton color={COLOR.red} onPress={cancelSetup}>
+        <MyButton color={COLOR.red} onPress={onPressStop}>
           <MyText color={COLOR.white} b6>
-            OK
+            I know, I'll try more!
           </MyText>
         </MyButton>
       </View>
@@ -64,7 +55,7 @@ function ModalTimeOut({ isModalTimeOut, setIsModalTimeOut }) {
   };
   return (
     <View style={{ zIndex: 100 }}>
-      <Modal isVisible={isModalTimeOut}>
+      <Modal isVisible={isOpenModalTimeOut}>
         <MyCard style={{ flexDirection: "column" }}>
           <MainModal></MainModal>
           <ButtonFooter></ButtonFooter>

@@ -59,6 +59,12 @@ export const convertDateToSecondTrigger = (date) => {
   return secondsReminders / 1000;
 };
 
+export const cancelScheduleNotiListForHabit = async () => {
+  await Notifications.cancelAllScheduledNotificationsAsync();
+
+  //TODO : function create again list noti for habits
+};
+
 export const scheduleNotiListForHabit = (
   stopDate,
   reminder,
