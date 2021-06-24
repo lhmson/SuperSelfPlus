@@ -86,6 +86,8 @@ const AddHabitScreen = ({ navigation, route }) => {
 
   const [error, setError] = useState("");
 
+  const [loading, setLoading] = useState(false);
+
   //#region Noti
   const [expoPushToken, setExpoPushToken] = useState("");
   const [notification, setNotification] = useState(false);
@@ -281,6 +283,7 @@ const AddHabitScreen = ({ navigation, route }) => {
     };
 
     // alert(JSON.stringify(newHabit));
+    setLoading(true);
     apiHabit
       .addHabit(newHabit)
       .then(() => {
@@ -304,10 +307,12 @@ const AddHabitScreen = ({ navigation, route }) => {
           );
         }
       })
-
       .catch((error) => {
         console.log("Error when adding habit", error);
         alert("Error when adding habit");
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
@@ -674,7 +679,11 @@ const AddHabitScreen = ({ navigation, route }) => {
         position="bottomRight"
         onPress={handleAddHabit}
       >
-        <Entypo name="plus" size={24} color={COLOR.white} />
+        {loading ? (
+          <Loading size="small" noText />
+        ) : (
+          <Entypo name="plus" size={24} color={COLOR.white} />
+        )}
       </MyFloatingButton>
       <TouchableOpacity
         onPress={() => {

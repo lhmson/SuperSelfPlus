@@ -29,7 +29,7 @@ import TimeLineGifts from "./TimeLineGifts";
 function ProgressBar({ navigation, item, percent }) {
   const _height = 30;
   const _wParent = width - 32;
-  const _wChild = (_wParent * percent) / 100;
+  const _wChild = percent? (_wParent * percent) / 100 : 0;
   return (
     <View
       style={{

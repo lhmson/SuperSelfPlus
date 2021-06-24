@@ -44,6 +44,7 @@ const HabitStatisticsScreen = ({ navigation, route }) => {
 
   const progressDaysObj = useMemo(
     () => ({
+      //TODO: maybe do not have to add this
       [allDates[0]]: {
         startingDay: true,
         color: COLOR.yellow,
@@ -89,14 +90,14 @@ const HabitStatisticsScreen = ({ navigation, route }) => {
     const ProgressBar = ({ percent }) => {
       const _height = 30;
       const _wParent = width * 0.7;
-      const _wChild = (_wParent * percent) / 100;
+      const _wChild = percent ? (_wParent * percent) / 100 : 0;
       return (
         <View
           style={{
             width: _wParent,
             height: _height,
             borderRadius: 30,
-            backgroundColor: COLOR.lightGreen,
+            backgroundColor: COLOR.grey,
           }}
         >
           <View

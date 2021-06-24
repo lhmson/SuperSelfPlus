@@ -1,6 +1,6 @@
 import PersonalHabit from "../models/personalHabit.js";
 import {
-  countDaysBetweenDates,
+  countDaysBetweenDatesIncludingToday,
   getDateNoTime,
 } from "../utils/aboutDateTime.js";
 
@@ -12,6 +12,6 @@ export const countDaysOfHabit = async (personalHabitId) => {
   const personalHabit = await PersonalHabit.findOne({ _id: personalHabitId });
   const startDate = getDateNoTime(personalHabit.joinDate);
   const today = getDateNoTime(new Date());
-  const days = countDaysBetweenDates(startDate, today);
+  const days = countDaysBetweenDatesIncludingToday(startDate, today);
   return days;
 };
