@@ -41,7 +41,7 @@ export const getMyEvents = async (req, res) => {
     try {
       const personalHabits = await PersonalHabit.find({ userId });
       for (let item of personalHabits) {
-        const habit = await Habit.findOne({ _id: item.habitId });
+        const habit = await Habit.findById(item.habitId);
         if (habit?.eventInfo) {
           myEvents.push(habit);
         }

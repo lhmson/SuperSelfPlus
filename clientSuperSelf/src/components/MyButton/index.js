@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import COLOR from "../../constants/colors";
+import { scaleFontSize } from "../../constants/dimensions";
 
 // props: color size long
 
@@ -20,15 +21,15 @@ const TouchableOpacity = styled.TouchableOpacity`
   ${({ size1, size2, size3, size4, size5 }) => {
     switch (true) {
       case size1:
-        return `height:92px;`;
+        return `height:${scaleFontSize(92).toString()}px;`;
       case size2:
-        return `height:82px;`;
+        return `height:${scaleFontSize(82).toString()}px;`;
       case size3:
-        return `height:72px;`;
+        return `height:${scaleFontSize(72).toString()}px;`;
       case size4:
-        return `height:60px;`;
+        return `height:${scaleFontSize(60).toString()}px;`;
       case size5:
-        return `height:48px;`;
+        return `height:${scaleFontSize(48).toString()}px;`;
       default:
     }
   }}

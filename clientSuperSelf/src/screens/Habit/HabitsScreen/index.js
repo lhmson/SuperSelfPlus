@@ -24,12 +24,16 @@ import HabitItem from "./HabitItem";
 import * as apiHabit from "../../../api/habit";
 import { useUser } from "../../../context/UserContext";
 import FONT from "../../../constants/font";
-import { getDateNoTime, getMonday } from "../../../utils/datetime";
+import { getDateNoTime, getMonday, isToday } from "../../../utils/datetime";
 import useIsMountedRef from "../../../hooks/useIsMountedRef";
+import { useHabits } from "../../../context/HabitContext";
 
 const HabitsScreen = ({ navigation }) => {
   const user = useUser();
   const userJoinDate = getDateNoTime(user.state.createdAt);
+
+  const habits = useHabits();
+  const { updateNumberTodos } = habits;
 
   const isFocused = useIsFocused();
   const isMountedRef = useIsMountedRef();
@@ -44,12 +48,15 @@ const HabitsScreen = ({ navigation }) => {
   //#region calendar
   const calendarStripRef = useRef();
 
-  let datesWhitelist = [
-    {
-      start: userJoinDate,
-      end: moment().add(21, "days").format("YYYY-MM-DD"), // total 4 days enabled
-    },
-  ];
+  const datesWhitelist = useMemo(
+    () => [
+      {
+        start: userJoinDate,
+        end: moment().add(21, "days").format("YYYY-MM-DD"), // total 4 days enabled
+      },
+    ],
+    [userJoinDate]
+  );
 
   // const markedDates = [
   //   {
@@ -86,6 +93,12 @@ const HabitsScreen = ({ navigation }) => {
         if (isMountedRef.current) {
           // console.log(res.data);
           setListHabits(res.data);
+
+          //TODO: set number todo for badge at home
+          if (isToday(selectDate)) {
+            const todos = res.data.filter((item) => !item.completed);
+            updateNumberTodos(todos.length);
+          }
         }
       })
       .catch((error) => {

@@ -8,7 +8,7 @@ import {
   getDatesBetweenTwoDays,
   getHourAndMinute,
 } from "../utils/aboutDateTime.js";
-import { countDaysOfHabit } from "../businessLogic/habit.js";
+import { countStreak, countDaysOfHabit } from "../businessLogic/habit.js";
 
 //#region CRUD
 // GET habit/my/list
@@ -170,11 +170,16 @@ export const getMyHabitProgress = async (req, res) => {
         completedItems.push(elem);
       }
     }
+
     const numberOfDates = await countDaysOfHabit(personalHabitId);
+
+    const streak = await countStreak(personalHabitId); // current and longest
+
     const result = {
       listProgress: historyHabits,
       completedItems,
       numberOfDates,
+      streak,
     };
     return res.status(httpStatusCodes.accepted).json(result);
   } catch (error) {

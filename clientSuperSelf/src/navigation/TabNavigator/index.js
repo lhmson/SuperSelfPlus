@@ -13,6 +13,7 @@ import {
   ProfileStackNavigator,
   WorldStackNavigator,
 } from "../StackNavigator";
+import { useHabits } from "../../context/HabitContext";
 
 const Tab = createBottomTabNavigator();
 
@@ -56,6 +57,8 @@ const BottomTabNavigator = ({ navigation }) => {
     return true;
   };
 
+  const habits = useHabits();
+
   return (
     <>
       <View style={{ flex: 1, zIndex: -1, backgroundColor: COLOR.whiteSmoke }}>
@@ -86,7 +89,7 @@ const BottomTabNavigator = ({ navigation }) => {
             component={HomeStackNavigator}
             options={({ route }) => ({
               tabBarVisible: setTabBarVisible(route), // set tab hidden for child screen
-              tabBarBadge: 1,
+              tabBarBadge: habits.state.numberTodos,
             })}
           />
           <Tab.Screen

@@ -14,10 +14,11 @@ import {
   VictoryTheme,
 } from "victory-native";
 
-import MyText from "../../../components/MyText/index";
-import MyCard from "../../../components/MyCard/index";
+import MyText from "../../../components/MyText";
+import MyCard from "../../../components/MyCard";
 import SkeletonSample from "../../../components/SkeletonSample";
 import MyFloatingButton from "../../../components/MyFloatingButton";
+import MyButton from "../../../components/MyButton";
 
 import { width } from "../../../constants/dimensions";
 
@@ -36,6 +37,7 @@ const HabitStatisticsScreen = ({ navigation, route }) => {
   const [numberOfDates, setNumberOfDates] = useState();
   const [listProgress, setListProgress] = useState([]);
   const [completedItems, setCompletedItems] = useState([]);
+  const [streak, setStreak] = useState();
 
   const allDates = useMemo(
     () => listProgress.map((item) => getDateNoTime(item.date)),
@@ -49,20 +51,20 @@ const HabitStatisticsScreen = ({ navigation, route }) => {
 
   const progressDaysObj = useMemo(
     () => ({
-      //TODO: maybe do not have to add this
-      [allDates[0]]: {
-        startingDay: true,
-        color: COLOR.yellow,
-        textColor: "white",
-      },
+      // //TODO: maybe do not have to add this
+      // [allDates[0]]: {
+      //   startingDay: true,
+      //   color: COLOR.yellow,
+      //   textColor: "white",
+      // },
     }),
     [allDates]
   );
 
-  const chartData = useMemo(
+  const chartProgressData = useMemo(
     () =>
       listProgress.map((item, index) => ({
-        x: index,
+        x: index + 1,
         y: item.progress,
       })),
     [listProgress]
@@ -75,8 +77,16 @@ const HabitStatisticsScreen = ({ navigation, route }) => {
       progressDaysObj[day] = {
         startingDay: index === 0,
         endingDay: index === allDates.length - 1,
-        // marked: true,
-        color: listProgress[index].completed ? COLOR.green : COLOR.grey,
+        marked: day === getDateNoTime(new Date()) ? true : false,
+        dotColor: COLOR.yellow,
+        color:
+          dateCompare(getDateNoTime(new Date()), day) === -1
+            ? COLOR.yellow
+            : listProgress[index].completed
+            ? COLOR.green
+            : listProgress[index].progress && listProgress[index].progress !== 0
+            ? COLOR.orange
+            : COLOR.grey,
         textColor: COLOR.white,
       };
     });
@@ -89,6 +99,7 @@ const HabitStatisticsScreen = ({ navigation, route }) => {
         setListProgress(res.data.listProgress);
         setNumberOfDates(res.data.numberOfDates);
         setCompletedItems(res.data.completedItems);
+        setStreak(res.data.streak);
       })
       .catch((error) => {
         console.log("Error when getting habit progress", error);
@@ -194,7 +205,11 @@ const HabitStatisticsScreen = ({ navigation, route }) => {
               <MyText size5 b2>
                 Reminder
               </MyText>
-              <MyText>{moment(item.reminder).format("HH:mm a")}</MyText>
+              <MyText>
+                {item.reminder
+                  ? moment(item.reminder).format("HH:mm a")
+                  : "No setup"}
+              </MyText>
             </View>
           </View>
         </View>
@@ -205,7 +220,13 @@ const HabitStatisticsScreen = ({ navigation, route }) => {
   const CalendarHabit = () => {
     return (
       <View style={{ padding: 16 }}>
-        <MyCard style={{ alignItems: "center" }}>
+        <MyCard
+          style={{
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
           <Calendar
             markingType={"period"}
             markedDates={
@@ -232,6 +253,54 @@ const HabitStatisticsScreen = ({ navigation, route }) => {
               progressDaysObj
             }
           />
+
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-around",
+              marginTop: 8,
+            }}
+          >
+            <MyText
+              size5
+              b5
+              color={COLOR.green}
+              style={{ marginHorizontal: 4 }}
+            >
+              Completed
+            </MyText>
+            {item.habitId.target && (
+              <MyText
+                size5
+                b5
+                color={COLOR.orange}
+                style={{ marginHorizontal: 4 }}
+              >
+                Not completed
+              </MyText>
+            )}
+          </View>
+
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-around",
+              marginTop: 8,
+            }}
+          >
+            <MyText size5 b5 color={COLOR.grey} style={{ marginHorizontal: 4 }}>
+              Skip
+            </MyText>
+
+            <MyText
+              size5
+              b5
+              color={COLOR.yellow}
+              style={{ marginHorizontal: 4 }}
+            >
+              In future
+            </MyText>
+          </View>
         </MyCard>
       </View>
     );
@@ -242,15 +311,15 @@ const HabitStatisticsScreen = ({ navigation, route }) => {
       <View style={{ padding: 16 }}>
         <MyCard style={{ flexDirection: "row", alignItems: "flex-start" }}>
           <View style={{ flexDirection: "column", width: "60%" }}>
+            <MyText size5>Current steak</MyText>
             <MyText size2 b6>
-              __ days
+              {streak?.currentStreak} days
             </MyText>
-            <MyText size5>Your current steak</MyText>
             <View style={{ height: _marginText * 3 }}></View>
+            <MyText size5>Longest streak</MyText>
             <MyText size4 b4>
-              __ days
+              {streak?.longestStreak} days
             </MyText>
-            <MyText size5>Your longest streak</MyText>
           </View>
 
           <View
@@ -274,56 +343,53 @@ const HabitStatisticsScreen = ({ navigation, route }) => {
     );
   };
 
-  const CardChart = () => {
+  const BarChartCard = () => {
+    if (!item.habitId.target) {
+      return <View></View>;
+    }
+
     return (
       <View style={{ padding: 16 }}>
         <MyCard>
           <View style={{ position: "absolute", top: 10, left: 30 }}>
             <MyText size5>{item.habitId.target?.targetUnit ?? "units"}</MyText>
           </View>
-          <VictoryChart width={width * 0.85} theme={VictoryTheme.material}>
-            <VictoryBar
-              animate={{
-                duration: 2000,
-                onLoad: { duration: 5000 },
-              }}
-              style={{
-                data: { stroke: COLOR.green },
-                parent: { border: "3px solid #000" },
-              }}
-              data={
-                //   [
-                //   { x: 1, y: 3 },
-                //   { x: 2, y: 12 },
-                //   { x: 3, y: 14 },
-                //   { x: 4, y: 12 },
-                //   { x: 5, y: 8 },
-                //   { x: 6, y: 12 },
-                //   { x: 7, y: 14 },
-                //   { x: 8, y: 33 },
-                //   { x: 9, y: 12 },
-                //   { x: 10, y: 3 },
-                //   { x: 11, y: 5 },
-                //   { x: 12, y: 3 },
-                //   { x: 13, y: 10 },
-                //   { x: 14, y: 22 },
-                //   { x: 15, y: 0 },
-                //   { x: 16, y: 12 },
-                //   { x: 17, y: 17 },
-                //   { x: 18, y: 32 },
-                //   { x: 19, y: 19 },
-                //   { x: 20, y: 15 },
-                //   { x: 21, y: 4 },
-                // ]
-                chartData
-              }
-            />
-          </VictoryChart>
+          <ScrollView horizontal>
+            <VictoryChart
+              width={width * 0.85}
+              domainPadding={{ x: 20 }}
+              theme={VictoryTheme.material}
+            >
+              <VictoryBar
+                animate={{
+                  duration: 2000,
+                  onLoad: { duration: 5000 },
+                }}
+                barWidth={10}
+                barRatio={0.5}
+                style={{
+                  data: {
+                    fill:
+                      item.habitId.color === COLOR.white
+                        ? COLOR.green
+                        : item.habitId.color,
+                  },
+                }}
+                data={chartProgressData}
+              />
+            </VictoryChart>
+          </ScrollView>
           <View style={{ position: "absolute", bottom: 10, right: 30 }}>
-            <MyText size5>days</MyText>
+            <MyText size5>day</MyText>
           </View>
         </MyCard>
+      </View>
+    );
+  };
 
+  const LineChartCard = () => {
+    return (
+      <View style={{ padding: 16 }}>
         <MyCard>
           <View style={{ position: "absolute", top: 10, left: 30 }}>
             <MyText size5>streak</MyText>
@@ -364,7 +430,7 @@ const HabitStatisticsScreen = ({ navigation, route }) => {
             />
           </VictoryChart>
           <View style={{ position: "absolute", bottom: 10, right: 30 }}>
-            <MyText size5>days</MyText>
+            <MyText size5>day</MyText>
           </View>
         </MyCard>
       </View>
@@ -385,7 +451,8 @@ const HabitStatisticsScreen = ({ navigation, route }) => {
               <HeaderInfoHabit></HeaderInfoHabit>
               <CalendarHabit></CalendarHabit>
               <CardStreak></CardStreak>
-              <CardChart></CardChart>
+              <BarChartCard></BarChartCard>
+              <LineChartCard></LineChartCard>
             </View>
           </ScrollView>
           {/* action button */}

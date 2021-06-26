@@ -4,13 +4,13 @@
 @contentType = application/json
 @createdAt = {{$datetime iso8601}}
 @modifiedBy = {{$processEnv USERNAME}}
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxMjNAZ20uY29tIiwiaWQiOiI2MGMyNjAxOTkwZmI5MzY2OThiYWI5MjEiLCJpYXQiOjE2MjQzODIwMTB9.wix5J78nS4KKszYiqpgGf0dCwoXZderw_xCwiLaWwUE
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxMjNAZ20uY29tIiwiaWQiOiI2MGMyNjAxOTkwZmI5MzY2OThiYWI5MjEiLCJpYXQiOjE2MjQ2ODIwMjJ9.FCafhHMnPGOj-11I2Z7HIevCxnxhJ_mGsJ0B0pKjMa0
 @personalHabitId = 60c5014552159b157c75ab24
 @historyHabitId = historyHabitId
 ###
 
-# GET {{host}}/habit/my/list HTTP/1.1
-# Authorization: Bearer {{token}}
+GET {{host}}/habit/my/list HTTP/1.1
+Authorization: Bearer {{token}}
 
 ###
 # GET {{host}}/habit/my/60c260e290fb936698bab925 HTTP/1.1
@@ -22,6 +22,7 @@ Authorization: Bearer {{token}}
 
 ###
 GET {{host}}/habit/my/{{personalHabitId}}/progress
+Authorization: Bearer {{token}}
 
 ###
 POST {{host}}/habit HTTP/1.1

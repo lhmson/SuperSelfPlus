@@ -22,7 +22,7 @@ router.get("/my/:habitId", auth, getAHabitOfMe);
 router.get("/my/list/:dateStr", auth, getMyHabitsOfDate); // used
 
 // progress statistics
-router.get("/my/:personalHabitId/progress", getMyHabitProgress);
+router.get("/my/:personalHabitId/progress", auth, getMyHabitProgress);
 
 router.post("/", auth, addHabit); // used
 
