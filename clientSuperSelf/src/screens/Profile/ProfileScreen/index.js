@@ -253,6 +253,7 @@ function ProfileScreen() {
           >
             {dataBadges.map((item, index) => (
               <CardBadge
+                key={index}
                 title={item.title}
                 description={item.description}
                 iconBadges={item.iconBadges}
