@@ -82,7 +82,8 @@ function countLongestStreak(arr) {
     }
     streakLogs[i] = len;
   }
-  console.log(streakLogs);
+  // console.log(streakLogs);
+
   // comparing the length of the last streak with 'max'
   if (max < len) {
     max = len;

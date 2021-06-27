@@ -5,7 +5,9 @@
 @createdAt = {{$datetime iso8601}}
 @modifiedBy = {{$processEnv USERNAME}}
 
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXJvbmVAZ20uY29tIiwiaWQiOiI2MGQ3NWEzMzI1MmI2ZjM3NDA1YzQ1NmMiLCJpYXQiOjE2MjQ3NjA1MzR9.BWf4Ll2rd4kB_DIVsQ3PqgVTbJeueUoITPRa9QlwGjo
+# @token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxMjNAZ20uY29tIiwiaWQiOiI2MGMyNjAxOTkwZmI5MzY2OThiYWI5MjEiLCJpYXQiOjE2MjQ3NjY3MjB9.abeBlfwSao6z1bufV1TCDGMGr2rPQUdJTgzID_RBcw4
+
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXJvbmVAZ20uY29tIiwiaWQiOiI2MGQ3NWEzMzI1MmI2ZjM3NDA1YzQ1NmMiLCJpYXQiOjE2MjQ3NjcwNjJ9.o4_Nbcy6huKSY0scZII2R7mlFw_SaGxQsLwjsO2WKUo
 
 ###
 
@@ -15,4 +17,8 @@ Authorization: Bearer {{token}}
 ###
 
 GET {{host}}/event/my/list HTTP/1.1
+Authorization: Bearer {{token}}
+
+###
+PUT {{host}}/event/join/60d3dda1de30c22e10b1c128 HTTP/1.1
 Authorization: Bearer {{token}}

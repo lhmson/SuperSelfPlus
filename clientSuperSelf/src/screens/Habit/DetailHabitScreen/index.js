@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import {
   View,
   ImageBackground,
@@ -210,6 +210,7 @@ const DetailHabitScreen = ({ navigation, route }) => {
       icon,
       target,
       // eventInfo,
+      //TODO: remove noti and add new when change, with new title if bing edit
       reminder,
     };
 
@@ -248,16 +249,19 @@ const DetailHabitScreen = ({ navigation, route }) => {
   };
 
   const handleDeleteHabit = () => {
-    if (item.habitId.authorId !== user.state.uid) {
-      alert("You are not owner of this personal habit");
-      return;
-    }
-
+    // if (item.habitId.authorId !== user.state.uid) {
+    //   alert("You are not owner of this personal habit");
+    //   return;
+    // }
     Alert.alert(
       "Confirm delete",
       `${
         item.habitId.eventInfo
-          ? "This habit is being hold as an event. You cannot delete the habit, you can just withdraw from the event, are you sure?"
+          ? `This habit is being hold as an event. ${
+              item.habitId.authorId !== user.state.uid
+                ? "You are leaving and your progress will not be counted"
+                : "You cannot delete the habit, you can just withdraw from the event, are you sure?"
+            }`
           : "Are you sure"
       }`,
       [
@@ -302,6 +306,11 @@ const DetailHabitScreen = ({ navigation, route }) => {
       { cancelable: false }
     );
   };
+
+  const isAuthor = useMemo(
+    () => (item.habitId.author === user.state.uid ? true : false),
+    [item, user]
+  );
 
   return (
     <View style={styles.container}>
@@ -409,6 +418,7 @@ const DetailHabitScreen = ({ navigation, route }) => {
               autoFocus={false}
               onChangeText={(title) => setTitle(title)}
               value={title}
+              editable={isAuthor}
               style={{
                 borderColor: error === errors[0] ? COLOR.red : COLOR.grey,
               }}
@@ -421,6 +431,7 @@ const DetailHabitScreen = ({ navigation, route }) => {
               autoFocus={false}
               onChangeText={(des) => setDescription(des)}
               value={description}
+              editable={isAuthor}
             />
 
             {/* <View style={{ marginBottom: 5 }}>
@@ -519,7 +530,10 @@ const DetailHabitScreen = ({ navigation, route }) => {
                 padding: 10,
               }}
             >
-              <View style={styles.picker}>
+              <View
+                pointerEvents={!isAuthor ? "none" : "auto"}
+                style={styles.picker}
+              >
                 <ColorPicker setColor={setColor} />
               </View>
 
@@ -687,12 +701,18 @@ const DetailHabitScreen = ({ navigation, route }) => {
             alignItems: "center",
           }}
         >
-          <MyButton long3 color={COLOR.green} onPress={() => {}}>
+          <MyButton
+            long3
+            color={COLOR.green}
+            onPress={() => {
+              //TODO: navigate detail event screen
+            }}
+          >
             <MyText color={COLOR.white} b5>
               Event detail
             </MyText>
           </MyButton>
-          //TODO: date, progress of user during event
+          {/* //TODO: date, progress of user during event */}
           <MyButton long3 onPress={handleCloseEventModal}>
             <MyText color={COLOR.white}>Back</MyText>
           </MyButton>

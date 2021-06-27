@@ -102,7 +102,6 @@ const HabitStatisticsScreen = ({ navigation, route }) => {
   }, [allDates]);
 
   useEffect(() => {
-    console.log("start");
     apiHabit
       .getMyHabitProgress(item._id)
       .then((res) => {

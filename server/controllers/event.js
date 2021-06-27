@@ -76,11 +76,16 @@ export const joinEvent = async (req, res) => {
 
     const event = habit.eventInfo;
     if (!event) {
-      res.status(httpStatusCodes.notFound).send(`This habit has no event`);
+      return res
+        .status(httpStatusCodes.notFound)
+        .send(`This habit has no event`);
     }
 
     if (event.listJoiners.includes(userId)) {
-      res.status(httpStatusCodes.badContent).send(`User has joined this event`);
+      console.log("event join", event.listJoiners);
+      return res
+        .status(httpStatusCodes.badContent)
+        .send(`User has joined this event`);
     }
     habit.eventInfo.listJoiners.push(userId);
     await habit.save();
@@ -88,17 +93,16 @@ export const joinEvent = async (req, res) => {
     //TODO: create new list historyHabit and new personalHabit
     const newPersonalHabit = new PersonalHabit({
       reminder: new Date(),
-      habitId: newHabit._id,
-      userId: authorId,
+      habitId,
+      userId,
     });
 
     await createListHistoryHabits(21, newPersonalHabit._id, userId);
 
     const result = newPersonalHabit.toObject();
     await newPersonalHabit.save();
-    res.status(httpStatusCodes.created).json(result);
 
-    return res.status(httpStatusCodes.accepted).json(habit);
+    return res.status(httpStatusCodes.accepted).json(result);
   } catch (error) {
     return res
       .status(httpStatusCodes.internalServerError)

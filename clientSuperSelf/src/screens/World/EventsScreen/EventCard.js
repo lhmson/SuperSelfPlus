@@ -9,23 +9,27 @@ import {
   TouchableOpacity,
 } from "react-native";
 import styles from "../styles";
-import styled from "styled-components";
-import { useIsFocused } from "@react-navigation/native";
 import { Entypo } from "@expo/vector-icons";
 import COLOR from "../../../constants/colors";
 import moment, { ISO_8601 } from "moment";
 
+import Toast from "react-native-toast-message";
+
 import MyText from "../../../components/MyText";
 import MyButton from "../../../components/MyButton";
+import Loading from "../../../components/Loading";
 import MyCard from "../../../components/MyCard";
 
 import { useUser } from "../../../context/UserContext";
 import * as apiHabit from "../../../api/habit";
+import * as apiEvent from "../../../api/event";
 import { width } from "../../../constants/dimensions";
 import { dateCompare } from "../../../utils/datetime";
 
 function EventCard({ item, navigation }) {
   const user = useUser();
+
+  const [loading, setLoading] = useState(false);
 
   const [personalHabit, setPersonalHabit] = useState();
 
@@ -37,17 +41,42 @@ function EventCard({ item, navigation }) {
           setPersonalHabit(res.data);
         })
         .catch((error) => {
-          console.log("Error when getting personal habit", error);
-          alert("Error when getting personal habit");
+          console.log("Error when getting personal habit at event card", error);
+          alert("Error when getting personal habit at event card");
         });
     }
   }, [item]);
+
+  const handleJoinEvent = (habitId) => {
+    setLoading(true);
+    apiEvent
+      .joinEvent(habitId)
+      .then(() => {
+        Toast.show({
+          type: "success", // success, error, info
+          text1: "Successfully join event 🎉",
+          text2: `${item.title}`,
+          visibilityTime: 2500,
+          onShow: () => {},
+          onHide: () => {}, // called when Toast hides (if `autoHide` was set to `true`)
+          onPress: () => {},
+        });
+        navigation.navigate("Home");
+      })
+      .catch((error) => {
+        console.log("Error when joining event", error);
+        alert("Error when joining event");
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
 
   const ImageDemo = () => {
     return (
       <TouchableOpacity
         onPress={() => {
-          navigation.navigate("Detail Event", { item: item });
+          navigation.navigate("Detail Event", { item: item, personalHabit });
         }}
       >
         <ImageBackground
@@ -193,7 +222,7 @@ function EventCard({ item, navigation }) {
         <MyButton
           style={{ width: width * 0.3, height: 50 }}
           onPress={() => {
-            navigation.navigate("Detail Event", { item: item });
+            navigation.navigate("Detail Event", { item: item, personalHabit });
           }}
         >
           <MyText color={COLOR.white} b5>
@@ -204,11 +233,15 @@ function EventCard({ item, navigation }) {
           <MyButton
             style={{ width: width * 0.5, height: 50 }}
             color={COLOR.lightGreen}
-            onPress={() => {}}
+            onPress={() => handleJoinEvent(item._id)}
           >
-            <MyText color={COLOR.white} b5>
-              Join
-            </MyText>
+            {loading ? (
+              <Loading size="small" noText />
+            ) : (
+              <MyText color={COLOR.white} b5>
+                Join
+              </MyText>
+            )}
           </MyButton>
         ) : (
           <MyButton

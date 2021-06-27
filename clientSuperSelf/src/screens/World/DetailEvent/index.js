@@ -25,26 +25,29 @@ import { width } from "../../../constants/dimensions";
 import { dateCompare } from "../../../utils/datetime";
 
 function DetailEventScreen({ navigation, route }) {
-  const { item } = route.params;
+  const { item, personalHabit } = route.params;
   // console.log("item", item);
   const user = useUser();
 
-  const [personalHabit, setPersonalHabit] = useState();
+  // const [personalHabit, setPersonalHabit] = useState();
 
-  useEffect(() => {
-    if (item.eventInfo.listJoiners.indexOf(user.state.uid) !== -1) {
-      apiHabit
-        .getAHabitOfMe(item._id)
-        .then((res) => {
-          setPersonalHabit(res.data);
-          console.log(res.data);
-        })
-        .catch((error) => {
-          console.log("Error when getting personal habit", error);
-          alert("Error when getting personal habit");
-        });
-    }
-  }, [item]);
+  // useEffect(() => {
+  //   if (item.eventInfo.listJoiners.indexOf(user.state.uid) !== -1) {
+  //     apiHabit
+  //       .getAHabitOfMe(item._id)
+  //       .then((res) => {
+  //         setPersonalHabit(res.data);
+  //         console.log(res.data);
+  //       })
+  //       .catch((error) => {
+  //         console.log(
+  //           "Error when getting personal habit at detail event",
+  //           error
+  //         );
+  //         alert("Error when getting personal habit at detail event");
+  //       });
+  //   }
+  // }, [item]);
 
   //#region
   const CardEvent = () => {

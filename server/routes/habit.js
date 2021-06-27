@@ -8,7 +8,7 @@ import {
   getMyHabitProgress,
   updateMyHabit,
   updateMyHistoryHabit,
-  deletePersonalHabitId,
+  deletePersonalHabit,
 } from "../controllers/habit.js";
 
 import auth from "../middleware/auth.js";
@@ -29,6 +29,6 @@ router.post("/", auth, addHabit); // used
 router.put("/my/edit/:personalHabitId", auth, updateMyHabit);
 router.put("/my/progress/:historyHabitId", auth, updateMyHistoryHabit);
 
-router.delete("/my/:personalHabitId", auth, deletePersonalHabitId); // used
+router.delete("/my/:personalHabitId", auth, deletePersonalHabit); // used
 
 export default router;

@@ -91,7 +91,10 @@ export const getAHabitOfMe = async (req, res) => {
   const { habitId } = req.params;
 
   try {
-    const personalHabit = await PersonalHabit.findOne({ habitId }).populate({
+    const personalHabit = await PersonalHabit.findOne({
+      habitId,
+      userId: req.userId,
+    }).populate({
       path: "habitId",
       select: "title description color kind icon target eventInfo authorId",
       model: "Habit",
@@ -104,6 +107,7 @@ export const getAHabitOfMe = async (req, res) => {
     }
 
     if (!personalHabit.userId.equals(req.userId)) {
+      console.log("You are not the user of this personal habit");
       return res
         .status(httpStatusCodes.unauthorized)
         .json({ message: "You are not the user of this personal habit" });
@@ -413,7 +417,7 @@ export const updateMyHistoryHabit = async (req, res) => {
 };
 
 // DELETE habit/:personalHabitId
-export const deletePersonalHabitId = async (req, res) => {
+export const deletePersonalHabit = async (req, res) => {
   const { personalHabitId } = req.params;
   const { userId } = req;
 
