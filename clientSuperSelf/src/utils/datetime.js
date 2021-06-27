@@ -8,7 +8,7 @@ export const getDateNoTime = (date) => {
 export const getRawDateTime = (date) => {
   const regex = /\T.*/g;
   const temp = date.toISOString().replace(regex, "");
-  console.log("temp", temp);
+  // console.log("temp", temp);
   return new Date(temp);
 };
 

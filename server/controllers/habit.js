@@ -8,7 +8,11 @@ import {
   getDatesBetweenTwoDays,
   getHourAndMinute,
 } from "../utils/aboutDateTime.js";
-import { countStreak, countDaysOfHabit } from "../businessLogic/habit.js";
+import {
+  countStreak,
+  countDaysOfHabit,
+  createListHistoryHabits,
+} from "../businessLogic/habit.js";
 
 //#region CRUD
 // GET habit/my/list
@@ -229,17 +233,7 @@ export const addHabit = async (req, res) => {
     userId: authorId,
   });
 
-  const dates = getDatesBetweenTwoDays(new Date(), new Date().addDays(21));
-  // console.log(dates);
-
-  for (let i = 0; i < 21; i++) {
-    // console.log(dates[i]);
-    await HistoryHabit.create({
-      personalHabitId: newPersonalHabit._id,
-      userId: authorId,
-      date: getDateNoTime(dates[i]),
-    });
-  }
+  await createListHistoryHabits(21, newPersonalHabit._id, authorId);
 
   const result = newPersonalHabit.toObject();
 
@@ -330,7 +324,7 @@ export const updateMyHabit = async (req, res) => {
         _id: personalHabitId,
       };
 
-      console.log("update personal", updatedPersonalHabit);
+      // console.log("update personal", updatedPersonalHabit);
 
       await PersonalHabit.findByIdAndUpdate(
         personalHabitId,
@@ -396,7 +390,7 @@ export const updateMyHistoryHabit = async (req, res) => {
         completed,
         _id: foundHistoryHabit._id,
       };
-      console.log("update habit", updatedHistoryHabit);
+      // console.log("update habit", updatedHistoryHabit);
       await HistoryHabit.findByIdAndUpdate(
         updatedHistoryHabit._id,
         updatedHistoryHabit,
@@ -442,7 +436,8 @@ export const deletePersonalHabitId = async (req, res) => {
 
     //TODO: handle it is finished
     if (!relativeHabit?.eventInfo) {
-      if (userId === relativeHabit.authorId) {
+      // check if user is owner of habit
+      if (relativeHabit.authorId.equals(userId)) {
         await Habit.findByIdAndRemove(personalHabit.habitId);
       }
     } else {
@@ -463,6 +458,7 @@ export const deletePersonalHabitId = async (req, res) => {
       .status(httpStatusCodes.ok)
       .json({ message: "Delete habit successfully." });
   } catch (error) {
+    console.log(error);
     res
       .status(httpStatusCodes.internalServerError)
       .json({ message: error.message });

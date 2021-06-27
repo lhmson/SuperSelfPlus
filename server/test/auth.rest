@@ -25,3 +25,8 @@ Content-Type: {{contentType}}
     "email":"test123@gm.com",
     "password":"test"
 }
+
+# {
+#     "email":"userone@gm.com",
+#     "password":"test123"
+# }

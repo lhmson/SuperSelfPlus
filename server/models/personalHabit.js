@@ -28,10 +28,6 @@ export const personalHabitSchema = mongoose.Schema(
       type: Number,
       default: 0,
     },
-    // longestStreak: {
-    //   type: Number,
-    //   default: 0,
-    // },
     habitId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Habit",

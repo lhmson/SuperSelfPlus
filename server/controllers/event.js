@@ -8,8 +8,8 @@ import {
   getDatesBetweenTwoDays,
   getHourAndMinute,
 } from "../utils/aboutDateTime.js";
+import { createListHistoryHabits } from "../businessLogic/habit.js";
 
-//#region CRUD
 // GET event/list/all
 export const getAllEvents = async (req, res) => {
   try {
@@ -63,8 +63,45 @@ export const getMyEvents = async (req, res) => {
   }
 };
 
-export const joinEvent = (req, res) => {
-  //TODO: implement join event
-};
+export const joinEvent = async (req, res) => {
+  const { habitId } = req.params;
+  const { userId } = req;
+  try {
+    const habit = await Habit.findById(habitId);
+    if (!habit) {
+      return res
+        .status(httpStatusCodes.notFound)
+        .send(`There's no habit with id ${habitId}`);
+    }
 
-//#endregion
+    const event = habit.eventInfo;
+    if (!event) {
+      res.status(httpStatusCodes.notFound).send(`This habit has no event`);
+    }
+
+    if (event.listJoiners.includes(userId)) {
+      res.status(httpStatusCodes.badContent).send(`User has joined this event`);
+    }
+    habit.eventInfo.listJoiners.push(userId);
+    await habit.save();
+
+    //TODO: create new list historyHabit and new personalHabit
+    const newPersonalHabit = new PersonalHabit({
+      reminder: new Date(),
+      habitId: newHabit._id,
+      userId: authorId,
+    });
+
+    await createListHistoryHabits(21, newPersonalHabit._id, userId);
+
+    const result = newPersonalHabit.toObject();
+    await newPersonalHabit.save();
+    res.status(httpStatusCodes.created).json(result);
+
+    return res.status(httpStatusCodes.accepted).json(habit);
+  } catch (error) {
+    return res
+      .status(httpStatusCodes.internalServerError)
+      .json({ message: error.message });
+  }
+};

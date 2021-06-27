@@ -67,11 +67,13 @@ const CheckButton = ({ item, navigation, setIsUpdate }) => {
     }
     if (isComplete) {
       setProgress(item.personalHabitId.habitId.target?.targetNumber);
+    } else {
+      setProgress(0);
     }
     const updatedHistoryHabit = {
       progress: isComplete
-        ? parseInt(item.personalHabitId.habitId.target?.targetNumber ?? 0)
-        : parseInt(progress),
+        ? Number(item.personalHabitId.habitId.target?.targetNumber ?? 0)
+        : Number(0),
       completed: isComplete,
     };
 

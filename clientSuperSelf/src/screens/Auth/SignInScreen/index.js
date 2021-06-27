@@ -70,6 +70,10 @@ function SignInScreen({ navigation }) {
       })
 
       .catch((error) => {
+        if (error.response.status === 404) {
+          alert("User does not exist, try again");
+          return;
+        }
         alert("Error when logging in, try again.");
         console.log("Error when logging in", error);
       })

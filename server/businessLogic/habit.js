@@ -3,7 +3,29 @@ import HistoryHabit from "../models/historyHabit.js";
 import {
   countDaysBetweenDatesIncludingToday,
   getDateNoTime,
+  getDatesBetweenTwoDays,
 } from "../utils/aboutDateTime.js";
+
+export const createListHistoryHabits = async (
+  numberOfDays,
+  personalHabitId,
+  userId
+) => {
+  const dates = getDatesBetweenTwoDays(
+    new Date(),
+    new Date().addDays(numberOfDays)
+  );
+  // console.log(dates);
+
+  for (let i = 0; i < numberOfDays; i++) {
+    // console.log(dates[i]);
+    await HistoryHabit.create({
+      personalHabitId,
+      userId,
+      date: getDateNoTime(dates[i]),
+    });
+  }
+};
 
 export const countStreak = async (personalHabitId) => {
   try {
@@ -25,8 +47,12 @@ export const countStreak = async (personalHabitId) => {
       }
     }
 
-    const longestStreak = countLongestStreak(historyHabits);
-    return { currentStreak, longestStreak };
+    const { longestStreak, streakLogs } = countLongestStreak(
+      // count from begin
+      historyHabits.reverse()
+    );
+
+    return { currentStreak, longestStreak, streakLogs };
   } catch (error) {
     console.log("Error when count streak", error);
   }
@@ -34,15 +60,17 @@ export const countStreak = async (personalHabitId) => {
 };
 
 function countLongestStreak(arr) {
+  const streakLogs = Array(arr.length).fill(0);
+
   // 'max' to store the length of longest streak
   // 'len' to store the lengths of longest streak at different instants of date
-  var max = 0,
+  let max = 0,
     len = 0;
 
   // traverse the array from the 2nd element
-  for (let elem of arr) {
+  for (let i = 0; i < arr.length; i++) {
     // if current element is completed, then this element helps in building up the prev streak encountered so far
-    if (elem.completed) len++;
+    if (arr[i].completed) len++;
     else {
       // check if max length is less than the length of the present streak. If true, then update max
       if (max < len) {
@@ -52,13 +80,14 @@ function countLongestStreak(arr) {
       // reset 'len' to 1 as from this element again the length of the new streak is being calculated
       len = 0;
     }
+    streakLogs[i] = len;
   }
-
+  console.log(streakLogs);
   // comparing the length of the last streak with 'max'
   if (max < len) {
     max = len;
   }
-  return max;
+  return { longestStreak: max, streakLogs };
 }
 
 // export const updateLongestStreak = async (personalHabitId, currentStreak) => {

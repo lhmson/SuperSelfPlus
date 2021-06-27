@@ -248,7 +248,6 @@ const DetailHabitScreen = ({ navigation, route }) => {
   };
 
   const handleDeleteHabit = () => {
-    console.log(item);
     if (item.habitId.authorId !== user.state.uid) {
       alert("You are not owner of this personal habit");
       return;
