@@ -5,9 +5,7 @@ import COLOR from "../../../constants/colors";
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: COLOR.whiteSmoke,
+    backgroundColor: COLOR.green,
   },
 });
 export default styles;
