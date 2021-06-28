@@ -63,22 +63,73 @@ const RunningHomeScreen = ({ navigation }) => {
         }}
       >
         <MyCard>
-          <View style={{ flexDirection: "row" }}>
-            <Image
+          <View style={{ flexDirection: "row", width: "100%" }}>
+            {/* <Image
               source={ICON.goalRunning}
               style={{
+                position: "absolute",
+                top: 0,
+                right: 8,
                 width: 100,
-                resizeMode: "contain",
+                resizeMode: "stretch",
                 height: 100,
               }}
+            /> */}
+            <Image
+              source={require("../../../utils/resources/trees.jpg")}
+              style={{
+                position: "absolute",
+                bottom: -16,
+                left: 0,
+                width: 60,
+                resizeMode: "stretch",
+                height: 60,
+                opacity: 0.4,
+              }}
             />
-            <View style={{ flexDirection: "column", width: WIDTH - 180 }}>
-              <MyText custom1 b5>
+            <Image
+              source={require("../../../utils/resources/trees.jpg")}
+              style={{
+                position: "absolute",
+                bottom: -16,
+                left: 60,
+                width: 60,
+                resizeMode: "stretch",
+                height: 60,
+                opacity: 0.4,
+              }}
+            />
+            <Image
+              source={require("../../../utils/resources/trees.jpg")}
+              style={{
+                position: "absolute",
+                bottom: -16,
+                left: 120,
+                width: 60,
+                resizeMode: "stretch",
+                height: 60,
+                opacity: 0.4,
+              }}
+            />
+            <Image
+              source={require("../../../utils/resources/earthMap.jpg")}
+              style={{
+                position: "absolute",
+                top: -16,
+                right: 0,
+                width: 60,
+                resizeMode: "stretch",
+                height: 60,
+                opacity: 0.6,
+              }}
+            />
+            <View style={{ flexDirection: "column", width: "90%" }}>
+              <MyText custom1 b5 color={COLOR.green}>
                 Goal Running
               </MyText>
-              <MyText size5>
+              <MyText size5 b5>
                 {
-                  "The training mode measures according to the set plan such as running time, distance, number of steps, being reminded when completed."
+                  "Set plan to run on Maps such as running time,distance, number of steps, being reminded when completed."
                 }
               </MyText>
             </View>
@@ -197,11 +248,11 @@ const RunningHomeScreen = ({ navigation }) => {
             backgroundColor: "white",
           }}
         >
-          <HeaderInfo></HeaderInfo>
-          <OptionRankingRunning></OptionRankingRunning>
-          <OptionStatisticRunning></OptionStatisticRunning>
+          {/* <HeaderInfo></HeaderInfo> */}
+          {/* <OptionRankingRunning></OptionRankingRunning>
+          <OptionStatisticRunning></OptionStatisticRunning> */}
           <OptionTimerRunning></OptionTimerRunning>
-          <OptionPedometerRunning></OptionPedometerRunning>
+          {/* <OptionPedometerRunning></OptionPedometerRunning> */}
         </ScrollView>
       </View>
     </View>
