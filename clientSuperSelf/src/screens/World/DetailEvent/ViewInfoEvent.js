@@ -105,7 +105,15 @@ function ViewInfoEvent({ navigation, item }) {
       </MyText>
       {/* TODO: bind progress of self during event */}
       <ProgressBar percent={0} />
-      <TimeLineGifts />
+      <MyButton
+        color={COLOR.green}
+        onPress={() => {
+          navigation.navigate("Rank Event", { item: "" });
+        }}
+      >
+        <MyText>Go to Ranking</MyText>
+      </MyButton>
+      {/* <TimeLineGifts /> */}
     </View>
   );
 }

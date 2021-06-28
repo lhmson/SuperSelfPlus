@@ -15,6 +15,9 @@ const speed = require("../utils/resources/IconRunning/speed.png");
 const heart = require("../utils/resources/IconRunning/heart.png");
 const plan = require("../utils/resources/IconRunning/plan.jpg");
 const cup = require("../utils/resources/IconRunning/cupRankHabit.gif");
+const Top1 = require("../utils/resources/Top1.png");
+const Top2 = require("../utils/resources/Top2.png");
+const Top3 = require("../utils/resources/Top3.png");
 
 const eventLabel = require("../utils/resources/IconEvent/event-label.png");
 
@@ -37,4 +40,7 @@ export default {
   plan,
   cup,
   eventLabel,
+  Top1,
+  Top2,
+  Top3,
 };

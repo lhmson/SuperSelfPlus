@@ -139,7 +139,7 @@ function DetailEventScreen({ navigation, route }) {
         }}
       >
         <ImageDemo />
-        <ViewInfoEvent item={item} />
+        <ViewInfoEvent navigation={navigation} item={item} />
         <ButtonFooter />
       </MyCard>
     );
