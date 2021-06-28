@@ -596,9 +596,7 @@ const AddHabitScreen = ({ navigation, route }) => {
                       autoFocus={false}
                       editable={false}
                       value={
-                        moment(eventStartDate)
-                          .format("DD/MM/YY")
-                          .isSame(moment(), "day")
+                        moment(eventStartDate).isSame(moment(), "day")
                           ? "Today"
                           : eventStartDate?.toDateString()
                       }
@@ -640,9 +638,7 @@ const AddHabitScreen = ({ navigation, route }) => {
                       autoFocus={false}
                       editable={false}
                       value={
-                        moment(eventEndDate)
-                          .format("DD/MM/YY")
-                          .isSame(moment(), "day")
+                        moment(eventEndDate).isSame(moment(), "day")
                           ? "Today"
                           : eventEndDate?.toDateString()
                       }

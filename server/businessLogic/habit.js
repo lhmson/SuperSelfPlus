@@ -65,13 +65,16 @@ function countLongestStreak(arr) {
   // 'max' to store the length of longest streak
   // 'len' to store the lengths of longest streak at different instants of date
   let max = 0,
-    len = 0;
+    len = 0,
+    numberOfComplete = 0;
 
   // traverse the array from the 2nd element
   for (let i = 0; i < arr.length; i++) {
     // if current element is completed, then this element helps in building up the prev streak encountered so far
-    if (arr[i].completed) len++;
-    else {
+    if (arr[i].completed) {
+      len++;
+      numberOfComplete++;
+    } else {
       // check if max length is less than the length of the present streak. If true, then update max
       if (max < len) {
         max = len;
@@ -88,8 +91,27 @@ function countLongestStreak(arr) {
   if (max < len) {
     max = len;
   }
-  return { longestStreak: max, streakLogs };
+  return { longestStreak: max, streakLogs, numberOfComplete };
 }
+
+export const getScoreOfMyHabit = async (personalHabitId) => {
+  try {
+    // get day from start to today and sort decrease
+    const historyHabits = await HistoryHabit.find({
+      personalHabitId,
+      date: { $lte: getDateNoTime(new Date()) },
+    }).sort({
+      date: -1,
+    });
+
+    const { longestStreak, numberOfComplete } =
+      countLongestStreak(historyHabits);
+    const score = longestStreak * 10 + numberOfComplete * 10;
+    return score;
+  } catch (error) {
+    console.log("Error when get score", error);
+  }
+};
 
 // export const updateLongestStreak = async (personalHabitId, currentStreak) => {
 //   try {

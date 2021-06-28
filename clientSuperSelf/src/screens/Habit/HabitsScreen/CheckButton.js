@@ -78,6 +78,7 @@ const CheckButton = ({ item, navigation, setIsUpdate }) => {
     };
 
     apiHabit.updateMyHistoryHabit(item._id, updatedHistoryHabit).then(() => {
+      apiHabit.updateMyHabit(item.personalHabitId);
       Toast.show({
         type: "success", // success, error, info
         text1: "Successfully update progress habit 🎉",

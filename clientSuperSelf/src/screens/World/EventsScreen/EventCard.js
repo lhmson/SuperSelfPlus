@@ -187,10 +187,13 @@ function EventCard({ item, navigation }) {
               marginRight: 8,
             }}
           />
-          <MyText size5>
-            {item.eventInfo.achievement ??
-              `Best ${item.title.toUpperCase()} prize`}
-          </MyText>
+          <View style={{ width: width * 0.8 }}>
+            <MyText size5>
+              {item.eventInfo.achievement ??
+                `Best ${item.title.toUpperCase()} prize`}
+            </MyText>
+          </View>
+
           <Image
             source={{
               uri: item.icon,

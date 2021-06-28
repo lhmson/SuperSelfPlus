@@ -24,10 +24,10 @@ export const personalHabitSchema = mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    score: {
-      type: Number,
-      default: 0,
-    },
+    // score: {
+    //   type: Number,
+    //   default: 0,
+    // },
     habitId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Habit",

@@ -95,7 +95,6 @@ export const getUser = async (req, res) => {
 
   try {
     await User.findById(userId)
-      .populate("userId", "name") // need to populate more item (avatar, )
       .then((user) => {
         const { username, listAchievements, createdAt } = user;
         return res

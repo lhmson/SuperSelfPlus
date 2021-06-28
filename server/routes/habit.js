@@ -8,6 +8,7 @@ import {
   getMyHabitProgress,
   updateMyHabit,
   updateMyHistoryHabit,
+  // updateMyHabitScore,
   deletePersonalHabit,
 } from "../controllers/habit.js";
 
@@ -28,6 +29,7 @@ router.post("/", auth, addHabit); // used
 
 router.put("/my/edit/:personalHabitId", auth, updateMyHabit);
 router.put("/my/progress/:historyHabitId", auth, updateMyHistoryHabit);
+// router.put("/my/updateScore/:personalHabitId", auth, updateMyHabitScore);
 
 router.delete("/my/:personalHabitId", auth, deletePersonalHabit); // used
 

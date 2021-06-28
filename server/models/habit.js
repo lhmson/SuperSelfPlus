@@ -26,6 +26,9 @@ const habitSchema = mongoose.Schema(
       enum: ["Do", "Do not", "Run"],
       default: "Do",
     },
+    theme: {
+      type: String,
+    },
     // daysToDo: {
     //   type: [
     //     {

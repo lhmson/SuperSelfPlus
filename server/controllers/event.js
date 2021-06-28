@@ -8,7 +8,10 @@ import {
   getDatesBetweenTwoDays,
   getHourAndMinute,
 } from "../utils/aboutDateTime.js";
-import { createListHistoryHabits } from "../businessLogic/habit.js";
+import {
+  createListHistoryHabits,
+  getScoreOfMyHabit,
+} from "../businessLogic/habit.js";
 
 // GET event/list/all
 export const getAllEvents = async (req, res) => {
@@ -56,6 +59,27 @@ export const getMyEvents = async (req, res) => {
         .status(httpStatusCodes.notFound)
         .json({ message: error.message });
     }
+  } catch (error) {
+    return res
+      .status(httpStatusCodes.internalServerError)
+      .json({ message: error.message });
+  }
+};
+
+export const getHabitRanking = async (req, res) => {
+  const { habitId } = req.params;
+  const scores = [];
+  try {
+    const personalHabits = await PersonalHabit.find({ habitId });
+    for (let elem of personalHabits) {
+      const score = await getScoreOfMyHabit(elem._id);
+      const { _id, username, listAchievements } = await User.findById(
+        elem.userId
+      );
+      const userInfo = { _id, username, listAchievements };
+      scores.push({ user: userInfo, score });
+    }
+    return res.status(httpStatusCodes.ok).json(scores);
   } catch (error) {
     return res
       .status(httpStatusCodes.internalServerError)

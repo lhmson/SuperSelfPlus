@@ -315,7 +315,7 @@ export const updateMyHabit = async (req, res) => {
       });
     }
 
-    // update reminder, isFinish, score
+    // update reminder, isFinish
     if (
       getHourAndMinute(reminder).toString() !==
       getHourAndMinute(foundPersonalHabit.reminder).toString()
@@ -415,6 +415,53 @@ export const updateMyHistoryHabit = async (req, res) => {
       .json({ message: error.message });
   }
 };
+
+// PUT habit/my/updateScore/:personalHabitId
+// export const updateMyHabitScore = async (req, res) => {
+//   const { personalHabitId } = req.params;
+//   const sentInfo = req.body;
+//   const { scoreToAdd } = sentInfo;
+//   try {
+//     if (!sentInfo)
+//       return res
+//         .status(httpStatusCodes.badContent)
+//         .send(`Update info is required`);
+
+//     const foundPersonalHabit = await PersonalHabit.findById(personalHabitId);
+
+//     if (!foundPersonalHabit)
+//       return res
+//         .status(httpStatusCodes.notFound)
+//         .send(`Cannot find personal habit with id: ${personalHabitId}`);
+
+//     if (!foundPersonalHabit.userId.equals(req.userId)) {
+//       return res
+//         .status(httpStatusCodes.unauthorized)
+//         .json({ message: "You are not the user of this personal habit" });
+//     }
+
+//     // update score
+//     console.log("score", score);
+//     const updatedPersonalHabit = {
+//       ...foundPersonalHabit.toObject(),
+//       score: score + scoreToAdd,
+//       _id: personalHabitId,
+//     };
+
+//     await PersonalHabit.findByIdAndUpdate(
+//       personalHabitId,
+//       updatedPersonalHabit,
+//       {
+//         new: true,
+//       }
+//     );
+//     return res.status(httpStatusCodes.ok).json(updatedPersonalHabit);
+//   } catch (error) {
+//     return res
+//       .status(httpStatusCodes.internalServerError)
+//       .json({ message: error.message });
+//   }
+// };
 
 // DELETE habit/:personalHabitId
 export const deletePersonalHabit = async (req, res) => {

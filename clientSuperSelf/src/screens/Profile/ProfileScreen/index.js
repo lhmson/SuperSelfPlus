@@ -96,7 +96,7 @@ function ProfileScreen() {
   };
 
   const Infomation = () => {
-    const _WidthCard = (WIDTH - 180) / 3;
+    const _WidthCard = (WIDTH - 170) / 3;
     const CardInfo = ({ title, number, unit }) => {
       return (
         <MyCard>
@@ -253,10 +253,11 @@ function ProfileScreen() {
           >
             {dataBadges.map((item, index) => (
               <CardBadge
+                key={index.toString()}
                 title={item.title}
                 description={item.description}
                 iconBadges={item.iconBadges}
-              ></CardBadge>
+              />
             ))}
             <TouchableOpacity>
               <MyText color={COLOR.green} b5 size5>

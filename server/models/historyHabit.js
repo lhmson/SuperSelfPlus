@@ -11,7 +11,7 @@ export const historyHabitSchema = mongoose.Schema(
       ref: "PersonalHabit",
     },
     progress: {
-      // percent of completion
+      // specific number complete
       type: Number,
       required: true,
       default: 0,

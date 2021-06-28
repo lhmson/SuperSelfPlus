@@ -50,7 +50,7 @@ function TimeLineGifts({ navigation, item }) {
           >
             {images.map((image, index) => (
               <Image
-                key={index}
+                key={index.toString()}
                 source={image}
                 style={{ width: 80, height: 80, resizeMode: "contain" }}
               />
