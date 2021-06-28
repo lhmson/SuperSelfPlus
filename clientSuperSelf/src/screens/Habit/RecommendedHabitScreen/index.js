@@ -40,10 +40,11 @@ import {
   healthHabits,
   skillsHabits,
   spiritHabits,
-  themes,
 } from "../data";
+import { renderColor, themes } from "../../../utils/habitThemes";
 
-function RecommendedHabitScreen({ navigation }) {
+function RecommendedHabitScreen({ navigation, route }) {
+  const { action } = route.params;
   const [loading, setLoading] = useState(true);
 
   const [theme, setTheme] = useState("");
@@ -93,27 +94,12 @@ function RecommendedHabitScreen({ navigation }) {
     return (
       <HabitItem
         item={item}
-        color={renderColor(theme)}
+        theme={theme}
+        action={action}
+        // color={renderColor(theme)}
         navigation={navigation}
       />
     );
-  };
-
-  const renderColor = (theme) => {
-    switch (theme) {
-      case themes.health:
-        return COLOR.red;
-      case themes.spirit:
-        return COLOR.lightBlue;
-      case themes.finance:
-        return COLOR.yellow;
-      case themes.skills:
-        return themes.purple;
-      case themes.connection:
-        return COLOR.lightGreen;
-      default:
-        return COLOR.grey;
-    }
   };
 
   return (
@@ -235,7 +221,7 @@ function RecommendedHabitScreen({ navigation }) {
               updateCellsBatchingPeriod={1200} // Increase time between renders
               windowSize={7} // Reduce the window size
               ListFooterComponent={() => (
-                <FooterList title={"Choose one for your health"} />
+                <FooterList title={`Choose one for your ${theme}`} />
               )}
               showsVerticalScrollIndicator={false}
             />

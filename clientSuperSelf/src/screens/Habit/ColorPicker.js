@@ -1,18 +1,22 @@
 import React, { useState } from "react";
 import { TouchableOpacity } from "react-native";
 import styles from "./styles";
-import COLOR from "../../constants/colors";
-
 import { backgroundColors } from "./data";
+import { habitThemes, renderColor } from "../../utils/habitThemes";
 
-function ColorPicker({ setColor }) {
-  return backgroundColors.map((backgroundColor) => {
+function ColorPicker({ setTheme }) {
+  return habitThemes.map((habitTheme) => {
+    // return backgroundColors.map((backgroundColor) => {
     return (
       <TouchableOpacity
-        key={backgroundColor}
-        style={[styles.pickerItem, { backgroundColor }]}
+        key={habitTheme}
+        style={[
+          styles.pickerItem,
+          { backgroundColor: renderColor(habitTheme) },
+        ]}
         onPress={() => {
-          setColor(backgroundColor);
+          // setColor(backgroundColor);
+          setTheme(habitTheme);
         }}
       />
     );

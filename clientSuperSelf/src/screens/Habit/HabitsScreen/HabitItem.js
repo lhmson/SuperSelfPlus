@@ -15,12 +15,13 @@ import * as apiHabit from "../../../api/habit";
 import { useUser } from "../../../context/UserContext";
 import Icon from "../../../constants/icon";
 import CheckButton from "./CheckButton";
+import { renderColor } from "../../../utils/habitThemes";
 
 const HabitItem = ({ item, navigation, setIsUpdate }) => {
   return (
     <MyCard
       style={{
-        backgroundColor: item.personalHabitId.habitId.color,
+        backgroundColor: renderColor(item.personalHabitId.habitId.theme),
       }}
     >
       <View
