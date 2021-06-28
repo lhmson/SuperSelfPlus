@@ -54,3 +54,5 @@ buck-out/
 web-build/
 
 .env
+
+.bak.jks
