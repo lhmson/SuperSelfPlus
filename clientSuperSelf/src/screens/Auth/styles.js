@@ -46,22 +46,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 15,
   },
-  // userPhotoPicker: {
-  //   backgroundColor: COLOR.whiteSmoke,
-  //   width: 100,
-  //   height: 100,
-  //   borderRadius: 100,
-  //   alignSelf: "center",
-  //   overflow: "hidden",
-  // },
-  // defaultPhoto: {
-  //   flex: 1,
-  //   alignItems: "center",
-  //   justifyContent: "center",
-  // },
-  // profilePhoto: {
-  //   flex: 1,
-  // },
 });
 
 export default styles;

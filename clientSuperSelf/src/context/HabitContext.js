@@ -27,7 +27,7 @@ function useHabits() {
   const context = useContext(HabitContext);
   // console.log("user", context);
   if (!context) {
-    throw new Error("useUser must be used within a HabitProvider");
+    throw new Error("useHabits must be used within a HabitProvider");
   }
 
   const [state, dispatch] = context;

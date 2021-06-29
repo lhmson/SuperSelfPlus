@@ -38,7 +38,6 @@ const errors = ["You should enter title"];
 const DetailHabitScreen = ({ navigation, route }) => {
   const { item, suggestItem, suggestTheme } = route.params;
   const user = useUser();
-  const { updateUser } = user;
 
   // habit properties
   const [title, setTitle] = useState(item.habitId.title); // can bind from browsing habits

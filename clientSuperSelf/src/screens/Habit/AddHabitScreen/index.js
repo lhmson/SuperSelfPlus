@@ -51,7 +51,6 @@ const AddHabitScreen = ({ navigation, route }) => {
   // const themeColor = route?.params?.themeColor;
   const suggestTheme = route?.params?.suggestTheme;
   const user = useUser();
-  const { updateUser } = user;
 
   // habit properties
   const [title, setTitle] = useState(""); // can bind from browsing habits
@@ -266,6 +265,7 @@ const AddHabitScreen = ({ navigation, route }) => {
         alert("Event start date cannot be later than its nd date");
         return;
       }
+      //TODO: get img background for event
       eventInfo = {
         dateStart: getDateNoTime(eventStartDate),
         dateEnd: getDateNoTime(eventEndDate),

@@ -144,21 +144,26 @@ function SignUpScreen({ navigation }) {
       .then(async (res) => {
         const signedUser = res.data.result;
         const token = res.data.token;
+        //TODO: set only for userid
         updateUser({
           username,
           email,
           uid: signedUser._id,
           isLoggedIn: true,
           createdAt: signedUser.createdAt,
+          // userInfo: signedUser.userInfo,
+          avatarUrl: signedUser.avatarUrl,
+          role: signedUser.role,
         });
         try {
           const data = {
             token,
+            //TODO: set only for userid
             result: {
-              username: signedUser.username,
+              // username: signedUser.username,
               uid: signedUser._id,
-              email,
-              createdAt: signedUser.createdAt,
+              // email,
+              // createdAt: signedUser.createdAt,
             },
           };
           await AsyncStorage.setItem("superself_token", JSON.stringify(data));

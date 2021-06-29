@@ -26,6 +26,7 @@ import RecommendedHabitScreen from "../../screens/Habit/RecommendedHabitScreen";
 import SettingScreen from "../../screens/Setting/SettingScreen";
 import EventScreen from "../../screens/World/EventsScreen/index";
 import DetailEventScreen from "../../screens/World/DetailEvent/index";
+import EditUserScreen from "../../screens/Profile/EditUserScreen.js";
 
 const Stack = createStackNavigator();
 
@@ -142,6 +143,7 @@ const ProfileStackNavigator = () => {
   return (
     <Stack.Navigator screenOptions={(props) => screenOptionStyle(props)}>
       <Stack.Screen name="Profile" component={ProfileScreen} />
+      <Stack.Screen name="Edit User" component={EditUserScreen} />
     </Stack.Navigator>
   );
 };
