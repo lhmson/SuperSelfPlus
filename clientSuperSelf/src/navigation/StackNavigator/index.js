@@ -27,6 +27,7 @@ import SettingScreen from "../../screens/Setting/SettingScreen";
 import EventScreen from "../../screens/World/EventsScreen/index";
 import DetailEventScreen from "../../screens/World/DetailEvent/index";
 import EditUserScreen from "../../screens/Profile/EditUserScreen.js";
+import RankEventScreen from "../../screens/World/RankEvent/index";
 
 const Stack = createStackNavigator();
 
@@ -124,9 +125,9 @@ const RunningStackNavigator = () => {
 const WorldStackNavigator = () => {
   return (
     <Stack.Navigator screenOptions={(props) => screenOptionStyle(props)}>
-      <Stack.Screen name="World" component={WorldScreen} />
       <Stack.Screen name="Event" component={EventScreen} />
       <Stack.Screen name="Detail Event" component={DetailEventScreen} />
+      <Stack.Screen name="Rank Event" component={RankEventScreen} />
     </Stack.Navigator>
   );
 };

@@ -34,3 +34,5 @@ export const habitThemes = [
   themes.connection,
   themes.general,
 ];
+
+export const eventImageByThemes = [];
