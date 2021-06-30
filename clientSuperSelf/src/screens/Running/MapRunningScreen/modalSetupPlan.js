@@ -40,7 +40,6 @@ function ModalSetupPlan({
 }) {
   const user = useUser();
   const [listHabits, setListHabits] = useState([]);
-  const [listEvents, setListEvents] = useState([]);
   let _time = "15",
     _distance = "1000";
   useEffect(() => {
@@ -50,14 +49,6 @@ function ModalSetupPlan({
       })
       .catch((error) => {
         console.log("Error when getting list run habits", error);
-      });
-
-    getListEventInProgress(user.state.uid)
-      .then((res) => {
-        setListEvents(res.data);
-      })
-      .catch((error) => {
-        console.log("Error when getting list events", error);
       });
   }, []);
   let chooseEvent = "",
@@ -77,85 +68,85 @@ function ModalSetupPlan({
     setPlanHabitRun(chooseHabit);
   };
 
-  const ViewChooseEvent = () => {
-    const MainModal = () => {
-      const [selectEvent, setSelectEvent] = useState("");
-      const ItemEvent = (nameEvent, key) => {
-        return (
-          <TouchableOpacity
-            key={key}
-            onPress={() => {
-              if (nameEvent === selectEvent) {
-                setSelectEvent();
-                chooseEvent = "";
-              } else {
-                setSelectEvent(nameEvent);
-                chooseEvent = nameEvent;
-              }
-            }}
-          >
-            <MyCard
-              style={{
-                backgroundColor: nameEvent === selectEvent ? COLOR.green : "",
-                width: WIDTH - 100,
-              }}
-            >
-              <Image
-                source={ICONWORLD.event}
-                style={{ width: 30, height: 30, marginRight: 8 }}
-              ></Image>
-              <MyText size6 b4>
-                {nameEvent}
-              </MyText>
-            </MyCard>
-          </TouchableOpacity>
-        );
-      };
-      const ScrollEvent = () => {
-        return (
-          <View
-            style={{
-              width: "98%",
-              height: 300,
-              borderRadius: 20,
-              padding: 4,
-            }}
-          >
-            <ScrollView style={{ padding: 8 }}>
-              {listEvents.map((event, index) => ItemEvent(event.title, index))}
-            </ScrollView>
-          </View>
-        );
-      };
-      return <ScrollEvent></ScrollEvent>;
-    };
-    return (
-      <MyCard style={{ flexDirection: "column", height: "100%" }}>
-        <View
-          style={{
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <Image
-            source={{
-              uri: "https://i.pinimg.com/564x/fc/f3/0b/fcf30bae5477c237a53ebcbf3e519f0c.jpg",
-            }}
-            style={{
-              width: 80,
-              height: 80,
-              resizeMode: "center",
-            }}
-          />
-          <MyText size6 b3i>
-            Choose your event to checking today!
-          </MyText>
-          <MainModal></MainModal>
-        </View>
-      </MyCard>
-    );
-  };
+  // const ViewChooseEvent = () => {
+  //   const MainModal = () => {
+  //     const [selectEvent, setSelectEvent] = useState("");
+  //     const ItemEvent = (nameEvent, key) => {
+  //       return (
+  //         <TouchableOpacity
+  //           key={key}
+  //           onPress={() => {
+  //             if (nameEvent === selectEvent) {
+  //               setSelectEvent();
+  //               chooseEvent = "";
+  //             } else {
+  //               setSelectEvent(nameEvent);
+  //               chooseEvent = nameEvent;
+  //             }
+  //           }}
+  //         >
+  //           <MyCard
+  //             style={{
+  //               backgroundColor: nameEvent === selectEvent ? COLOR.green : "",
+  //               width: WIDTH - 100,
+  //             }}
+  //           >
+  //             <Image
+  //               source={ICONWORLD.event}
+  //               style={{ width: 30, height: 30, marginRight: 8 }}
+  //             ></Image>
+  //             <MyText size6 b4>
+  //               {nameEvent}
+  //             </MyText>
+  //           </MyCard>
+  //         </TouchableOpacity>
+  //       );
+  //     };
+  //     const ScrollEvent = () => {
+  //       return (
+  //         <View
+  //           style={{
+  //             width: "98%",
+  //             height: 300,
+  //             borderRadius: 20,
+  //             padding: 4,
+  //           }}
+  //         >
+  //           <ScrollView style={{ padding: 8 }}>
+  //             {listEvents.map((event, index) => ItemEvent(event.title, index))}
+  //           </ScrollView>
+  //         </View>
+  //       );
+  //     };
+  //     return <ScrollEvent></ScrollEvent>;
+  //   };
+  //   return (
+  //     <MyCard style={{ flexDirection: "column", height: "100%" }}>
+  //       <View
+  //         style={{
+  //           flexDirection: "column",
+  //           alignItems: "center",
+  //           justifyContent: "center",
+  //         }}
+  //       >
+  //         <Image
+  //           source={{
+  //             uri: "https://i.pinimg.com/564x/fc/f3/0b/fcf30bae5477c237a53ebcbf3e519f0c.jpg",
+  //           }}
+  //           style={{
+  //             width: 80,
+  //             height: 80,
+  //             resizeMode: "center",
+  //           }}
+  //         />
+  //         <MyText size6 b3i>
+  //           Choose your event to checking today!
+  //         </MyText>
+  //         <MainModal></MainModal>
+  //       </View>
+  //     </MyCard>
+  //   );
+  // };
 
   const ViewChooseHabit = () => {
     const MainModal = () => {
@@ -405,8 +396,9 @@ function ModalSetupPlan({
           activeDot={<ActiveDot></ActiveDot>}
           style={{ borderRadius: 30 }}
         >
-          <ViewChooseHabit></ViewChooseHabit>
-          <ViewChooseEvent></ViewChooseEvent>
+          {listHabits?.length === 0 ? null : (
+            <ViewChooseHabit></ViewChooseHabit>
+          )}
           <ViewSetupTimeAndDistance></ViewSetupTimeAndDistance>
         </Swiper>
       </View>
