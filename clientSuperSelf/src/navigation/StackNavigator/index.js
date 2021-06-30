@@ -28,6 +28,7 @@ import EventScreen from "../../screens/World/EventsScreen/index";
 import DetailEventScreen from "../../screens/World/DetailEvent/index";
 import EditUserScreen from "../../screens/Profile/EditUserScreen.js";
 import RankEventScreen from "../../screens/World/RankEvent/index";
+import CountDownScreen from "../../screens/Utils/CountDownScreen.js";
 
 const Stack = createStackNavigator();
 
@@ -106,6 +107,7 @@ const HomeStackNavigator = () => {
       <Stack.Screen name="Edit Habit" component={DetailHabitScreen} />
       <Stack.Screen name="Habit Stats" component={HabitStatisticsScreen} />
       <Stack.Screen name="Suggestion" component={RecommendedHabitScreen} />
+      <Stack.Screen name="Countdown" component={CountDownScreen} />
     </Stack.Navigator>
   );
 };
