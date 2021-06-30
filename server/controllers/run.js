@@ -63,14 +63,12 @@ export const autoUpdateProgressRunHabits = async (req, res) => {
     const habits = await filterPersonalHabit_Run_InProgress(userId, nameHabit);
     for (let i = 0; i < habits.length; i++) {
       let progress = await getHistoryHabitProgressToDay(habits[i]._id);
-      if (progress && !progress?.completed) {
-        const target = Number(habits[i].target.targetNumber) * 1000; // km to meter
-        let newProgress = progress.progress + distance / target;
+      if (progress) {
+        const target = Number(habits[i].target?.targetNumber) * 1000; // km to meter
+        let newProgress = progress.progress + distance;
         progress.progress = newProgress;
-        if (newProgress >= 1) {
-          progress.progress = 1;
+        if (newProgress >= target && !progress?.completed) {
           progress.completed = true;
-          await upScorePersonalHabit(habits[i]._id, 1);
         }
         await progress.save();
         return res.status(httpStatusCodes.ok).json(progress);
@@ -90,7 +88,6 @@ export const getListRunHabitInProgress = async (req, res) => {
     const habits = await Habit.find({
       authorId: userId,
       kind: "Run",
-      eventInfo: undefined,
     });
     const personalHabits = await PersonalHabit.find({
       userId: userId,

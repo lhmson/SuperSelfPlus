@@ -35,7 +35,7 @@ const MapRunningScreen = ({ navigation }) => {
       roadRunCoordinate[roadRunCoordinate.length - 1],
       coor
     );
-    if (preDistance >= 5) {
+    if (preDistance >= 5 && preDistance <= 30) {
       setCountDistance(countDistance + preDistance);
       setCountSteps(countSteps + Math.floor(Math.random() * 7) + 7);
       setUserLocation(coor);

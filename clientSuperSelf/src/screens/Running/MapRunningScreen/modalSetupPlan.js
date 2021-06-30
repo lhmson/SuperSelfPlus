@@ -151,7 +151,7 @@ function ModalSetupPlan({
   const ViewChooseHabit = () => {
     const MainModal = () => {
       const [selectHabit, setSelectHabit] = useState("");
-      const ItemHabit = (nameHabit, key) => {
+      const ItemHabit = (nameHabit, urlIcon, key) => {
         return (
           <TouchableOpacity
             key={key}
@@ -173,7 +173,9 @@ function ModalSetupPlan({
             >
               <Image
                 source={{
-                  uri: "https://www.iconbunny.com/icons/media/catalog/product/3/9/3952.9-running-icon-iconbunny.jpg",
+                  uri:
+                    urlIcon ??
+                    "https://www.iconbunny.com/icons/media/catalog/product/3/9/3952.9-running-icon-iconbunny.jpg",
                 }}
                 style={{ width: 30, height: 30, marginRight: 8 }}
               ></Image>
@@ -195,7 +197,9 @@ function ModalSetupPlan({
             }}
           >
             <ScrollView style={{ padding: 8 }}>
-              {listHabits.map((habit, index) => ItemHabit(habit.title, index))}
+              {listHabits.map((habit, index) =>
+                ItemHabit(habit.title, habit.icon, index)
+              )}
             </ScrollView>
           </View>
         );

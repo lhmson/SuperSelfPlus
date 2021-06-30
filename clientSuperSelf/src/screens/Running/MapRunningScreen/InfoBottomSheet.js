@@ -406,7 +406,6 @@ const InfoBottomSheet = ({
         <ButtonSetup></ButtonSetup>
         <ListCardRun></ListCardRun>
         <ListCardRunBonus></ListCardRunBonus>
-        <Event></Event>
         <Habit></Habit>
       </View>
     );
