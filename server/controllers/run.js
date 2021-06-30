@@ -138,3 +138,32 @@ export const getListEventInProgress = async (req, res) => {
       .json({ message: error.message });
   }
 };
+
+// Get run/:userId/getPedometer
+export const getPedometer = async (req, res) => {
+  const { userId } = req.params;
+  try {
+    const user = await User.findById(userId);
+    if (!user) return res.status(httpStatusCodes.notFound).json();
+
+    if (!user.historyRun) {
+      const history = historyRunSchema;
+      user.historyRun = history;
+      await user.save();
+    }
+
+    const today = new Date();
+    let { listDataRun } = user?.historyRun;
+
+    for (let i = 0; i < listDataRun.length; i++) {
+      if (getDateNoTime(today) === getDateNoTime(listDataRun[i].dateRun)) {
+        return res.status(httpStatusCodes.ok).json(listDataRun[i]);
+      }
+    }
+    return res.status(httpStatusCodes.ok).json({});
+  } catch (error) {
+    return res
+      .status(httpStatusCodes.internalServerError)
+      .json({ message: error.message });
+  }
+};
