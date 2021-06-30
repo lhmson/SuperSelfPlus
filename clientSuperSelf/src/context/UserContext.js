@@ -22,7 +22,9 @@ function UserProvider(props) {
     email: "",
     uid: "",
     isLoggedIn: null, //hihi
-    profilePhotoUrl: "default",
+    // userInfo: null,
+    avatarUrl: "default",
+    role: "",
     createdAt: new Date(),
     // birthday: new Date(),
     // gender: "Male",

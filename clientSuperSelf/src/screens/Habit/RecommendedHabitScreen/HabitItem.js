@@ -14,9 +14,9 @@ import * as apiHabit from "../../../api/habit";
 import { useUser } from "../../../context/UserContext";
 import iconsUrl from "../../../utils/resources/iconsUrl";
 
-const HabitItem = ({ item, navigation, color }) => {
+const HabitItem = ({ item, navigation, theme, action }) => {
   return (
-    <View>
+    <View style={{ paddingHorizontal: 10 }}>
       <MyCard
         style={{
           backgroundColor: COLOR.white,
@@ -24,9 +24,18 @@ const HabitItem = ({ item, navigation, color }) => {
       >
         <TouchableOpacity
           onPress={() => {
-            navigation.navigate("Add Habit", { item: item, themeColor: color });
+            if (action === "Add") {
+              navigation.navigate("Add Habit", {
+                suggestItem: item,
+                suggestTheme: theme,
+              });
+            } else if (action === "Edit") {
+              navigation.navigate("Edit Habit", {
+                suggestItem: item,
+                suggestTheme: theme,
+              });
+            }
           }}
-          // style={{ flex: 1, marginHorizontal: 15 }}
         >
           {/* <Image
             source={{ uri: iconsUrl[0].url }}

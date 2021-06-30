@@ -20,7 +20,7 @@ function RunningScreen() {
   const [errorMsg, setErrorMsg] = useState(null);
   // const [user, setUser] = useContext(UserContext);
   const user = useUser();
-  const { username, email, uid, isLoggedIn, profilePhotoUrl } = user.state;
+  const { username, email, uid, isLoggedIn, avatarUrl } = user.state;
 
   let _subscription = null;
 

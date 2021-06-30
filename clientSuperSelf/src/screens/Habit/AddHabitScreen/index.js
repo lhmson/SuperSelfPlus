@@ -42,19 +42,21 @@ import {
   scheduleNotiListForHabit,
   schedulePushNotification,
 } from "../../../utils/notifications";
+import { renderColor, themes } from "../../../utils/habitThemes";
 
 const errors = ["You should enter title"];
 
 const AddHabitScreen = ({ navigation, route }) => {
-  const item = route?.params?.item;
-  const themeColor = route?.params?.themeColor;
+  const suggestItem = route?.params?.suggestItem;
+  // const themeColor = route?.params?.themeColor;
+  const suggestTheme = route?.params?.suggestTheme;
   const user = useUser();
-  const { updateUser } = user;
 
   // habit properties
   const [title, setTitle] = useState(""); // can bind from browsing habits
   const [description, setDescription] = useState(""); // optional
-  const [color, setColor] = useState(COLOR.white); // pick color: ;
+  // const [color, setColor] = useState(COLOR.white); // pick color: ;
+  const [theme, setTheme] = useState(themes.general); // set by color: ;
   const [kind, setKind] = useState("Do"); // Do and Do not, Run
   // const [daysToDo, setDaysToDo] = useState(new Array(7).fill(true)); // everyday, some days, weekend
   const [icon, setIcon] = useState(iconsUrl[0].url);
@@ -120,13 +122,14 @@ const AddHabitScreen = ({ navigation, route }) => {
   ////#endregion
 
   useEffect(() => {
-    if (item) {
-      setTitle(item?.title);
-      setDescription(item?.description);
-      setColor(themeColor);
-      setKind(item?.kind);
+    if (suggestItem) {
+      setTitle(suggestItem?.title);
+      setDescription(suggestItem?.description);
+      // setColor(themeColor);
+      setTheme(suggestTheme);
+      setKind(suggestItem?.kind);
     }
-  }, [item]);
+  }, [suggestItem]);
 
   //TODO: set  image for event
   const [isSetEvent, setIsSetEvent] = useState(false);
@@ -262,6 +265,7 @@ const AddHabitScreen = ({ navigation, route }) => {
         alert("Event start date cannot be later than its nd date");
         return;
       }
+      //TODO: get img background for event
       eventInfo = {
         dateStart: getDateNoTime(eventStartDate),
         dateEnd: getDateNoTime(eventEndDate),
@@ -273,7 +277,8 @@ const AddHabitScreen = ({ navigation, route }) => {
     const newHabit = {
       title,
       description,
-      color,
+      // color,
+      theme,
       kind,
       // daysToDo,
       icon,
@@ -337,7 +342,7 @@ const AddHabitScreen = ({ navigation, route }) => {
               </MyText>
               <TouchableOpacity
                 onPress={() => {
-                  navigation.navigate("Suggestion");
+                  navigation.navigate("Suggestion", { action: "Add" });
                 }}
               >
                 <MyText center b6 color={COLOR.blue}>
@@ -484,16 +489,24 @@ const AddHabitScreen = ({ navigation, route }) => {
               )}
             </View>
 
+            <View style={[styles.row, { marginTop: 8 }]}>
+              <MyText>Theme</MyText>
+              <MyText>{theme.toUpperCase()}</MyText>
+            </View>
+
             <View
               style={{
-                backgroundColor: color,
+                backgroundColor: renderColor(theme),
                 borderRadius: 10,
                 marginTop: 12,
                 padding: 10,
               }}
             >
               <View style={styles.picker}>
-                <ColorPicker setColor={setColor} />
+                <ColorPicker
+                  setTheme={setTheme}
+                  // setColor={setColor}
+                />
               </View>
 
               {/* <View style={styles.picker}>

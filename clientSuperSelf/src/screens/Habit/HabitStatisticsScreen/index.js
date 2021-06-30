@@ -28,6 +28,7 @@ import { dateCompare, getDateNoTime } from "../../../utils/datetime";
 import HeaderInfo from "./HeaderInfo";
 import CalendarHabit from "./CalendarHabit";
 import StreakCard from "./StreakCard";
+import { renderColor } from "../../../utils/habitThemes";
 
 const _marginText = 8;
 
@@ -149,9 +150,9 @@ const HabitStatisticsScreen = ({ navigation, route }) => {
                 style={{
                   data: {
                     fill:
-                      item.habitId.color === COLOR.white
+                      renderColor(item.habitId.theme) === COLOR.white
                         ? COLOR.green
-                        : item.habitId.color,
+                        : renderColor(item.habitId.theme),
                   },
                 }}
                 data={chartProgressData}

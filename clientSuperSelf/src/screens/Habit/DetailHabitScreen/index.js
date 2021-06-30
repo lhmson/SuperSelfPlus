@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import {
   View,
   ImageBackground,
@@ -31,18 +31,19 @@ import * as apiHabit from "../../../api/habit";
 import { useUser } from "../../../context/UserContext";
 import iconsUrl from "../../../utils/resources/iconsUrl";
 import Icon from "../../../constants/icon";
+import { renderColor } from "../../../utils/habitThemes";
 
 const errors = ["You should enter title"];
 
 const DetailHabitScreen = ({ navigation, route }) => {
-  const { item } = route.params;
+  const { item, suggestItem, suggestTheme } = route.params;
   const user = useUser();
-  const { updateUser } = user;
 
   // habit properties
   const [title, setTitle] = useState(item.habitId.title); // can bind from browsing habits
   const [description, setDescription] = useState(item.habitId.description); // optional
-  const [color, setColor] = useState(item.habitId.color); // pick color: ;
+  // const [color, setColor] = useState(item.habitId.color); // pick color: ;
+  const [theme, setTheme] = useState(item.habitId.theme); // set theme
   const [kind, setKind] = useState(item.habitId.kind); // Do and Do not
   // const [daysToDo, setDaysToDo] = useState(new Array(7).fill(true)); // everyday, some days, weekend
   const [icon, setIcon] = useState(item.habitId.icon);
@@ -82,6 +83,16 @@ const DetailHabitScreen = ({ navigation, route }) => {
   ];
 
   const [isActionButton, setIsActionButton] = useState(false);
+
+  useEffect(() => {
+    if (suggestItem) {
+      setTitle(suggestItem?.title);
+      setDescription(suggestItem?.description);
+      // setColor(themeColor);
+      setTheme(suggestTheme);
+      setKind(suggestItem?.kind);
+    }
+  }, [suggestItem]);
 
   const [error, setError] = useState("");
 
@@ -204,7 +215,8 @@ const DetailHabitScreen = ({ navigation, route }) => {
     const updatedHabit = {
       title,
       description,
-      color,
+      // color,
+      theme,
       kind,
       // daysToDo,
       icon,
@@ -308,7 +320,7 @@ const DetailHabitScreen = ({ navigation, route }) => {
   };
 
   const isAuthor = useMemo(
-    () => (item.habitId.author === user.state.uid ? true : false),
+    () => (item.habitId.authorId === user.state.uid ? true : false),
     [item, user]
   );
 
@@ -331,6 +343,17 @@ const DetailHabitScreen = ({ navigation, route }) => {
               <MyText b5 size4 center>
                 Keep up your spirit
               </MyText>
+              {isAuthor && (
+                <TouchableOpacity
+                  onPress={() => {
+                    navigation.navigate("Suggestion", { action: "Edit" });
+                  }}
+                >
+                  <MyText center b6 color={COLOR.blue}>
+                    Browse suggestion
+                  </MyText>
+                </TouchableOpacity>
+              )}
             </View>
             <TouchableOpacity
               onPress={pickIcon}
@@ -522,9 +545,14 @@ const DetailHabitScreen = ({ navigation, route }) => {
               )}
             </View>
 
+            <View style={[styles.row, { marginTop: 8 }]}>
+              <MyText>Theme</MyText>
+              <MyText>{theme.toUpperCase()}</MyText>
+            </View>
+
             <View
               style={{
-                backgroundColor: color,
+                backgroundColor: renderColor(theme),
                 borderRadius: 10,
                 marginTop: 18,
                 padding: 10,
@@ -534,7 +562,10 @@ const DetailHabitScreen = ({ navigation, route }) => {
                 pointerEvents={!isAuthor ? "none" : "auto"}
                 style={styles.picker}
               >
-                <ColorPicker setColor={setColor} />
+                <ColorPicker
+                  setTheme={setTheme}
+                  // setColor={setColor}
+                />
               </View>
 
               {/* <View style={styles.picker}>

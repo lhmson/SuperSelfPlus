@@ -1,10 +1,12 @@
 import PersonalHabit from "../models/personalHabit.js";
 import HistoryHabit from "../models/historyHabit.js";
+import Habit from "../models/habit.js";
 import {
   countDaysBetweenDatesIncludingToday,
   getDateNoTime,
   getDatesBetweenTwoDays,
 } from "../utils/aboutDateTime.js";
+import { habitThemes } from "../utils/habitThemes.js";
 
 export const createListHistoryHabits = async (
   numberOfDays,
@@ -135,4 +137,18 @@ export const countDaysOfHabit = async (personalHabitId) => {
   const today = getDateNoTime(new Date());
   const days = countDaysBetweenDatesIncludingToday(startDate, today);
   return days;
+};
+
+export const countMyHabitsByTheme = async (userId) => {
+  const personalHabits = await PersonalHabit.find({ userId });
+  let habits = [];
+  for (let elem of personalHabits) {
+    const habit = await Habit.findById(elem.habitId);
+    habits.push(habit);
+  }
+  const numberByTheme = habitThemes.map((theme) => {
+    const habitByThemes = habits.filter((item) => item.theme === theme);
+    return { x: theme, y: habitByThemes.length };
+  });
+  return numberByTheme;
 };

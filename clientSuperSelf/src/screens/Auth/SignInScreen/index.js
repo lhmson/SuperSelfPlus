@@ -44,21 +44,29 @@ function SignInScreen({ navigation }) {
       .then(async (res) => {
         const signedUser = res.data.result;
         const token = res.data.token;
+        //TODO: set only for userid
         updateUser({
           username: signedUser.username,
           email,
           uid: signedUser._id,
           isLoggedIn: true,
           createdAt: signedUser.createdAt,
+          // userInfo: signedUser.userInfo,
+          avatarUrl: signedUser.avatarUrl,
+          role: signedUser.role,
         });
         try {
+          //TODO: set only for userid
           const data = {
             token,
             result: {
-              username: signedUser.username,
+              // username: signedUser.username,
               uid: signedUser._id,
-              email,
-              createdAt: signedUser.createdAt,
+              // email,
+              // createdAt: signedUser.createdAt,
+              // userInfo: signedUser.userInfo,
+              // avatarUrl: signedUser.avatarUrl,
+              // role: signedUser.role,
             },
           };
           await AsyncStorage.setItem("superself_token", JSON.stringify(data));
@@ -70,7 +78,7 @@ function SignInScreen({ navigation }) {
       })
 
       .catch((error) => {
-        if (error.response.status === 404) {
+        if (error.response?.status === 404) {
           alert("User does not exist, try again");
           return;
         }

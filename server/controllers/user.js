@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 import { httpStatusCodes } from "../utils/httpStatusCode.js";
 import User from "../models/user.js";
 import HistoryHabit from "../models/historyHabit.js";
+import { countMyHabitsByTheme } from "../businessLogic/habit.js";
 
 export const signin = async (req, res) => {
   console.log("signin");
@@ -94,22 +95,40 @@ export const getUser = async (req, res) => {
   const { userId } = req.params;
 
   try {
-    await User.findById(userId)
-      .then((user) => {
-        const { username, listAchievements, createdAt } = user;
-        return res
-          .status(httpStatusCodes.ok)
-          .json({ username, listAchievements, createdAt });
-      })
-      .catch((error) => {
-        console.log(error);
-        return res
-          .status(httpStatusCodes.notFound)
-          .json(`Cannot find user with id: ${userId}`);
-      });
+    const user = await User.findById(userId);
+    if (!user) {
+      return res
+        .status(httpStatusCodes.notFound)
+        .json(`Cannot find user with id: ${userId}`);
+    }
+
+    const {
+      username,
+      listAchievements,
+      userInfo,
+      createdAt,
+      avatarUrl,
+      _id,
+      role,
+    } = user;
+
+    const numberOfHabitsByThemes = await countMyHabitsByTheme(user._id);
+
+    return res.status(httpStatusCodes.ok).json({
+      username,
+      listAchievements,
+      userInfo,
+      createdAt,
+      avatarUrl,
+      role,
+      _id,
+      numberOfHabitsByThemes,
+    });
   } catch (error) {
     return res
       .status(httpStatusCodes.internalServerError)
       .json({ message: error.message });
   }
 };
+
+export const editMyProfile = async (req, res) => {};

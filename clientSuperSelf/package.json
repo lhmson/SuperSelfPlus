@@ -77,7 +77,8 @@
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
     "styled-components": "^5.2.3",
-    "victory-native": "^35.3.3"
+    "victory-native": "^35.3.3",
+    "expo-image-picker": "~10.1.4"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0"

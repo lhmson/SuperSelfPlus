@@ -18,7 +18,12 @@ import {
   Circle,
 } from "react-native-circular-progress";
 import { height, width } from "../../../constants/dimensions";
-import { VictoryChart, VictoryLine, VictoryTheme } from "victory-native";
+import {
+  VictoryChart,
+  VictoryLine,
+  VictoryTheme,
+  VictoryAxis,
+} from "victory-native";
 const WIDTH = Dimensions.get("window").width;
 const HEIGHT = Dimensions.get("window").height;
 
@@ -130,7 +135,7 @@ const RunningHomeScreen = ({ navigation }) => {
         width={25}
         fill={80}
         tintColor={COLOR.green}
-        onAnimationComplete={() => console.log("onAnimationComplete")}
+        onAnimationComplete={() => {}}
         backgroundColor={COLOR.lightGreen}
         lineCap="round"
         arcSweepAngle={260}
@@ -158,7 +163,7 @@ const RunningHomeScreen = ({ navigation }) => {
             width={10}
             fill={80}
             tintColor={COLOR.orange}
-            onAnimationComplete={() => console.log("onAnimationComplete")}
+            onAnimationComplete={() => {}}
             backgroundColor="#FFD580"
             lineCap="round"
           />
@@ -192,7 +197,7 @@ const RunningHomeScreen = ({ navigation }) => {
             width={10}
             fill={80}
             tintColor={COLOR.red}
-            onAnimationComplete={() => console.log("onAnimationComplete")}
+            onAnimationComplete={() => {}}
             backgroundColor="#FF7F7F"
             lineCap="round"
           />
@@ -228,7 +233,7 @@ const RunningHomeScreen = ({ navigation }) => {
             width={10}
             fill={80}
             tintColor={COLOR.green}
-            onAnimationComplete={() => console.log("onAnimationComplete")}
+            onAnimationComplete={() => {}}
             backgroundColor={COLOR.lightGreen}
             lineCap="round"
           />
@@ -297,6 +302,13 @@ const RunningHomeScreen = ({ navigation }) => {
                   { x: 5, y: 0 },
                   { x: 6, y: 3 },
                 ]}
+              />
+              <VictoryAxis
+                style={{
+                  axis: { stroke: "transparent" },
+                  ticks: { stroke: "transparent" },
+                  tickLabels: { fill: "transparent" },
+                }}
               />
             </VictoryChart>
           </ScrollView>

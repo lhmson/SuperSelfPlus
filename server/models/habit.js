@@ -17,10 +17,10 @@ const habitSchema = mongoose.Schema(
       type: String,
       default: "",
     },
-    color: {
-      type: String,
-      default: "#fff",
-    },
+    // color: {
+    //   type: String,
+    //   default: "#fff",
+    // },
     kind: {
       type: String,
       enum: ["Do", "Do not", "Run"],
@@ -28,6 +28,8 @@ const habitSchema = mongoose.Schema(
     },
     theme: {
       type: String,
+      enum: ["health", "spirit", "finance", "skills", "connection", "general"],
+      default: "general",
     },
     // daysToDo: {
     //   type: [

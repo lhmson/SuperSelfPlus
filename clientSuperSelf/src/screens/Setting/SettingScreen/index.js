@@ -28,6 +28,7 @@ function SettingScreen({ navigation }) {
     <ScrollView contentContainerStyle={styles.scrollViewContent}>
       <View style={styles.container}>
         <MyText b6>Setting screen</MyText>
+        <MyText>{JSON.stringify(user.state)}</MyText>
       </View>
     </ScrollView>
   );

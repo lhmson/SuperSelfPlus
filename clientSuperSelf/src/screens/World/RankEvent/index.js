@@ -65,8 +65,8 @@ function RankEventScreen({ navigation }) {
               marginRight: 16,
             }}
           ></Image>
-          <MyText size5 b4>{`${name}  `}</MyText>
-          <MyText size5 b7>
+          <MyText color={COLOR.white} size5 b4>{`${name}  `}</MyText>
+          <MyText color={COLOR.white} size5 b7>
             {`${number} km`}
           </MyText>
         </View>

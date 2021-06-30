@@ -36,7 +36,7 @@ export const getMyHabits = async (req, res) => {
       const habits = await PersonalHabit.find({ userId }).populate({
         path: "habitId",
         model: "Habit",
-        select: "title description color kind icon target eventInfo authorId",
+        select: "title description theme kind icon target eventInfo authorId",
       });
       return res.status(httpStatusCodes.ok).json(habits);
     } catch (error) {
@@ -71,7 +71,7 @@ export const getUserHabits = async (req, res) => {
       const habits = await PersonalHabit.find({ userId }).populate({
         path: "habitId",
         model: "Habit",
-        select: "title description color kind icon target eventInfo authorId",
+        select: "title description theme kind icon target eventInfo authorId",
       });
       return res.status(httpStatusCodes.ok).json(habits);
     } catch (error) {
@@ -96,7 +96,7 @@ export const getAHabitOfMe = async (req, res) => {
       userId: req.userId,
     }).populate({
       path: "habitId",
-      select: "title description color kind icon target eventInfo authorId",
+      select: "title description theme kind icon target eventInfo authorId",
       model: "Habit",
     });
 
@@ -152,7 +152,7 @@ export const getMyHabitsOfDate = async (req, res) => {
       populate: {
         path: "habitId",
         model: "Habit",
-        select: "title description color kind icon target eventInfo authorId",
+        select: "title description theme kind icon target eventInfo authorId",
       },
     });
     res.status(httpStatusCodes.ok).json(items);
@@ -203,7 +203,7 @@ export const addHabit = async (req, res) => {
   const {
     title,
     description,
-    color,
+    theme,
     kind,
     // daysToDo,
     icon,
@@ -223,7 +223,7 @@ export const addHabit = async (req, res) => {
     authorId,
     title,
     description,
-    color,
+    theme,
     kind,
     // daysToDo,
     icon,
@@ -262,7 +262,7 @@ export const updateMyHabit = async (req, res) => {
   const {
     title,
     description,
-    color,
+    theme,
     kind,
     // daysToDo,
     icon,
@@ -301,7 +301,7 @@ export const updateMyHabit = async (req, res) => {
       const updatedHabit = {
         title,
         description,
-        color,
+        theme,
         kind,
         // daysToDo,
         icon,
