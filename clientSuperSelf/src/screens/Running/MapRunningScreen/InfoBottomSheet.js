@@ -152,6 +152,7 @@ const InfoBottomSheet = ({
         distanceLeft = 0;
       }
       if (status === "Run" && distanceLeft <= 0 && !isOpenModalFinish) {
+        setStatus("No Run");
         setIsOpenModalFinish(true);
         distanceLeft = 0;
       }
@@ -236,8 +237,8 @@ const InfoBottomSheet = ({
     };
     const ListCardRunBonus = () => {
       updatePace();
-      const strPace = pace / 60 + ":" + (pace % 60);
-      const strMaxPace = maxPace / 60 + ":" + (maxPace % 60);
+      const strPace = Math.floor(pace / 60) + ":" + (pace % 60);
+      const strMaxPace = Math.floor(maxPace / 60) + ":" + (maxPace % 60);
       return (
         <View style={{}}>
           <View
