@@ -28,6 +28,7 @@ import EventScreen from "../../screens/World/EventsScreen/index";
 import DetailEventScreen from "../../screens/World/DetailEvent/index";
 import EditUserScreen from "../../screens/Profile/EditUserScreen.js";
 import RankEventScreen from "../../screens/World/RankEvent/index";
+import NearbyPeopleScreen from "../../screens/World/NearbyMe";
 
 const Stack = createStackNavigator();
 
@@ -128,6 +129,7 @@ const WorldStackNavigator = () => {
       <Stack.Screen name="Event" component={EventScreen} />
       <Stack.Screen name="Detail Event" component={DetailEventScreen} />
       <Stack.Screen name="Rank Event" component={RankEventScreen} />
+      <Stack.Screen name="Nearby Me" component={NearbyPeopleScreen} />
     </Stack.Navigator>
   );
 };

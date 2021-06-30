@@ -18,16 +18,15 @@ import { useUser } from "../../../context/UserContext";
 import * as apiEvent from "../../../api/event";
 import useIsMountedRef from "../../../hooks/useIsMountedRef";
 import { dateCompare } from "../../../utils/datetime";
+import MyFloatingButton from "../../../components/MyFloatingButton";
 
 function EventScreen({ navigation }) {
   const user = useUser();
   const [loading, setLoading] = useState(true);
   const [listEvents, setListEvents] = useState([]);
   const [selectMenu, setSelectMenu] = useState(1);
-
   const isFocused = useIsFocused();
   const isMountedRef = useIsMountedRef();
-
   useEffect(() => {
     apiEvent
       .getAllEvents()
@@ -76,6 +75,7 @@ function EventScreen({ navigation }) {
           alignItems: "stretch",
           width: width - 32,
           padding: 8,
+          zIndex: 1,
         }}
       >
         <MyButton
@@ -129,6 +129,18 @@ function EventScreen({ navigation }) {
     );
   };
 
+  const FloatButton = () => {
+    const [isActiveFloatingButton, setIsActiveFloatingButton] = useState(false);
+    return (
+      <MyButton
+        onPress={() => {
+          navigation.navigate("Nearby Me");
+        }}
+      >
+        <MyText>Nearby me</MyText>
+      </MyButton>
+    );
+  };
   return (
     <View style={styles.container}>
       <HeaderButton />
@@ -140,6 +152,7 @@ function EventScreen({ navigation }) {
           alignItems: "center",
           justifyContent: "center",
           elevation: 40,
+          zIndex: 0,
         }}
       >
         {/* <ScrollView
@@ -155,6 +168,7 @@ function EventScreen({ navigation }) {
           ) : (
             <>
               <FlatList
+                style={{ zIndex: 1 }}
                 data={selectMenu === 1 ? listEvents : filterItems}
                 renderItem={renderHabit}
                 keyExtractor={(item, index) => index.toString()}
@@ -184,6 +198,7 @@ function EventScreen({ navigation }) {
           </View> */}
         {/* </ScrollView> */}
       </View>
+      <FloatButton></FloatButton>
     </View>
   );
 }
