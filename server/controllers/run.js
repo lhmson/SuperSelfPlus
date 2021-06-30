@@ -16,7 +16,7 @@ import Habit from "../models/habit.js";
 // PUT run/:userId/updateRunData
 export const updateRunData = async (req, res) => {
   const { userId } = req.params;
-  const { steps, distance } = req.body;
+  const { steps, distance, time, calo } = req.body;
   try {
     console.log("user", steps, distance);
     const user = await User.findById(userId);
@@ -33,8 +33,10 @@ export const updateRunData = async (req, res) => {
 
     for (let i = 0; i < listDataRun.length; i++) {
       if (getDateNoTime(today) === getDateNoTime(listDataRun[i].dateRun)) {
-        listDataRun[i].totalSteps += steps;
-        listDataRun[i].totalDistance += distance;
+        listDataRun[i].totalSteps += steps ?? 0;
+        listDataRun[i].totalDistance += distance ?? 0;
+        listDataRun[i].totalTime += time ?? 0;
+        listDataRun[i].totalCalo += calo ?? 0;
         await user.save();
         return res.status(httpStatusCodes.ok).json(listDataRun[i]);
       }

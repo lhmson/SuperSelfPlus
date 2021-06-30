@@ -22,6 +22,14 @@ export const historyRunItemSchema = mongoose.Schema(
       type: Number,
       default: 0,
     },
+    totalCalo: {
+      type: Number,
+      default: 0,
+    },
+    totalTime: {
+      type: Number,
+      default: 0,
+    },
   },
   { timestamps: true }
 );

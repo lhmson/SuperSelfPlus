@@ -400,6 +400,8 @@ const InfoBottomSheet = ({
           ListCardRun={ListCardRun}
           Steps={countSteps}
           Distance={countDistance}
+          Calo={(countDistance / 16).toFixed(0)}
+          Time={new Date().getSeconds() - timeStart?.getSeconds()}
           onPressStop={onPressStop}
           selectHabit={planHabitRun}
         ></ModalFinish>

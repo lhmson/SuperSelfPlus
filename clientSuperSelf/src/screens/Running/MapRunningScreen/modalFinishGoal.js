@@ -20,6 +20,8 @@ function ModalFinish({
   ListCardRun,
   Steps,
   Distance,
+  Time,
+  Calo,
   onPressStop,
   selectEvent,
   selectHabit,
@@ -58,9 +60,14 @@ function ModalFinish({
 
   const ButtonFooter = () => {
     const saveRunData = async () => {
-      updateRunDate(user.state.uid, { steps: Steps, distance: Distance })
+      updateRunDate(user.state.uid, {
+        steps: Steps,
+        distance: Distance,
+        time: Time,
+        calo: Calo,
+      })
         .then((res) => {
-          alert("Update run data success");
+          // alert("Update run data success");
         })
         .catch((error) => {
           console.log("Error when auto update rundata", error);
@@ -73,7 +80,7 @@ function ModalFinish({
           nameHabit: selectHabit,
         })
           .then((res) => {
-            alert("Update habit success");
+            // alert("Update habit success");
           })
           .catch((error) => {
             console.log("Error when auto update run habits", error);
