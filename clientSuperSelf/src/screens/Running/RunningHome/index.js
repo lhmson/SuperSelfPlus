@@ -99,7 +99,7 @@ const RunningHomeScreen = ({ navigation }) => {
             />
             <View style={{ flexDirection: "column", width: "90%" }}>
               <MyText custom1 b5 color={COLOR.green}>
-                Goal Running
+                Active Running
               </MyText>
               <MyText size5 b5>
                 {

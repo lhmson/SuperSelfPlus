@@ -2,15 +2,14 @@ import React, { useState, useEffect } from "react";
 import { View, Image } from "react-native";
 import MyText from "../../../components/MyText";
 import COLOR from "../../../constants/colors";
+
 import { CountdownCircleTimer } from "react-native-countdown-circle-timer";
 import MyButton from "../../../components/MyButton";
 
 import ButtonControl from "./ButtonControl";
 
-function Clock() {
+function Clock({ setConfetti, timer, keyTimer }) {
   const [isPlaying, setIsPlaying] = useState(false);
-
-  const [timer, setTimer] = useState(120);
 
   const convertSecondstoMS = (second) => {
     let h = Math.floor(second / (60 * 60));
@@ -20,21 +19,20 @@ function Clock() {
     return m + "m " + s + "s";
   };
 
-  useEffect(() => {
-    //TODO: open modal for select time there
-  }, []);
-
-  //TODO: time up and modal appear
-
   return (
     <View style={{ alignItems: "center" }}>
       <CountdownCircleTimer
+        key={keyTimer}
         isPlaying={isPlaying}
         strokeLinecap="round"
         duration={timer}
         trailStrokeWidth={20}
         colors={[[COLOR.green, 1]]}
-        onComplete={() => [true]}
+        onComplete={() => {
+          setConfetti(true);
+          setIsPlaying(false);
+          //TODO: music
+        }}
         size={250}
         trailColor={COLOR.lightGreen}
       >

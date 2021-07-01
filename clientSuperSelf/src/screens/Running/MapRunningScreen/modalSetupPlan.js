@@ -238,7 +238,7 @@ function ModalSetupPlan({
   };
 
   const ViewSetupTimeAndDistance = () => {
-    const TitileTimer = () => {
+    const TitleTimer = () => {
       return (
         <View
           style={{
@@ -296,7 +296,7 @@ function ModalSetupPlan({
             justifyContent: "center",
           }}
         >
-          <TitileTimer></TitileTimer>
+          <TitleTimer></TitleTimer>
           <MyTextInput
             placeholder="15"
             keyboardType="numeric"

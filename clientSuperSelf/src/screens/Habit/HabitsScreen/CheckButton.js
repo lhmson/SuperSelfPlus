@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { View, TouchableOpacity } from "react-native";
 import styles from "../styles";
 import { FontAwesome } from "@expo/vector-icons";
@@ -78,7 +78,10 @@ const CheckButton = ({ item, navigation, setIsUpdate }) => {
     };
 
     apiHabit.updateMyHistoryHabit(item._id, updatedHistoryHabit).then(() => {
-      apiHabit.updateMyHabit(item.personalHabitId);
+      // apiHabit.updateMyHabit(item.personalHabitId);
+
+      handleCloseModalProgress();
+
       Toast.show({
         type: "success", // success, error, info
         text1: "Successfully update progress habit 🎉",
@@ -88,7 +91,6 @@ const CheckButton = ({ item, navigation, setIsUpdate }) => {
         onHide: () => {}, // called when Toast hides (if `autoHide` was set to `true`)
         onPress: () => {},
       });
-      handleCloseModalProgress();
       setIsUpdate(true);
     });
   };
