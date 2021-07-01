@@ -12,6 +12,7 @@ const HEIGHT = Dimensions.get("window").height;
 const NearbyMeScreen = ({ navigation }) => {
   //#region hook
   const [userLocation, setUserLocation] = useState();
+  const [listTinders, setListTinders] = useState([]);
   //#endregion
   const user = useUser();
   useEffect(() => {
@@ -23,11 +24,24 @@ const NearbyMeScreen = ({ navigation }) => {
       }
       let location = await Location.getCurrentPositionAsync({});
       setUserLocation(location);
-      console.log("kk", location);
       await apiTinder.updateLocation(user.state.uid, {
         latitude: location.coords.latitude,
         longitude: location.coords.longitude,
       });
+    })();
+  }, []);
+  console.log("refresh");
+  useEffect(() => {
+    (async () => {
+      apiTinder
+        .getListTinders()
+        .then((res) => {
+          console.log("tinders", res.data);
+          setListTinders(res.data);
+        })
+        .catch((error) => {
+          alert("Error when getting list Tinder", error);
+        });
     })();
   }, []);
   //#endregion
@@ -35,7 +49,10 @@ const NearbyMeScreen = ({ navigation }) => {
   if (userLocation)
     return (
       <View style={styles.container}>
-        <MapTinder userLocation={userLocation}></MapTinder>
+        <MapTinder
+          userLocation={userLocation}
+          listTinders={listTinders}
+        ></MapTinder>
       </View>
     );
   return (
