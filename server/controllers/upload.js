@@ -13,20 +13,14 @@ export const uploadImg = async (req, res) => {
       const { avatar } = files;
       const uploadResponse = await cloudinaryv2.uploader.upload(
         avatar[0].path,
-        {}
+        { folder: "superselfAvatar", use_filename: true }
       );
       if (uploadResponse.url) {
         const postData = {
           avatar: uploadResponse.url,
         };
-        // const result = await User.findByIdAndUpdate(req.userId, postData, {
-        //   new: true,
-        // });
-        // const returnedUser = { ...result._doc };
-        // delete returnedUser.password;
         res.json({
           data: {
-            // ...returnedUser,
             ...postData,
           },
         });

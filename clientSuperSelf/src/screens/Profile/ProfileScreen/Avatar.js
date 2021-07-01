@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import { View, ScrollView, Image, TouchableOpacity } from "react-native";
 import COLOR from "../../../constants/colors";
 import { useUser } from "../../../context/UserContext";
+import { logoUrl } from "../../../utils/logo";
 
 function Avatar({ navigation, avatarUrl }) {
   const user = useUser();
@@ -19,7 +20,7 @@ function Avatar({ navigation, avatarUrl }) {
     >
       <Image
         source={{
-          uri: avatarUrl,
+          uri: avatarUrl ?? logoUrl,
         }}
         style={{
           width: 100,

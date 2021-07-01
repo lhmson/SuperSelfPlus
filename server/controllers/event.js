@@ -114,7 +114,7 @@ export const joinEvent = async (req, res) => {
     habit.eventInfo.listJoiners.push(userId);
     await habit.save();
 
-    //TODO: create new list historyHabit and new personalHabit
+    // create new list historyHabit and new personalHabit
     const newPersonalHabit = new PersonalHabit({
       reminder: new Date(),
       habitId,

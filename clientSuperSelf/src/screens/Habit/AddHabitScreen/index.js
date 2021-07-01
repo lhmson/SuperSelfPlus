@@ -249,6 +249,10 @@ const AddHabitScreen = ({ navigation, route }) => {
       return;
     }
 
+    if (loading) {
+      return;
+    }
+
     setError("");
 
     let target;

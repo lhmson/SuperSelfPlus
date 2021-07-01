@@ -11,7 +11,7 @@ import {
 import COLOR from "../../../constants/colors";
 import styles from "../styles";
 import { Entypo, AntDesign } from "@expo/vector-icons";
-
+import Toast from "react-native-toast-message";
 import * as Permissions from "expo-permissions";
 import * as ImagePicker from "expo-image-picker";
 
@@ -25,6 +25,9 @@ import * as apiUpload from "../../../api/upload";
 import { useUser } from "../../../context/UserContext";
 import { BACKEND_URL } from "../../../constants/config";
 import { createFormData } from "../../../utils/upload";
+import { logoUrl } from "../../../utils/logo";
+import Loading from "../../../components/Loading";
+import { shallowCompare } from "../../../utils/objHandler";
 
 const errors = ["You should enter username"];
 
@@ -50,39 +53,56 @@ function EditUserScreen({ navigation, route }) {
     return true;
   };
 
-  const handleEdit = () => {
+  const handleEdit = async () => {
     if (!validateHabitForm()) {
       return;
     }
-    handleUploadPhoto();
-    return;
+
+    if (loading) {
+      return;
+    }
+
     setError("");
 
-    const updatedUser = {};
-
-    // alert(JSON.stringify(updatedHabit));
     setLoading(true);
-    apiUser
-      .editMyProfile(updatedUser)
-      .then(() => {
-        Toast.show({
-          type: "success", // success, error, info
-          text1: "Successfully update profile 🎉",
-          text2: `${username}`,
-          visibilityTime: 2500,
-          onShow: () => {},
-          onHide: () => {}, // called when Toast hides (if `autoHide` was set to `true`)
-          onPress: () => {},
+
+    const avatar = await handleUploadPhoto();
+    console.log("avatar", avatar);
+    try {
+      const updatedUser = {
+        ...item,
+        username,
+        avatarUrl: avatar,
+        userInfo: {
+          description,
+        },
+      };
+
+      // console.log("different");
+      apiUser
+        .editMyProfile(updatedUser)
+        .then(() => {
+          Toast.show({
+            type: "success", // success, error, info
+            text1: "Successfully update profile 🎉",
+            text2: `${username}`,
+            visibilityTime: 2500,
+            onShow: () => {},
+            onHide: () => {}, // called when Toast hides (if `autoHide` was set to `true`)
+            onPress: () => {},
+          });
+          navigation.navigate("Profile");
+        })
+        .catch((error) => {
+          console.log("Error when updating my profile", error);
+          alert("Error when updating my profile");
+        })
+        .finally(() => {
+          setLoading(false);
         });
-        navigation.navigate("Profile");
-      })
-      .catch((error) => {
-        console.log("Error when updating my profile", error);
-        alert("Error when updating my profile");
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+    } catch (error) {
+      alert("Cannot upload avatar", error);
+    }
   };
 
   //#region handle avatar pick
@@ -180,16 +200,25 @@ function EditUserScreen({ navigation, route }) {
     );
   };
 
-  const handleUploadPhoto = () => {
-    // console.log(profilePhoto);
+  const handleUploadPhoto = async () => {
+    if (profilePhoto === item.avatarUrl) {
+      // console.log("There no img change");
+      return logoUrl;
+    }
     const data = createFormData(profilePhoto);
-    console.log(data);
-    apiUpload
-      .uploadImg(data)
-      .then((res) => console.log(res.data))
-      .catch((error) => {
-        console.log(error);
-      });
+
+    try {
+      const res = await apiUpload.uploadImg(data);
+      if (res) {
+        // console.log("upload photo", res.data.data.avatar);
+        setProfilePhoto(res.data.data.avatar);
+        return res.data.data.avatar;
+      } else {
+        return logoUrl;
+      }
+    } catch (error) {
+      console.log("Error when upload img", error);
+    }
   };
 
   //#endregion
@@ -260,7 +289,11 @@ function EditUserScreen({ navigation, route }) {
         position="topRight"
         onPress={handleEdit}
       >
-        <Entypo name="edit" size={24} color={COLOR.white} />
+        {loading ? (
+          <Loading size="small" noText />
+        ) : (
+          <Entypo name="save" size={24} color={COLOR.white} />
+        )}
       </MyFloatingButton>
     </View>
   );

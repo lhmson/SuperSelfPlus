@@ -3,7 +3,9 @@ import { View, ScrollView, Image, TouchableOpacity } from "react-native";
 
 import COLOR from "../../../constants/colors";
 import styles from "../styles";
+
 import { useUser } from "../../../context/UserContext";
+import { useIsFocused } from "@react-navigation/native";
 
 import MyText from "../../../components/MyText";
 import MyButton from "../../../components/MyButton";
@@ -26,6 +28,8 @@ import * as apiUser from "../../../api/user";
 function ProfileScreen({ navigation, route }) {
   const item = route?.params?.item;
   const user = useUser();
+
+  const isFocused = useIsFocused();
 
   const [loading, setLoading] = useState(true);
 
@@ -56,7 +60,7 @@ function ProfileScreen({ navigation, route }) {
           setLoading(false);
         });
     }
-  }, []);
+  }, [isFocused]);
 
   const CardProfile = () => {
     return (

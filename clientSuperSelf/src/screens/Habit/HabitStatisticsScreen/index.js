@@ -47,7 +47,7 @@ const HabitStatisticsScreen = ({ navigation, route }) => {
 
   const progressDaysObj = useMemo(
     () => ({
-      // //TODO: maybe do not have to add this
+      // maybe do not have to add this
       // [allDates[0]]: {
       //   startingDay: true,
       //   color: COLOR.yellow,

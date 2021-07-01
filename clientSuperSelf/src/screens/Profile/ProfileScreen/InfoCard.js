@@ -68,31 +68,21 @@ function InfoCard({ navigation, username, userInfo, role, description }) {
             {role} Member
           </MyText>
         </View>
-
-        {/* <View
-            style={{
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <MyButton color={COLOR.lightGreen}>
-              <MyText size6 b5 color={COLOR.white}>
-                Edit
-              </MyText>
-            </MyButton>
-          </View> */}
       </View>
-      <View>
-        <MyText color={COLOR.black} left custom1 b2i>
+
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-between",
+        }}
+      >
+        <MyText color={COLOR.black} custom1 b2i>
           {description}
         </MyText>
-      </View>
 
-      <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-        <CardInfo title="WEIGHT" number={65} unit="kg" />
+        {/* <CardInfo title="WEIGHT" number={65} unit="kg" />
         <CardInfo title="HEIGHT" number={167} unit="cm" />
-        <CardInfo title="AGE" number={21} unit="yo" />
+        <CardInfo title="AGE" number={21} unit="yo" /> */}
       </View>
     </View>
   );
