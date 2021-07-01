@@ -1,0 +1,14 @@
+@hostname = http://localhost
+@port = 5000
+@host = {{hostname}}:{{port}}
+@contentType = application/json
+@createdAt = {{$datetime iso8601}}
+@modifiedBy = {{$processEnv USERNAME}}
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXJvbmVAZ20uY29tIiwiaWQiOiI2MGQ3NWEzMzI1MmI2ZjM3NDA1YzQ1NmMiLCJpYXQiOjE2MjUxMjU5NjB9.xXRq5zWRDqoJWrFIo8mUw7qXYRJKIAnQkrvMVJ0yLKo
+@userId = 60d75a33252b6f37405c456c
+
+POST {{host}}/tinder/{{userId}}/create HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+

@@ -22,6 +22,7 @@ import runRouter from "./routes/run.js";
 import eventRouter from "./routes/event.js";
 import uploadRouter from "./routes/upload.js";
 // import postRouter from "./routes/post.js";
+import tinderRouter from "./routes/tinder.js";
 
 dotenv.config();
 
@@ -62,6 +63,7 @@ app.use("/event", eventRouter);
 app.use("/run", runRouter);
 app.use("/upload", uploadRouter);
 // app.use("/post", postRouter);
+app.use("/tinder", tinderRouter);
 
 const PORT = process.env.PORT || 5000;
 

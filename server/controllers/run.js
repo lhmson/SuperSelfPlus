@@ -16,7 +16,7 @@ import Habit from "../models/habit.js";
 // PUT run/:userId/updateRunData
 export const updateRunData = async (req, res) => {
   const { userId } = req.params;
-  const { steps, distance } = req.body;
+  const { steps, distance, time, calo } = req.body;
   try {
     console.log("user", steps, distance);
     const user = await User.findById(userId);
@@ -33,8 +33,10 @@ export const updateRunData = async (req, res) => {
 
     for (let i = 0; i < listDataRun.length; i++) {
       if (getDateNoTime(today) === getDateNoTime(listDataRun[i].dateRun)) {
-        listDataRun[i].totalSteps += steps;
-        listDataRun[i].totalDistance += distance;
+        listDataRun[i].totalSteps += steps ?? 0;
+        listDataRun[i].totalDistance += distance ?? 0;
+        listDataRun[i].totalTime += time ?? 0;
+        listDataRun[i].totalCalo += calo ?? 0;
         await user.save();
         return res.status(httpStatusCodes.ok).json(listDataRun[i]);
       }
@@ -63,14 +65,12 @@ export const autoUpdateProgressRunHabits = async (req, res) => {
     const habits = await filterPersonalHabit_Run_InProgress(userId, nameHabit);
     for (let i = 0; i < habits.length; i++) {
       let progress = await getHistoryHabitProgressToDay(habits[i]._id);
-      if (progress && !progress?.completed) {
-        const target = Number(habits[i].target.targetNumber) * 1000; // km to meter
-        let newProgress = progress.progress + distance / target;
+      if (progress) {
+        const target = Number(habits[i].target?.targetNumber) * 1000; // km to meter
+        let newProgress = progress.progress + distance;
         progress.progress = newProgress;
-        if (newProgress >= 1) {
-          progress.progress = 1;
+        if (newProgress >= target && !progress?.completed) {
           progress.completed = true;
-          await upScorePersonalHabit(habits[i]._id, 1);
         }
         await progress.save();
         return res.status(httpStatusCodes.ok).json(progress);
@@ -90,7 +90,6 @@ export const getListRunHabitInProgress = async (req, res) => {
     const habits = await Habit.find({
       authorId: userId,
       kind: "Run",
-      eventInfo: undefined,
     });
     const personalHabits = await PersonalHabit.find({
       userId: userId,
@@ -133,6 +132,35 @@ export const getListEventInProgress = async (req, res) => {
           }
       }
     return res.status(httpStatusCodes.ok).json(resListEvents);
+  } catch (error) {
+    return res
+      .status(httpStatusCodes.internalServerError)
+      .json({ message: error.message });
+  }
+};
+
+// Get run/:userId/getPedometer
+export const getPedometer = async (req, res) => {
+  const { userId } = req.params;
+  try {
+    const user = await User.findById(userId);
+    if (!user) return res.status(httpStatusCodes.notFound).json();
+
+    if (!user.historyRun) {
+      const history = historyRunSchema;
+      user.historyRun = history;
+      await user.save();
+    }
+
+    const today = new Date();
+    let { listDataRun } = user?.historyRun;
+
+    for (let i = 0; i < listDataRun.length; i++) {
+      if (getDateNoTime(today) === getDateNoTime(listDataRun[i].dateRun)) {
+        return res.status(httpStatusCodes.ok).json(listDataRun[i]);
+      }
+    }
+    return res.status(httpStatusCodes.ok).json({});
   } catch (error) {
     return res
       .status(httpStatusCodes.internalServerError)

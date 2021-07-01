@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -24,10 +24,27 @@ import {
   VictoryTheme,
   VictoryAxis,
 } from "victory-native";
+import { useUser } from "../../../context/UserContext";
+import { getPedometer } from "../../../api/run";
+
 const WIDTH = Dimensions.get("window").width;
 const HEIGHT = Dimensions.get("window").height;
 
 const RunningHomeScreen = ({ navigation }) => {
+  const [pedometer, setPedometer] = useState();
+  const user = useUser();
+  useEffect(() => {
+    (async () => {
+      getPedometer(user.state.uid)
+        .then((res) => {
+          setPedometer(res.data);
+        })
+        .catch((error) => {
+          console.log("Error when get pedometer", error);
+        });
+    })();
+  }, []);
+
   const OptionTimerRunning = () => {
     return (
       <TouchableOpacity
@@ -121,7 +138,7 @@ const RunningHomeScreen = ({ navigation }) => {
             style={{ width: 50, height: 30, resizeMode: "center" }}
           ></Image>
           <MyText size3 b6>
-            7,235
+            {pedometer?.totalSteps ?? 32}
           </MyText>
           <MyText size4 b3 color="grey">
             steps
@@ -178,7 +195,7 @@ const RunningHomeScreen = ({ navigation }) => {
               left: 35,
             }}
           ></Image>
-          <MyText>31 kcal</MyText>
+          <MyText>{pedometer?.totalCalo ?? 5} kcal</MyText>
         </View>
       );
     };
@@ -214,11 +231,18 @@ const RunningHomeScreen = ({ navigation }) => {
               left: 32,
             }}
           ></Image>
-          <MyText>2 km</MyText>
+          <MyText>{pedometer?.totalDistance ?? 50} m</MyText>
         </View>
       );
     };
     const CircleTimer = () => {
+      let strMin = "0:00";
+      if (pedometer?.totalTime) {
+        strMin =
+          Math.floor(pedometer.totalTime / 60) +
+          ":" +
+          (pedometer.totalTime % 60);
+      }
       return (
         <View
           style={{
@@ -248,7 +272,7 @@ const RunningHomeScreen = ({ navigation }) => {
               left: 31,
             }}
           ></Image>
-          <MyText>50 min</MyText>
+          <MyText>{strMin}</MyText>
         </View>
       );
     };
@@ -274,11 +298,11 @@ const RunningHomeScreen = ({ navigation }) => {
           {/* <View style={{ position: "absolute", top: 10, left: 30 }}>
             <MyText size5>streak</MyText>
           </View> */}
-          <ScrollView horizontal style={{ marginLeft: -16 }}>
+          <ScrollView horizontal style={{ marginLeft: -48, marginTop: -32 }}>
             <VictoryChart
               // domainPadding={{ x: 20 }}
-              minDomain={{ x: 0, y: 0 }}
-              maxDomain={{ x: 7, y: 7 }}
+              // minDomain={{ x: 0, y: 0 }}
+              // maxDomain={{ x: 7, y: 9 }}
               theme={VictoryTheme.material}
             >
               <VictoryLine
@@ -294,13 +318,13 @@ const RunningHomeScreen = ({ navigation }) => {
                   },
                 }}
                 data={[
-                  { x: 0, y: 0 },
+                  { x: 0, y: 3 },
                   { x: 1, y: 3 },
                   { x: 2, y: 5 },
                   { x: 3, y: 4 },
-                  { x: 4, y: 2 },
-                  { x: 5, y: 0 },
-                  { x: 6, y: 3 },
+                  { x: 4, y: 8 },
+                  { x: 5, y: 7 },
+                  { x: 6, y: 9 },
                 ]}
               />
               <VictoryAxis
@@ -312,9 +336,9 @@ const RunningHomeScreen = ({ navigation }) => {
               />
             </VictoryChart>
           </ScrollView>
-          <View style={{ position: "absolute", bottom: 10, right: 30 }}>
+          {/* <View style={{ position: "absolute", bottom: 10, right: 30 }}>
             <MyText size5>day</MyText>
-          </View>
+          </View> */}
         </MyCard>
       </View>
     );

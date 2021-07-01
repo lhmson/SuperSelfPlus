@@ -12,8 +12,6 @@ import { getDateNoTime } from "./aboutDateTime.js";
 
 export const filterPersonalHabit_Run_InProgress = async (userId, nameHabit) => {
   const listRunHabits = await Habit.find({
-    authorId: userId,
-    eventInfo: undefined,
     title: nameHabit,
   });
 
