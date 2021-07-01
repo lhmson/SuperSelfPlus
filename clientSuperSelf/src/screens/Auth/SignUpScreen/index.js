@@ -19,7 +19,7 @@ import COLOR from "../../../constants/colors";
 import { useUser } from "../../../context/UserContext";
 
 import * as api from "../../../api/auth";
-
+import { createTinder } from "../../../api/tinder";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function SignUpScreen({ navigation }) {
@@ -144,6 +144,9 @@ function SignUpScreen({ navigation }) {
       .then(async (res) => {
         const signedUser = res.data.result;
         const token = res.data.token;
+        //Create tider location
+        createTinder(signedUser._id);
+
         //TODO: set only for userid
         updateUser({
           username,

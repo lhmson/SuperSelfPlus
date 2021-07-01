@@ -3,6 +3,8 @@ import { StyleSheet, View, Dimensions } from "react-native";
 import { Image } from "react-native";
 import * as Location from "expo-location";
 import MapTinder from "./MapTinder";
+import * as apiTinder from "../../../api/tinder.js";
+import { useUser } from "../../../context/UserContext";
 //#region  global
 const WIDTH = Dimensions.get("window").width;
 const HEIGHT = Dimensions.get("window").height;
@@ -11,7 +13,7 @@ const NearbyMeScreen = ({ navigation }) => {
   //#region hook
   const [userLocation, setUserLocation] = useState();
   //#endregion
-
+  const user = useUser();
   useEffect(() => {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
@@ -21,6 +23,11 @@ const NearbyMeScreen = ({ navigation }) => {
       }
       let location = await Location.getCurrentPositionAsync({});
       setUserLocation(location);
+      console.log("kk", location);
+      await apiTinder.updateLocation(user.state.uid, {
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+      });
     })();
   }, []);
   //#endregion
