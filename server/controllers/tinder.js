@@ -10,18 +10,16 @@ export const getListTinders = async (req, res) => {
     const users = await User.find();
     const tinders = await Tinder.find({ isDisplay: true });
 
-    console.log(tinders);
     let results = [];
     for (let i = 0; i < tinders.length; i++)
       for (let j = 0; j < users.length; j++)
         if (tinders[i].userId.equals(users[j]._id)) {
-          console.log("1");
           const item = {
             ...tinders[i].toObject(),
             name: users[j].username,
             avatarUrl: users[j].avatarUrl,
+            description: users[j].userInfo?.description,
           };
-          console.log(item);
           results.push(item);
         }
     return res.status(httpStatusCodes.ok).json(results);

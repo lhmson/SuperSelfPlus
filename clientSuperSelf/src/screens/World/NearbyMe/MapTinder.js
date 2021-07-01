@@ -118,8 +118,11 @@ const MapTinder = ({ userLocation, listTinders }) => {
                 longitude: user.longitude,
               }}
               key={index.toString()}
+              icon={{ uri: user.avatarUrl }}
+              title={user.name}
+              description={user.description.substring(0, 20)}
             >
-              <CardUserTinder user={user}></CardUserTinder>
+              {/* <CardUserTinder user={user}></CardUserTinder> */}
             </Marker>
           ))
         : null}
