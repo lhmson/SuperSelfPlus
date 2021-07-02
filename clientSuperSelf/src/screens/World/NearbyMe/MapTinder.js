@@ -13,10 +13,16 @@ import ICON from "../../../constants/icon";
 import { View } from "react-native";
 import MyChart from "../../Profile/ProfileScreen/MyChart";
 import MyText from "../../../components/MyText";
+import { useUser } from "../../../context/UserContext";
+import ProfileModal from "../../Profile/ProfileModal";
+const Pulse = require("react-native-pulse").default;
 //#region  global
 const WIDTH = Dimensions.get("window").width;
 
 const MapTinder = ({ userLocation, listTinders }) => {
+  const [isOpenTinderMine, setIsOpenTinderMine] = useState(true);
+  const user = useUser();
+  const idUser = user.state.uid;
   // const arrUsers = [
   //   {
   //     latitude: 13.0825967,
@@ -40,93 +46,88 @@ const MapTinder = ({ userLocation, listTinders }) => {
   //     hashtag: "Find partner run together",
   //   },
   // ];
-  const CardUserTinder = ({ user }) => {
+  const CardTinderMine = () => {
     return (
-      <View style={{ width: 500, height: 200, flexDirection: "row" }}>
-        <View
-          style={{
-            height: 70,
-            width: 70,
-            elevation: 30,
-            justifyContent: "center",
-            alignItems: "center",
-            backgroundColor: user.color ?? COLOR.lightGreen,
-            borderRadius: 50,
-          }}
-        >
+      <View
+        style={{
+          position: "absolute",
+          left: 16,
+          bottom: 100,
+          width: WIDTH - 32,
+          height: 220,
+          flexDirection: "row",
+          backgroundColor: "white",
+          borderRadius: 10,
+          elevation: 15,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <View>
           <Image
             source={{
-              uri:
-                user.avatarUrl ??
-                "https://i.pinimg.com/564x/b2/c5/d5/b2c5d51cd8db75f5082387d79a5a01fb.jpg",
+              uri: "https://i.pinimg.com/564x/7e/79/1d/7e791da660ab1d2c7b2f5c4039d4d54c.jpg",
             }}
             style={{
-              height: 60,
-              width: 60,
+              height: 200,
+              width: 200,
               resizeMode: "cover",
-              borderRadius: 50,
+              borderRadius: 10,
+              marginLeft: 10,
             }}
           />
-        </View>
-        <View
-          style={{
-            width: 180,
-            height: 60,
-            justifyContent: "flex-start",
-            alignItems: "flex-start",
-            backgroundColor: user.color ?? COLOR.lightGreen,
-            borderRadius: 20,
-            padding: 8,
-          }}
-        >
-          <MyText size6 b7>
-            {user.name ?? "No name"}
-          </MyText>
-          <MyText size6 b3i>
-            {user.hashtag ?? "#FindGymPartner"}
-          </MyText>
         </View>
       </View>
     );
   };
   return (
-    <MapView
-      style={styles.map}
-      initialRegion={{
-        latitude: userLocation.coords?.latitude,
-        longitude: userLocation.coords?.longitude,
-        latitudeDelta: 0.00122,
-        longitudeDelta: 0.00121,
-      }}
-      showsUserLocation={true}
-      mapType="standard"
-      followsUserLocation={true}
-      showsTraffic={true}
-      tintColor={COLOR.green}
-      showsMyLocationButton={true}
-      zoomEnabled={true}
-      // onUserLocationChange={(locationChangedResult) => {
-      //   pushCoordinateIntoRoad(locationChangedResult.nativeEvent.coordinate);
-      // }}
-    >
-      {/* {console.log("refresh map")} */}
-      {listTinders?.length > 0
-        ? listTinders.map((user, index) => (
-            <Marker
-              coordinate={{
-                latitude: user.latitude,
-                longitude: user.longitude,
-              }}
-              key={index.toString()}
-              icon={{ uri: user.avatarUrl }}
-              title={user.name}
-              description={user.description.substring(0, 20)}
-            >
-              {/* <CardUserTinder user={user}></CardUserTinder> */}
-            </Marker>
-          ))
-        : null}
-    </MapView>
+    <View>
+      <MapView
+        style={styles.map}
+        initialRegion={{
+          latitude: userLocation.coords?.latitude,
+          longitude: userLocation.coords?.longitude,
+          latitudeDelta: 0.00122,
+          longitudeDelta: 0.00121,
+        }}
+        showsUserLocation={true}
+        mapType="standard"
+        followsUserLocation={true}
+        showsTraffic={true}
+        tintColor={COLOR.green}
+        showsMyLocationButton={true}
+        zoomEnabled={true}
+        // onUserLocationChange={(locationChangedResult) => {
+        //   pushCoordinateIntoRoad(locationChangedResult.nativeEvent.coordinate);
+        // }}
+      >
+        {console.log("refresh map")}
+        {listTinders?.length > 0
+          ? listTinders.map((user, index) => (
+              <Marker
+                coordinate={{
+                  latitude: user.latitude,
+                  longitude: user.longitude,
+                }}
+                key={index.toString()}
+                icon={
+                  idUser === user.userId
+                    ? require("../../../utils/resources/superself-icon.png")
+                    : require("../../../utils/resources/people.png")
+                }
+                title={user.name}
+                description={user.hashtag.substring(0, 20)}
+              >
+                {/* <CardUserTinder user={user}></CardUserTinder> */}
+              </Marker>
+            ))
+          : null}
+      </MapView>
+      <ProfileModal
+        isVisible={isOpenTinderMine}
+        setIsVisible={setIsOpenTinderMine}
+      ></ProfileModal>
+    </View>
   );
 };
 
