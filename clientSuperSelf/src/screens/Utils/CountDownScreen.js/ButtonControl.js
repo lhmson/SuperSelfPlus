@@ -6,7 +6,7 @@ import COLOR from "../../../constants/colors";
 import MyButton from "../../../components/MyButton";
 import { FontAwesome } from "@expo/vector-icons";
 
-function ButtonControl({ isPlaying, setIsPlaying }) {
+function ButtonControl({ isPlaying, setIsPlaying, playMusic, pauseMusic }) {
   const ImagePause = () => {
     return <FontAwesome name="pause" size={16} color={COLOR.white} />;
   };
@@ -20,6 +20,8 @@ function ButtonControl({ isPlaying, setIsPlaying }) {
       color={isPlaying ? COLOR.orange : COLOR.green}
       onPress={() => {
         setIsPlaying((prev) => !prev);
+        if (!isPlaying) playMusic();
+        else pauseMusic();
       }}
       style={{ width: 50, height: 50 }}
     >

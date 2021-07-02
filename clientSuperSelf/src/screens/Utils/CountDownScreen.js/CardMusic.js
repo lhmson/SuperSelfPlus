@@ -6,40 +6,43 @@ import MyButton from "../../../components/MyButton";
 import MyCard from "../../../components/MyCard";
 
 import { Audio } from "expo-av";
-import { useIsFocused } from "@react-navigation/native";
 
 import ButtonControl from "./ButtonControl";
 
 function CardMusic() {
   const [isPlaying, setIsPlaying] = useState(false);
+  //#endregion
 
-  const [soundEffect, setSoundEffect] = React.useState();
-  const isFocused = useIsFocused();
-  //#region sound BG
+  const [sound, setSound] = React.useState();
 
-  async function playBGSound() {
-    if (isPlaying) {
+  async function playSound() {
+    if (!sound) {
       const { sound } = await Audio.Sound.createAsync(
-        require("../../../utils/resources/sound/soundBGWorld.mp3")
+        // require("../../../utils/resources/sound/soundBGWorld.mp3")
+        {
+          uri: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+        }
       );
-      sound.setIsLoopingAsync(true);
-      setSoundEffect(sound);
-      await sound.replayAsync();
+      setSound(sound);
+      await sound.playAsync();
     }
+    console.log("Playing Sound");
+    await sound.playAsync();
   }
 
-  useEffect(() => {
-    //TODO: play correct sound
-    if (isPlaying) playBGSound();
-    return soundEffect
+  async function pauseSound() {
+    console.log("Pause Sound");
+    if (sound) await sound.pauseAsync();
+  }
+
+  React.useEffect(() => {
+    return sound
       ? () => {
           console.log("Unloading Sound");
-          soundEffect.unloadAsync();
+          sound.unloadAsync();
         }
       : undefined;
-  }, [soundEffect, isPlaying]);
-
-  //#endregion
+  }, [sound]);
 
   return (
     <MyCard>
@@ -51,7 +54,12 @@ function CardMusic() {
           alignItems: "center",
         }}
       >
-        <ButtonControl isPlaying={isPlaying} setIsPlaying={setIsPlaying} />
+        <ButtonControl
+          isPlaying={isPlaying}
+          setIsPlaying={setIsPlaying}
+          playMusic={playSound}
+          pauseMusic={pauseSound}
+        />
         <View style={{ marginLeft: 16 }}>
           <MyText size6 color={COLOR.grey}>
             Playing music
