@@ -102,7 +102,30 @@ export const updatePost = async (req, res) => {
   // }
 };
 
-export const likePost = async (res, req) => {};
+export const likePost = async (req, res) => {
+  const { userId } = req;
+  const { postId } = req.params;
+
+  const post = await Post.findById(postId);
+
+  if (!post) {
+    return res
+      .status(httpStatusCodes.notFound)
+      .send(`No post with id: ${postId}`);
+  }
+
+  const index = post.listUserLikes.findIndex((id) => id.equals(userId));
+
+  if (index === -1) {
+    post.listUserLikes.push(userId);
+  } else {
+    post.listUserLikes = post.listUserLikes.filter((id) => !id.equals(userId));
+  }
+  const updatedPost = await Post.findByIdAndUpdate(postId, post, {
+    new: true,
+  });
+  res.status(200).json(updatedPost);
+};
 
 // DELETE post/:id
 export const deletePost = async (req, res) => {

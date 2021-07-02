@@ -1,13 +1,17 @@
 import React, { useState, useEffect, useMemo } from "react";
-import { View, StyleSheet, TouchableOpacity } from "react-native";
+import { View, StyleSheet, TouchableOpacity, Alert } from "react-native";
 import styled from "styled-components";
 import { FontAwesome, AntDesign, MaterialIcons } from "@expo/vector-icons";
 import moment from "moment";
+
 import ImageView from "react-native-image-viewing";
+import Toast from "react-native-toast-message";
 
 import MyText from "../../../components/MyText";
 import ProgressiveImage from "../../../components/ProgressiveImage";
 import COLOR from "../../../constants/colors";
+
+import * as apiPost from "../../../api/post";
 import { useUser } from "../../../context/UserContext";
 import { shareStory } from "../../../utils/share";
 
@@ -21,15 +25,74 @@ const FooterImage = (props) => {
   );
 };
 
-const StoryItem = ({ item, navigation }) => {
+const StoryItem = ({ item, setIsChanged, navigation }) => {
   const user = useUser();
   const [isLiked, setIsLiked] = useState(false);
 
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (item.listUserLikes.find((item) => item === user.state.uid)) {
+      setIsLiked(true);
+    }
+  }, []);
+
   const toggleLike = async () => {
     setIsLiked((prev) => !prev);
+    apiPost
+      .likePost(item._id)
+      .then(() => {
+        setIsChanged(true);
+      })
+      .catch((error) => {
+        console.log("Error when like post", error);
+        alert("Error when act with post");
+      });
   };
 
-  const deleteStory = () => {};
+  const deleteStory = () => {
+    Alert.alert(
+      "Do you want to delete the post?",
+      `You cannot undo, think again`,
+      [
+        {
+          text: "No",
+          onPress: () => {
+            return;
+          },
+          style: "cancel",
+        },
+        {
+          text: "Yes",
+          onPress: () => {
+            setLoading(true);
+            apiPost
+              .deletePost(item._id)
+              .then(() => {
+                setIsChanged(true);
+                Toast.show({
+                  type: "success", // success, error, info
+                  text1: "Delete story successfully",
+                  text2: ``,
+                  visibilityTime: 2500,
+                  onShow: () => {},
+                  onHide: () => {}, // called when Toast hides (if `autoHide` was set to `true`)
+                  onPress: () => {},
+                });
+              })
+              .catch((error) => {
+                alert("Error when deleting story ");
+                console.log("Error when deleting story ", error);
+              })
+              .finally(() => {
+                setLoading(false);
+              });
+          },
+        },
+      ],
+      { cancelable: false }
+    );
+  };
 
   const images = useMemo(
     () => [
@@ -98,7 +161,7 @@ const StoryItem = ({ item, navigation }) => {
           </>
         )}
         <PostDetails style={{ alignItems: "center" }}>
-          <PostLikes onPress={toggleLike}>
+          <PostAction disabled={loading} onPress={toggleLike}>
             <AntDesign
               name={isLiked ? "heart" : "hearto"}
               size={24}
@@ -107,21 +170,21 @@ const StoryItem = ({ item, navigation }) => {
             <MyText size5 style={{ paddingLeft: 6 }}>
               {item.listUserLikes?.length ?? 0}
             </MyText>
-          </PostLikes>
+          </PostAction>
           {/* <PostAction onPress={() => navigation.navigate("Message")}>
             <AntDesign name="message1" size={24} color={COLOR.green} />
             <MyText size5 style={{ paddingLeft: 6 }}>
               Message
             </MyText>
           </PostAction> */}
-          <PostAction onPress={() => shareStory(item)}>
+          <PostAction disabled={loading} onPress={() => shareStory(item)}>
             <FontAwesome name="share" size={24} color={COLOR.blue} />
             <MyText size5 style={{ paddingLeft: 6 }}>
               Share
             </MyText>
           </PostAction>
           {user.state.uid === item.userId._id ? (
-            <PostAction onPress={() => deleteStory()}>
+            <PostAction disabled={loading} onPress={() => deleteStory()}>
               <FontAwesome name="trash" size={24} color={COLOR.orange} />
               <MyText size5 style={{ paddingLeft: 6 }}>
                 Delete
@@ -196,16 +259,6 @@ const PostDetails = styled.View`
     "" /* border-bottom-color: ${COLOR.black};
   border-bottom-width: 1px; */
   }
-`;
-
-const PostLikes = styled.TouchableOpacity`
-  flex-direction: row;
-  justify-content: space-around;
-`;
-
-const PostShare = styled.TouchableOpacity`
-  flex-direction: row;
-  justify-content: space-around;
 `;
 
 const PostAction = styled.TouchableOpacity`

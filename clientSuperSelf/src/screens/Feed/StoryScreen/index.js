@@ -8,29 +8,30 @@ import FooterList from "../../../components/FooterList";
 import SkeletonSample from "../../../components/SkeletonSample";
 import ProgressiveImage from "../../../components/ProgressiveImage";
 import COLOR from "../../../constants/colors";
+import Toast from "react-native-toast-message";
+
 import StoryItem from "./StoryItem";
 import { logoUrl } from "../../../utils/logo";
+import { useIsFocused } from "@react-navigation/native";
 
 import * as apiPost from "../../../api/post";
-
-const FooterImage = (props) => {
-  return (
-    <View style={styles.footer}>
-      <MyText medium color={COLOR.white}>
-        {props.item.post}
-      </MyText>
-    </View>
-  );
-};
 
 const StoryScreen = ({ navigation }) => {
   const renderStory = ({ item }) => {
     return (
-      <StoryItem item={item} onDelete={handleDelete} navigation={navigation} />
+      <StoryItem
+        item={item}
+        setIsChanged={setIsChanged}
+        navigation={navigation}
+      />
     );
   };
 
   const [loading, setLoading] = useState(true);
+
+  const isFocused = useIsFocused();
+
+  const [isChanged, setIsChanged] = useState(false);
 
   const [listStory, setListStory] = useState([
     // {
@@ -45,12 +46,18 @@ const StoryScreen = ({ navigation }) => {
   ]);
 
   useEffect(() => {
-    apiPost.fetchPosts().then((res) => {
-      setListStory(res.data);
-    });
-  }, []);
+    apiPost
+      .fetchPosts()
+      .then((res) => {
+        setListStory(res.data);
+      })
+      .catch((error) => {
+        alert("Error when get story");
+        console.log("Error when get stories", error);
+      });
 
-  const handleDelete = (storyId) => {};
+    setIsChanged(false);
+  }, [isChanged, isFocused]);
 
   return (
     <Container>
