@@ -2,15 +2,25 @@ import React, { useState, useContext } from "react";
 import { View, StyleSheet, ImageBackground, Image, Alert } from "react-native";
 import styled from "styled-components";
 import { Ionicons, FontAwesome, Entypo } from "@expo/vector-icons";
-import ActionButton from "react-native-circular-action-menu";
+
+import * as Permissions from "expo-permissions";
+import * as ImagePicker from "expo-image-picker";
+
+import Toast from "react-native-toast-message";
 
 import MyButton from "../../../components/MyButton";
 import MyFloatingButton from "../../../components/MyFloatingButton";
 import Loading from "../../../components/Loading";
 
+import * as apiUpload from "../../../api/upload";
+import * as apiPost from "../../../api/post";
+import { useUser } from "../../../context/UserContext";
+
 import COLOR from "../../../constants/colors";
+import { createFormData } from "../../../utils/upload";
 
 const PostStoryScreen = ({ navigation }) => {
+  const user = useUser();
   const [loading, setLoading] = useState(false);
 
   const [postText, setPostText] = useState("");
@@ -19,21 +29,152 @@ const PostStoryScreen = ({ navigation }) => {
   const [isImgButton, setIsImgButton] = useState(false);
 
   //#region handle image
-  const getPermissions = async () => {};
+  const getPermissions = async () => {
+    if (Platform.OS !== "web") {
+      //TODO: camera roll deprecated
+      // https://github.com/expo/expo/issues/11504
+      const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+      return status;
+    }
+  };
 
-  const pickImageFromGallery = async () => {};
+  const pickImageFromGallery = async () => {
+    try {
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [1, 1],
+        quality: 0.5,
+      });
+      if (!result.cancelled) {
+        setPostImg(result.uri);
+      }
+    } catch (error) {
+      alert("Error when picking image");
+      console.log("Error when picking image ", error);
+    }
+  };
 
-  const pickImageFromCamera = async () => {};
+  const pickImageFromCamera = async () => {
+    const cameraPermission = await Permissions.askAsync(Permissions.CAMERA);
+    try {
+      if (cameraPermission.status === "granted") {
+        let result = await ImagePicker.launchCameraAsync({
+          allowsEditing: true,
+          aspect: [1, 1],
+        });
+        if (!result.cancelled) {
+          setPostImg(result.uri);
+        }
+      }
+    } catch (error) {
+      alert("Error when taking photo");
+      console.log("Error when taking photo", error);
+    }
+  };
 
-  const addPhotoFromGallery = async () => {};
+  const addPhotoFromGallery = async () => {
+    const status = await getPermissions();
 
-  const addPhotoFromCamera = async () => {};
+    if (status !== "granted") {
+      alert("We need permissions to get access to your camera library");
+      return;
+    }
 
-  const uploadImage = async () => {};
+    pickImageFromGallery();
+  };
+
+  const addPhotoFromCamera = async () => {
+    const status = await getPermissions();
+
+    if (status !== "granted") {
+      alert("We need permissions to get access to your camera library");
+      return;
+    }
+
+    pickImageFromCamera();
+  };
+
+  const uploadImage = async () => {
+    if (!postImg) {
+      // console.log("There no img change");
+      return;
+    }
+    const data = createFormData(postImg);
+
+    try {
+      const res = await apiUpload.uploadStory(data);
+      if (res) {
+        // console.log("upload photo", res.data.data.avatar);
+        return res.data.data.img;
+      }
+    } catch (error) {
+      console.log("Error when upload img", error);
+    }
+  };
 
   //#endregion
 
-  const submit = async () => {};
+  const submit = async () => {
+    if (postText === null || postText === "") {
+      alert("Nothing to share");
+      return;
+    }
+    setLoading(true);
+    let imageUrl;
+    if (postImg) {
+      imageUrl = await uploadImage();
+    }
+
+    const newPost = {
+      postText,
+      postImg: imageUrl ? imageUrl : null,
+    };
+
+    console.log("Post: ", newPost);
+
+    apiPost
+      .createPost(newPost)
+      .then(() => {
+        Toast.show({
+          type: "success", // success, error, info
+          text1: "Successfully post story to all 🎉",
+          text2: ``,
+          visibilityTime: 2500,
+          onShow: () => {},
+          onHide: () => {}, // called when Toast hides (if `autoHide` was set to `true`)
+          onPress: () => {},
+        });
+        navigation.navigate("Stories");
+      })
+      .catch((error) => {
+        alert("Error when creating story ");
+        console.log("Error when creating story ", error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+
+    // db.collection("stories")
+    //   .add({
+    //     user,
+    //     postText: postText,
+    //     photoUrl: imageUrl,
+    //     postAt: new Date().toISOString(),
+    //     likes: 0,
+    //     comments: 0,
+    //   })
+    //   .then(() => {
+    //     setLoading(false);
+    //     setPostSuccessAlert(true);
+    //     setPost(null);
+    //     setStory({ ...story, currentlyPostStory: true });
+    //     navigation.navigate("Stories");
+    //   })
+    //   .catch((error) => {
+    //     alert("Something gets wrong when posting ", error.message);
+    //   });
+  };
 
   return (
     <View style={styles.center}>
@@ -56,7 +197,7 @@ const PostStoryScreen = ({ navigation }) => {
           maxLength={150}
           maxHeight={120}
           value={postText}
-          onChangeText={(content) => setPost(content)}
+          onChangeText={(content) => setPostText(content)}
         />
         {postImg != null ? <AddImage source={{ uri: postImg }} /> : null}
 
@@ -65,7 +206,11 @@ const PostStoryScreen = ({ navigation }) => {
           position="bottomRight"
           onPress={submit}
         >
-          <Entypo name="plus" size={24} color={COLOR.white} />
+          {loading ? (
+            <Loading size="small" noText />
+          ) : (
+            <Entypo name="plus" size={24} color={COLOR.white} />
+          )}
         </MyFloatingButton>
 
         <MyFloatingButton
@@ -92,36 +237,6 @@ const PostStoryScreen = ({ navigation }) => {
             <Ionicons name="images" size={24} color={COLOR.white} />
           </MyButton>
         </MyFloatingButton>
-        {/* <ActionButton
-          buttonColor={COLOR.orange}
-          size={56}
-          style={styles.actionButton}
-          degrees={160}
-          position="left"
-          icon={
-            <Ionicons
-              name="ios-images"
-              style={{ color: COLOR.green, fontSize: 20 }}
-            ></Ionicons>
-          }
-        >
-          <ActionButton.Item
-            buttonColor={COLOR.blue}
-            title="Take Photo"
-            onPress={addPhotoFromCamera}
-            endDegree={360}
-          >
-            <Ionicons name="ios-camera" style={styles.actionButtonIcon} />
-          </ActionButton.Item>
-          <ActionButton.Item
-            buttonColor={COLOR.blue}
-            title="Choose Photo"
-            onPress={addPhotoFromGallery}
-            endDegree={360}
-          >
-            <Ionicons name="md-images" style={styles.actionButtonIcon} />
-          </ActionButton.Item>
-        </ActionButton> */}
 
         {/* <View style={{ flexDirection: "row" }}>
           {loading ? <Loading /> : null}

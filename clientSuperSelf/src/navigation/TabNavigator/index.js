@@ -55,6 +55,7 @@ const BottomTabNavigator = ({ navigation }) => {
       "Edit Habit",
       "Suggestion",
       "Countdown",
+      "Post Story",
     ]; // set name screens for tab hidden
     if (hideOnScreens.indexOf(routeName) > -1) {
       return false;

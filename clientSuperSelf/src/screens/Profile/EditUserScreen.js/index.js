@@ -208,10 +208,8 @@ function EditUserScreen({ navigation, route }) {
     const data = createFormData(profilePhoto);
 
     try {
-      const res = await apiUpload.uploadImg(data);
+      const res = await apiUpload.uploadAvatar(data);
       if (res) {
-        // console.log("upload photo", res.data.data.avatar);
-        setProfilePhoto(res.data.data.avatar);
         return res.data.data.avatar;
       } else {
         return logoUrl;

@@ -55,3 +55,39 @@ export const shareHabit = async (item) => {
     alert(error.message);
   }
 };
+
+export const shareStory = (item) => {
+  try {
+    Share.share(
+      {
+        ...Platform.select({
+          ios: {
+            message: `Read this from ${item.userId.username} \n ${item.postText}`,
+            url: item.postImg,
+          },
+          android: {
+            message: item.postImg
+              ? `Read this from ${item.userId.username} of SuperSelf \n${item.postText} ` +
+                item.postImg
+              : `Read this from ${item.userId.username} of SuperSelf \n${item.postText} `,
+          },
+        }),
+        title: "This is a great story from Super Self",
+      },
+      {
+        ...Platform.select({
+          ios: {
+            // iOS only:
+            excludedActivityTypes: ["com.apple.UIKit.activity.PostToTwitter"],
+          },
+          android: {
+            // Android only:
+            dialogTitle: "Share story of : " + item.userId.username,
+          },
+        }),
+      }
+    );
+  } catch (error) {
+    alert(error.message);
+  }
+};

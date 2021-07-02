@@ -156,7 +156,7 @@ export const editMyProfile = async (req, res) => {
       _id: userId,
     };
 
-    console.log("update user", updatedUser);
+    // console.log("update user", updatedUser);
 
     await User.findByIdAndUpdate(userId, updatedUser, {
       new: true,
