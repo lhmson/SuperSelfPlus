@@ -78,17 +78,17 @@ function ProfileModal({
             alignSelf: "center",
           }}
         >
-          <Avatar avatarUrl={specifiedUser.avatarUrl} />
+          <Avatar avatarUrl={specifiedUser?.avatarUrl} />
           <BackgroundCardInfo />
           <InfoCard
-            username={specifiedUser.username}
-            role={specifiedUser.role}
-            description={specifiedUser.userInfo?.description}
+            username={specifiedUser?.username}
+            role={specifiedUser?.role}
+            description={specifiedUser?.userInfo?.description}
           />
           <View style={{ height: 100 }}></View>
           <MyBadges />
           <MyChart
-            numberOfHabitsByThemes={specifiedUser.numberOfHabitsByThemes}
+            numberOfHabitsByThemes={specifiedUser?.numberOfHabitsByThemes}
           />
           <View style={{ height: 48 }}></View>
         </View>

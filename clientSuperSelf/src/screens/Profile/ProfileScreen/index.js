@@ -77,16 +77,16 @@ function ProfileScreen({ navigation, route }) {
             flex: 1,
           }}
         >
-          <Avatar avatarUrl={specifiedUser.avatarUrl} />
+          <Avatar avatarUrl={specifiedUser?.avatarUrl} />
           <BackgroundCardInfo />
           <InfoCard
-            username={specifiedUser.username}
-            role={specifiedUser.role}
-            description={specifiedUser.userInfo?.description}
+            username={specifiedUser?.username}
+            role={specifiedUser?.role}
+            description={specifiedUser?.userInfo?.description}
           />
           <MyBadges />
           <MyChart
-            numberOfHabitsByThemes={specifiedUser.numberOfHabitsByThemes}
+            numberOfHabitsByThemes={specifiedUser?.numberOfHabitsByThemes}
           />
           <LogoutBtn />
           <View style={{ height: 48 }}></View>

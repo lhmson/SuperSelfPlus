@@ -1,136 +1,25 @@
 import React, { useState, useEffect } from "react";
 import { View, StyleSheet, TouchableOpacity } from "react-native";
 import styled from "styled-components";
-import {
-  Foundation,
-  FontAwesome,
-  AntDesign,
-  MaterialIcons,
-} from "@expo/vector-icons";
-import moment from "moment";
-import ImageView from "react-native-image-viewing";
+import { Foundation } from "@expo/vector-icons";
 
 import MyText from "../../../components/MyText";
 import FooterList from "../../../components/FooterList";
 import SkeletonSample from "../../../components/SkeletonSample";
 import ProgressiveImage from "../../../components/ProgressiveImage";
 import COLOR from "../../../constants/colors";
+import StoryItem from "./StoryItem";
+import { logoUrl } from "../../../utils/logo";
+
+import * as apiPost from "../../../api/post";
 
 const FooterImage = (props) => {
   return (
     <View style={styles.footer}>
-      <MyText medium color={`${COLOR.white}`}>
+      <MyText medium color={COLOR.white}>
         {props.item.post}
       </MyText>
     </View>
-  );
-};
-
-const StoryItem = ({ item, onDelete, navigation }) => {
-  return (
-    <PostContainer>
-      <PostHeaderContainer>
-        <PostProfilePhoto
-          source={
-            item.user.profilePhotoUrl === "default"
-              ? require("../../../utils/resources/superself-logo.png")
-              : { uri: item.user.profilePhotoUrl }
-          }
-        />
-        <PostInfoContainer>
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate("User Profile", { item: item });
-            }}
-          >
-            <MyText condense medium>
-              {item.user.username}
-            </MyText>
-          </TouchableOpacity>
-          <MyText tiny color={`${COLOR.lightBlack}`} margin="5px 0 0 0">
-            {moment(item.postAt).format("MMM Do YYYY h:mm:ss")},{" "}
-            {moment(item.postAt).fromNow()}
-          </MyText>
-        </PostInfoContainer>
-        <MoreOption onPress={() => reportStory()}>
-          <MaterialIcons
-            name="report"
-            size={24}
-            color={`${COLOR.primaryDark}`}
-          />
-        </MoreOption>
-      </PostHeaderContainer>
-      <Post>
-        <MyText style={{ lineHeight: 20 }}>{item.post}</MyText>
-        {item.photoUrl && (
-          <>
-            <TouchableOpacity
-              onPress={() => {
-                setImgVisible(true);
-              }}
-            >
-              <ProgressiveImage
-                defaultImgSrc={require("../../../utils/resources/defaultimage.png")}
-                source={{ uri: item.photoUrl }}
-                style={{
-                  width: "100%",
-                  height: 240,
-                  borderRadius: 6,
-                  marginTop: 15,
-                  marginBottom: 15,
-                }}
-                resizeMode="cover"
-              />
-              {/* <PostPhoto source={{ uri: item.photoUrl }} /> */}
-            </TouchableOpacity>
-            <ImageView
-              images={images}
-              imageIndex={0}
-              animationType="fade"
-              visible={imgVisible}
-              onRequestClose={() => setImgVisible(false)}
-              FooterComponent={(currentImg) => <FooterImage item={item} />}
-            />
-          </>
-        )}
-        <PostDetails style={{ alignItems: "center" }}>
-          {/* <PostLikes onPress={toggleLike}>
-            <Ionicons
-              name={isLiked ? "ios-heart" : "ios-heart-empty"}
-              size={24}
-              color={`${COLOR.secondary}`}
-            />
-            <MyText small margin="0 0 0 6px">
-              {item.likes}
-            </MyText>
-          </PostLikes> */}
-          <PostMessage onPress={() => navigation.navigate("Message")}>
-            <AntDesign name="message1" size={24} color={`${COLOR.primary}`} />
-            <MyText small margin="0 0 0 6px">
-              Message
-            </MyText>
-          </PostMessage>
-          <PostShare onPress={() => shareStory()}>
-            <FontAwesome name="share" size={24} color={`${COLOR.primary}`} />
-            <MyText small margin="0 0 0 6px">
-              Share
-            </MyText>
-          </PostShare>
-          {user.uid === item.user.userId ? (
-            <PostDelete onPress={() => deleteStory()}>
-              <FontAwesome
-                name="trash"
-                size={24}
-                color={`${COLOR.secondary}`}
-              />
-              <MyText small margin="0 0 0 6px">
-                Delete
-              </MyText>
-            </PostDelete>
-          ) : null}
-        </PostDetails>
-      </Post>
-    </PostContainer>
   );
 };
 
@@ -143,6 +32,26 @@ const StoryScreen = ({ navigation }) => {
 
   const [loading, setLoading] = useState(true);
 
+  const [listStory, setListStory] = useState([
+    // {
+    //   userId: {
+    //     avatarUrl: logoUrl,
+    //     username: "admin",
+    //   },
+    //   postImg:
+    //     "https://upload.wikimedia.org/wikipedia/commons/5/5e/Landscape_reflection_in_Dal_Lake%2C_Srinagar%2C_Kashmir%2C_India.jpg",
+    //   postText: "some info",
+    // },
+  ]);
+
+  useEffect(() => {
+    apiPost.fetchPosts().then((res) => {
+      setListStory(res.data);
+    });
+  }, []);
+
+  const handleDelete = (storyId) => {};
+
   return (
     <Container>
       <SelfArea>
@@ -151,30 +60,30 @@ const StoryScreen = ({ navigation }) => {
             navigation.navigate("Post Story");
           }}
         >
-          <Foundation name="folder-add" size={24} color={`${COLOR.primary}`} />
+          <Foundation name="folder-add" size={24} color={COLOR.green} />
           <MyText bold>Add your own story</MyText>
         </SelfButton>
       </SelfArea>
 
       <FeedContainer>
-        {loading ? (
+        {/* {loading ? (
           <SkeletonSample />
-        ) : (
-          <Feed
-            data={list ? list : []}
-            renderItem={renderStory}
-            keyExtractor={(item, index) => index.toString()}
-            removeClippedSubviews={true} // Unmount components when outside of window
-            initialNumToRender={2} // Reduce initial render amount
-            maxToRenderPerBatch={1} // Reduce number in each render batch
-            updateCellsBatchingPeriod={1200} // Increase time between renders
-            windowSize={7} // Reduce the window size
-            ListFooterComponent={() => (
-              <FooterList title={"Discover the world now"} />
-            )}
-            showsVerticalScrollIndicator={false}
-          />
-        )}
+        ) : ( */}
+        <Feed
+          data={listStory ? listStory : []}
+          renderItem={renderStory}
+          keyExtractor={(item, index) => index.toString()}
+          removeClippedSubviews={true} // Unmount components when outside of window
+          initialNumToRender={2} // Reduce initial render amount
+          maxToRenderPerBatch={1} // Reduce number in each render batch
+          updateCellsBatchingPeriod={1200} // Increase time between renders
+          windowSize={7} // Reduce the window size
+          ListFooterComponent={() => (
+            <FooterList title={"Discover the world now"} />
+          )}
+          showsVerticalScrollIndicator={false}
+        />
+        {/* )} */}
 
         {/* <StatusBar barStyle="dark-content" /> */}
       </FeedContainer>
@@ -201,7 +110,7 @@ const Container = styled.View`
 const FeedContainer = styled.View`
   ${
     "" /* padding-bottom: 15%;
-  background-color: ${COLOR.skin}; */
+  background-color: ${COLOR.yellow}; */
   }
 `;
 
@@ -247,7 +156,7 @@ const PostDetails = styled.View`
   align-items: center;
   padding-top: 10px;
   margin-top: 10px;
-  border-top-color: ${COLOR.lightBlack};
+  border-top-color: ${COLOR.grey};
   border-top-width: 0.5px;
   ${
     "" /* border-bottom-color: ${COLOR.black};
@@ -315,7 +224,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    // backgroundColor: COLOR.paleWhite,
+    // backgroundColor: COLOR.whiteSmoke,
     // paddingHorizontal: 10,
     paddingVertical: 50,
   },
