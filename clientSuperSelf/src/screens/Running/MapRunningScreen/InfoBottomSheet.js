@@ -9,7 +9,6 @@ import ICON from "../../../constants/icon";
 import CountDown from "react-native-countdown-component";
 import BottomSheet from "@gorhom/bottom-sheet";
 import { TouchableOpacity, BottomSheetScrollView } from "@gorhom/bottom-sheet";
-import ICONWORLD from "../../../constants/imageWorld";
 import FONT from "../../../constants/font";
 import ModalSetupPlan from "./modalSetupPlan";
 import ModalTimeOut from "./modalTimeout";
@@ -329,28 +328,7 @@ const InfoBottomSheet = ({
         </View>
       );
     };
-    const Event = () => {
-      return (
-        <MyCard>
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "center",
-              width: WIDTH - 100,
-            }}
-          >
-            <Image
-              source={ICONWORLD.event}
-              style={{ width: 40, height: 40, resizeMode: "center" }}
-            ></Image>
-            <MyText size6 b3i color={COLOR.black}>
-              {planEvent}
-            </MyText>
-          </View>
-        </MyCard>
-      );
-    };
+
     const Habit = () => {
       return (
         <MyCard>

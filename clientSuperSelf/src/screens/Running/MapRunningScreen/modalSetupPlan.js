@@ -17,7 +17,6 @@ import MySwitch from "../../../components/MySwitch/index";
 import Swiper from "react-native-swiper";
 import COLOR from "../../../constants/colors";
 import ICON from "../../../constants/icon";
-import ICONWORLD from "../../../constants/imageWorld";
 import { useUser } from "../../../context/UserContext";
 import {
   getListRunHabitInProgress,

@@ -10,7 +10,6 @@ import FONT from "../../constants/font";
 import HomeScreen from "../../screens/Home/HomeScreen";
 import AboutScreen from "../../screens/AboutScreen";
 import RunningScreen from "../../screens/Running/RunningScreen";
-import WorldScreen from "../../screens/World/WorldScreen";
 import ProfileScreen from "../../screens/Profile/ProfileScreen";
 import TabMaterialNavigator from "../TabMaterialNavigator";
 import HabitsScreen from "../../screens/Habit/HabitsScreen";
@@ -69,6 +68,7 @@ const screenOptionStyle = (props) => {
           justifyContent: "center",
         }}
       >
+        {/* //TODO: setup noti
         <TouchableOpacity
           style={{
             padding: 8,
@@ -83,7 +83,7 @@ const screenOptionStyle = (props) => {
             1
           </MyText>
           <Ionicons name="notifications" size={32} color={COLOR.yellow} />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
         <TouchableOpacity
           style={{ padding: 8, justifyContent: "center" }}
           onPress={() => {
