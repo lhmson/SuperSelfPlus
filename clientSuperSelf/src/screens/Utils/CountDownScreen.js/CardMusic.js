@@ -41,10 +41,10 @@ function CardMusic() {
       setSoundMusic(sound);
       await sound.playAsync();
     }
+    x;
     console.log("Playing Sound");
     await Sound.playAsync();
   }
-
   async function playNewSound(url) {
     console.log(url);
     // if (soundMusic) {
