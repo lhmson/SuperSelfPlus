@@ -40,13 +40,13 @@ function PopupMusic({
             justifyContent: "space-between",
             width: WIDTH * 0.65,
           }}
-          onPress={() => {
+          onPress={async () => {
             setUrlMusic(music.uri);
             setIsOpenPopup(false);
             setKindMusic(music.kind);
             setNameMusic(music.name);
             setTime(music.totalTime);
-            playNewSound(music.url);
+            await playNewSound(music.uri);
           }}
         >
           <View style={{ flexDirection: "row" }}>
@@ -79,6 +79,7 @@ function PopupMusic({
       </MyCard>
     );
   };
+
   const MainModal = () => {
     let txtSearch = "";
     return (

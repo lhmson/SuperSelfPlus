@@ -9,6 +9,8 @@ import { Audio } from "expo-av";
 
 import ButtonControl from "./ButtonControl";
 import { width } from "../../../constants/dimensions";
+import Musics from "../dataMusic";
+import { Sound } from "expo-av/build/Audio";
 
 const formatStr = (str, number) => {
   if (str.length > number) return str.substring(0, number - 1) + "...";
@@ -26,46 +28,52 @@ function CardMusic() {
   const [nameMusic, setNameMusic] = useState("Brain Beat Relax or Study");
   const [kindMusic, setKindMusic] = useState("#Relax #Sleeping #Study");
   const [time, setTime] = useState("1:30:12");
-  const [sound, setSound] = React.useState();
+  const [soundMusic, setSoundMusic] = React.useState();
 
   async function playSound() {
-    if (!sound) {
+    if (!soundMusic) {
       const { sound } = await Audio.Sound.createAsync(
         // require("../../../utils/resources/sound/soundBGWorld.mp3")
         {
           uri: "https://r6---sn-i3b7knl6.googlevideo.com/videoplayback?expire=1625222649&ei=mZneYMXrNoLy4gK0kabYAg&ip=103.138.88.45&id=o-AInBW8dVRgro-lYY-D-xSKyiNwbXZlNgl2DhzhWz6BHB&itag=18&source=youtube&requiressl=yes&vprv=1&mime=video/mp4&ns=uencBHCnUNrDQ3v40U3S7rkG&gir=yes&clen=278307134&ratebypass=yes&dur=5410.133&lmt=1584387441742168&fexp=24001373,24007246&c=WEB&txp=5431432&n=-RsBnTB4MIpqO_&sparams=expire,ei,ip,id,itag,source,requiressl,vprv,mime,ns,gir,clen,ratebypass,dur,lmt&sig=AOq0QJ8wRgIhAOtv5HBm-f2n7wNeVlr5avT4N0jUwBvAPKIRS2USD55hAiEA7-cbKWhLfD3CT_cJch6gSzPAMvbt6jkddEXXEFhd4co=&rm=sn-8qj-nbole7r,sn-npold7d&req_id=411f73f54225a3ee&redirect_counter=2&cms_redirect=yes&ipbypass=yes&mh=Xv&mip=2402:800:6296:4f04:792c:fc8c:13dc:1167&mm=30&mn=sn-i3b7knl6&ms=nxu&mt=1625200498&mv=u&mvi=6&pl=51&lsparams=ipbypass,mh,mip,mm,mn,ms,mv,mvi,pl&lsig=AG3C_xAwRAIgJhb4fBxreq4EkxAAxfLbPBQBRrtc1cUMjN7ARkMoUVECIGeFjuVexOhkoPGY0nrz1WNqqtHcKwxuzovakyOVnK50",
         }
       );
-      setSound(sound);
-      await sound.playAsync();
+      setSoundMusic(sound);
+      await soundMusic.playAsync();
     }
     console.log("Playing Sound");
-    await sound.playAsync();
+    await Sound.playAsync();
   }
 
   async function playNewSound(url) {
-    if (sound) await sound.unloadAsync();
+    console.log(url);
+    // if (soundMusic) {
+    //   console.log("unload old");
+    //   await soundMusic.pauseAsync();
+    //   await soundMusic.unloadAsync();
+    // }
     const { sound } = await Audio.Sound.createAsync({
       uri: url ?? urlMusic,
     });
-    setSound(sound);
+    setSoundMusic(sound);
     setIsPlaying(true);
+    console.log("play new");
     await sound.playAsync();
   }
 
   async function pauseSound() {
     console.log("Pause Sound");
-    if (sound) await sound.pauseAsync();
+    if (soundMusic) await soundMusic.pauseAsync();
   }
 
   React.useEffect(() => {
-    return sound
+    return soundMusic
       ? () => {
           console.log("Unloading Sound");
-          sound.unloadAsync();
+          soundMusic.unloadAsync();
         }
       : undefined;
-  }, [sound]);
+  }, [soundMusic]);
 
   return (
     <MyCard>
