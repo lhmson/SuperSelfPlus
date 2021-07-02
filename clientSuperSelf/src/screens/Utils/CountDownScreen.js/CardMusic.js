@@ -95,6 +95,7 @@ function CardMusic() {
             setIsPlaying={setIsPlaying}
             playMusic={playSound}
             pauseMusic={pauseSound}
+            action="music"
           />
 
           <View style={{ flexDirection: "column", marginLeft: 8 }}>
