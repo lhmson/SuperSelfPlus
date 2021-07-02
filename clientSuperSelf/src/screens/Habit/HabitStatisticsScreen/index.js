@@ -39,7 +39,7 @@ const HabitStatisticsScreen = ({ navigation, route }) => {
   const [isActionButton, setIsActionButton] = useState(false);
 
   const allDates = useMemo(
-    () => listProgress.map((item) => getDateNoTime(item.date)),
+    () => listProgress?.map((item) => getDateNoTime(item.date)),
     [listProgress]
   );
 
@@ -62,7 +62,7 @@ const HabitStatisticsScreen = ({ navigation, route }) => {
 
   const chartProgressData = useMemo(
     () =>
-      listProgress.map((item, index) => ({
+      listProgress?.map((item, index) => ({
         x: index + 1,
         y: item.progress,
       })),
@@ -116,9 +116,8 @@ const HabitStatisticsScreen = ({ navigation, route }) => {
   }, []);
 
   useEffect(() => {
-    console.log(numberOfDates);
     //TODO: premium after end habits
-    if (numberOfDates > 21) {
+    if (numberOfDates >= 21) {
       setIsModalPremium(true);
     }
   }, [numberOfDates]);

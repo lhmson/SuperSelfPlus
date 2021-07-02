@@ -26,7 +26,7 @@ function MyChart({ navigation, numberOfHabitsByThemes }) {
           easing: "circleIn",
         }}
       >
-        {numberOfHabitsByThemes.map((item, i) => {
+        {numberOfHabitsByThemes?.map((item, i) => {
           return (
             <VictoryPolarAxis
               dependentAxis

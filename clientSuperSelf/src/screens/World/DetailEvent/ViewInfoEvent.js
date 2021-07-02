@@ -118,6 +118,8 @@ function ViewInfoEvent({ navigation, item, personalHabit }) {
           ? item.description
           : "Join the event to reach the goal of a better self and show everyone who you are"}
       </MyText>
+
+      <MyText size5>{item.authorId.username}</MyText>
       {/* TODO: bind progress of self during event */}
       <ProgressBar percent={progressDaysEvent} />
       <MyButton

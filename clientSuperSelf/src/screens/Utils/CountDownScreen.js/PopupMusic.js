@@ -103,7 +103,7 @@ function PopupMusic({
             txtSearch = txt;
           }}
         ></MyTextInput>
-        {dataMusic.map((music, index) => (
+        {dataMusic?.map((music, index) => (
           <CardMusicItem key={index.toString()} music={music}></CardMusicItem>
         ))}
       </View>

@@ -54,6 +54,9 @@ const StoryScreen = ({ navigation }) => {
       .catch((error) => {
         alert("Error when get story");
         console.log("Error when get stories", error);
+      })
+      .finally(() => {
+        setLoading(false);
       });
 
     setIsChanged(false);
@@ -73,24 +76,24 @@ const StoryScreen = ({ navigation }) => {
       </SelfArea>
 
       <FeedContainer>
-        {/* {loading ? (
+        {loading ? (
           <SkeletonSample />
-        ) : ( */}
-        <Feed
-          data={listStory ? listStory : []}
-          renderItem={renderStory}
-          keyExtractor={(item, index) => index.toString()}
-          removeClippedSubviews={true} // Unmount components when outside of window
-          initialNumToRender={2} // Reduce initial render amount
-          maxToRenderPerBatch={1} // Reduce number in each render batch
-          updateCellsBatchingPeriod={1200} // Increase time between renders
-          windowSize={7} // Reduce the window size
-          ListFooterComponent={() => (
-            <FooterList title={"Discover the world now"} />
-          )}
-          showsVerticalScrollIndicator={false}
-        />
-        {/* )} */}
+        ) : (
+          <Feed
+            data={listStory ? listStory : []}
+            renderItem={renderStory}
+            keyExtractor={(item, index) => index.toString()}
+            removeClippedSubviews={true} // Unmount components when outside of window
+            initialNumToRender={2} // Reduce initial render amount
+            maxToRenderPerBatch={1} // Reduce number in each render batch
+            updateCellsBatchingPeriod={1200} // Increase time between renders
+            windowSize={7} // Reduce the window size
+            ListFooterComponent={() => (
+              <FooterList title={"Discover the world now"} />
+            )}
+            showsVerticalScrollIndicator={false}
+          />
+        )}
 
         {/* <StatusBar barStyle="dark-content" /> */}
       </FeedContainer>

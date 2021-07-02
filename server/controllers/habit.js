@@ -12,6 +12,7 @@ import {
   countStreak,
   countDaysOfHabit,
   createListHistoryHabits,
+  getScoreOfMyHabit,
 } from "../businessLogic/habit.js";
 
 //#region CRUD
@@ -44,11 +45,30 @@ export const getUserHabits = async (req, res) => {
   try {
     const { userId } = req.params;
     try {
-      const habits = await PersonalHabit.find({ userId }).populate({
-        path: "habitId",
-        model: "Habit",
-        select: "title description theme kind icon target eventInfo authorId",
+      //TODO: get base on top habit
+      const personalHabits = await PersonalHabit.find({ userId });
+
+      const scores = [];
+      for (let elem of personalHabits) {
+        const score = await getScoreOfMyHabit(elem._id);
+        scores.push({ habitId: elem.habitId, score });
+      }
+
+      scores.sort((a, b) => {
+        return b.score - a.score;
       });
+
+      const habits = [];
+      for (let item of scores) {
+        const habit = await Habit.findById(item.habitId);
+        habits.push(habit);
+      }
+      // console.log(scores);
+      // const habits = await PersonalHabit.find({ userId }).populate({
+      //   path: "habitId",
+      //   model: "Habit",
+      //   select: "title description theme kind icon target eventInfo authorId",
+      // });
       return res.status(httpStatusCodes.ok).json(habits);
     } catch (error) {
       return res

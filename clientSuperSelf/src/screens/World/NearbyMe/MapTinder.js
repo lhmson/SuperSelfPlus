@@ -86,9 +86,10 @@ const MapTinder = ({ userLocation, listTinders }) => {
           flexDirection: "row",
         }}
       >
+        {/* //TODO: do message
         <TouchableOpacity onPress={() => {}} style={{ marginRight: 16 }}>
           <AntDesign name="message1" size={30} color={COLOR.green} />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
         <TouchableOpacity
           onPress={() => {
             setIsOpenTinderMine(false);
@@ -122,7 +123,7 @@ const MapTinder = ({ userLocation, listTinders }) => {
       >
         {console.log("refresh map")}
         {listTinders?.length > 0
-          ? listTinders.map((user, index) => (
+          ? listTinders?.map((user, index) => (
               <Marker
                 coordinate={{
                   latitude: user.latitude,

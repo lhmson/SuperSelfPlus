@@ -75,13 +75,13 @@ function MyBadges({ navigation, userId }) {
                 alignItems: "center",
               }}
             >
-              {listBadges.map((item, index) => (
+              {listBadges?.map((item, index) => (
                 <CardBadge
                   key={index.toString()}
-                  title={item.habitId.title}
-                  description={item.habitId.description}
-                  iconBadges={item.habitId.icon}
-                  backgroundColor={renderColor(item.habitId.theme)}
+                  title={item.title}
+                  description={item.description}
+                  iconBadges={item.icon}
+                  backgroundColor={renderColor(item.theme)}
                 />
               ))}
               {/* <TouchableOpacity>

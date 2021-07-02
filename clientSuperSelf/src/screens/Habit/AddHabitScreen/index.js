@@ -705,9 +705,7 @@ const AddHabitScreen = ({ navigation, route }) => {
       <TouchableOpacity
         onPress={() => {
           setKind("Run");
-          setIcon(
-            "https://www.iconbunny.com/icons/media/catalog/product/3/9/3952.9-running-icon-iconbunny.jpg"
-          );
+          setIcon("https://ibb.co/c33jW9G");
           if (!isSetTarget) {
             toggleIsSetTarget();
           }

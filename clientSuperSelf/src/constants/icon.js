@@ -5,6 +5,7 @@ const medal = require("../utils/resources/IconRunning/medal.png");
 const shoeRanking = require("../utils/resources/IconRunning/shoeRanking.png");
 const peopleRun = require("../utils/resources/IconRunning/runPeople.png");
 const heart = require("../utils/resources/IconRunning/heart.png");
+const framePedometer = require("../utils/resources/IconRunning/framePedometer.gif");
 const plan = require("../utils/resources/IconRunning/plan.jpg");
 const cup = require("../utils/resources/IconRunning/cupRankHabit.gif");
 const Top1 = require("../utils/resources/Top1.png");
