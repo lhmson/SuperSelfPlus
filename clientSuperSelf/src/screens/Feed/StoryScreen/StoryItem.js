@@ -3,11 +3,15 @@ import { View, StyleSheet, TouchableOpacity } from "react-native";
 import styled from "styled-components";
 import { FontAwesome, AntDesign, MaterialIcons } from "@expo/vector-icons";
 import moment from "moment";
+
 import ImageView from "react-native-image-viewing";
+import Toast from "react-native-toast-message";
 
 import MyText from "../../../components/MyText";
 import ProgressiveImage from "../../../components/ProgressiveImage";
 import COLOR from "../../../constants/colors";
+
+import * as apiPost from "../../../api/post";
 import { useUser } from "../../../context/UserContext";
 import { shareStory } from "../../../utils/share";
 
@@ -21,15 +25,20 @@ const FooterImage = (props) => {
   );
 };
 
-const StoryItem = ({ item, navigation }) => {
+const StoryItem = ({ item, onDelete, navigation }) => {
   const user = useUser();
   const [isLiked, setIsLiked] = useState(false);
+
+  const [loading, setLoading] = useState(false);
 
   const toggleLike = async () => {
     setIsLiked((prev) => !prev);
   };
 
-  const deleteStory = () => {};
+  const deleteStory = () => {
+    console.log(item._id);
+    onDelete(item._id);
+  };
 
   const images = useMemo(
     () => [
@@ -98,7 +107,7 @@ const StoryItem = ({ item, navigation }) => {
           </>
         )}
         <PostDetails style={{ alignItems: "center" }}>
-          <PostLikes onPress={toggleLike}>
+          <PostAction disabled={loading} onPress={toggleLike}>
             <AntDesign
               name={isLiked ? "heart" : "hearto"}
               size={24}
@@ -107,21 +116,21 @@ const StoryItem = ({ item, navigation }) => {
             <MyText size5 style={{ paddingLeft: 6 }}>
               {item.listUserLikes?.length ?? 0}
             </MyText>
-          </PostLikes>
+          </PostAction>
           {/* <PostAction onPress={() => navigation.navigate("Message")}>
             <AntDesign name="message1" size={24} color={COLOR.green} />
             <MyText size5 style={{ paddingLeft: 6 }}>
               Message
             </MyText>
           </PostAction> */}
-          <PostAction onPress={() => shareStory(item)}>
+          <PostAction disabled={loading} onPress={() => shareStory(item)}>
             <FontAwesome name="share" size={24} color={COLOR.blue} />
             <MyText size5 style={{ paddingLeft: 6 }}>
               Share
             </MyText>
           </PostAction>
           {user.state.uid === item.userId._id ? (
-            <PostAction onPress={() => deleteStory()}>
+            <PostAction disabled={loading} onPress={() => deleteStory()}>
               <FontAwesome name="trash" size={24} color={COLOR.orange} />
               <MyText size5 style={{ paddingLeft: 6 }}>
                 Delete
@@ -196,16 +205,6 @@ const PostDetails = styled.View`
     "" /* border-bottom-color: ${COLOR.black};
   border-bottom-width: 1px; */
   }
-`;
-
-const PostLikes = styled.TouchableOpacity`
-  flex-direction: row;
-  justify-content: space-around;
-`;
-
-const PostShare = styled.TouchableOpacity`
-  flex-direction: row;
-  justify-content: space-around;
 `;
 
 const PostAction = styled.TouchableOpacity`

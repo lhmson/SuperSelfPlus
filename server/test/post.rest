@@ -5,12 +5,15 @@
 @createdAt = {{$datetime iso8601}}
 @modifiedBy = {{$processEnv USERNAME}}
 
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxMjNAZ20uY29tIiwiaWQiOiI2MGE1MWNlNTBiM2Q4NTMyNjRhNWE0MTkiLCJpYXQiOjE2MjE1MTk2OTgsImV4cCI6MTYyMTYwNjA5OH0.vdsjTwJ9oEnX1vY8k2eRkGsvxpwnISxkVmfmD-YHuN0
-
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxMjNAZ20uY29tIiwiaWQiOiI2MGMyNjAxOTkwZmI5MzY2OThiYWI5MjEiLCJpYXQiOjE2MjUyMjE1Mjh9.Dq-nVc2a_uKcU5_9r-auk13opre0ScOvcG5i_YUoscQ
+@postId = 60deda6d612a07459885ba60
 ###
 
 GET {{host}}/post/list/all HTTP/1.1
 Authorization: Bearer {{token}}
 
 ###
+
+DELETE {{host}}/post/{{postId}} HTTP/1.1
+Authorization: Bearer {{token}}
 
