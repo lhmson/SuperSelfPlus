@@ -275,6 +275,13 @@ const HabitsScreen = ({ navigation }) => {
       >
         <Entypo name="plus" size={24} color={COLOR.white} />
       </MyFloatingButton>
+
+      <MyFloatingButton
+        position="bottomLeft"
+        onPress={() => navigation.navigate("Stories")}
+      >
+        <Entypo name="news" size={24} color={COLOR.white} />
+      </MyFloatingButton>
     </View>
   );
 };
