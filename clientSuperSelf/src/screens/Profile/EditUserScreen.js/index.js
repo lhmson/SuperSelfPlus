@@ -28,7 +28,7 @@ import { createFormData } from "../../../utils/upload";
 import { logoUrl } from "../../../utils/logo";
 import Loading from "../../../components/Loading";
 import { shallowCompare } from "../../../utils/objHandler";
-import PremiumModal from "../ModalPremium";
+import PremiumModal from "../PremiumModal";
 
 const errors = ["You should enter username"];
 

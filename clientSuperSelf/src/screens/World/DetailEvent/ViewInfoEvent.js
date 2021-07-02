@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import { View, Image } from "react-native";
 import styles from "../styles";
 import COLOR from "../../../constants/colors";
@@ -12,9 +12,36 @@ import { useUser } from "../../../context/UserContext";
 import { width } from "../../../constants/dimensions";
 
 import ProgressBar from "./ProgressBar";
+import {
+  countDaysBetweenDatesIncludingToday,
+  dateCompare,
+  getDateNoTime,
+} from "../../../utils/datetime";
 
 function ViewInfoEvent({ navigation, item, personalHabit }) {
   const user = useUser();
+
+  const progressDaysEvent = useMemo(() => {
+    if (
+      dateCompare(item.eventInfo.dateStart, getDateNoTime(new Date())) === 1
+    ) {
+      return 0;
+    }
+    const totalDays = countDaysBetweenDatesIncludingToday(
+      item.eventInfo.dateStart,
+      item.eventInfo.dateEnd
+    );
+    const days = countDaysBetweenDatesIncludingToday(
+      item.eventInfo.dateStart,
+      getDateNoTime(new Date())
+    );
+    let result = Math.floor((days / totalDays) * 100);
+
+    if (result > 100) {
+      result = 100;
+    }
+    return result;
+  }, []);
 
   return (
     <View style={{ padding: 8, justifyContent: "flex-start" }}>
@@ -92,7 +119,7 @@ function ViewInfoEvent({ navigation, item, personalHabit }) {
           : "Join the event to reach the goal of a better self and show everyone who you are"}
       </MyText>
       {/* TODO: bind progress of self during event */}
-      <ProgressBar percent={0} />
+      <ProgressBar percent={progressDaysEvent} />
       <MyButton
         onPress={() => {
           navigation.navigate("Ranking", { item: item });

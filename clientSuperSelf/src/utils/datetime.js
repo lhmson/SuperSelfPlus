@@ -57,3 +57,11 @@ export function isToday(date) {
     dateCompare(getDateNoTime(new Date(date)), getDateNoTime(new Date())) === 0
   );
 }
+
+export const countDaysBetweenDatesIncludingToday = (dateA, dateB) => {
+  const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
+  const firstDate = new Date(dateA);
+  const secondDate = new Date(dateB);
+
+  return Math.round(Math.abs((firstDate - secondDate) / oneDay)) + 1;
+};

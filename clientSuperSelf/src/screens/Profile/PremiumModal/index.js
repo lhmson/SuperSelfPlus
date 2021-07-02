@@ -13,12 +13,14 @@ import { height, width } from "../../../constants/dimensions";
 import Modal from "react-native-modal";
 import * as apiUser from "../../../api/user";
 
-function PremiumModal({ isVisible, setIsVisible }) {
+function PremiumModal({ isVisible, setIsVisible, description }) {
   const user = useUser();
 
   useEffect(() => {}, []);
 
   const BillButtons = () => {
+    const paySalesPerMonth = 5;
+    const payPerMonth = 6;
     return (
       <View style={{ marginTop: 20, width: "100%" }}>
         <View
@@ -48,10 +50,10 @@ function PremiumModal({ isVisible, setIsVisible }) {
             }}
           >
             <MyText size5 b5 color="white">
-              $4.99
+              ${paySalesPerMonth - 0.01}
             </MyText>
             <MyText size6 b3 color="white">
-              $4.99/month, billed yearly $60
+              Billed yearly ${paySalesPerMonth * 12}
             </MyText>
 
             <View
@@ -61,14 +63,18 @@ function PremiumModal({ isVisible, setIsVisible }) {
                 right: 8,
                 width: 120,
                 height: 40,
-                backgroundColor: COLOR.lightGreen,
+                backgroundColor: COLOR.orange,
                 borderRadius: 30,
                 justifyContent: "center",
                 alignItems: "center",
               }}
             >
               <MyText size6 b3 color="white">
-                SAVE 30%
+                SAVE{" "}
+                {((payPerMonth * 12 - paySalesPerMonth * 12) /
+                  (paySalesPerMonth * 12)) *
+                  100}
+                %
               </MyText>
             </View>
           </View>
@@ -99,10 +105,10 @@ function PremiumModal({ isVisible, setIsVisible }) {
             }}
           >
             <MyText size5 b5>
-              $5.99
+              ${payPerMonth - 0.01}
             </MyText>
             <MyText size6 b3>
-              Billed monthly $5.99
+              Billed yearly ${payPerMonth * 12}
             </MyText>
           </View>
         </View>
@@ -178,11 +184,9 @@ function PremiumModal({ isVisible, setIsVisible }) {
           <MyText size4 b5>
             Get unlimited feature
           </MyText>
-          <MyText size6 b2i color="grey">
-            When you upgrade your membership in our app,
-          </MyText>
-          <MyText size6 b2i color="grey">
-            you will get more amazing features!
+          <MyText center size6 b2i color="grey">
+            {description ??
+              "When you upgrade your membership in our app, you will get more amazing features!"}
           </MyText>
         </View>
         <BillButtons></BillButtons>

@@ -111,7 +111,7 @@ function EventCard({ item, navigation }) {
           ) === 1 && (
             <MyButton style={{ width: 120, height: 30 }}>
               <MyText size6 color={COLOR.white} b6>
-                COMING SOON
+                COMING
               </MyText>
             </MyButton>
           )}

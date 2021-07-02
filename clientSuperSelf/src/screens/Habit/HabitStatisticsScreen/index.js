@@ -20,6 +20,7 @@ import CalendarHabit from "./CalendarHabit";
 import StreakCard from "./StreakCard";
 import BarChartCard from "./BarChartCard";
 import LineChartCard from "./LineChartCard";
+import PremiumModal from "../../../screens/Profile/PremiumModal";
 import { shareHabit } from "../../../utils/share";
 
 const HabitStatisticsScreen = ({ navigation, route }) => {
@@ -32,6 +33,8 @@ const HabitStatisticsScreen = ({ navigation, route }) => {
   const [listProgress, setListProgress] = useState([]);
   const [completedItems, setCompletedItems] = useState([]);
   const [streak, setStreak] = useState();
+
+  const [isModalPremium, setIsModalPremium] = useState(false);
 
   const [isActionButton, setIsActionButton] = useState(false);
 
@@ -111,6 +114,14 @@ const HabitStatisticsScreen = ({ navigation, route }) => {
         setLoading(false);
       });
   }, []);
+
+  useEffect(() => {
+    console.log(numberOfDates);
+    //TODO: premium after end habits
+    if (numberOfDates > 21) {
+      setIsModalPremium(true);
+    }
+  }, [numberOfDates]);
 
   const handleShareHabit = () => {
     // handle share
@@ -195,6 +206,13 @@ const HabitStatisticsScreen = ({ navigation, route }) => {
           </MyFloatingButton>
         </>
       )}
+      <PremiumModal
+        isVisible={isModalPremium}
+        setIsVisible={setIsModalPremium}
+        description={
+          "Your habits has gone through 21 days, the smallest duration to train good deeds, according to research. If you wanna keep company with us on this one, subscribe to an upgrade"
+        }
+      />
     </View>
   );
 };
