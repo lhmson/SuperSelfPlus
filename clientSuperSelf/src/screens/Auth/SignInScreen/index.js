@@ -44,7 +44,6 @@ function SignInScreen({ navigation }) {
       .then(async (res) => {
         const signedUser = res.data.result;
         const token = res.data.token;
-        //TODO: set only for userid
         updateUser({
           username: signedUser.username,
           email,

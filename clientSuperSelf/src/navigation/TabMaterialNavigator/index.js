@@ -7,7 +7,7 @@ import TestComponentScreen from "../../screens/Test/TestComponentScreen";
 import FONT from "../../constants/font";
 import ChartRunningScreen from "../../screens/Running/ChartRunningScreen/index";
 import TestCalendarScreen from "../../screens/Test/TestCalendar";
-import TestClockScreen from "../../screens/Test/TestClockCountDown/index";
+import CountDownScreen from "../../screens/Utils/CountDownScreen.js";
 const Tab = createMaterialBottomTabNavigator();
 
 function TabMaterialNavigator() {
@@ -18,7 +18,7 @@ function TabMaterialNavigator() {
       <Tab.Screen name="Test text" component={TestTextScreen} />
       <Tab.Screen name="Test chart" component={ChartRunningScreen} />
       <Tab.Screen name="Test calendar" component={TestCalendarScreen} />
-      <Tab.Screen name="Test clock" component={TestClockScreen} />
+      {/* <Tab.Screen name="Test clock" component={CountDownScreen} /> */}
     </Tab.Navigator>
   );
 }

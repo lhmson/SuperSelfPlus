@@ -131,4 +131,40 @@ export const getUser = async (req, res) => {
   }
 };
 
-export const editMyProfile = async (req, res) => {};
+export const editMyProfile = async (req, res) => {
+  const { userId } = req;
+  const sentInfo = req.body;
+  const { username, avatarUrl, userInfo } = sentInfo;
+  try {
+    if (!sentInfo)
+      return res
+        .status(httpStatusCodes.badContent)
+        .send(`Update info is required`);
+
+    const foundUser = await User.findById(userId);
+
+    if (!foundUser)
+      return res
+        .status(httpStatusCodes.notFound)
+        .send(`Cannot find user with id: ${userId}`);
+
+    const updatedUser = {
+      ...foundUser.toObject(),
+      username,
+      avatarUrl,
+      userInfo,
+      _id: userId,
+    };
+
+    console.log("update user", updatedUser);
+
+    await User.findByIdAndUpdate(userId, updatedUser, {
+      new: true,
+    });
+    return res.status(httpStatusCodes.ok).json(updatedUser);
+  } catch (error) {
+    return res
+      .status(httpStatusCodes.internalServerError)
+      .json({ message: error.message });
+  }
+};

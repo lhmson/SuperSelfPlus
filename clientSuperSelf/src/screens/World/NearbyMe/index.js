@@ -30,7 +30,7 @@ const NearbyMeScreen = ({ navigation }) => {
       });
     })();
   }, []);
-  console.log("refresh");
+  // console.log("refresh");
   useEffect(() => {
     (async () => {
       apiTinder

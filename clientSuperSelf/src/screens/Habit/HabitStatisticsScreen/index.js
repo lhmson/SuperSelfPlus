@@ -1,36 +1,26 @@
 import React, { useEffect, useRef, useState, useMemo } from "react";
-import { View, ScrollView, Image } from "react-native";
+import { View, ScrollView, Alert, Image } from "react-native";
 import styled from "styled-components";
 import styles from "../styles";
 import COLOR from "../../../constants/colors";
 import ICON from "../../../constants/icon";
 import moment from "moment";
-import { Entypo } from "@expo/vector-icons";
-import { Calendar } from "react-native-calendars";
-import {
-  VictoryChart,
-  VictoryLine,
-  VictoryBar,
-  VictoryTheme,
-} from "victory-native";
+import { Entypo, AntDesign } from "@expo/vector-icons";
 
-import MyText from "../../../components/MyText";
-import MyCard from "../../../components/MyCard";
+import MyButton from "../../../components/MyButton";
 import SkeletonSample from "../../../components/SkeletonSample";
 import MyFloatingButton from "../../../components/MyFloatingButton";
-import MyButton from "../../../components/MyButton";
-
-import { width } from "../../../constants/dimensions";
 
 import { useUser } from "../../../context/UserContext";
 import * as apiHabit from "../../../api/habit";
+
 import { dateCompare, getDateNoTime } from "../../../utils/datetime";
 import HeaderInfo from "./HeaderInfo";
 import CalendarHabit from "./CalendarHabit";
 import StreakCard from "./StreakCard";
-import { renderColor } from "../../../utils/habitThemes";
-
-const _marginText = 8;
+import BarChartCard from "./BarChartCard";
+import LineChartCard from "./LineChartCard";
+import { shareHabit } from "../../../utils/share";
 
 const HabitStatisticsScreen = ({ navigation, route }) => {
   const { item } = route.params;
@@ -42,6 +32,8 @@ const HabitStatisticsScreen = ({ navigation, route }) => {
   const [listProgress, setListProgress] = useState([]);
   const [completedItems, setCompletedItems] = useState([]);
   const [streak, setStreak] = useState();
+
+  const [isActionButton, setIsActionButton] = useState(false);
 
   const allDates = useMemo(
     () => listProgress.map((item) => getDateNoTime(item.date)),
@@ -55,7 +47,7 @@ const HabitStatisticsScreen = ({ navigation, route }) => {
 
   const progressDaysObj = useMemo(
     () => ({
-      // //TODO: maybe do not have to add this
+      // maybe do not have to add this
       // [allDates[0]]: {
       //   startingDay: true,
       //   color: COLOR.yellow,
@@ -120,90 +112,34 @@ const HabitStatisticsScreen = ({ navigation, route }) => {
       });
   }, []);
 
-  //#region
-
-  const BarChartCard = () => {
-    if (!item.habitId.target) {
-      return <View></View>;
-    }
-
-    return (
-      <View style={{ padding: 16 }}>
-        <MyCard>
-          <View style={{ position: "absolute", top: 10, left: 30 }}>
-            <MyText size5>{item.habitId.target?.targetUnit ?? "units"}</MyText>
-          </View>
-          <ScrollView horizontal>
-            <VictoryChart
-              width={width * 0.85}
-              domainPadding={{ x: 20 }}
-              maxDomain={{ y: item.habitId.target?.targetNumber }}
-              theme={VictoryTheme.material}
-            >
-              <VictoryBar
-                animate={{
-                  duration: 2000,
-                  onLoad: { duration: 5000 },
-                }}
-                barWidth={10}
-                barRatio={0.5}
-                style={{
-                  data: {
-                    fill:
-                      renderColor(item.habitId.theme) === COLOR.white
-                        ? COLOR.green
-                        : renderColor(item.habitId.theme),
-                  },
-                }}
-                data={chartProgressData}
-              />
-            </VictoryChart>
-          </ScrollView>
-          <View style={{ position: "absolute", bottom: 10, right: 30 }}>
-            <MyText size5>day</MyText>
-          </View>
-        </MyCard>
-      </View>
+  const handleShareHabit = () => {
+    // handle share
+    Alert.alert(
+      "Do you want to share it with the world?",
+      `According to research, this may help you become more motivated to achieve the goal 🏆`,
+      [
+        {
+          text: "No, thank you",
+          onPress: () => {
+            return;
+          },
+          style: "cancel",
+        },
+        {
+          text: "Yes, I wanna let everyone know",
+          onPress: () => {
+            shareHabit(item);
+          },
+        },
+      ],
+      { cancelable: false }
     );
   };
 
-  const LineChartCard = () => {
-    return (
-      <View style={{ padding: 16 }}>
-        <MyCard>
-          <View style={{ position: "absolute", top: 10, left: 30 }}>
-            <MyText size5>streak</MyText>
-          </View>
-          <ScrollView horizontal>
-            <VictoryChart
-              width={width * 0.85}
-              // domainPadding={{ x: 20 }}
-              minDomain={{ x: 0, y: 0 }}
-              maxDomain={{ x: numberOfDates + 1, y: streak?.longestStreak + 1 }}
-              theme={VictoryTheme.material}
-            >
-              <VictoryLine
-                animate={{
-                  duration: 2000,
-                  onLoad: { duration: 5000 },
-                }}
-                interpolation="natural"
-                style={{
-                  data: { stroke: COLOR.green },
-                  parent: { border: "3px solid #000" },
-                }}
-                data={chartStreakData}
-              />
-            </VictoryChart>
-          </ScrollView>
-          <View style={{ position: "absolute", bottom: 10, right: 30 }}>
-            <MyText size5>day</MyText>
-          </View>
-        </MyCard>
-      </View>
-    );
+  const handleUtils = () => {
+    navigation.navigate("");
   };
-  //#endregion
+
   return (
     <View style={{ flex: 1 }}>
       {loading ? (
@@ -222,17 +158,40 @@ const HabitStatisticsScreen = ({ navigation, route }) => {
               />
               <CalendarHabit item={item} progressDaysObj={progressDaysObj} />
               <StreakCard streak={streak} />
-              <BarChartCard></BarChartCard>
-              <LineChartCard></LineChartCard>
+              <BarChartCard item={item} chartProgressData={chartProgressData} />
+              <LineChartCard
+                numberOfDates={numberOfDates}
+                streak={streak}
+                chartStreakData={chartStreakData}
+              />
             </View>
           </ScrollView>
           {/* action button */}
           <MyFloatingButton
-            // active={isActiveFloatingButton}
             position="bottomRight"
             onPress={() => navigation.navigate("Edit Habit", { item: item })}
           >
             <Entypo name="edit" size={24} color={COLOR.white} />
+          </MyFloatingButton>
+          <MyFloatingButton position="bottomLeft" onPress={handleShareHabit}>
+            <Entypo name="share" size={24} color={COLOR.white} />
+          </MyFloatingButton>
+
+          <MyFloatingButton
+            active={isActionButton}
+            onPress={() => {
+              setIsActionButton((prev) => !prev);
+            }}
+            position="topRight"
+            direction="down"
+          >
+            <Entypo name="tools" size={24} color={COLOR.white} />
+            <MyButton
+              onPress={() => navigation.navigate("Countdown", { item: item })}
+              style={{ backgroundColor: COLOR.red }}
+            >
+              <AntDesign name="clockcircle" size={24} color={COLOR.white} />
+            </MyButton>
           </MyFloatingButton>
         </>
       )}

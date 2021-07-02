@@ -249,6 +249,10 @@ const AddHabitScreen = ({ navigation, route }) => {
       return;
     }
 
+    if (loading) {
+      return;
+    }
+
     setError("");
 
     let target;
@@ -262,7 +266,7 @@ const AddHabitScreen = ({ navigation, route }) => {
     let eventInfo;
     if (isSetEvent) {
       if (dateCompare(eventStartDate, eventEndDate) === 1) {
-        alert("Event start date cannot be later than its nd date");
+        alert("Event start date cannot be later than its finish date");
         return;
       }
       //TODO: get img background for event

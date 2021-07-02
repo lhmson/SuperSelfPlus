@@ -13,13 +13,16 @@ import ICON from "../../../constants/icon";
 import { View } from "react-native";
 import MyChart from "../../Profile/ProfileScreen/MyChart";
 import MyText from "../../../components/MyText";
-import ModalTinderMine from "./modalTinderMine";
+import { useUser } from "../../../context/UserContext";
+import ProfileModal from "../../Profile/ProfileModal";
 const Pulse = require("react-native-pulse").default;
 //#region  global
 const WIDTH = Dimensions.get("window").width;
 
 const MapTinder = ({ userLocation, listTinders }) => {
   const [isOpenTinderMine, setIsOpenTinderMine] = useState(true);
+  const user = useUser();
+  const idUser = user.state.uid;
   // const arrUsers = [
   //   {
   //     latitude: 13.0825967,
@@ -107,19 +110,23 @@ const MapTinder = ({ userLocation, listTinders }) => {
                   longitude: user.longitude,
                 }}
                 key={index.toString()}
-                icon={{ uri: user.avatarUrl }}
+                icon={
+                  idUser === user.userId
+                    ? require("../../../utils/resources/superself-icon.png")
+                    : require("../../../utils/resources/people.png")
+                }
                 title={user.name}
-                description={user.description.substring(0, 20)}
+                description={user.hashtag.substring(0, 20)}
               >
                 {/* <CardUserTinder user={user}></CardUserTinder> */}
               </Marker>
             ))
           : null}
       </MapView>
-      <ModalTinderMine
-        isOpenTinderMine={isOpenTinderMine}
-        setIsOpenTinderMine={setIsOpenTinderMine}
-      ></ModalTinderMine>
+      <ProfileModal
+        isVisible={isOpenTinderMine}
+        setIsVisible={setIsOpenTinderMine}
+      ></ProfileModal>
     </View>
   );
 };

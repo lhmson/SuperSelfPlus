@@ -147,7 +147,6 @@ function SignUpScreen({ navigation }) {
         //Create tider location
         createTinder(signedUser._id);
 
-        //TODO: set only for userid
         updateUser({
           username,
           email,

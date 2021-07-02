@@ -12,34 +12,6 @@ import MyCard from "../../../components/MyCard";
 import { width } from "../../../constants/dimensions";
 
 function InfoCard({ navigation, username, userInfo, role, description }) {
-  const _WidthCard = (width - 170) / 3;
-  const CardInfo = ({ title, number, unit }) => {
-    return (
-      <MyCard>
-        <View
-          style={{
-            flexDirection: "column",
-            width: _WidthCard,
-            justifyContent: "center",
-            alignItems: "center",
-            margin: -6,
-          }}
-        >
-          <MyText size5 b7 color={COLOR.green}>
-            {title}
-          </MyText>
-          <View style={{ flexDirection: "row", alignItems: "flex-end" }}>
-            <MyText size4 b5>
-              {number}
-            </MyText>
-            <MyText size5 color="grey">
-              {unit}
-            </MyText>
-          </View>
-        </View>
-      </MyCard>
-    );
-  };
   return (
     <View
       style={{

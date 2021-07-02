@@ -3,7 +3,7 @@ import { View, ScrollView, FlatList } from "react-native";
 import styles from "../styles";
 import styled from "styled-components";
 import { useIsFocused } from "@react-navigation/native";
-import { Entypo } from "@expo/vector-icons";
+import { FontAwesome5 } from "@expo/vector-icons";
 import COLOR from "../../../constants/colors";
 import { width } from "../../../constants/dimensions";
 import moment, { ISO_8601 } from "moment";
@@ -129,77 +129,73 @@ function EventScreen({ navigation }) {
     );
   };
 
-  const FloatButton = () => {
-    const [isActiveFloatingButton, setIsActiveFloatingButton] = useState(false);
-    return (
-      <MyButton
-        onPress={() => {
-          navigation.navigate("Nearby Me");
-        }}
-      >
-        <MyText>Nearby me</MyText>
-      </MyButton>
-    );
-  };
+  // const FloatButton = () => {
+  //   const [isActiveFloatingButton, setIsActiveFloatingButton] = useState(false);
+  //   return (
+  //     <MyButton
+  //       onPress={() => {
+  //         navigation.navigate("Nearby Me");
+  //       }}
+  //     >
+  //       <MyText>Nearby me</MyText>
+  //     </MyButton>
+  //   );
+  // };
   return (
-    <View style={styles.container}>
-      <HeaderButton />
-      <View
-        style={{
-          flex: 1,
-          marginTop: 16,
-          width: width,
-          alignItems: "center",
-          justifyContent: "center",
-          elevation: 40,
-          zIndex: 0,
-        }}
-      >
-        {/* <ScrollView
+    <>
+      <View style={styles.container}>
+        <HeaderButton />
+        <View
+          style={{
+            flex: 1,
+            marginTop: 16,
+            width: width,
+            alignItems: "center",
+            justifyContent: "center",
+            elevation: 40,
+            zIndex: 0,
+          }}
+        >
+          {/* <ScrollView
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{
             justifyContent: "center",
             alignItems: "center",
           }}
         > */}
-        <View>
-          {loading ? (
-            <SkeletonSample />
-          ) : (
-            <>
-              <FlatList
-                style={{ zIndex: 1 }}
-                data={selectMenu === 1 ? listEvents : filterItems}
-                renderItem={renderHabit}
-                keyExtractor={(item, index) => index.toString()}
-                removeClippedSubviews={true} // Unmount components when outside of window
-                initialNumToRender={2} // Reduce initial render amount
-                maxToRenderPerBatch={1} // Reduce number in each render batch
-                updateCellsBatchingPeriod={1200} // Increase time between renders
-                windowSize={7} // Reduce the window size
-                ListFooterComponent={() => (
-                  <FooterList title={"Get your dream come true"} />
-                )}
-                showsVerticalScrollIndicator={false}
-              />
-            </>
-          )}
+          <View>
+            {loading ? (
+              <SkeletonSample />
+            ) : (
+              <>
+                <FlatList
+                  style={{ zIndex: 1 }}
+                  data={selectMenu === 1 ? listEvents : filterItems}
+                  renderItem={renderHabit}
+                  keyExtractor={(item, index) => index.toString()}
+                  removeClippedSubviews={true} // Unmount components when outside of window
+                  initialNumToRender={2} // Reduce initial render amount
+                  maxToRenderPerBatch={1} // Reduce number in each render batch
+                  updateCellsBatchingPeriod={1200} // Increase time between renders
+                  windowSize={7} // Reduce the window size
+                  ListFooterComponent={() => (
+                    <FooterList title={"Get your dream come true"} />
+                  )}
+                  showsVerticalScrollIndicator={false}
+                />
+              </>
+            )}
+          </View>
         </View>
-
-        {/* <View
-            style={{
-              height: 50,
-              alignItems: "center",
-              marginTop: 50,
-              width: width - 32,
-            }}
-          >
-            <MyText>searching...</MyText>
-          </View> */}
-        {/* </ScrollView> */}
       </View>
-      <FloatButton></FloatButton>
-    </View>
+      <MyFloatingButton
+        // active={isActiveFloatingButton}
+        position="bottomRight"
+        onPress={() => navigation.navigate("Nearby Me")}
+      >
+        <FontAwesome5 name="map-marker-alt" size={24} color={COLOR.white} />
+      </MyFloatingButton>
+    </>
   );
 }
 

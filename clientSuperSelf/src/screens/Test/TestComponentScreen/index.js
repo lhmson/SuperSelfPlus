@@ -25,6 +25,7 @@ import BottomSheet from "reanimated-bottom-sheet";
 import MyFloatingButton from "../../../components/MyFloatingButton";
 
 import { useUser } from "../../../context/UserContext";
+import { logoUrl } from "../../../utils/logo";
 
 function TestComponentScreen() {
   const user = useUser();
@@ -91,7 +92,7 @@ function TestComponentScreen() {
               } \n ${user.state.username
                 .substring(0, 200)
                 .replace(/  /g, "\n\n")} More ${user.state.username}`,
-              url: "https://firebasestorage.googleapis.com/v0/b/superselftest-d1ccf.appspot.com/o/defaultimg%2Fsuperself-icon.png?alt=media&token=3fceeba3-cdb8-4547-9cd9-d038fde6fdf1",
+              url: logoUrl,
             },
             android: {
               message:
@@ -100,7 +101,7 @@ function TestComponentScreen() {
                 } \n ${user.state.username
                   .substring(0, 200)
                   .replace(/  /g, "\n\n")} More ${user.state.username} ` +
-                "https://firebasestorage.googleapis.com/v0/b/superselftest-d1ccf.appspot.com/o/defaultimg%2Fsuperself-icon.png?alt=media&token=3fceeba3-cdb8-4547-9cd9-d038fde6fdf1",
+                logoUrl,
             },
           }),
           title: "Post: " + user.state.username,

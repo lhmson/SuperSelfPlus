@@ -24,7 +24,7 @@ import { useUser } from "../../../context/UserContext";
 import * as apiHabit from "../../../api/habit";
 import * as apiEvent from "../../../api/event";
 import { width } from "../../../constants/dimensions";
-import { dateCompare } from "../../../utils/datetime";
+import { dateCompare, getDateNoTime } from "../../../utils/datetime";
 
 function EventCard({ item, navigation }) {
   const user = useUser();
@@ -95,16 +95,29 @@ function EventCard({ item, navigation }) {
           }}
           borderRadius={30}
         >
-          {dateCompare(item.eventInfo.dateStart, new Date()) === 1 && (
+          {dateCompare(
+            getDateNoTime(item.eventInfo.dateEnd),
+            getDateNoTime(new Date())
+          ) === -1 && (
+            <MyButton color={COLOR.blue} style={{ width: 120, height: 30 }}>
+              <MyText size6 color={COLOR.white} b6>
+                FINISHED
+              </MyText>
+            </MyButton>
+          )}
+          {dateCompare(
+            getDateNoTime(item.eventInfo.dateStart),
+            getDateNoTime(new Date())
+          ) === 1 && (
             <MyButton style={{ width: 120, height: 30 }}>
-              <MyText size6 color={COLOR.white}>
+              <MyText size6 color={COLOR.white} b6>
                 COMING SOON
               </MyText>
             </MyButton>
           )}
           {item.eventInfo.listJoiners.indexOf(user.state.uid) !== -1 && (
             <MyButton color={COLOR.yellow} style={{ width: 120, height: 30 }}>
-              <MyText size6 b6>
+              <MyText size6 color={COLOR.white} b6>
                 SIGNED UP
               </MyText>
             </MyButton>
@@ -255,7 +268,7 @@ function EventCard({ item, navigation }) {
             }}
           >
             <MyText color={COLOR.white} b5>
-              Visit
+              Visit progress
             </MyText>
           </MyButton>
         )}

@@ -14,18 +14,17 @@ import SkeletonSample from "../../../components/SkeletonSample";
 import MyFloatingButton from "../../../components/MyFloatingButton";
 
 import { Entypo } from "@expo/vector-icons";
-import { width } from "../../../constants/dimensions";
+import { height, width } from "../../../constants/dimensions";
 import Avatar from "./Avatar";
 import InfoCard from "./InfoCard";
 import BackgroundCardInfo from "./BackgroundCardInfo";
 import Background from "./Background";
 import MyBadges from "./MyBadges";
 import MyChart from "./MyChart";
-import LogoutBtn from "./LogoutBtn";
-
+import Modal from "react-native-modal";
 import * as apiUser from "../../../api/user";
 
-function ProfileScreen({ navigation, route }) {
+function ProfileModal({ navigation, route, isVisible, setIsVisible }) {
   const item = route?.params?.item;
   const user = useUser();
 
@@ -67,14 +66,15 @@ function ProfileScreen({ navigation, route }) {
       <View>
         <View
           style={{
-            width: width,
+            width: "98%",
             padding: 16,
             backgroundColor: "white",
-            borderRadius: 32,
+            borderRadius: 40,
             elevation: 20,
             marginTop: 72,
             marginBottom: 48,
             flex: 1,
+            alignSelf: "center",
           }}
         >
           <Avatar avatarUrl={specifiedUser.avatarUrl} />
@@ -84,11 +84,11 @@ function ProfileScreen({ navigation, route }) {
             role={specifiedUser.role}
             description={specifiedUser.userInfo?.description}
           />
+          <View style={{ height: 100 }}></View>
           <MyBadges />
           <MyChart
             numberOfHabitsByThemes={specifiedUser.numberOfHabitsByThemes}
           />
-          <LogoutBtn />
           <View style={{ height: 48 }}></View>
         </View>
       </View>
@@ -96,29 +96,35 @@ function ProfileScreen({ navigation, route }) {
   };
   return (
     <>
-      {loading ? (
-        <SkeletonSample />
-      ) : (
-        <>
-          <ScrollView style={styles.container}>
-            <Background />
-            <CardProfile></CardProfile>
-          </ScrollView>
-          <MyFloatingButton
-            // active={isActiveFloatingButton}
-            position="topRight"
-            onPress={() =>
-              navigation.navigate("Edit User", {
-                item: specifiedUser,
-              })
-            }
-          >
-            <Entypo name="edit" size={24} color={COLOR.white} />
-          </MyFloatingButton>
-        </>
-      )}
+      <Modal
+        isVisible={isVisible}
+        style={{
+          alignSelf: "center",
+          backgroundColor: "transparent",
+        }}
+      >
+        <View
+          style={{
+            borderRadius: 40,
+            height: 600,
+            backgroundColor: "white",
+            padding: 16,
+          }}
+        >
+          {loading ? (
+            <SkeletonSample />
+          ) : (
+            <>
+              <ScrollView style={styles.container}>
+                <Background />
+                <CardProfile></CardProfile>
+              </ScrollView>
+            </>
+          )}
+        </View>
+      </Modal>
     </>
   );
 }
 
-export default ProfileScreen;
+export default ProfileModal;

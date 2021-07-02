@@ -94,7 +94,7 @@ const HabitsScreen = ({ navigation }) => {
           // console.log(res.data);
           setListHabits(res.data);
 
-          //TODO: set number todo for badge at home
+          // set number todo for badge at home
           if (isToday(selectDate)) {
             const todos = res.data.filter((item) => !item.completed);
             updateNumberTodos(todos.length);

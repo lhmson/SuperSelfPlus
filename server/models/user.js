@@ -5,6 +5,7 @@ import { userSettingAppSchema } from "./userSettingApp.js";
 import { historyRunSchema } from "./historyRun.js";
 import { historyRunItemSchema } from "./historyRunItem.js";
 import { userInfoSchema } from "./userInfo.js";
+import { logoUrl } from "../utils/logo.js";
 
 const userSchema = mongoose.Schema(
   {
@@ -24,8 +25,7 @@ const userSchema = mongoose.Schema(
     },
     avatarUrl: {
       type: String,
-      default:
-        "https://firebasestorage.googleapis.com/v0/b/superselftest-d1ccf.appspot.com/o/defaultimg%2Fsuperself-icon.png?alt=media&token=3fceeba3-cdb8-4547-9cd9-d038fde6fdf1",
+      default: logoUrl,
     },
     // newUser: {
     //   // define new user for guide, badge

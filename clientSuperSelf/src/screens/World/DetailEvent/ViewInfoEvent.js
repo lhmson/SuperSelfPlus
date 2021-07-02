@@ -1,16 +1,6 @@
-import React, { useEffect, useRef, useState, useMemo } from "react";
-import {
-  View,
-  ScrollView,
-  FlatList,
-  Dimensions,
-  Image,
-  ImageBackground,
-} from "react-native";
+import React, { useEffect } from "react";
+import { View, Image } from "react-native";
 import styles from "../styles";
-import styled from "styled-components";
-import { useIsFocused } from "@react-navigation/native";
-import { Entypo } from "@expo/vector-icons";
 import COLOR from "../../../constants/colors";
 import moment, { ISO_8601 } from "moment";
 
@@ -19,15 +9,11 @@ import MyButton from "../../../components/MyButton";
 import MyCard from "../../../components/MyCard";
 
 import { useUser } from "../../../context/UserContext";
-import ICON from "../../../constants/icon";
-import ICONWORLD from "../../../constants/imageWorld";
-import Timeline from "react-native-timeline-flatlist";
 import { width } from "../../../constants/dimensions";
-import { dateCompare } from "../../../utils/datetime";
-import TimeLineGifts from "./TimeLineGifts";
+
 import ProgressBar from "./ProgressBar";
 
-function ViewInfoEvent({ navigation, item }) {
+function ViewInfoEvent({ navigation, item, personalHabit }) {
   const user = useUser();
 
   return (
@@ -72,7 +58,7 @@ function ViewInfoEvent({ navigation, item }) {
             marginRight: 8,
             marginLeft: 32,
           }}
-        ></Image>
+        />
         <MyText size5>{item.eventInfo.listJoiners.length}</MyText>
       </View>
       <View
@@ -93,10 +79,12 @@ function ViewInfoEvent({ navigation, item }) {
             marginRight: 8,
           }}
         />
-        <MyText size5>
-          {item.eventInfo.achievement ??
-            `Best ${item.title.toUpperCase()} prize`}
-        </MyText>
+        <View style={{ width: width * 0.8 }}>
+          <MyText size5>
+            {item.eventInfo.achievement ??
+              `Best ${item.title.toUpperCase()} prize`}
+          </MyText>
+        </View>
       </View>
       <MyText left size5 style={{ padding: 8 }}>
         {item.description
@@ -106,14 +94,30 @@ function ViewInfoEvent({ navigation, item }) {
       {/* TODO: bind progress of self during event */}
       <ProgressBar percent={0} />
       <MyButton
-        color={COLOR.green}
         onPress={() => {
           navigation.navigate("Rank Event", { item: "" });
         }}
       >
-        <MyText>Go to Ranking</MyText>
+        <MyText color={COLOR.white}>Go to Ranking</MyText>
       </MyButton>
-      {/* <TimeLineGifts /> */}
+      {item.eventInfo.listJoiners.indexOf(user.state.uid) === -1 ? (
+        <MyButton color={COLOR.lightGreen} onPress={() => {}}>
+          <MyText color={COLOR.white} b5>
+            Join
+          </MyText>
+        </MyButton>
+      ) : (
+        <MyButton
+          color={COLOR.lightGreen}
+          onPress={() => {
+            navigation.navigate("Habit Stats", { item: personalHabit });
+          }}
+        >
+          <MyText color={COLOR.white} b5>
+            Visit my progress
+          </MyText>
+        </MyButton>
+      )}
     </View>
   );
 }
