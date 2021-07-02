@@ -95,7 +95,7 @@ function ViewInfoEvent({ navigation, item, personalHabit }) {
       <ProgressBar percent={0} />
       <MyButton
         onPress={() => {
-          navigation.navigate("Rank Event", { item: "" });
+          navigation.navigate("Ranking", { item: item });
         }}
       >
         <MyText b5 color={COLOR.white}>

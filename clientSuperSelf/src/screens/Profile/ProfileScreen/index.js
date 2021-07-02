@@ -84,10 +84,11 @@ function ProfileScreen({ navigation, route }) {
             role={specifiedUser?.role}
             description={specifiedUser?.userInfo?.description}
           />
-          <MyBadges />
+
           <MyChart
             numberOfHabitsByThemes={specifiedUser?.numberOfHabitsByThemes}
           />
+          <MyBadges />
           <LogoutBtn />
           <View style={{ height: 48 }}></View>
         </View>

@@ -106,9 +106,23 @@ export const getScoreOfMyHabit = async (personalHabitId) => {
       date: -1,
     });
 
+    const personalHabit = await PersonalHabit.findOne(personalHabitId);
+    const habit = await Habit.findOne(personalHabit.habitId);
+    const kind = habit.kind;
+
     const { longestStreak, numberOfComplete } =
       countLongestStreak(historyHabits);
-    const score = longestStreak * 10 + numberOfComplete * 10;
+
+    let score = 0;
+    if (kind !== "Run") {
+      score = longestStreak * 10 + numberOfComplete * 10;
+    } else {
+      //TODO: add run
+      for (let elem of historyHabits) {
+        score += elem.progress;
+      }
+    }
+
     return score;
   } catch (error) {
     console.log("Error when get score", error);

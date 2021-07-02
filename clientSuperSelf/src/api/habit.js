@@ -1,7 +1,7 @@
 import API from "./index";
 
 export const getMyHabits = () => API.get("/habit/my/list");
-export const getUserHabits = (userId) => API.get(`/user/${userId}/list`);
+export const getUserHabits = (userId) => API.get(`habit/user/${userId}/list`);
 export const getAHabitOfMe = (habitId) => API.get(`/habit/my/${habitId}`);
 export const getMyHabitsOfDate = (dateStr) =>
   API.get(`/habit/my/list/${dateStr}`);

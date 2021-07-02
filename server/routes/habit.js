@@ -17,7 +17,7 @@ import auth from "../middleware/auth.js";
 const router = express.Router();
 
 router.get("/my/list", auth, getMyHabits);
-router.get("/:userId/list", auth, getUserHabits);
+router.get("/user/:userId/list", auth, getUserHabits);
 // router.get("/my/:personalHabitId", auth, getAHabitOfMe);
 router.get("/my/:habitId", auth, getAHabitOfMe);
 router.get("/my/list/:dateStr", auth, getMyHabitsOfDate); // used

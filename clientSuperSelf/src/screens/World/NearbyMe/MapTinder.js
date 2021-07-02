@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import MapView, { Marker, Polyline } from "react-native-maps";
-import { Dimensions, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Dimensions, StyleSheet, TouchableOpacity } from "react-native";
 import { Image } from "react-native";
 import COLOR from "../../../constants/colors";
 import ICON from "../../../constants/icon";
-import { View } from "react-native";
+import { FontAwesome, AntDesign } from "@expo/vector-icons";
 import MyChart from "../../Profile/ProfileScreen/MyChart";
 import MyText from "../../../components/MyText";
 import { useUser } from "../../../context/UserContext";
@@ -86,26 +86,15 @@ const MapTinder = ({ userLocation, listTinders }) => {
           flexDirection: "row",
         }}
       >
-        <TouchableOpacity
-          onPress={() => {
-            setIsOpenTinderMine(false);
-          }}
-          style={{ marginRight: 16 }}
-        >
-          <Image
-            source={require("../../../utils/resources/message.png")}
-            style={{ width: 30, height: 30 }}
-          ></Image>
+        <TouchableOpacity onPress={() => {}} style={{ marginRight: 16 }}>
+          <AntDesign name="message1" size={30} color={COLOR.green} />
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {
             setIsOpenTinderMine(false);
           }}
         >
-          <Image
-            source={require("../../../utils/resources/close.png")}
-            style={{ width: 30, height: 30 }}
-          ></Image>
+          <FontAwesome name="close" size={30} color={COLOR.grey} />
         </TouchableOpacity>
       </View>
     );

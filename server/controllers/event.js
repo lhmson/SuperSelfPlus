@@ -73,10 +73,9 @@ export const getHabitRanking = async (req, res) => {
     const personalHabits = await PersonalHabit.find({ habitId });
     for (let elem of personalHabits) {
       const score = await getScoreOfMyHabit(elem._id);
-      const { _id, username, listAchievements } = await User.findById(
-        elem.userId
-      );
-      const userInfo = { _id, username, listAchievements };
+      const { _id, username, listAchievements, avatarUrl } =
+        await User.findById(elem.userId);
+      const userInfo = { _id, username, listAchievements, avatarUrl };
       scores.push({ user: userInfo, score });
     }
     return res.status(httpStatusCodes.ok).json(scores);

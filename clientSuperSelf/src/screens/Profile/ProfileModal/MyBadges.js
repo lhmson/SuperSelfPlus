@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, ScrollView, Image, TouchableOpacity } from "react-native";
 
 import COLOR from "../../../constants/colors";
@@ -8,35 +8,25 @@ import MyText from "../../../components/MyText";
 import MyButton from "../../../components/MyButton";
 import MyCard from "../../../components/MyCard";
 
-import { width } from "../../../constants/dimensions";
+import * as apiHabit from "../../../api/habit";
+import { renderColor } from "../../../utils/habitThemes";
+import { limitNameLength } from "../../../utils/limitNameLength";
 
-function MyBadges({ navigation }) {
-  const dataBadges = [
-    {
-      iconBadges:
-        "https://i.pinimg.com/564x/76/5e/a5/765ea5eab7bf44f786056452838111e5.jpg",
-      title: "Nutrition Expert",
-      description: "Hit all daily Goals",
-    },
-    {
-      iconBadges:
-        "https://i.pinimg.com/564x/67/bf/2e/67bf2e2c104278d349fa88fb5ea7e9a5.jpg",
-      title: "Yoga Master",
-      description: "Completed event",
-    },
-    {
-      iconBadges:
-        "https://i.pinimg.com/564x/f9/c8/f0/f9c8f0efa8583b52484988d80a33662b.jpg",
-      title: "Walk enduring",
-      description: "Walk 20.000 a day",
-    },
-    {
-      iconBadges:
-        "https://i.pinimg.com/564x/76/5e/a5/765ea5eab7bf44f786056452838111e5.jpg",
-      title: "Nutrition Expert",
-      description: "Hit all daily Goals",
-    },
-  ];
+function MyBadges({ navigation, userId }) {
+  const [listBadges, setListBadges] = useState([]);
+
+  useEffect(() => {
+    apiHabit
+      .getUserHabits(userId)
+      .then((res) => {
+        setListBadges(res.data.slice(0, 3));
+      })
+      .catch((error) => {
+        alert("Error when getting user habits");
+        console.log("Error when get habits of user", error);
+      });
+  }, []);
+
   const CardBadge = ({ iconBadges, title, description }) => {
     return (
       <MyCard>
@@ -60,12 +50,11 @@ function MyBadges({ navigation }) {
               marginLeft: 8,
             }}
           >
-            <MyText custom1 b7>
-              {title}
+            <MyText size6 b7>
+              {limitNameLength(title, 18)}
             </MyText>
-            <MyText size6 color="grey">
-              {description}
-            </MyText>
+
+            <MyText size6>{limitNameLength(description, 18)}</MyText>
           </View>
         </View>
       </MyCard>
@@ -73,30 +62,37 @@ function MyBadges({ navigation }) {
   };
   return (
     <View>
-      <MyText b7>My badges</MyText>
-      <MyCard color={COLOR.whiteSmoke}>
-        <View
-          style={{
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          {dataBadges.map((item, index) => (
-            <CardBadge
-              key={index.toString()}
-              title={item.title}
-              description={item.description}
-              iconBadges={item.iconBadges}
-            />
-          ))}
-          <TouchableOpacity>
+      {listBadges.length !== 0 && (
+        <>
+          <MyText b7 size3>
+            My top habits
+          </MyText>
+          <MyCard color={COLOR.white}>
+            <View
+              style={{
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              {listBadges.map((item, index) => (
+                <CardBadge
+                  key={index.toString()}
+                  title={item.habitId.title}
+                  description={item.habitId.description}
+                  iconBadges={item.habitId.icon}
+                  backgroundColor={renderColor(item.habitId.theme)}
+                />
+              ))}
+              {/* <TouchableOpacity>
             <MyText color={COLOR.green} b5 size5>
               See more
             </MyText>
-          </TouchableOpacity>
-        </View>
-      </MyCard>
+          </TouchableOpacity> */}
+            </View>
+          </MyCard>
+        </>
+      )}
     </View>
   );
 }

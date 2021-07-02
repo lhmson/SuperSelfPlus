@@ -86,10 +86,10 @@ function ProfileModal({
             description={specifiedUser?.userInfo?.description}
           />
           <View style={{ height: 100 }}></View>
-          <MyBadges />
           <MyChart
             numberOfHabitsByThemes={specifiedUser?.numberOfHabitsByThemes}
           />
+          <MyBadges userId={userId} />
           <View style={{ height: 48 }}></View>
         </View>
       </View>

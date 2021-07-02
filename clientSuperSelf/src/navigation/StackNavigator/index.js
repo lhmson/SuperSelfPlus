@@ -17,7 +17,6 @@ import HabitsScreen from "../../screens/Habit/HabitsScreen";
 import DetailHabitScreen from "../../screens/Habit/DetailHabitScreen";
 import AddHabitScreen from "../../screens/Habit/AddHabitScreen";
 import MapRunningScreen from "../../screens/Running/MapRunningScreen/index";
-import RankRunningScreen from "../../screens/Running/RankRunningScreen/index";
 import RunningHomeScreen from "../../screens/Running/RunningHome/index";
 import ChartRunningScreen from "../../screens/Running/ChartRunningScreen";
 import PedometerScreen from "../../screens/Running/PedometerScreen/index";
@@ -122,7 +121,6 @@ const RunningStackNavigator = () => {
     <Stack.Navigator screenOptions={(props) => screenOptionStyle(props)}>
       <Stack.Screen name="Running Home" component={RunningHomeScreen} />
       <Stack.Screen name="Goal Running" component={MapRunningScreen} />
-      <Stack.Screen name="Rank" component={RankRunningScreen} />
       <Stack.Screen name="Run Charts" component={ChartRunningScreen} />
       <Stack.Screen name="Pedometer" component={PedometerScreen} />
     </Stack.Navigator>
@@ -134,7 +132,7 @@ const WorldStackNavigator = () => {
     <Stack.Navigator screenOptions={(props) => screenOptionStyle(props)}>
       <Stack.Screen name="Event" component={EventScreen} />
       <Stack.Screen name="Detail Event" component={DetailEventScreen} />
-      <Stack.Screen name="Rank Event" component={RankEventScreen} />
+      <Stack.Screen name="Ranking" component={RankEventScreen} />
       <Stack.Screen name="Nearby Me" component={NearbyPeopleScreen} />
     </Stack.Navigator>
   );

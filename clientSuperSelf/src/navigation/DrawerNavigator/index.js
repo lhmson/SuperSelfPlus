@@ -108,7 +108,7 @@ const DrawerNavigator = () => {
           ),
         }}
       />
-      <Drawer.Screen
+      {/* <Drawer.Screen
         name="Test"
         component={TestStackNavigator}
         options={{
@@ -120,7 +120,7 @@ const DrawerNavigator = () => {
             />
           ),
         }}
-      />
+      /> */}
     </Drawer.Navigator>
   );
 };

@@ -5,15 +5,10 @@ import COLOR from "../../../constants/colors";
 import styles from "../styles";
 
 import { useUser } from "../../../context/UserContext";
-import { useIsFocused } from "@react-navigation/native";
 
 import MyText from "../../../components/MyText";
-import MyButton from "../../../components/MyButton";
-import MyCard from "../../../components/MyCard";
-import SkeletonSample from "../../../components/SkeletonSample";
-import MyFloatingButton from "../../../components/MyFloatingButton";
 
-import { Entypo } from "@expo/vector-icons";
+import { FontAwesome } from "@expo/vector-icons";
 import { height, width } from "../../../constants/dimensions";
 import Modal from "react-native-modal";
 import * as apiUser from "../../../api/user";
@@ -198,16 +193,13 @@ function PremiumModal({ isVisible, setIsVisible }) {
   };
   const CloseButton = () => {
     return (
-      <View style={{ position: "absolute", top: 8, right: 8 }}>
+      <View style={{ position: "absolute", top: 16, right: 16 }}>
         <TouchableOpacity
           onPress={() => {
             setIsVisible(false);
           }}
         >
-          <Image
-            source={require("../../../utils/resources/close.png")}
-            style={{ width: 30, height: 30 }}
-          ></Image>
+          <FontAwesome name="close" size={24} color={COLOR.grey} />
         </TouchableOpacity>
       </View>
     );

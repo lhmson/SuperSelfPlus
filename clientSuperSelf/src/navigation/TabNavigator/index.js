@@ -56,6 +56,7 @@ const BottomTabNavigator = ({ navigation }) => {
       "Suggestion",
       "Countdown",
       "Post Story",
+      "Nearby Me",
     ]; // set name screens for tab hidden
     if (hideOnScreens.indexOf(routeName) > -1) {
       return false;

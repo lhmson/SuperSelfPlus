@@ -21,18 +21,6 @@ export const getMyHabits = async (req, res) => {
     const { userId } = req;
 
     try {
-      // const user = await User.findById(userId).populate({
-      //   path: "listPersonalHabits",
-      //   model: "PersonalHabit",
-      //   select: "reminder history joinDate isFinish score",
-      //   populate: {
-      // path: "habitId",
-      // model: "Habit",
-      // select:
-      //   "title description color kind daysToDo icon target eventInfo",
-      //   },
-      // });
-      // const habits = user.listPersonalHabits;
       const habits = await PersonalHabit.find({ userId }).populate({
         path: "habitId",
         model: "Habit",
@@ -56,18 +44,6 @@ export const getUserHabits = async (req, res) => {
   try {
     const { userId } = req.params;
     try {
-      // const user = await User.findById(userId).populate({
-      //   path: "listPersonalHabits",
-      //   model: "PersonalHabit",
-      //   select: "reminder history joinDate isFinish score",
-      //   populate: {
-      //     path: "habitId",
-      //     model: "Habit",
-      //     select:
-      //       "title description color kind daysToDo icon target eventInfo",
-      //   },
-      // });
-      // const habits = user.listPersonalHabits;
       const habits = await PersonalHabit.find({ userId }).populate({
         path: "habitId",
         model: "Habit",
