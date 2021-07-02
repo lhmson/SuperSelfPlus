@@ -280,7 +280,11 @@ function EditUserScreen({ navigation, route }) {
             value={description}
           />
 
-          <MyButton>
+          <MyButton
+            onPress={() => {
+              setIsModalPremium(true);
+            }}
+          >
             <MyText b5 color={COLOR.white}>
               Upgrade membership
             </MyText>

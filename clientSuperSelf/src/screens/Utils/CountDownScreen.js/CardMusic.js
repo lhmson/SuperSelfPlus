@@ -39,7 +39,7 @@ function CardMusic() {
         }
       );
       setSoundMusic(sound);
-      await soundMusic.playAsync();
+      await sound.playAsync();
     }
     console.log("Playing Sound");
     await Sound.playAsync();
@@ -67,6 +67,7 @@ function CardMusic() {
   }
 
   React.useEffect(() => {
+    if (!soundMusic) playSound();
     return soundMusic
       ? () => {
           console.log("Unloading Sound");
