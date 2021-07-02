@@ -138,7 +138,7 @@ const RunningHomeScreen = ({ navigation }) => {
             style={{ width: 50, height: 30, resizeMode: "center" }}
           ></Image>
           <MyText size3 b6>
-            {pedometer?.totalSteps ?? 32}
+            {pedometer?.totalSteps ?? 0}
           </MyText>
           <MyText size4 b3 color="grey">
             steps
@@ -195,7 +195,7 @@ const RunningHomeScreen = ({ navigation }) => {
               left: 35,
             }}
           ></Image>
-          <MyText>{pedometer?.totalCalo ?? 5} kcal</MyText>
+          <MyText>{pedometer?.totalCalo ?? 0} calories</MyText>
         </View>
       );
     };
@@ -231,7 +231,7 @@ const RunningHomeScreen = ({ navigation }) => {
               left: 32,
             }}
           ></Image>
-          <MyText>{pedometer?.totalDistance ?? 50} m</MyText>
+          <MyText>{pedometer?.totalDistance ?? 0} m</MyText>
         </View>
       );
     };
