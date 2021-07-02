@@ -1,5 +1,11 @@
 import React, { useEffect, useRef, useState, useMemo } from "react";
-import { View, ScrollView, FlatList, Image } from "react-native";
+import {
+  View,
+  ScrollView,
+  FlatList,
+  Image,
+  TouchableOpacity,
+} from "react-native";
 import styles from "../styles";
 import COLOR from "../../../constants/colors";
 import { width, height } from "../../../constants/dimensions";
@@ -10,10 +16,11 @@ import MyCard from "../../../components/MyCard";
 import SkeletonSample from "../../../components/SkeletonSample";
 import ICON from "../../../constants/icon";
 import { useUser } from "../../../context/UserContext";
+import ProfileModal from "../../Profile/ProfileModal";
 
 function RankEventScreen({ navigation }) {
   const user = useUser();
-
+  const [isOpenModalProfile, setIsOpenModalProfile] = useState(false);
   useEffect(() => {}, []);
   const HeaderTitle = () => {
     return (
@@ -45,40 +52,46 @@ function RankEventScreen({ navigation }) {
     if (index == 1) _iconTop = ICON.Top2;
     if (index == 2) _iconTop = ICON.Top3;
     return (
-      <MyCard color={COLOR.green}>
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <Image
-            source={{
-              uri: uri,
-            }}
+      <TouchableOpacity
+        onPress={() => {
+          setIsOpenModalProfile(true);
+        }}
+      >
+        <MyCard color={COLOR.green}>
+          <View
             style={{
-              width: 40,
-              height: 40,
-              resizeMode: "cover",
-              borderRadius: 50,
-              marginRight: 16,
+              flexDirection: "row",
+              justifyContent: "center",
+              alignItems: "center",
             }}
-          ></Image>
-          <MyText color={COLOR.white} size5 b4>{`${name}  `}</MyText>
-          <MyText color={COLOR.white} size5 b7>
-            {`${number} km`}
-          </MyText>
-        </View>
-        {index <= 2 ? (
-          <View style={{ position: "absolute", right: 8, top: 0 }}>
+          >
             <Image
-              source={_iconTop}
-              style={{ width: 30, height: 40, resizeMode: "contain" }}
+              source={{
+                uri: uri,
+              }}
+              style={{
+                width: 40,
+                height: 40,
+                resizeMode: "cover",
+                borderRadius: 50,
+                marginRight: 16,
+              }}
             ></Image>
+            <MyText color={COLOR.white} size5 b4>{`${name}  `}</MyText>
+            <MyText color={COLOR.white} size5 b7>
+              {`${number} km`}
+            </MyText>
           </View>
-        ) : null}
-      </MyCard>
+          {index <= 2 ? (
+            <View style={{ position: "absolute", right: 8, top: 0 }}>
+              <Image
+                source={_iconTop}
+                style={{ width: 30, height: 40, resizeMode: "contain" }}
+              ></Image>
+            </View>
+          ) : null}
+        </MyCard>
+      </TouchableOpacity>
     );
   };
   const Dashboard = () => {
@@ -219,8 +232,47 @@ function RankEventScreen({ navigation }) {
       </View>
     );
   };
+  const Buttons = () => {
+    return (
+      <View
+        style={{
+          position: "absolute",
+          top: 16,
+          right: 16,
+          flexDirection: "row",
+        }}
+      >
+        <TouchableOpacity
+          onPress={() => {
+            setIsOpenModalProfile(false);
+          }}
+          style={{ marginRight: 16 }}
+        >
+          <Image
+            source={require("../../../utils/resources/message.png")}
+            style={{ width: 30, height: 30 }}
+          ></Image>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            setIsOpenModalProfile(false);
+          }}
+        >
+          <Image
+            source={require("../../../utils/resources/close.png")}
+            style={{ width: 30, height: 30 }}
+          ></Image>
+        </TouchableOpacity>
+      </View>
+    );
+  };
   return (
     <View style={{ padding: 16, backgroundColor: "white", height: height }}>
+      <ProfileModal
+        isVisible={isOpenModalProfile}
+        setIsVisible={setIsOpenModalProfile}
+        Buttons={Buttons}
+      ></ProfileModal>
       <BackGround></BackGround>
       <HeaderTitle></HeaderTitle>
       <Dashboard></Dashboard>

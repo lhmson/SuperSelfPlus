@@ -6,7 +6,7 @@ import React, {
   useRef,
 } from "react";
 import MapView, { Marker, Polyline } from "react-native-maps";
-import { Dimensions, StyleSheet } from "react-native";
+import { Dimensions, StyleSheet, TouchableOpacity } from "react-native";
 import { Image } from "react-native";
 import COLOR from "../../../constants/colors";
 import ICON from "../../../constants/icon";
@@ -20,9 +20,10 @@ const Pulse = require("react-native-pulse").default;
 const WIDTH = Dimensions.get("window").width;
 
 const MapTinder = ({ userLocation, listTinders }) => {
-  const [isOpenTinderMine, setIsOpenTinderMine] = useState(true);
   const user = useUser();
   const idUser = user.state.uid;
+  const [isOpenTinderMine, setIsOpenTinderMine] = useState(true);
+  const [selectIdUser, setSelectIdUser] = useState(idUser);
   // const arrUsers = [
   //   {
   //     latitude: 13.0825967,
@@ -80,6 +81,41 @@ const MapTinder = ({ userLocation, listTinders }) => {
       </View>
     );
   };
+
+  const Buttons = () => {
+    return (
+      <View
+        style={{
+          position: "absolute",
+          top: 16,
+          right: 16,
+          flexDirection: "row",
+        }}
+      >
+        <TouchableOpacity
+          onPress={() => {
+            setIsOpenTinderMine(false);
+          }}
+          style={{ marginRight: 16 }}
+        >
+          <Image
+            source={require("../../../utils/resources/message.png")}
+            style={{ width: 30, height: 30 }}
+          ></Image>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            setIsOpenTinderMine(false);
+          }}
+        >
+          <Image
+            source={require("../../../utils/resources/close.png")}
+            style={{ width: 30, height: 30 }}
+          ></Image>
+        </TouchableOpacity>
+      </View>
+    );
+  };
   return (
     <View>
       <MapView
@@ -116,7 +152,11 @@ const MapTinder = ({ userLocation, listTinders }) => {
                     : require("../../../utils/resources/people.png")
                 }
                 title={user.name}
-                description={user.hashtag.substring(0, 20)}
+                description={user.hashtag}
+                onPress={() => {
+                  setSelectIdUser(user.userId);
+                  setIsOpenTinderMine(true);
+                }}
               >
                 {/* <CardUserTinder user={user}></CardUserTinder> */}
               </Marker>
@@ -126,6 +166,8 @@ const MapTinder = ({ userLocation, listTinders }) => {
       <ProfileModal
         isVisible={isOpenTinderMine}
         setIsVisible={setIsOpenTinderMine}
+        userId={selectIdUser}
+        Buttons={Buttons}
       ></ProfileModal>
     </View>
   );

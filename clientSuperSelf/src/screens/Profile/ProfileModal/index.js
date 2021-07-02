@@ -24,7 +24,14 @@ import MyChart from "./MyChart";
 import Modal from "react-native-modal";
 import * as apiUser from "../../../api/user";
 
-function ProfileModal({ navigation, route, isVisible, setIsVisible }) {
+function ProfileModal({
+  navigation,
+  route,
+  isVisible,
+  setIsVisible,
+  Buttons,
+  userId,
+}) {
   const item = route?.params?.item;
   const user = useUser();
 
@@ -41,25 +48,19 @@ function ProfileModal({ navigation, route, isVisible, setIsVisible }) {
   const [specifiedUser, setSpecifiedUser] = useState();
 
   useEffect(() => {
-    if (!item) {
-      apiUser
-        .getUser(user.state.uid)
-        .then((res) => {
-          // setUsername(res.data.username);
-          // setDescription(res.data.userInfo?.description);
-          // setRole(res.data.role);
-          // setNumberOfHabitsByThemes(res.data.numberOfHabitsByThemes);
-          setSpecifiedUser(res.data);
-        })
-        .catch((error) => {
-          alert("Error when getting user");
-          console.log("Error when get user", error);
-        })
-        .finally(() => {
-          setLoading(false);
-        });
-    }
-  }, [isFocused]);
+    apiUser
+      .getUser(userId ?? user.state.uid)
+      .then((res) => {
+        setSpecifiedUser(res.data);
+      })
+      .catch((error) => {
+        alert("Error when getting user");
+        console.log("Error when get user", error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, [userId]);
 
   const CardProfile = () => {
     return (
@@ -94,6 +95,7 @@ function ProfileModal({ navigation, route, isVisible, setIsVisible }) {
       </View>
     );
   };
+
   return (
     <>
       <Modal
@@ -121,6 +123,7 @@ function ProfileModal({ navigation, route, isVisible, setIsVisible }) {
               </ScrollView>
             </>
           )}
+          <Buttons></Buttons>
         </View>
       </Modal>
     </>
