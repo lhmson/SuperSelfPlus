@@ -28,6 +28,7 @@ import { createFormData } from "../../../utils/upload";
 import { logoUrl } from "../../../utils/logo";
 import Loading from "../../../components/Loading";
 import { shallowCompare } from "../../../utils/objHandler";
+import PremiumModal from "../ModalPremium";
 
 const errors = ["You should enter username"];
 
@@ -42,7 +43,7 @@ function EditUserScreen({ navigation, route }) {
   const [loading, setLoading] = useState(false);
 
   const [error, setError] = useState("");
-
+  const [isModalPremium, setIsModalPremium] = useState(true);
   useEffect(() => {}, []);
 
   const validateHabitForm = () => {
@@ -223,6 +224,10 @@ function EditUserScreen({ navigation, route }) {
 
   return (
     <View style={styles.container}>
+      <PremiumModal
+        isVisible={isModalPremium}
+        setIsVisible={setIsModalPremium}
+      ></PremiumModal>
       <ImageBackground
         source={require("../../../utils/resources/bg/postbg3.jpg")}
         style={styles.imageBg}
