@@ -5,6 +5,7 @@ import * as Location from "expo-location";
 import MapTinder from "./MapTinder";
 import * as apiTinder from "../../../api/tinder.js";
 import { useUser } from "../../../context/UserContext";
+import ProfileModal from "../../Profile/ProfileModal";
 //#region  global
 const WIDTH = Dimensions.get("window").width;
 const HEIGHT = Dimensions.get("window").height;
