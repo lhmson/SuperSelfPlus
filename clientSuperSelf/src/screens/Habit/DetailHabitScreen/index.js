@@ -222,7 +222,7 @@ const DetailHabitScreen = ({ navigation, route }) => {
       icon,
       target,
       // eventInfo,
-      //TODO: remove noti and add new when change, with new title if bing edit
+      //TODO: remove noti and add new when change, with new title if edit
       reminder,
     };
 

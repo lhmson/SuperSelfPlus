@@ -65,6 +65,10 @@ export const cancelScheduleNotiListForHabit = async () => {
   //TODO : function create again list noti for habits
 };
 
+export const updateNotificationForHabits = async () => {
+  // TODO: set later
+};
+
 export const scheduleNotiListForHabit = (
   stopDate,
   reminder,

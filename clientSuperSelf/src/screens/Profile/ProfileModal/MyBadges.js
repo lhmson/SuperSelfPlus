@@ -51,7 +51,7 @@ function MyBadges({ navigation }) {
           <Image
             source={{ uri: iconBadges }}
             style={{ width: 50, height: 50, resizeMode: "cover" }}
-          ></Image>
+          />
           <View
             style={{
               flexDirection: "column",

@@ -335,12 +335,12 @@ function ModalSetupPlan({
             width: "100%",
           }}
         >
-          <MyButton color={COLOR.white} onPress={cancelSetup}>
-            <MyText>Cancel</MyText>
+          <MyButton color={COLOR.orange} onPress={cancelSetup}>
+            <MyText color={COLOR.white}>Cancel</MyText>
           </MyButton>
           <View style={{ width: WIDTH / 7 }}></View>
           <MyButton color={COLOR.green} onPress={submitPlan}>
-            <MyText>Setup</MyText>
+            <MyText color={COLOR.white}>Setup</MyText>
           </MyButton>
         </View>
       );

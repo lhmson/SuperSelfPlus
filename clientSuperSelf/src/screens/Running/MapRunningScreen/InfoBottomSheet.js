@@ -408,7 +408,7 @@ const InfoBottomSheet = ({
         <ButtonSetup></ButtonSetup>
         <ListCardRun></ListCardRun>
         <ListCardRunBonus></ListCardRunBonus>
-        <Habit></Habit>
+        {planHabitRun !== "" && <Habit></Habit>}
       </View>
     );
   };

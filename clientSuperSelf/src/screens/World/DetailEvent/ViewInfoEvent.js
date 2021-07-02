@@ -98,7 +98,9 @@ function ViewInfoEvent({ navigation, item, personalHabit }) {
           navigation.navigate("Rank Event", { item: "" });
         }}
       >
-        <MyText color={COLOR.white}>Go to Ranking</MyText>
+        <MyText b5 color={COLOR.white}>
+          Go to Ranking
+        </MyText>
       </MyButton>
       {item.eventInfo.listJoiners.indexOf(user.state.uid) === -1 ? (
         <MyButton color={COLOR.lightGreen} onPress={() => {}}>

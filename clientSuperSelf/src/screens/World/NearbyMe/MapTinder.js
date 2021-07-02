@@ -1,10 +1,4 @@
-import React, {
-  useState,
-  useEffect,
-  useCallback,
-  useMemo,
-  useRef,
-} from "react";
+import React, { useState, useEffect } from "react";
 import MapView, { Marker, Polyline } from "react-native-maps";
 import { Dimensions, StyleSheet, TouchableOpacity } from "react-native";
 import { Image } from "react-native";
@@ -22,7 +16,7 @@ const WIDTH = Dimensions.get("window").width;
 const MapTinder = ({ userLocation, listTinders }) => {
   const user = useUser();
   const idUser = user.state.uid;
-  const [isOpenTinderMine, setIsOpenTinderMine] = useState(true);
+  const [isOpenTinderMine, setIsOpenTinderMine] = useState(false);
   const [selectIdUser, setSelectIdUser] = useState(idUser);
   // const arrUsers = [
   //   {
