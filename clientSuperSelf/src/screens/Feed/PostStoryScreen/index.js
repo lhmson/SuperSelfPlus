@@ -237,55 +237,6 @@ const PostStoryScreen = ({ navigation }) => {
             <Ionicons name="images" size={24} color={COLOR.white} />
           </MyButton>
         </MyFloatingButton>
-
-        {/* <View style={{ flexDirection: "row" }}>
-          {loading ? <Loading /> : null}
-          <SCLAlert
-            headerIconComponent={
-              <Image
-                source={require("../utils/Icon/input.png")}
-                style={{ width: 50, height: 50, resizeMode: "contain" }}
-              />
-            }
-            theme="warning"
-            show={noPostAlert}
-            onRequestClose={() => setNoPostAlert(false)}
-            title="Input something..."
-            subtitle="You haven't put in a content for your story"
-          >
-            <SCLAlertButton
-              theme="success"
-              onPress={() => {
-                setNoPostAlert(false);
-              }}
-            >
-              Back to edit
-            </SCLAlertButton>
-          </SCLAlert>
-
-          <SCLAlert
-            headerIconComponent={
-              <Image
-                source={require("../utils/Icon/success.png")}
-                style={{ width: 50, height: 50, resizeMode: "contain" }}
-              />
-            }
-            theme="warning"
-            show={postSuccessAlert}
-            title="Upload successfully"
-            subtitle="Your story has been posted"
-            onRequestClose={() => setPostSuccessAlert(false)}
-          >
-            <SCLAlertButton
-              theme="success"
-              onPress={() => {
-                setPostSuccessAlert(false);
-              }}
-            >
-              OK
-            </SCLAlertButton>
-          </SCLAlert>
-        </View> */}
       </InputWrapper>
     </View>
   );

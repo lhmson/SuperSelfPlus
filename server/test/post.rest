@@ -11,6 +11,10 @@
 
 GET {{host}}/post/list/all HTTP/1.1
 Authorization: Bearer {{token}}
+###
+
+PUT {{host}}/post/like/{{postId}} HTTP/1.1
+Authorization: Bearer {{token}}
 
 ###
 

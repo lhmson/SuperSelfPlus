@@ -19,7 +19,7 @@ router.get("/:id", getAPost);
 router.post("/", auth, createPost);
 
 router.put("/:id", auth, updatePost);
-router.put("/like/:postId", likePost);
+router.put("/like/:postId", auth, likePost);
 
 router.delete("/:postId", auth, deletePost);
 

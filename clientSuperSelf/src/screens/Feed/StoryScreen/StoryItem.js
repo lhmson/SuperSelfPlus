@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
-import { View, StyleSheet, TouchableOpacity } from "react-native";
+import { View, StyleSheet, TouchableOpacity, Alert } from "react-native";
 import styled from "styled-components";
 import { FontAwesome, AntDesign, MaterialIcons } from "@expo/vector-icons";
 import moment from "moment";
@@ -25,19 +25,73 @@ const FooterImage = (props) => {
   );
 };
 
-const StoryItem = ({ item, onDelete, navigation }) => {
+const StoryItem = ({ item, setIsChanged, navigation }) => {
   const user = useUser();
   const [isLiked, setIsLiked] = useState(false);
 
   const [loading, setLoading] = useState(false);
 
+  useEffect(() => {
+    if (item.listUserLikes.find((item) => item === user.state.uid)) {
+      setIsLiked(true);
+    }
+  }, []);
+
   const toggleLike = async () => {
     setIsLiked((prev) => !prev);
+    apiPost
+      .likePost(item._id)
+      .then(() => {
+        setIsChanged(true);
+      })
+      .catch((error) => {
+        console.log("Error when like post", error);
+        alert("Error when act with post");
+      });
   };
 
   const deleteStory = () => {
-    console.log(item._id);
-    onDelete(item._id);
+    Alert.alert(
+      "Do you want to delete the post?",
+      `You cannot undo, think again`,
+      [
+        {
+          text: "No",
+          onPress: () => {
+            return;
+          },
+          style: "cancel",
+        },
+        {
+          text: "Yes",
+          onPress: () => {
+            setLoading(true);
+            apiPost
+              .deletePost(item._id)
+              .then(() => {
+                setIsChanged(true);
+                Toast.show({
+                  type: "success", // success, error, info
+                  text1: "Delete story successfully",
+                  text2: ``,
+                  visibilityTime: 2500,
+                  onShow: () => {},
+                  onHide: () => {}, // called when Toast hides (if `autoHide` was set to `true`)
+                  onPress: () => {},
+                });
+              })
+              .catch((error) => {
+                alert("Error when deleting story ");
+                console.log("Error when deleting story ", error);
+              })
+              .finally(() => {
+                setLoading(false);
+              });
+          },
+        },
+      ],
+      { cancelable: false }
+    );
   };
 
   const images = useMemo(

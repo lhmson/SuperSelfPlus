@@ -19,7 +19,11 @@ import * as apiPost from "../../../api/post";
 const StoryScreen = ({ navigation }) => {
   const renderStory = ({ item }) => {
     return (
-      <StoryItem item={item} onDelete={handleDelete} navigation={navigation} />
+      <StoryItem
+        item={item}
+        setIsChanged={setIsChanged}
+        navigation={navigation}
+      />
     );
   };
 
@@ -54,31 +58,6 @@ const StoryScreen = ({ navigation }) => {
 
     setIsChanged(false);
   }, [isChanged, isFocused]);
-
-  const handleDelete = (id) => {
-    setLoading(true);
-    apiPost
-      .deletePost(id)
-      .then(() => {
-        setIsChanged(true);
-        Toast.show({
-          type: "success", // success, error, info
-          text1: "Delete story successfully",
-          text2: ``,
-          visibilityTime: 2500,
-          onShow: () => {},
-          onHide: () => {}, // called when Toast hides (if `autoHide` was set to `true`)
-          onPress: () => {},
-        });
-      })
-      .catch((error) => {
-        alert("Error when creating story ");
-        console.log("Error when creating story ", error);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  };
 
   return (
     <Container>
