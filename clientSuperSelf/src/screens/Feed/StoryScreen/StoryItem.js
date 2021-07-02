@@ -40,7 +40,6 @@ const StoryItem = ({ item, navigation }) => {
     []
   );
   const [imgVisible, setImgVisible] = useState(false);
-  console.log(item);
 
   return (
     <PostContainer>

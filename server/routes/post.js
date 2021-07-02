@@ -5,6 +5,7 @@ import {
   getAPost,
   createPost,
   updatePost,
+  likePost,
   deletePost,
 } from "../controllers/post.js";
 
@@ -18,7 +19,8 @@ router.get("/:id", getAPost);
 router.post("/", auth, createPost);
 
 router.put("/:id", auth, updatePost);
+router.put("/like/:postId", likePost);
 
-router.delete("/:id", auth, deletePost);
+router.delete("/:postId", auth, deletePost);
 
 export default router;

@@ -102,28 +102,33 @@ export const updatePost = async (req, res) => {
   // }
 };
 
+export const likePost = async (res, req) => {};
+
 // DELETE post/:id
 export const deletePost = async (req, res) => {
-  // const { id } = req.params;
-  // try {
-  //   // auth
-  //   if (!req.userId) {
-  //     return res.json({ message: "Unauthenticated" });
-  //   }
-  //   if (!(await Post.findById(id))) {
-  //     return res
-  //       .status(httpStatusCodes.notFound)
-  //       .send(`No post with id: ${id}`);
-  //   }
-  //   await Post.findByIdAndRemove(id);
-  //   res
-  //     .status(httpStatusCodes.ok)
-  //     .json({ message: "Post deleted successfully." });
-  // } catch (error) {
-  //   res
-  //     .status(httpStatusCodes.internalServerError)
-  //     .json({ message: error.message });
-  // }
+  const { userId } = req;
+  const { postId } = req.params;
+  try {
+    const post = await Post.findById(postId);
+    if (!post) {
+      return res
+        .status(httpStatusCodes.notFound)
+        .send(`No post with id: ${postId}`);
+    }
+    if (!post.userId.equals(userId)) {
+      return res
+        .status(httpStatusCodes.forbidden)
+        .send(`You are not the owner for this post`);
+    }
+    await Post.findByIdAndRemove(postId);
+    res
+      .status(httpStatusCodes.ok)
+      .json({ message: "Post deleted successfully." });
+  } catch (error) {
+    res
+      .status(httpStatusCodes.internalServerError)
+      .json({ message: error.message });
+  }
 };
 
 //#endregion
