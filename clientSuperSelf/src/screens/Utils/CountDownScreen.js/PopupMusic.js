@@ -103,7 +103,7 @@ function PopupMusic({
             txtSearch = txt;
           }}
         ></MyTextInput>
-        {dataMusic?.map((music, index) => (
+        {dataMusic.map((music, index) => (
           <CardMusicItem key={index.toString()} music={music}></CardMusicItem>
         ))}
       </View>
@@ -135,16 +135,6 @@ function PopupMusic({
     );
   };
 
-  const Confeti = () => {
-    return (
-      <View style={{ zIndex: 101 }}>
-        <Image
-          source={require("../../../utils/resources/IconRunning/confeti.gif")}
-          style={{ marginTop: -300, resizeMode: "contain", zIndex: 101 }}
-        ></Image>
-      </View>
-    );
-  };
   return (
     <View style={{ zIndex: 100 }}>
       <Modal isVisible={isOpenPopup}>

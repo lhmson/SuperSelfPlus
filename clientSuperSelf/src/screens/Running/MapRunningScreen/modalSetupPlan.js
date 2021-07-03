@@ -182,7 +182,7 @@ function ModalSetupPlan({
         </View>
       );
     };
-    const TitileDistance = () => {
+    const TitleDistance = () => {
       return (
         <View
           style={{
@@ -226,7 +226,7 @@ function ModalSetupPlan({
               _time = Number(m);
             }}
           ></MyTextInput>
-          <TitileDistance></TitileDistance>
+          <TitleDistance></TitleDistance>
           <MyTextInput
             placeholder="1000"
             keyboardType="numeric"
