@@ -83,28 +83,3 @@ mongoose
   .catch((error) => console.log(`${error} did not connect`));
 
 mongoose.set("useFindAndModify", false);
-
-// io.on("connection", async (socket) => {
-//   console.log("New connect");
-//   // join
-//   socket.on("join-client", async ({ token, userIds }) => {
-//     const verified = jwt.verify(token, process.env.JWT_ACCESS_KEY);
-//     const rooms = [];
-//     for (let userId of userIds) {
-//       const key = [verified._id.toString(), userId.toString()].sort((a, b) =>
-//         a < b ? -1 : 1
-//       );
-//       const roomId = `${key[0]}-${key[1]}`;
-//       rooms.push(roomId);
-//     }
-//     socket.join(rooms);
-//     socket.emit("join-server", {
-//      message:"Joined successfully"
-//     });
-//   });
-
-//   // disconnect
-//   socket.on("disconnect", () => {
-//     console.log("user disconnected");
-//   });
-// });
