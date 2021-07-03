@@ -49,7 +49,7 @@ function SettingScreen({ navigation }) {
               );
             } catch (error) {
               alert("Error log out");
-              console.log("Error log out", error);
+              console.log("Error log out", error.message);
             } finally {
               setLoading(false);
             }

@@ -70,7 +70,7 @@ function ModalFinish({
           // alert("Update run data success");
         })
         .catch((error) => {
-          console.log("Error when auto update rundata", error);
+          console.log("Error when auto update rundata", error.message);
         });
 
       if (selectHabit && selectHabit?.length > 0)
@@ -83,7 +83,7 @@ function ModalFinish({
             // alert("Update habit success");
           })
           .catch((error) => {
-            console.log("Error when auto update run habits", error);
+            console.log("Error when auto update run habits", error.message);
           });
       onPressStop();
     };

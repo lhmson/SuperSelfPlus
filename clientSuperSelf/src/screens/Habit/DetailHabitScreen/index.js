@@ -244,7 +244,7 @@ const DetailHabitScreen = ({ navigation, route }) => {
         //TODO: removeNoti if reminder not set
       })
       .catch((error) => {
-        console.log("Error when updating habit", error);
+        console.log("Error when updating habit", error.message);
         alert("Error when updating habit");
       })
       .finally(() => {
@@ -306,7 +306,7 @@ const DetailHabitScreen = ({ navigation, route }) => {
                 })
                 .catch((error) => {
                   alert("Error when delete habit");
-                  console.log("Error when delete habit", error);
+                  console.log("Error when delete habit", error.message);
                 })
                 .finally(() => {
                   setLoading(false);

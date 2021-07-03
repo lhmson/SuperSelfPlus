@@ -133,7 +133,7 @@ function TestComponentScreen() {
         alert("You have not shared");
       }
     } catch (error) {
-      console.log(error);
+      console.log(error.message);
       alert(error.message);
     }
   };

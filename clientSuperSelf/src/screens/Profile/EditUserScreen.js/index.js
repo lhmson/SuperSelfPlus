@@ -95,14 +95,14 @@ function EditUserScreen({ navigation, route }) {
           navigation.navigate("Profile");
         })
         .catch((error) => {
-          console.log("Error when updating my profile", error);
+          console.log("Error when updating my profile", error.message);
           alert("Error when updating my profile");
         })
         .finally(() => {
           setLoading(false);
         });
     } catch (error) {
-      alert("Cannot upload avatar", error);
+      alert("Cannot upload avatar", error.message);
     }
   };
 
@@ -130,7 +130,7 @@ function EditUserScreen({ navigation, route }) {
       }
     } catch (error) {
       alert("Error when picking image");
-      console.log("Error when picking image ", error);
+      console.log("Error when picking image ", error.message);
     }
   };
 
@@ -148,7 +148,7 @@ function EditUserScreen({ navigation, route }) {
       }
     } catch (error) {
       alert("Error when taking photo");
-      console.log("Error when taking photo", error);
+      console.log("Error when taking photo", error.message);
     }
   };
 
@@ -216,7 +216,7 @@ function EditUserScreen({ navigation, route }) {
         return logoUrl;
       }
     } catch (error) {
-      console.log("Error when upload img", error);
+      console.log("Error when upload img", error.message);
     }
   };
 

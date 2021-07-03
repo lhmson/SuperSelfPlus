@@ -40,7 +40,7 @@ const RunningHomeScreen = ({ navigation }) => {
           setPedometer(res.data);
         })
         .catch((error) => {
-          console.log("Error when get pedometer", error);
+          console.log("Error when get pedometer", error.message);
         });
     })();
   }, []);

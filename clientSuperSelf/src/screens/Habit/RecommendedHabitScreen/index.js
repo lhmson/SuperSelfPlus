@@ -120,7 +120,7 @@ function RecommendedHabitScreen({ navigation, route }) {
           <View style={styles.content}>
             <MyButton onPress={() => {}}>
               <MyText b6 color={COLOR.white}>
-                Top Trending
+                Top Trending (Coming)
               </MyText>
               <MyText size5 color={COLOR.white}>
                 Get the most recommended items

@@ -48,7 +48,7 @@ function ModalSetupPlan({
         setListHabits(res.data);
       })
       .catch((error) => {
-        console.log("Error when getting list run habits", error);
+        console.log("Error when getting list run habits", error.message);
       });
   }, []);
   let chooseEvent = "",

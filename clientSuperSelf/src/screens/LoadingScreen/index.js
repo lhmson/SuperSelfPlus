@@ -49,7 +49,7 @@ const LoadingScreen = () => {
         // alert(JSON.stringify(data));
       } catch (error) {
         alert("Cannot not get storage");
-        console.log("Error in storage", error);
+        console.log("Error in storage", error.message);
       }
       if (data) {
         // const userInfo = await User.getUserInfo(user.uid);
@@ -76,7 +76,15 @@ const LoadingScreen = () => {
           })
           .catch((error) => {
             alertUser();
-            console.log("Error when getting user", error);
+            console.log("Error when getting user", error.message);
+            try {
+              AsyncStorage.removeItem("superself_token").then(() =>
+                updateUser({ isLoggedIn: false })
+              );
+            } catch (error) {
+              alert("Error log out");
+              console.log("Error log out", error.message);
+            }
           });
 
         // updateUser({

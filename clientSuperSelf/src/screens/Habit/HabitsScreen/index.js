@@ -102,8 +102,8 @@ const HabitsScreen = ({ navigation }) => {
         }
       })
       .catch((error) => {
-        alert("Error when getting habits", error);
-        console.log("Error when getting habits", error);
+        alert("Error when getting habits", error.message);
+        console.log("Error when getting habits", error.message);
       })
       .finally(() => setLoading(false));
 

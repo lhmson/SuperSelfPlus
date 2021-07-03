@@ -26,7 +26,7 @@ function RankEventScreen({ navigation, route }) {
       .getHabitRanking(item._id)
       .then((res) => setListRank(res.data))
       .catch((error) => {
-        console.log("Error when get habit ranking", error);
+        console.log("Error when get habit ranking", error.message);
         alert("Error when get habit ranking");
       });
   }, []);

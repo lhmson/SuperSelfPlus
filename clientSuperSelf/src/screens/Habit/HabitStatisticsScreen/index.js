@@ -107,7 +107,7 @@ const HabitStatisticsScreen = ({ navigation, route }) => {
         setStreak(res.data.streak);
       })
       .catch((error) => {
-        console.log("Error when getting habit progress", error);
+        console.log("Error when getting habit progress", error.message);
         alert("Error when getting habit progress");
       })
       .finally(() => {

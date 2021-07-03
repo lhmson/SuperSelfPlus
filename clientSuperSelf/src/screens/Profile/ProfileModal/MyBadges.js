@@ -23,7 +23,7 @@ function MyBadges({ navigation, userId }) {
       })
       .catch((error) => {
         alert("Error when getting user habits");
-        console.log("Error when get habits of user", error);
+        console.log("Error when get habits of user", error.message);
       });
   }, []);
 

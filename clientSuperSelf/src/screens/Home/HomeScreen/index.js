@@ -20,7 +20,7 @@ function HomeScreen({ navigation }) {
     //   .then((res) => setPosts(res.data))
     //   .catch((error) => {
     //     alert("Cannot fetch posts");
-    //     console.log("Error fetch posts", error);
+    // console.log("Error fetch posts", error.message);
     //   });
   }, []);
 

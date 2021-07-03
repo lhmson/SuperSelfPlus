@@ -51,7 +51,7 @@ const PostStoryScreen = ({ navigation }) => {
       }
     } catch (error) {
       alert("Error when picking image");
-      console.log("Error when picking image ", error);
+      console.log("Error when picking image ", error.message);
     }
   };
 
@@ -69,7 +69,7 @@ const PostStoryScreen = ({ navigation }) => {
       }
     } catch (error) {
       alert("Error when taking photo");
-      console.log("Error when taking photo", error);
+      console.log("Error when taking photo", error.message);
     }
   };
 
@@ -109,7 +109,7 @@ const PostStoryScreen = ({ navigation }) => {
         return res.data.data.img;
       }
     } catch (error) {
-      console.log("Error when upload img", error);
+      console.log("Error when upload img", error.message);
     }
   };
 
@@ -149,7 +149,7 @@ const PostStoryScreen = ({ navigation }) => {
       })
       .catch((error) => {
         alert("Error when creating story ");
-        console.log("Error when creating story ", error);
+        console.log("Error when creating story ", error.message);
       })
       .finally(() => {
         setLoading(false);
