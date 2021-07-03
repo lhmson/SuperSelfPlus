@@ -5,7 +5,7 @@ import * as Location from "expo-location";
 import MapTinder from "./MapTinder";
 import * as apiTinder from "../../../api/tinder.js";
 import { useUser } from "../../../context/UserContext";
-import ProfileModal from "../../Profile/ProfileModal";
+import { useIsFocused } from "@react-navigation/native";
 //#region  global
 const WIDTH = Dimensions.get("window").width;
 const HEIGHT = Dimensions.get("window").height;
@@ -14,6 +14,8 @@ const NearbyMeScreen = ({ navigation }) => {
   //#region hook
   const [userLocation, setUserLocation] = useState();
   const [listTinders, setListTinders] = useState([]);
+
+  const isFocused = useIsFocused();
   //#endregion
   const user = useUser();
   useEffect(() => {
@@ -53,7 +55,8 @@ const NearbyMeScreen = ({ navigation }) => {
         <MapTinder
           userLocation={userLocation}
           listTinders={listTinders}
-        ></MapTinder>
+          navigation={navigation}
+        />
       </View>
     );
   return (

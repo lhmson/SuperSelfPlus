@@ -25,6 +25,7 @@ import * as apiHabit from "../../../api/habit";
 import * as apiEvent from "../../../api/event";
 import { width } from "../../../constants/dimensions";
 import { dateCompare, getDateNoTime } from "../../../utils/datetime";
+import { renderImageEventByTheme } from "../../../utils/habitThemes";
 
 function EventCard({ item, navigation }) {
   const user = useUser();
@@ -82,8 +83,9 @@ function EventCard({ item, navigation }) {
         <ImageBackground
           source={{
             uri:
-              item.imageUrl ??
-              "https://i.pinimg.com/564x/98/5c/4b/985c4beecb162508e539f514ac0ff0cf.jpg",
+              // item.eventInfo.imageUrl ??
+              // "https://i.pinimg.com/564x/98/5c/4b/985c4beecb162508e539f514ac0ff0cf.jpg",
+              renderImageEventByTheme(item.theme),
           }}
           style={{
             width: width - 32,

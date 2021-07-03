@@ -17,8 +17,8 @@ const MapRunningScreen = ({ navigation }) => {
   const [roadRunCoordinate, setRoadRunCoordinate] = useState([]);
   const [location, setLocation] = useState(null);
   const [status, setStatus] = useState("Not Run"); // Not Run & Run
-  const [countSteps, setCountSteps] = useState(2344);
-  const [countDistance, setCountDistance] = useState(50);
+  const [countSteps, setCountSteps] = useState(0);
+  const [countDistance, setCountDistance] = useState(0);
   //#endregion
 
   //#region sub function

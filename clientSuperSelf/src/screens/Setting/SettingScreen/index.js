@@ -11,28 +11,61 @@ import { useUser } from "../../../context/UserContext";
 
 import * as api from "../../../api/post";
 import { width } from "../../../constants/dimensions";
+import { shareApp } from "../../../utils/share";
+import { Linking } from "react-native";
+import { Alert } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function SettingScreen({ navigation }) {
   // const user = useContext(UserContext);
   const user = useUser();
+  const { updateUser } = user;
+
+  const [loading, setLoading] = useState(false);
   // const [posts, setPosts] = useState();
 
-  useEffect(() => {
-    // api
-    //   .fetchPosts()
-    //   .then((res) => setPosts(res.data))
-    //   .catch((error) => {
-    //     alert("Cannot fetch posts");
-    //     console.log("Error fetch posts", error);
-    //   });
-  }, []);
+  useEffect(() => {}, []);
 
-  const OptionCard = ({ content, isToggle }) => {
+  const handleLogOut = async () => {
+    Alert.alert(
+      "Confirm your action",
+      "You wanna logout?",
+      [
+        {
+          text: "Cancel",
+          style: "cancel",
+        },
+        {
+          text: "OK",
+          onPress: async () => {
+            // const loggedOut = await User.logOut();
+            // if (loggedOut) {
+            //   setUser((state) => ({ ...state, isLoggedIn: false }));
+            // }
+            setLoading(true);
+            try {
+              await AsyncStorage.removeItem("superself_token").then(() =>
+                updateUser({ isLoggedIn: false })
+              );
+            } catch (error) {
+              alert("Error log out");
+              console.log("Error log out", error);
+            } finally {
+              setLoading(false);
+            }
+          },
+        },
+      ],
+      { cancelable: false }
+    );
+  };
+
+  const OptionCard = ({ content, isToggle, action }) => {
     const [toggle, setToggle] = useState(true);
     return (
       <View style={{ marginTop: -12, zIndex: 1 }}>
-        <TouchableOpacity>
-          <MyCard>
+        <MyCard>
+          <TouchableOpacity onPress={action}>
             <View
               style={{
                 width: width - 64,
@@ -51,8 +84,8 @@ function SettingScreen({ navigation }) {
                 />
               )}
             </View>
-          </MyCard>
-        </TouchableOpacity>
+          </TouchableOpacity>
+        </MyCard>
       </View>
     );
   };
@@ -84,17 +117,53 @@ function SettingScreen({ navigation }) {
       </View>
     );
   };
+
   return (
     <ScrollView contentContainerStyle={styles.scrollViewContent}>
       <View style={styles.container}>
         <Background></Background>
-        <OptionCard content={"Edit Profile"} isToggle={false}></OptionCard>
-        <OptionCard content={"Invite Friend"} isToggle={false}></OptionCard>
-        <OptionCard content={"Push Notifications"} isToggle={true}></OptionCard>
-        <OptionCard content={"Help and Support"} isToggle={false}></OptionCard>
-        <OptionCard content={"Connect Device"} isToggle={false}></OptionCard>
-        <OptionCard content={"About us"} isToggle={false}></OptionCard>
-        <OptionCard content={"Log Out"} isToggle={false}></OptionCard>
+        <OptionCard
+          content={"Edit Profile"}
+          isToggle={false}
+          action={() => navigation.navigate("Profile")}
+        />
+        <OptionCard
+          content={"Invite Friend"}
+          isToggle={false}
+          action={() => shareApp()}
+        />
+        {/* <OptionCard
+          content={"Push Notifications"}
+          isToggle={true}
+          action={() => {
+            //TODO: remove noti
+          }}
+        /> */}
+        <OptionCard
+          content={"Help and Support"}
+          isToggle={false}
+          action={() =>
+            Linking.openURL("https://www.facebook.com/superselfapp")
+          }
+        />
+        <OptionCard
+          content={"Connect Device"}
+          isToggle={false}
+          action={() => {
+            //TODO: coming soon
+            navigation.navigate("Integrate");
+          }}
+        />
+        <OptionCard
+          content={"About us"}
+          isToggle={false}
+          action={() => navigation.navigate("About")}
+        />
+        <OptionCard
+          content={"Log Out"}
+          isToggle={false}
+          action={() => handleLogOut()}
+        />
       </View>
     </ScrollView>
   );
