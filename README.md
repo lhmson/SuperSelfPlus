@@ -291,7 +291,7 @@ This project exists thanks to all the people who contribute.
 
 My original team has 2 members, including:
 - me, Le Hoang Minh Son (lhmson) : 18520350@gm.uit.edu.vn
-- and Pham Lien Sanh (sanhlike) : 18520146@gm.uit.edu.vn
+- and Pham Lien Sanh (sanhlike) : 18520146@gm.uit.edu.vn  
 Feel free to contact us for info
 We discuss, select a topic, and specify the software design process, then make a list of features to implement, which has changed many times before we have this product.
 <a href="https://github.com/lhmson/superself/graphs/contributors">
