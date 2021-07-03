@@ -23,10 +23,10 @@
 
 <p align="center"><i>Note: this is my school project to learn Mobile Application Development. Hope it will get high remarks</i></p>
 
-<p align="center">
+<!---<p align="center">
  <img src="https://github.com/lhmson/SuperSelf/blob/master/assets/PosterOffical.png?raw=true" alt="Poster"></a>
  <i>App Poster</i>
-</p>
+</p>--->
 
 ---
 
@@ -248,30 +248,30 @@ First you have to have an account. Click Sign up and enter. Just easy as that an
 
 ### Tools Libraries
 #### Frontend
-- [Nativebase](https://nativebase.io/)
-- [React Navigation](https://reactnavigation.org/)
-- [Expo push notifications](https://docs.expo.io/push-notifications/overview/)
-- [Styled components](https://github.com/styled-components/styled-components)
-- [React context](https://reactjs.org/docs/context.html)
-- [Redux](https://redux.js.org/introduction/getting-started)
-- [Lucid chart](https://www.lucidchart.com/pages/)
-- [axios](https://github.com/axios/axios)
-- [victory-native](https://formidable.com/open-source/victory/docs/native/)
+- [Nativebase](https://nativebase.io/) : UI library
+- [React Navigation](https://reactnavigation.org/) : navigation handle
+- [Expo push notifications](https://docs.expo.io/push-notifications/overview/) : push notifications
+- [Styled components](https://github.com/styled-components/styled-components) : CSS for React
+- [React context](https://reactjs.org/docs/context.html) : UI state management
+- [Redux](https://redux.js.org/introduction/getting-started) : UI state management library
+- [Lucid chart](https://www.lucidchart.com/pages/) : draw UML
+- [axios](https://github.com/axios/axios) : HTTP client
+- [victory-native](https://formidable.com/open-source/victory/docs/native/) : graphs, charts
 
-- [react-native-maps](https://github.com/react-native-maps/react-native-maps)
-- [expo-location](https://github.com/expo/expo-location)
-- [expo-sensor](https://docs.expo.io/versions/latest/sdk/sensors/)
-- [expo-notifications](https://docs.expo.io/versions/latest/sdk/notifications/)
-- [moment](https://momentjs.com/docs/)
-- [react-native-calendar](https://github.com/wix/react-native-calendars)
-- [React-native-countdown-component](https://github.com/vydimitrov/react-countdown-circle-timer)
-- [socketio](https://socket.io/)
+- [react-native-maps](https://github.com/react-native-maps/react-native-maps) : map, path
+- [expo-location](https://github.com/expo/expo-location) : user location
+- [expo-sensor](https://docs.expo.io/versions/latest/sdk/sensors/) : pedometer mobile
+- [expo-notifications](https://docs.expo.io/versions/latest/sdk/notifications/) : local noti
+- [moment](https://momentjs.com/docs/) : datetime easy
+- [react-native-calendar](https://github.com/wix/react-native-calendars) : UI calendar
+- [React-native-countdown-component](https://github.com/vydimitrov/react-countdown-circle-timer) : timer 
+- [socketio](https://socket.io/) : realtime
 
 #### Backend
-- [mongoose](https://mongoosejs.com/docs/guide.html)
-- [socketio](https://socket.io/)
-- [JWT](https://jwt.io/introduction)
-- [cloudinary](https://cloudinary.com/)
+- [mongoose](https://mongoosejs.com/docs/guide.html) : ODM for Mongo
+- [socketio](https://socket.io/) : real time
+- [JWT](https://jwt.io/introduction) : authentication
+- [cloudinary](https://cloudinary.com/) : file upload
 
 ### Resources
 - [expo vector icon](https://icons.expo.fyi/)
@@ -289,7 +289,10 @@ First you have to have an account. Click Sign up and enter. Just easy as that an
 
 This project exists thanks to all the people who contribute.
 
-My original team has 2 members, including me: Le Hoang Minh Son (lhmson) and Pham Lien Sanh (sanhlike).
+My original team has 2 members, including:
+- me, Le Hoang Minh Son (lhmson) : 18520350@gm.uit.edu.vn
+- and Pham Lien Sanh (sanhlike) : 18520146@gm.uit.edu.vn
+Feel free to contact us for info
 We discuss, select a topic, and specify the software design process, then make a list of features to implement, which has changed many times before we have this product.
 <a href="https://github.com/lhmson/superself/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=lhmson/SuperSelfPlus" />
