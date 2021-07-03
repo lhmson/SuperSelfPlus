@@ -230,6 +230,11 @@ First you have to have an account. Click Sign up and enter. Just easy as that an
 <p align="center">
  <img src="https://github.com/lhmson/SuperSelfPlus/blob/master/clientSuperSelf/src/utils/resources/assets/others.png?raw=true" alt="Demo other screen"></a>
 </p>
+
+<p align="center">
+ <img src="https://github.com/lhmson/SuperSelfPlus/blob/master/clientSuperSelf/src/utils/resources/assets/setting.png?raw=true" alt="Demo other screen"></a>
+</p>
+
 <p align="center">
 <i>Demo others</i>
 </p>
@@ -237,7 +242,7 @@ First you have to have an account. Click Sign up and enter. Just easy as that an
 - Loading
 - Sign in
 - Sign up
-- Utils like countdown to measure time you do a habit
+- Utils like countdown to measure time, with music for you to effectively take a habit
 
 ## Project Structure
 
