@@ -40,15 +40,15 @@
 - [Features](#features)
 	- [Habit Tracker](#habit-tracker)
 	- [Running Tracker](#running-tracker)
-  - [Statistics](#statistics)
-  - [Community](#community)
-    - [Events](#events)
-    - [Share-Connect](#share-connect)
-  - [Others](#others)
+ 	- [Statistics](#statistics)
+ 	- [Community](#community)
+ 		- [Events](#events)
+ 		- [Share-Connect](#share-connect)
+	- [Others](#others)
 - [Project Structure](#project-structure)
 - [Tech Stack](#tech-stack)
 - [References](#references)
-	- [Tools](#tools)
+	- [Tools Libraries](#tools-libraries)
 	- [Articles tutorials](#articles-tutorials)
 - [Team](#team)
 - [Contributing](#contributing)
@@ -235,24 +235,45 @@ First you have to have an account. Click Sign up and enter. Just easy as that an
 ## Tech Stack
 
 - **Languages**: [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
-- **Framework**: [React Native >= 0.63](https://reactnative.dev/)
-- **Database Backend Service**: [Firebase (Cloud Firestore)](https://firebase.google.com/)
+- **Frontend**: [React Native >= 0.63](https://reactnative.dev/)
+- **Backend**: [NodeJS >= 14](https://nodejs.org/), [Express](https://expressjs.com/en/guide/routing.html)
+- **Database Service**: [MongoDB (Atlas)](https://www.mongodb.com/)
 - **Text Editor**: [Visual Studio Code](https://code.visualstudio.com/)
 - **Tool**: [Expo >= SDK 40](https://docs.expo.io/)
 - **Version Control System**: [Git](https://git-scm.com/)
-- **UI Prototype**: Powerpoint
+- **UI Prototype**: Powerpoint, [Figma](https://www.figma.com/)
+- **Deploy**: [Heroku](https://heroku.com)
 
 ## References
 
-### Tools
-
-- [Galio UI](https://galio.io/)
+### Tools Libraries
+#### Frontend
+- [Nativebase](https://nativebase.io/)
 - [React Navigation](https://reactnavigation.org/)
 - [Expo push notifications](https://docs.expo.io/push-notifications/overview/)
 - [Styled components](https://github.com/styled-components/styled-components)
 - [React context](https://reactjs.org/docs/context.html)
 - [Redux](https://redux.js.org/introduction/getting-started)
 - [Lucid chart](https://www.lucidchart.com/pages/)
+- [axios](https://github.com/axios/axios)
+- [victory-native](https://formidable.com/open-source/victory/docs/native/)
+
+- [react-native-maps](https://github.com/react-native-maps/react-native-maps)
+- [expo-location](https://github.com/expo/expo-location)
+- [expo-sensor](https://docs.expo.io/versions/latest/sdk/sensors/)
+- [expo-notifications](https://docs.expo.io/versions/latest/sdk/notifications/)
+- [moment](https://momentjs.com/docs/)
+- [react-native-calendar](https://github.com/wix/react-native-calendars)
+- [React-native-countdown-component](https://github.com/vydimitrov/react-countdown-circle-timer)
+- [socketio](https://socket.io/)
+
+#### Backend
+- [mongoose](https://mongoosejs.com/docs/guide.html)
+- [socketio](https://socket.io/)
+- [JWT](https://jwt.io/introduction)
+- [cloudinary](https://cloudinary.com/)
+
+### Resources
 - [expo vector icon](https://icons.expo.fyi/)
 - [Pinterest](https://www.pinterest.com/)
 - [Unsplash](https://unsplash.com/)
@@ -262,8 +283,7 @@ First you have to have an account. Click Sign up and enter. Just easy as that an
 - [DesignIntoCode](https://www.youtube.com/channel/UCPZlE8KsMkumnjEMOcJDxuQ)
 - [React Native Animation](https://www.youtube.com/playlist?list=PLYxzS__5yYQmdfEyKDrlG5E0F0u7_iIUo)
 - [Combining Stack, Tab & Drawer Navigations in React Native With React Navigation 5, Ekunola Ezekiel (2020)](https://dev.to/easybuoy/combining-stack-tab-drawer-navigations-in-react-native-with-react-navigation-5-da)
-- [Realtime Database vs. Cloud Firestore — Which Database is Suitable for your Mobile App, Ashish Sharma (2018)](https://medium.com/datadriveninvestor/realtime-database-vs-cloud-firestore-which-database-is-suitable-for-your-mobile-app-87e11b56f50f)
-- [How to Build a React Native App and Integrate It with Firebase, Florian Marcu (2020)](https://www.freecodecamp.org/news/react-native-firebase-tutorial/)
+- [App Push Notifications – The Complete Guide: James Ewen (2017)](https://www.tamoco.com/blog/app-push-notifications-complete-guide/)
 
 ### Team
 
@@ -272,14 +292,14 @@ This project exists thanks to all the people who contribute.
 My original team has 2 members, including me: Le Hoang Minh Son (lhmson) and Pham Lien Sanh (sanhlike).
 We discuss, select a topic, and specify the software design process, then make a list of features to implement, which has changed many times before we have this product.
 <a href="https://github.com/lhmson/superself/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=lhmson/SuperSelf" />
+  <img src="https://contrib.rocks/image?repo=lhmson/SuperSelfPlus" />
 </a>
 
 Made with [contributors-img](https://contrib.rocks).
 
 ## Contributing
 
-Feel free to dive in! [Open an issue](https://github.com/lhmson/SuperSelf/issues/new) or submit PRs.
+Feel free to dive in! [Open an issue](https://github.com/lhmson/SuperSelfPlus/issues/new) or submit PRs.
 
 1. Fork the Project
 2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
@@ -293,20 +313,23 @@ This project follows the [Contributor Covenant](https://www.contributor-covenant
 
 ### Progress
 
-Now I am not working on building and maintaining this project. If there comes error when setting up, try to fix it. You can feel free to clone and develop. Should anything wrong happen to Firebase, create a new Cloudstore DB and edit the config file in firebase folder.
+We are publishing this app to Google Store. After that, we will continue to develop more features.
 
 ### Suggestion
-Some examples of functions to implement, these are plans of us and you to extend the app
-- Scale number of users while keeping the stability of the app (now up to 100)
+Some examples of functions to implement, these are plans of us
+- Scale number of users while keeping the stability of the app
 - Optimize memory and execution time of functions
 - Message among users (like Messenger)
-- More elements and maps
-- Ranking system, friends,...
-- More items for database
-- Report user stories
-- Users can post articles through censorship
-- Comments, number of likes
+- Build web and sync among platform
+
 - and many aspects to generate
+
+- SCIENTIFIC RESEARCH:
+	- Build a recommendation system based on user profile
+	- Integrate AI for handling user interaction, calculate and generate remarks
+	- Integrate data analysis to improve UX
+	- Study algorithms for optimizing links in networks
+	- Get data from application like Apple watch or Google Fit
 
 ## License
 
