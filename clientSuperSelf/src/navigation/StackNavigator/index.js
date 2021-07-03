@@ -30,6 +30,8 @@ import CountDownScreen from "../../screens/Utils/CountDownScreen.js";
 import NearbyPeopleScreen from "../../screens/World/NearbyMe";
 import StoryScreen from "../../screens/Feed/StoryScreen";
 import PostStoryScreen from "../../screens/Feed/PostStoryScreen";
+import MessageScreen from "../../screens/World/Chat/MessageScreen";
+import IntegrateDevice from "../../screens/Utils/Integrate";
 
 const Stack = createStackNavigator();
 
@@ -134,6 +136,7 @@ const WorldStackNavigator = () => {
       <Stack.Screen name="Detail Event" component={DetailEventScreen} />
       <Stack.Screen name="Ranking" component={RankEventScreen} />
       <Stack.Screen name="Nearby Me" component={NearbyPeopleScreen} />
+      <Stack.Screen name="Message" component={MessageScreen} />
     </Stack.Navigator>
   );
 };
@@ -159,6 +162,7 @@ const SettingStackNavigator = () => {
   return (
     <Stack.Navigator screenOptions={(props) => screenOptionStyle(props)}>
       <Stack.Screen name="Setting" component={SettingScreen} />
+      <Stack.Screen name="Integrate" component={IntegrateDevice} />
     </Stack.Navigator>
   );
 };

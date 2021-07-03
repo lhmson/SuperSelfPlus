@@ -23,6 +23,7 @@ import {
   getListEventInProgress,
 } from "../../../api/run";
 import iconsUrl from "../../../utils/resources/iconsUrl";
+import { limitNameLength } from "../../../utils/limitNameLength";
 const WIDTH = Dimensions.get("window").width;
 const HEIGHT = Dimensions.get("window").height;
 
@@ -72,35 +73,42 @@ function ModalSetupPlan({
       const [selectHabit, setSelectHabit] = useState("");
       const ItemHabit = (nameHabit, urlIcon, key) => {
         return (
-          <TouchableOpacity
-            key={key}
-            onPress={() => {
-              if (nameHabit === selectHabit) {
-                setSelectHabit();
-                chooseHabit = "";
-              } else {
-                setSelectHabit(nameHabit);
-                chooseHabit = nameHabit;
-              }
+          <MyCard
+            style={{
+              backgroundColor: nameHabit === selectHabit ? COLOR.green : "",
             }}
           >
-            <MyCard
-              style={{
-                backgroundColor: nameHabit === selectHabit ? COLOR.green : "",
-                width: WIDTH - 100,
+            <TouchableOpacity
+              key={key}
+              onPress={() => {
+                if (nameHabit === selectHabit) {
+                  setSelectHabit();
+                  chooseHabit = "";
+                } else {
+                  setSelectHabit(nameHabit);
+                  chooseHabit = nameHabit;
+                }
               }}
             >
-              <Image
-                source={{
-                  uri: urlIcon ?? "https://ibb.co/c33jW9G",
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  width: WIDTH - 100,
                 }}
-                style={{ width: 30, height: 30, marginRight: 8 }}
-              ></Image>
-              <MyText size6 b4>
-                {nameHabit}
-              </MyText>
-            </MyCard>
-          </TouchableOpacity>
+              >
+                <Image
+                  source={{
+                    uri: "https://i.ibb.co/h99SGNP/shoe.png",
+                  }}
+                  style={{ width: 30, height: 30, marginRight: 8 }}
+                />
+                <MyText size6 b4>
+                  {limitNameLength(nameHabit, 25)}
+                </MyText>
+              </View>
+            </TouchableOpacity>
+          </MyCard>
         );
       };
       const ScrollHabits = () => {

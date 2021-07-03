@@ -13,7 +13,7 @@ const Pulse = require("react-native-pulse").default;
 //#region  global
 const WIDTH = Dimensions.get("window").width;
 
-const MapTinder = ({ userLocation, listTinders }) => {
+const MapTinder = ({ navigation, userLocation, listTinders }) => {
   const user = useUser();
   const idUser = user.state.uid;
   const [isOpenTinderMine, setIsOpenTinderMine] = useState(false);
@@ -41,40 +41,6 @@ const MapTinder = ({ userLocation, listTinders }) => {
   //     hashtag: "Find partner run together",
   //   },
   // ];
-  const CardTinderMine = () => {
-    return (
-      <View
-        style={{
-          position: "absolute",
-          left: 16,
-          bottom: 100,
-          width: WIDTH - 32,
-          height: 220,
-          flexDirection: "row",
-          backgroundColor: "white",
-          borderRadius: 10,
-          elevation: 15,
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <View>
-          <Image
-            source={{
-              uri: "https://i.pinimg.com/564x/7e/79/1d/7e791da660ab1d2c7b2f5c4039d4d54c.jpg",
-            }}
-            style={{
-              height: 200,
-              width: 200,
-              resizeMode: "cover",
-              borderRadius: 10,
-              marginLeft: 10,
-            }}
-          />
-        </View>
-      </View>
-    );
-  };
 
   const Buttons = () => {
     return (
@@ -86,10 +52,15 @@ const MapTinder = ({ userLocation, listTinders }) => {
           flexDirection: "row",
         }}
       >
-        {/* //TODO: do message
-        <TouchableOpacity onPress={() => {}} style={{ marginRight: 16 }}>
+        <TouchableOpacity
+          onPress={() => {
+            setIsOpenTinderMine(false);
+            navigation.navigate("Message");
+          }}
+          style={{ marginRight: 16 }}
+        >
           <AntDesign name="message1" size={30} color={COLOR.green} />
-        </TouchableOpacity> */}
+        </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {
             setIsOpenTinderMine(false);

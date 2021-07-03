@@ -1,4 +1,5 @@
 import { Share, Platform } from "react-native";
+import { logoUrl } from "./logo";
 
 export const shareHabit = async (item) => {
   try {
@@ -69,7 +70,7 @@ export const shareStory = (item) => {
             message: item.postImg
               ? `Read this from ${item.userId.username} of SuperSelf \n${item.postText} ` +
                 item.postImg
-              : `Read this from ${item.userId.username} of SuperSelf \n${item.postText} `,
+              : `Read this from ${item.userId.username} of SuperSelf \n${item.postText} https://www.facebook.com/superselfapp `,
           },
         }),
         title: "This is a great story from Super Self",
@@ -83,6 +84,39 @@ export const shareStory = (item) => {
           android: {
             // Android only:
             dialogTitle: "Share story of : " + item.userId.username,
+          },
+        }),
+      }
+    );
+  } catch (error) {
+    alert(error.message);
+  }
+};
+
+export const shareApp = () => {
+  try {
+    Share.share(
+      {
+        ...Platform.select({
+          ios: {
+            message: `Hey let's join SuperSelf - the app to build a community of positive habits https://www.facebook.com/superselfapp`,
+            url: logoUrl,
+          },
+          android: {
+            message: `Hey let's join SuperSelf - the app to build a community of positive habits https://www.facebook.com/superselfapp`,
+          },
+        }),
+        title: "App to build greats habits",
+      },
+      {
+        ...Platform.select({
+          ios: {
+            // iOS only:
+            excludedActivityTypes: ["com.apple.UIKit.activity.PostToTwitter"],
+          },
+          android: {
+            // Android only:
+            dialogTitle: "Share to friends",
           },
         }),
       }

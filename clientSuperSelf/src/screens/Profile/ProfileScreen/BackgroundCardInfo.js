@@ -1,22 +1,7 @@
 import React, { useContext, useState } from "react";
 import { View, ScrollView, Image, TouchableOpacity } from "react-native";
 
-import COLOR from "../../../constants/colors";
-import styles from "../styles";
-import { useUser } from "../../../context/UserContext";
-
-import MyText from "../../../components/MyText";
-import MyButton from "../../../components/MyButton";
-import MyCard from "../../../components/MyCard";
-import MyFloatingButton from "../../../components/MyFloatingButton";
-
-import { Entypo } from "@expo/vector-icons";
 import { width } from "../../../constants/dimensions";
-import Avatar from "./Avatar";
-import InfoCard from "./InfoCard";
-import MyBadges from "./MyBadges";
-import MyChart from "./MyChart";
-import LogoutBtn from "./LogoutBtn";
 
 function BackgroundCardInfo({ navigation }) {
   return (
