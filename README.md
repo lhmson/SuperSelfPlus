@@ -152,29 +152,35 @@ First you have to have an account. Click Sign up and enter. Just easy as that an
 ## Features
 
 <p align="center">
- <img src="https://github.com/lhmson/SuperSelf/blob/master/features_diagram.png?raw=true" alt="SuperSelf features drawing"></a>
+ <img src="https://github.com/lhmson/SuperSelfPlus/blob/master/clientSuperSelf/src/utils/resources/assets/feature_superself.png?raw=true" alt="SuperSelf features drawing"></a>
  <i>SuperSelf features diagram</i>
 </p>
 
 ### Habit Tracker
 
 <p align="center">
- <img src="https://github.com/lhmson/SuperSelf/blob/master/assets/demo1.png?raw=true" alt="Demo habit"></a>
- <i>Demo habit tracker</i>
+ <img src="https://github.com/lhmson/SuperSelfPlus/blob/master/clientSuperSelf/src/utils/resources/assets/habittracker.png?raw=true" alt="Demo habit"></a>
+</p>
+<p align="center">
+<i>Demo habit tracker</i>
 </p>
 
 ### Running tracker
 
 <p align="center">
- <img src="https://github.com/lhmson/SuperSelf/blob/master/assets/demo2.png?raw=true" alt="Demo running tracker"></a>
- <i>Demo running tracker</i>
+ <img src="https://github.com/lhmson/SuperSelfPlus/blob/master/clientSuperSelf/src/utils/resources/assets/runningtracker.png?raw=true" alt="Demo running tracker"></a>
+</p>
+<p align="center">
+<i>Demo running tracker</i>
 </p>
 
 ### Statistics
 
 <p align="center">
- <img src="https://github.com/lhmson/SuperSelf/blob/master/assets/demo3.png?raw=true" alt="Demo statistics"></a>
- <i>Demo statistics</i>
+ <img src="https://github.com/lhmson/SuperSelfPlus/blob/master/clientSuperSelf/src/utils/resources/assets/stats.png?raw=true" alt="Demo statistics"></a>
+</p>
+<p align="center">
+<i>Demo statistics</i>
 </p>
 
 ### Community
@@ -182,7 +188,7 @@ First you have to have an account. Click Sign up and enter. Just easy as that an
 #### Events
 
 <p align="center">
- <img src="https://github.com/lhmson/SuperSelf/blob/master/assets/demo5.png?raw=true" alt="Demo events"></a>
+ <img src="https://github.com/lhmson/SuperSelfPlus/blob/master/clientSuperSelf/src/utils/resources/assets/event.png?raw=true" alt="Demo events"></a>
 </p>
 
 <p align="center">
@@ -192,29 +198,34 @@ First you have to have an account. Click Sign up and enter. Just easy as that an
 #### Share-connect
 
 <p align="center">
- <img src="https://github.com/lhmson/SuperSelf/blob/master/assets/demo5.png?raw=true" alt="Demo connect"></a>
+ <img src="https://github.com/lhmson/SuperSelfPlus/blob/master/clientSuperSelf/src/utils/resources/assets/community.png?raw=true" alt="Demo connect"></a>
 </p>
 
 <p align="center">
-	<i>Demo share and connect</i>
+<i>Demo share and connect</i>
 </p>
 
 ### Others
 
 <p align="center">
- <img src="https://github.com/lhmson/SuperSelf/blob/master/assets/demo6.png?raw=true" alt="Demo other screen"></a>
- <i>Demo others</i>
+ <img src="https://github.com/lhmson/SuperSelfPlus/blob/master/clientSuperSelf/src/utils/resources/assets/others.png?raw=true" alt="Demo other screen"></a>
+</p>
+<p align="center">
+<i>Demo others</i>
 </p>
 
 ## Project Structure
 
 <p align="center">
- <img src="https://github.com/lhmson/SuperSelf/blob/master/architecture.png?raw=true" alt="SuperSelf architecture"></a>
- <i>Architecture design</i>
+ <img src="https://github.com/lhmson/SuperSelfPlus/blob/master/clientSuperSelf/src/utils/resources/assets/Architecture%20Model.png?raw=true" alt="SuperSelf architecture"></a>
 </p>
 
 <p align="center">
- <img src="https://github.com/lhmson/SuperSelf/blob/master/screen_flow.png?raw=true" alt="Screen flow"></a>
+<i>Architecture Design</i>
+</p>
+
+<p align="center">
+ <img src="https://github.com/lhmson/SuperSelfPlus/blob/master/clientSuperSelf/src/utils/resources/assets/superself%20flow.png?raw=true" alt="Screen flow"></a>
 </p>
 
 <p align="center">
