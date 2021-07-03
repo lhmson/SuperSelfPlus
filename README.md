@@ -165,6 +165,10 @@ First you have to have an account. Click Sign up and enter. Just easy as that an
 <i>Demo habit tracker</i>
 </p>
 
+- Home: user can track all of their habits, pick specific days,  easily check as well as update progress.
+- Add habit: add new habits (Do, Do not), set reminder, theme, and set target. They can even hold event for that habit so the community can join with them
+- SUggestion: display recommnened habits, based on trending and classified by topics
+
 ### Running tracker
 
 <p align="center">
@@ -174,6 +178,10 @@ First you have to have an account. Click Sign up and enter. Just easy as that an
 <i>Demo running tracker</i>
 </p>
 
+- Running: user can get overall of their running activity (steps, pace, calories, distance, time)
+- Goal running: setup some running plan integrated with available habits, which can be auto updated based on the distance you run
+- Map from Google, realtime path drawing and location update
+
 ### Statistics
 
 <p align="center">
@@ -182,6 +190,10 @@ First you have to have an account. Click Sign up and enter. Just easy as that an
 <p align="center">
 <i>Demo statistics</i>
 </p>
+
+- Habit Statistics: check progress of one specific habit, history and level of completion by streaks (the sequence of 21 days). Calendars, lively graphs
+- Edit info of habit
+- Edit user: update info like avatar and name, upgrade membership coming soon
 
 ### Community
 
@@ -195,6 +207,10 @@ First you have to have an account. Click Sign up and enter. Just easy as that an
 	<i>Demo events</i>
 </p>
 
+- Ranking: scoreboard of event joiners, including your position
+- Event: display all events and status of them
+- Detail event: more info of one event, progress of it
+
 #### Share-connect
 
 <p align="center">
@@ -205,6 +221,10 @@ First you have to have an account. Click Sign up and enter. Just easy as that an
 <i>Demo share and connect</i>
 </p>
 
+- Stories: share stories of yours like achievements and goals. Like as well as share posts.
+- Post story: user can post story, with images from gallery or camera
+- Nearby me: find by geolocation, see other;s profile to check if they have the same habits with you
+
 ### Others
 
 <p align="center">
@@ -213,6 +233,11 @@ First you have to have an account. Click Sign up and enter. Just easy as that an
 <p align="center">
 <i>Demo others</i>
 </p>
+
+- Loading
+- Sign in
+- Sign up
+- Utils like countdown to measure time you do a habit
 
 ## Project Structure
 
