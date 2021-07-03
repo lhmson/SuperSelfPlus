@@ -72,7 +72,7 @@ function SignInScreen({ navigation }) {
           // alert(JSON.stringify(data));
         } catch (e) {
           alert("Error saving token to storage");
-          console.log("Error saving token to storage ", error);
+          console.log("Error saving token to storage ", error.message);
         }
       })
 
@@ -82,7 +82,7 @@ function SignInScreen({ navigation }) {
           return;
         }
         alert("Error when logging in, try again.");
-        console.log("Error when logging in", error);
+        console.log("Error when logging in", error.message);
       })
       .finally(() => setLoading(false));
   };

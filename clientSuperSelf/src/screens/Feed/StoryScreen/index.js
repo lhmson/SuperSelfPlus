@@ -53,7 +53,7 @@ const StoryScreen = ({ navigation }) => {
       })
       .catch((error) => {
         alert("Error when get story");
-        console.log("Error when get stories", error);
+        console.log("Error when get stories", error.message);
       })
       .finally(() => {
         setLoading(false);

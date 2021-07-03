@@ -43,7 +43,7 @@ const NearbyMeScreen = ({ navigation }) => {
           setListTinders(res.data);
         })
         .catch((error) => {
-          alert("Error when getting list Tinder", error);
+          alert("Error when getting list Tinder", error.message);
         });
     })();
   }, []);

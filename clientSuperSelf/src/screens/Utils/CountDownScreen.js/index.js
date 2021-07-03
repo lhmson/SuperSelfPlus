@@ -53,7 +53,7 @@ function CountDownScreen({ navigation, route }) {
       <Background />
       <Title item={item} />
       <Clock setConfetti={setConfetti} keyTimer={keyTimer} timer={timer} />
-      <CardMusic />
+      {/* <CardMusic /> */}
 
       <ConfettiCannon
         count={200}

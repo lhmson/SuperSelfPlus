@@ -172,12 +172,12 @@ function SignUpScreen({ navigation }) {
           // alert(JSON.stringify(data));
         } catch (error) {
           alert("Error saving token to storage");
-          console.log("Error saving token to storage ", error);
+          console.log("Error saving token to storage ", error.message);
         }
       })
       .catch((error) => {
         alert("Error when signing up, please try again ");
-        console.log("Error when signing up ", error);
+        console.log("Error when signing up ", error.message);
       })
       .finally(() => {
         setLoading(false);

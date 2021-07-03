@@ -37,8 +37,8 @@ function EventScreen({ navigation }) {
         }
       })
       .catch((error) => {
-        alert("Error when getting events", error);
-        console.log("Error when getting events", error);
+        alert("Error when getting events", error.message);
+        console.log("Error when getting events", error.message);
       })
       .finally(() => setLoading(false));
   }, [isFocused]);

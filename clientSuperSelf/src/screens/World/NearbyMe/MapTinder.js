@@ -5,8 +5,6 @@ import { Image } from "react-native";
 import COLOR from "../../../constants/colors";
 import ICON from "../../../constants/icon";
 import { FontAwesome, AntDesign } from "@expo/vector-icons";
-import MyChart from "../../Profile/ProfileScreen/MyChart";
-import MyText from "../../../components/MyText";
 import { useUser } from "../../../context/UserContext";
 import ProfileModal from "../../Profile/ProfileModal";
 const Pulse = require("react-native-pulse").default;

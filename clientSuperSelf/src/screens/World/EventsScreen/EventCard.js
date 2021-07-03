@@ -42,7 +42,10 @@ function EventCard({ item, navigation }) {
           setPersonalHabit(res.data);
         })
         .catch((error) => {
-          console.log("Error when getting personal habit at event card", error);
+          console.log(
+            "Error when getting personal habit at event card",
+            error.message
+          );
           alert("Error when getting personal habit at event card");
         });
     }
@@ -65,7 +68,7 @@ function EventCard({ item, navigation }) {
         navigation.navigate("Home");
       })
       .catch((error) => {
-        console.log("Error when joining event", error);
+        console.log("Error when joining event", error.message);
         alert("Error when joining event");
       })
       .finally(() => {

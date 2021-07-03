@@ -55,7 +55,7 @@ function ProfileModal({
       })
       .catch((error) => {
         alert("Error when getting user");
-        console.log("Error when get user", error);
+        console.log("Error when get user", error.message);
       })
       .finally(() => {
         setLoading(false);

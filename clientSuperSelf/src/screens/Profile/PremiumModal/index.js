@@ -16,6 +16,8 @@ import * as apiUser from "../../../api/user";
 function PremiumModal({ isVisible, setIsVisible, description }) {
   const user = useUser();
 
+  const [textShown, setTextShown] = useState("Go Premium");
+
   useEffect(() => {}, []);
 
   const BillButtons = () => {
@@ -118,7 +120,10 @@ function PremiumModal({ isVisible, setIsVisible, description }) {
 
   const ButtonGoPremium = () => {
     return (
-      <View
+      <TouchableOpacity
+        onPress={() => {
+          setTextShown("Coming soon");
+        }}
         style={{
           width: "60%",
           height: 60,
@@ -131,13 +136,13 @@ function PremiumModal({ isVisible, setIsVisible, description }) {
         }}
       >
         <MyText size5 color="white" b5>
-          Go Premium
+          {textShown}
         </MyText>
-      </View>
+      </TouchableOpacity>
     );
   };
 
-  const Fotter = () => {
+  const Footer = () => {
     return (
       <View
         style={{
@@ -191,7 +196,7 @@ function PremiumModal({ isVisible, setIsVisible, description }) {
         </View>
         <BillButtons></BillButtons>
         <ButtonGoPremium></ButtonGoPremium>
-        <Fotter></Fotter>
+        <Footer></Footer>
       </View>
     );
   };

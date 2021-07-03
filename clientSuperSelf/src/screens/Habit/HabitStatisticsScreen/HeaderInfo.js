@@ -76,7 +76,7 @@ const HeaderInfo = ({
         style={{
           width: width * 0.8,
           flexDirection: "column",
-          marginLeft: 16,
+          marginHorizontal: 8,
         }}
       >
         {/* <View style={{ height: _marginText / 2 }}></View> */}

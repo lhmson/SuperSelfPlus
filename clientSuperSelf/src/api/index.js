@@ -12,7 +12,7 @@ API.interceptors.request.use(async (req) => {
     // alert(JSON.stringify(data));
   } catch (error) {
     alert("Cannot not get storage");
-    console.log("Error in storage", error);
+    console.log("Error in storage", error.message);
   }
   if (data) {
     req.headers.Authorization = `Bearer ${data.token}`;

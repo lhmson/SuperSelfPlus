@@ -45,7 +45,7 @@ const StoryItem = ({ item, setIsChanged, navigation }) => {
         setIsChanged(true);
       })
       .catch((error) => {
-        console.log("Error when like post", error);
+        console.log("Error when like post", error.message);
         alert("Error when act with post");
       });
   };
@@ -82,7 +82,7 @@ const StoryItem = ({ item, setIsChanged, navigation }) => {
               })
               .catch((error) => {
                 alert("Error when deleting story ");
-                console.log("Error when deleting story ", error);
+                console.log("Error when deleting story ", error.message);
               })
               .finally(() => {
                 setLoading(false);
