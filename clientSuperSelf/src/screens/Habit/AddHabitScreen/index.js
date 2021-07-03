@@ -317,7 +317,7 @@ const AddHabitScreen = ({ navigation, route }) => {
         }
       })
       .catch((error) => {
-        console.log("Error when adding habit", error.message);
+        console.log("Error when adding habit".message);
         alert("Error when adding habit");
       })
       .finally(() => {
@@ -705,7 +705,7 @@ const AddHabitScreen = ({ navigation, route }) => {
       <TouchableOpacity
         onPress={() => {
           setKind("Run");
-          setIcon("https://ibb.co/c33jW9G");
+          setIcon("https://i.ibb.co/h99SGNP/shoe.png");
           if (!isSetTarget) {
             toggleIsSetTarget();
           }
