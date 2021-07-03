@@ -5,13 +5,15 @@ import COLOR from "../../../constants/colors";
 const styles = StyleSheet.create({
   scrollViewContent: {
     flexGrow: 1,
-    justifyContent: "center",
+    justifyContent: "flex-start",
+    padding: 16,
+    alignItems: "center",
+    backgroundColor: "white",
   },
   container: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: COLOR.whiteSmoke,
+    backgroundColor: COLOR.white,
   },
 });
 export default styles;
