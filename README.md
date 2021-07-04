@@ -54,7 +54,7 @@
 - [Contributing](#contributing)
 - [Development](#development)
 	- [Progress](#progress)
-	- [Suggestion](#suggestion)
+	- [Future Development](#future-development)
 - [License](#license)
 
 ## Introduction
@@ -348,7 +348,7 @@ This project follows the [Contributor Covenant](https://www.contributor-covenant
 
 We are publishing this app to Google Store. After that, we will continue to develop more features.
 
-### Suggestion
+### Future development
 Some examples of functions to implement, these are plans of us
 - Scale number of users while keeping the stability of the app
 - Optimize memory and execution time of functions
