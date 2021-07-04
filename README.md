@@ -54,7 +54,7 @@
 - [Contributing](#contributing)
 - [Development](#development)
 	- [Progress](#progress)
-	- [Suggestion](#suggestion)
+	- [Future Development](#future-development)
 - [License](#license)
 
 ## Introduction
@@ -230,6 +230,11 @@ First you have to have an account. Click Sign up and enter. Just easy as that an
 <p align="center">
  <img src="https://github.com/lhmson/SuperSelfPlus/blob/master/clientSuperSelf/src/utils/resources/assets/others.png?raw=true" alt="Demo other screen"></a>
 </p>
+
+<p align="center">
+ <img src="https://github.com/lhmson/SuperSelfPlus/blob/master/clientSuperSelf/src/utils/resources/assets/setting.png?raw=true" alt="Demo other screen"></a>
+</p>
+
 <p align="center">
 <i>Demo others</i>
 </p>
@@ -237,7 +242,7 @@ First you have to have an account. Click Sign up and enter. Just easy as that an
 - Loading
 - Sign in
 - Sign up
-- Utils like countdown to measure time you do a habit
+- Utils like countdown to measure time, with music for you to effectively take a habit
 
 ## Project Structure
 
@@ -343,7 +348,7 @@ This project follows the [Contributor Covenant](https://www.contributor-covenant
 
 We are publishing this app to Google Store. After that, we will continue to develop more features.
 
-### Suggestion
+### Future development
 Some examples of functions to implement, these are plans of us
 - Scale number of users while keeping the stability of the app
 - Optimize memory and execution time of functions
