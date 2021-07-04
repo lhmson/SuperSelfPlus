@@ -372,6 +372,7 @@ Some examples of functions to implement, these are plans of us
 ## License
 
 ```
+MIT License
 Copyright (c) 2021 Team SuperSelf
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
