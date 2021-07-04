@@ -23,7 +23,14 @@ import eventRouter from "./routes/event.js";
 import uploadRouter from "./routes/upload.js";
 import postRouter from "./routes/post.js";
 import tinderRouter from "./routes/tinder.js";
+
 // import messageRouter from "./routes/message.js";
+
+import {
+  getCurrentUserDetails,
+  userJoinGroup,
+  userLeaveGroup,
+} from "./utils/chat.js";
 
 dotenv.config();
 
@@ -31,12 +38,13 @@ const app = express();
 
 // socket io set up
 const server = http.createServer(app);
-// const io = new Server(server, {
-//   cors: {
-//     origin: "*", //"http://localhost:3000",
-//     methods: ["GET", "POST"],
-//   },
-// });
+
+const io = new Server(server, {
+  cors: {
+    origin: "*", //"http://localhost:3000",
+    methods: ["GET", "POST"],
+  },
+});
 
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
@@ -67,6 +75,41 @@ app.use("/tinder", tinderRouter);
 app.use("/post", postRouter);
 // app.use("/message", messageRouter);
 
+//#region chat
+io.on("connection", (socket) => {
+  socket.on("joinGroup", (data) => {
+    const user = userJoinGroup(socket.id, data.username, data.room);
+    console.log(`${user.username} user connected to ${user.room}`);
+    socket.join(user.room);
+
+    // Broadcast when a user connects
+    socket.broadcast
+      .to(user.room)
+      .emit("roomNotification", `${user.username} has joined group`);
+  });
+
+  // Listen for chatMessage
+  socket.on("chatMessage", (msg) => {
+    const user = getCurrentUserDetails(socket.id);
+    io.to(user.room).emit("message", msg);
+  });
+
+  // Runs when client disconnects
+  socket.on("disconnect", () => {
+    const user = userLeaveGroup(socket.id);
+
+    if (user) {
+      console.log(`${user.username} is left the group!`);
+      io.to(user.room).emit(
+        "roomNotification",
+        `${user.username} has left the group`
+      );
+    }
+  });
+});
+
+//#endregion
+
 const PORT = process.env.PORT || 5000;
 
 mongoose
@@ -83,28 +126,3 @@ mongoose
   .catch((error) => console.log(`${error} did not connect`));
 
 mongoose.set("useFindAndModify", false);
-
-// io.on("connection", async (socket) => {
-//   console.log("New connect");
-//   // join
-//   socket.on("join-client", async ({ token, userIds }) => {
-//     const verified = jwt.verify(token, process.env.JWT_ACCESS_KEY);
-//     const rooms = [];
-//     for (let userId of userIds) {
-//       const key = [verified._id.toString(), userId.toString()].sort((a, b) =>
-//         a < b ? -1 : 1
-//       );
-//       const roomId = `${key[0]}-${key[1]}`;
-//       rooms.push(roomId);
-//     }
-//     socket.join(rooms);
-//     socket.emit("join-server", {
-//      message:"Joined successfully"
-//     });
-//   });
-
-//   // disconnect
-//   socket.on("disconnect", () => {
-//     console.log("user disconnected");
-//   });
-// });

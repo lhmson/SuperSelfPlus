@@ -7,6 +7,7 @@ import ICON from "../../../constants/icon";
 import { FontAwesome, AntDesign } from "@expo/vector-icons";
 import { useUser } from "../../../context/UserContext";
 import ProfileModal from "../../Profile/ProfileModal";
+import { SOCKET } from "../../../constants/config";
 const Pulse = require("react-native-pulse").default;
 //#region  global
 const WIDTH = Dimensions.get("window").width;
@@ -53,7 +54,19 @@ const MapTinder = ({ navigation, userLocation, listTinders }) => {
         <TouchableOpacity
           onPress={() => {
             setIsOpenTinderMine(false);
-            navigation.navigate("Message");
+
+            // chat handle
+            SOCKET.connect();
+            SOCKET.emit("joinGroup", {
+              username: user.state.username,
+              room: selectIdUser,
+            });
+
+            navigation.navigate("Message", {
+              username: user.state.username,
+              room: selectIdUser,
+              userId: idUser,
+            });
           }}
           style={{ marginRight: 16 }}
         >
