@@ -9,6 +9,8 @@ import MySwitch from "../../../components/MySwitch";
 import MyCard from "../../../components/MyCard";
 import { useUser } from "../../../context/UserContext";
 
+import LiveChat from "react-native-livechat";
+
 import * as api from "../../../api/post";
 import { width } from "../../../constants/dimensions";
 import { shareApp } from "../../../utils/share";
@@ -63,7 +65,7 @@ function SettingScreen({ navigation }) {
   const OptionCard = ({ content, isToggle, action }) => {
     const [toggle, setToggle] = useState(true);
     return (
-      <View style={{ marginTop: -12, zIndex: 1 }}>
+      <View style={{ marginTop: -12, zIndex: -1 }}>
         <MyCard>
           <TouchableOpacity onPress={action}>
             <View
@@ -94,7 +96,7 @@ function SettingScreen({ navigation }) {
     return (
       <View
         style={{
-          zIndex: 0,
+          zIndex: -1,
           position: "absolute",
           bottom: 8,
           alignItems: "center",
@@ -132,13 +134,13 @@ function SettingScreen({ navigation }) {
           isToggle={false}
           action={() => shareApp()}
         />
-        {/* <OptionCard
+        <OptionCard
           content={"Push Notifications"}
           isToggle={true}
           action={() => {
             //TODO: remove noti
           }}
-        /> */}
+        />
         <OptionCard
           content={"Help and Support"}
           isToggle={false}
@@ -163,6 +165,13 @@ function SettingScreen({ navigation }) {
           content={"Log Out"}
           isToggle={false}
           action={() => handleLogOut()}
+        />
+
+        <LiveChat
+          license="12939330"
+          redirectUri="https://superselfapp.herokuapp.com/"
+          clientId="39df9d0114585d22820ef51b08b61cf7"
+          style={{ zIndex: 10 }}
         />
       </View>
     </ScrollView>

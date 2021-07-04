@@ -32,6 +32,7 @@ import StoryScreen from "../../screens/Feed/StoryScreen";
 import PostStoryScreen from "../../screens/Feed/PostStoryScreen";
 import MessageScreen from "../../screens/World/Chat/MessageScreen";
 import IntegrateDevice from "../../screens/Utils/Integrate";
+import AdminChat from "../../screens/Utils/AdminChat";
 
 const Stack = createStackNavigator();
 
@@ -163,6 +164,7 @@ const SettingStackNavigator = () => {
     <Stack.Navigator screenOptions={(props) => screenOptionStyle(props)}>
       <Stack.Screen name="Setting" component={SettingScreen} />
       <Stack.Screen name="Integrate" component={IntegrateDevice} />
+      <Stack.Screen name="Admin chat" component={AdminChat} />
     </Stack.Navigator>
   );
 };
