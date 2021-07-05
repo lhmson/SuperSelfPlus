@@ -32,6 +32,8 @@ import StoryScreen from "../../screens/Feed/StoryScreen";
 import PostStoryScreen from "../../screens/Feed/PostStoryScreen";
 import MessageScreen from "../../screens/World/Chat/MessageScreen";
 import IntegrateDevice from "../../screens/Utils/Integrate";
+import ArticleScreen from "../../screens/Feed/ArticleScreen";
+import ArticleDetailScreen from "../../screens/Feed/DetailArticleScreen";
 
 const Stack = createStackNavigator();
 
@@ -89,7 +91,8 @@ const screenOptionStyle = (props) => {
         <TouchableOpacity
           style={{ padding: 8, justifyContent: "center" }}
           onPress={() => {
-            generateQuotes();
+            // generateQuotes();
+            props.navigation.navigate("Articles");
           }}
         >
           <MaterialIcons name="menu-book" size={32} color={COLOR.yellow} />
@@ -114,6 +117,8 @@ const HomeStackNavigator = () => {
       <Stack.Screen name="Countdown" component={CountDownScreen} />
       <Stack.Screen name="Stories" component={StoryScreen} />
       <Stack.Screen name="Post Story" component={PostStoryScreen} />
+      <Stack.Screen name="Articles" component={ArticleScreen} />
+      <Stack.Screen name="Article Detail" component={ArticleDetailScreen} />
     </Stack.Navigator>
   );
 };
