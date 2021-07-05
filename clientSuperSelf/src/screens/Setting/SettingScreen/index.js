@@ -127,7 +127,7 @@ function SettingScreen({ navigation }) {
         <OptionCard
           content={"Edit Profile"}
           isToggle={false}
-          action={() => navigation.navigate("Profile")}
+          action={() => navigation.navigate("Edit Profile")}
         />
         <OptionCard
           content={"Invite Friend"}
@@ -142,37 +142,49 @@ function SettingScreen({ navigation }) {
           }}
         />
         <OptionCard
+          content={"Share Location"}
+          isToggle={true}
+          action={() => {
+            // share location
+          }}
+        />
+        <OptionCard
           content={"Help and Support"}
           isToggle={false}
           action={() =>
             Linking.openURL("https://www.facebook.com/superselfapp")
           }
         />
-        <OptionCard
+        {/* <OptionCard
           content={"Connect Device"}
           isToggle={false}
           action={() => {
             //TODO: coming soon
             navigation.navigate("Integrate");
           }}
-        />
+        /> */}
         <OptionCard
+          content={"Change password"}
+          isToggle={false}
+          action={() => {}}
+        />
+        {/* <OptionCard
           content={"About us"}
           isToggle={false}
           action={() => navigation.navigate("About")}
-        />
+        /> */}
         <OptionCard
           content={"Log Out"}
           isToggle={false}
           action={() => handleLogOut()}
         />
 
-        <LiveChat
+        {/* <LiveChat
           license="12939330"
           redirectUri="https://superselfapp.herokuapp.com/"
           clientId="39df9d0114585d22820ef51b08b61cf7"
           style={{ zIndex: 10 }}
-        />
+        /> */}
       </View>
     </ScrollView>
   );
