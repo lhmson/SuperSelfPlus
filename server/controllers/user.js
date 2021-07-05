@@ -4,6 +4,7 @@ import { httpStatusCodes } from "../utils/httpStatusCode.js";
 import User from "../models/user.js";
 import HistoryHabit from "../models/historyHabit.js";
 import { countMyHabitsByTheme } from "../businessLogic/habit.js";
+import sendVerificationMail from "../utils/sendVerificationMail.js";
 
 export const signin = async (req, res) => {
   console.log("signin");
@@ -61,6 +62,8 @@ export const signup = async (req, res) => {
       // name: `${firstName} ${lastName}`,
       // userInfo: newInfo,
     });
+
+    await sendVerificationMail(email);
 
     const token = jwt.sign(
       { email: result.email, id: result._id },

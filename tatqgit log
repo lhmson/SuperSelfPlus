@@ -1,0 +1,55 @@
+[1mdiff --git a/clientSuperSelf/package-lock.json b/clientSuperSelf/package-lock.json[m
+[1mindex c852e70..bc2d5e6 100644[m
+[1m--- a/clientSuperSelf/package-lock.json[m
+[1m+++ b/clientSuperSelf/package-lock.json[m
+[36m@@ -55,6 +55,7 @@[m
+         "react-native-elements": "^3.4.0",[m
+         "react-native-gesture-handler": "^1.10.3",[m
+         "react-native-gifted-chat": "^0.16.3",[m
+[32m+[m[32m        "react-native-google-signin": "^2.1.1",[m
+         "react-native-image-viewing": "^0.2.0",[m
+         "react-native-maps": "0.27.1",[m
+         "react-native-modal": "^11.10.0",[m
+[36m@@ -9798,6 +9799,17 @@[m
+         "uuid": "3.4.0"[m
+       }[m
+     },[m
+[32m+[m[32m    "node_modules/react-native-google-signin": {[m
+[32m+[m[32m      "version": "2.1.1",[m
+[32m+[m[32m      "resolved": "https://registry.npmjs.org/react-native-google-signin/-/react-native-google-signin-2.1.1.tgz",[m
+[32m+[m[32m      "integrity": "sha512-6l3fiLdX/bfhh0BoxGq+jGkagFsO+mrE/eRV4+3/0k8+FDxO90vdPpQdDiwlM5vWXRxWthTzMM09/jHw+4cvNw==",[m
+[32m+[m[32m      "deprecated": "please install @react-native-google-signin/google-signin instead",[m
+[32m+[m[32m      "peerDependencies": {[m
+[32m+[m[32m        "prop-types": "^15.5.10",[m
+[32m+[m[32m        "react": ">=15.4.0 || ^16.0.0-alpha",[m
+[32m+[m[32m        "react-native": ">=0.40"[m
+[32m+[m[32m      }[m
+[32m+[m[32m    },[m
+     "node_modules/react-native-image-viewing": {[m
+       "version": "0.2.0",[m
+       "resolved": "https://registry.npmjs.org/react-native-image-viewing/-/react-native-image-viewing-0.2.0.tgz",[m
+[36m@@ -21582,6 +21594,12 @@[m
+         "uuid": "3.4.0"[m
+       }[m
+     },[m
+[32m+[m[32m    "react-native-google-signin": {[m
+[32m+[m[32m      "version": "2.1.1",[m
+[32m+[m[32m      "resolved": "https://registry.npmjs.org/react-native-google-signin/-/react-native-google-signin-2.1.1.tgz",[m
+[32m+[m[32m      "integrity": "sha512-6l3fiLdX/bfhh0BoxGq+jGkagFsO+mrE/eRV4+3/0k8+FDxO90vdPpQdDiwlM5vWXRxWthTzMM09/jHw+4cvNw==",[m
+[32m+[m[32m      "requires": {}[m
+[32m+[m[32m    },[m
+     "react-native-image-viewing": {[m
+       "version": "0.2.0",[m
+       "resolved": "https://registry.npmjs.org/react-native-image-viewing/-/react-native-image-viewing-0.2.0.tgz",[m
+[1mdiff --git a/clientSuperSelf/package.json b/clientSuperSelf/package.json[m
+[1mindex d2f7c50..6f8b839 100644[m
+[1m--- a/clientSuperSelf/package.json[m
+[1m+++ b/clientSuperSelf/package.json[m
+[36m@@ -57,6 +57,7 @@[m
+     "react-native-elements": "^3.4.0",[m
+     "react-native-gesture-handler": "^1.10.3",[m
+     "react-native-gifted-chat": "^0.16.3",[m
+[32m+[m[32m    "react-native-google-signin": "^2.1.1",[m
+     "react-native-image-viewing": "^0.2.0",[m
+     "react-native-maps": "0.27.1",[m
+     "react-native-modal": "^11.10.0",[m

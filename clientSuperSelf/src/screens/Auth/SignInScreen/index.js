@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { View, ImageBackground, TouchableOpacity } from "react-native";
 import styles from "../styles";
 import { AntDesign, Entypo } from "@expo/vector-icons";
@@ -31,6 +31,8 @@ function SignInScreen({ navigation }) {
     setIsPasswordShown(isPasswordShown ? false : true);
     setEyeIcon(eyeIcon == "eye" ? "eye-with-line" : "eye");
   };
+
+  useEffect(() => {}, []);
 
   const handleLogInGoogle = async () => {
     // await User.logInWithGoogle();
