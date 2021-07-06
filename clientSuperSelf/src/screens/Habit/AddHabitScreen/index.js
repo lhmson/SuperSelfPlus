@@ -317,7 +317,7 @@ const AddHabitScreen = ({ navigation, route }) => {
         }
       })
       .catch((error) => {
-        console.log("Error when adding habit".message);
+        console.log("Error when adding habit", error.message);
         alert("Error when adding habit");
       })
       .finally(() => {
