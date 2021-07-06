@@ -49,8 +49,8 @@ const InfoBottomSheet = ({
       if (newPace <= 0) newPace = 0;
       if (maxPace < newPace) setMaxPace(newPace);
       setPace(newPace);
-      updatedPaceTime(new Date());
-      updatedDistance(countDistance);
+      // setUpdatedPaceTime(new Date());
+      // updatedDistance(countDistance);
     }
   };
   const onPressStop = () => {
