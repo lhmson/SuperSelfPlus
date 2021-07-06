@@ -5,9 +5,22 @@
     "name": "SuperSelfPlus",
     "slug": "SuperSelfPlus",
     "version": "1.0.0",
+    "icon": "./src/utils/resources/superself-icon.png",
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "requireFullScreen": true
+      "requireFullScreen": true,
+      "config": {
+        "googleMobileAdsAppId": "ca-app-pub-3940256099942544~1458002511"
+      },
+      "bundleIdentifier": "com.superselfplus",
+      "buildNumber": "1.0.0"
+    },
+    "android": {
+      "config": {
+        "googleMobileAdsAppId": "ca-app-pub-3940256099942544~3347511713"
+      },
+      "package": "com.superselfplus",
+      "versionCode": 1
     },
     "plugins": [
       [

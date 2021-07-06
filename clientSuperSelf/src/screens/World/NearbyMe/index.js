@@ -6,6 +6,16 @@ import MapTinder from "./MapTinder";
 import * as apiTinder from "../../../api/tinder.js";
 import { useUser } from "../../../context/UserContext";
 import { useIsFocused } from "@react-navigation/native";
+
+import {
+  AdMobBanner,
+  AdMobInterstitial,
+  PublisherBanner,
+  AdMobRewarded,
+  setTestDeviceIDAsync,
+} from "expo-ads-admob";
+// Set global test device ID
+
 //#region  global
 const WIDTH = Dimensions.get("window").width;
 const HEIGHT = Dimensions.get("window").height;
@@ -18,6 +28,17 @@ const NearbyMeScreen = ({ navigation }) => {
   const isFocused = useIsFocused();
   //#endregion
   const user = useUser();
+  useEffect(() => {
+    (async () => {
+      await setTestDeviceIDAsync("EMULATOR");
+      // Display an interstitial
+      await AdMobInterstitial.setAdUnitID(
+        "ca-app-pub-3940256099942544/1033173712"
+      ); // Test ID, Replace with your-admob-unit-id
+      await AdMobInterstitial.requestAdAsync({ servePersonalizedAds: true });
+      await AdMobInterstitial.showAdAsync();
+    })();
+  }, []);
   useEffect(() => {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
