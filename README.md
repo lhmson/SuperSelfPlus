@@ -17,6 +17,8 @@
  <img src="https://github.com/lhmson/SuperSelfPlus/blob/master/clientSuperSelf/src/utils/resources/superself-logo.png?raw=true" alt="SuperSelf logo"></a>
 </p>
 
+<h3>Have a look at the previous version here (https://github.com/lhmson/SuperSelf) - with another tech stack</h3>
+
 <h3 align="center">Target for a mobile application 🎯 of Self development training 😎 by React Native</h3>
 <h3 align="center">We are building a product for a community of positive lifestyle</h3>
 <h3 align="center">Fill your life with good habits 👍 Put your little steps into the large world 👟 Let's be the glowing star 🌟</h3>
